@@ -16,9 +16,9 @@
   ],
   "scripts": {
     "precommit": "npm test",
-    "mill3-wp": "mill3-wp",
-    "dev": "export NODE_ENV=development && npm run mill3-wp dev",
-    "build": "export NODE_ENV=production && npm run mill3-wp build"
+    "mill3-cli": "mill3-cli",
+    "dev": "export NODE_ENV=development && npm run mill3-cli dev",
+    "build": "export NODE_ENV=production && npm run mill3-cli build"
   },
   "bugs": {
     "url": "https://github.com/Mill3/mill3-packages/issues"
