@@ -21,10 +21,10 @@
     "build": "export NODE_ENV=production && npm run mill3-cli build"
   },
   "bugs": {
-    "url": "https://github.com/Mill3/mill3-packages/issues"
+    "url": "https://github.com/Mill3/mill3-wp-theme-boilerplate/issues"
   },
-  "homepage": "https://github.com/Mill3/mill3-packages/tree/master/packages/wp-theme-boilerplate",
-  "dependencies": {
+  "homepage": "https://github.com/Mill3/mill3-wp-theme-boilerplate",
+  "devDependencies": {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
     "@babel/node": "^7.2.2",
@@ -34,6 +34,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.4.0",
     "@barba/core": "^2.9.7",
+    "@mill3-packages/cli": "0.0.3",
     "@mill3-packages/system-ui-sass": "^0.6.2",
     "@vimeo/player": "^2.15.0",
     "animejs": "^3.1.0",
