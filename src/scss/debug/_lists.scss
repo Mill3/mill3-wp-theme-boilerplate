@@ -1,0 +1,10 @@
+// Ensure any lists only contain `li`s as children.
+ul > *:not(li),
+ol > *:not(li) {
+  @include error("<ul> and <ol> should only contain <li> as children");
+}
+
+// Definition lists should only contain DT and DD elements
+dl > *:not(dt):not(dd) {
+  @include error("<dl> should only contain <dt> and <dl> as children");
+}

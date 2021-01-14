@@ -1,0 +1,38 @@
+@mixin hoverDevice() {
+  @media (any-hover: hover) {
+    @content;
+  }
+}
+
+@mixin touchDevice() {
+  @media (hover: none) {
+    @content;
+  }
+}
+
+@mixin underlineDrawing($height: 1px, $bottom: 0) {
+  @include underlineDrawingBase($height, $bottom);
+
+  &:hover,
+  &:active {
+    @include underlineDrawingHover($height, $bottom);
+  }
+}
+
+@mixin underlineDrawingBase($height: 1px, $bottom: 2px) {
+  text-decoration: none;
+  // only on device with :hover state
+  @include hoverDevice {
+    transition: background-size 0.5s $easeOutCubic 0s;
+    background-image: linear-gradient(transparent calc(100% - #{$height}), currentColor $height);
+    background-repeat: no-repeat;
+    background-size: 0% calc(100% - #{$height + $bottom});
+  }
+}
+
+@mixin underlineDrawingHover($height: 1px, $bottom: 2px) {
+  // only on device with :hover state
+  @include hoverDevice {
+    background-size: 100% calc(100% - #{$height + $bottom});
+  }
+}

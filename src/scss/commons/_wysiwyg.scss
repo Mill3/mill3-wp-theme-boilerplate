@@ -1,0 +1,50 @@
+.wysiwyg {
+  & > *:first-child {
+    margin-top: 0;
+  }
+  & > *:last-child {
+    margin-bottom: 0;
+  }
+
+  @include wysiwyg;
+
+  .wp-caption {
+    & > img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    &-text {
+      color: #3e3e3e;
+      font-size: font-size("xs");
+      margin-top: spacer(3);
+    }
+  }
+
+  .mejs-container {
+    .mejs-controls {
+      background: var(--color-black);
+    }
+  }
+
+  .wp-video {
+    max-width: none;
+
+    .mejs-video {
+      width: 100% !important;
+      height: auto !important;
+      min-width: auto !important;
+    }
+    .mejs-inner {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: percentage(9/16);
+    }
+    .mejs-mediaelement video {
+      width: 100% !important;
+      height: auto !important;
+    }
+  }
+}

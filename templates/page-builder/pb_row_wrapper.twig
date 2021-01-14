@@ -1,0 +1,19 @@
+{% set row_classname = [] %}
+
+{% set spacer = post ? post.spacer|default(0) : spacer|default(0) %}
+{% set spacer_mobile = post ? post.spacer_mobile|default(0) : spacer_mobile|default(0) %}
+
+{% set row_classname = row_classname|merge([
+  'py-' ~ spacer_mobile,
+  'py-md-' ~ spacer,
+]) %}
+
+<div class="pb-row-wrapper {{ row_classname|join(' ') }}" data-scroll-section>
+  {# add notice in preview mode #}
+  {% if is_preview and (spacer_mobile or spacer) %}
+    <span style="font-size: 9px; background-color: rgba(0,0,0,0.7); color: white;" class="ff-mono m-0 py-1 px-2 d-block position-absolute t-0 l-0 lh-1">
+      Spacer vertical: spacer_mobile / {{ spacer }}
+    </span>
+  {% endif %}
+  {% block row_wrapper %}{% endblock %}
+</div>

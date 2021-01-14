@@ -1,0 +1,23 @@
+{% extends 'page-builder/pb_row_wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+
+{% set form = post.gravity_form %}
+
+{% block row_wrapper %}
+<div
+  class="pb-row pb-row-form {{ classname }}"
+  data-module="pb-row-form"
+  data-pb-row-form
+  {{ attributes|join(' ') }}
+>
+  {% if form %}
+  <div class="pb-row-form__form w-100">
+    {% if not is_preview %}
+      {{ function('do_shortcode', '[gravityform id="' ~ form ~ '" title="false" description="false" ajax="true"]') }}
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

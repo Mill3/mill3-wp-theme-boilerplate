@@ -1,0 +1,20 @@
+// Forms require `action` attributes
+form:not([action]) {
+  @include error("`action` attribute required");
+}
+
+// input`s need `type` attributes
+input:not([type]) {
+  @include error("`type` attribute required");
+}
+
+// textarea`s need `rows` and `cols` attributes
+textarea:not([rows]),
+textarea:not([cols]) {
+  @include error("`rows` & `cols` attributes required");
+}
+
+// submit buttons need a `value` attribute
+input[type="submit"]:not([value]) {
+  @include error("`value` attribute required");
+}

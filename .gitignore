@@ -1,0 +1,21 @@
+# Include your project-specific ignores in this file
+# Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
+bower_components
+npm-debug.log
+.DS_Store
+package-lock.json
+yarn.lock
+yarn-error.log
+node_modules
+.vscode
+dist/
+
+# OS files
+.tm_properties
+.DS_Store
+.AppleDouble
+.AppleTemp*
+:2e*
+._*
+*~
+.nfs*

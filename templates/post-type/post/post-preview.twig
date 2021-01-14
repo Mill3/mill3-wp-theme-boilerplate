@@ -1,0 +1,31 @@
+{% if post %}
+
+{% set classname = classname|default('') %}
+
+{% set title = post.title %}
+{% set link = post.link %}
+{% set thumbnail = post.thumbnail|default(null) %}
+
+<article class="post-preview {{ classname }}">
+
+  {% if thumbnail %}
+    <a href="{{ link }}" title="{{ title }}" class="post-preview__imgBox d-block w-100 td-none overflow-hidden">
+      {% include 'partial/image.twig' with {'image': thumbnail, 'alt': title, 'classname': 'post-preview__img img-fluid'} only %}
+    </a>
+  {% endif %}
+
+  <footer>
+
+    <time class="d-block">{{ post.date }}</time>
+
+    <h3 class="post-preview__title m-0 p-0">
+      <a href="{{ link }}" title="{{ title }}" class="td-none">{{ title }}</a>
+    </h3>
+
+    {% include 'partial/link.twig' with {'link': link, 'title': title} only %}
+
+  </footer>
+
+</article>
+
+{% endif %}

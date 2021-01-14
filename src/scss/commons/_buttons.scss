@@ -1,0 +1,30 @@
+// reset <button> elements
+
+button {
+  border: none;
+  background: none;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+/// Button classes
+///
+/// @name .btn
+///
+/// @group modules
+
+.btn {
+  $self: &;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+a.btn {
+  text-decoration: none;
+}

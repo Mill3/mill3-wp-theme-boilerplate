@@ -1,0 +1,52 @@
+.mill3 {
+  $self: &;
+
+  &:not([class*="d-"]) {
+    display: inline-flex;
+    align-items: center;
+  }
+  &:not([class*="color-"]) {
+    color: currentColor;
+  }
+  &:not([class*="td-"]) {
+    text-decoration: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &__logo {
+    width: 32px;
+    margin-right: 12px;
+  }
+
+  &__label,
+  &__credits {
+    display: block;
+    pointer-events: none;
+    transition: transform 450ms cubic-bezier(0.215, 0.61, 0.355, 1); /* easeOutCubic */
+  }
+
+  &__label {
+    transform: translate3d(0, 0%, 0);
+  }
+  &__credits {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    transform: translate3d(0, 0%, 0);
+    white-space: nowrap;
+  }
+
+  &:hover,
+  &:focus,
+  &:active {
+    #{$self}__label {
+      transform: translate3d(0, -100%, 0);
+    }
+    #{$self}__credits {
+      transform: translate3d(0, -100%, 0);
+    }
+  }
+}

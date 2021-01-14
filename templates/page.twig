@@ -1,0 +1,7 @@
+{% extends "base.twig" %}
+
+{% block content %}
+<div class="single single-{{ post.post_type }}" id="page-{{ post.ID }}">
+  {% include 'page-builder/index.twig' with { 'post': post } only %}
+</div>
+{% endblock %}

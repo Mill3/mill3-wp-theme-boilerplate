@@ -1,0 +1,13 @@
+/// Embed responsive (must be used with box-widescreen or another box sizing)
+///
+/// @name .embed-responsive
+///
+/// @group commons
+
+.embed-responsive {
+  iframe {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+}

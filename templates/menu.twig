@@ -1,0 +1,26 @@
+{% if menu %}
+	{% set link_template = link_template|default('%s') %}
+	<ul class="{{ classname }}">
+		{% for item in menu %}
+			{# if not a divider #}
+			{% if item.title != '_divider_' %}
+				{% set link_attr = item.attr|default([]) %}
+
+				{% if 'lang-item' in item.classes %}
+					{% set link_attr = link_attr|merge(['lang="'~item.lang~'"', 'hreflang="'~item.lang~'"', 'data-barba-prevent="all"']) %}
+				{% endif %}
+
+				<li class="{{ item.classes | join(' ') }}">
+					<a target="{{ item.target|default('_self') }}" href="{{ item.link }}" title="{{ item.title }}">
+						{{ link_template|format(item.title) }}
+					</a>
+
+					{% include "menu.twig" with { 'menu': item.get_children, 'link_template': link_template } only %}
+				</li>
+			{% else %}
+				</ul>
+				<ul class="{{ classname }}">
+			{% endif %}
+		{% endfor %}
+	</ul>
+{% endif %}

@@ -1,0 +1,66 @@
+$font-directory: "../fonts/";
+
+/*
+@font-face {
+  font-family: "Favorit";
+  src: url("#{$font-directory}Favorit-Light.woff2") format("woff2"),
+    url("#{$font-directory}Favorit-Light.woff") format("woff"),
+    url("#{$font-directory}Favorit-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Favorit";
+  src: url("#{$font-directory}Favorit-LightIta.woff2") format("woff2"),
+    url("#{$font-directory}Favorit-LightIta.woff") format("woff"),
+    url("#{$font-directory}Favorit-LightIta.otf") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Favorit";
+  src: url("#{$font-directory}Favorit-Regular.woff2") format("woff2"),
+    url("#{$font-directory}Favorit-Regular.woff") format("woff"),
+    url("#{$font-directory}Favorit-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Favorit";
+  src: url("#{$font-directory}Favorit-RegularIta.woff2") format("woff2"),
+    url("#{$font-directory}Favorit-RegularIta.woff") format("woff"),
+    url("#{$font-directory}Favorit-RegularIta.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+}
+*/
+
+/*
+@font-face {
+  font-family: "Favorit";
+  src: url("#{$font-directory}Favorit-Bold.woff2") format("woff2"),
+    url("#{$font-directory}Favorit-Bold.woff") format("woff"),
+    url("#{$font-directory}Favorit-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Favorit";
+  src: url("#{$font-directory}Favorit-BoldIta.woff2") format("woff2"),
+    url("#{$font-directory}Favorit-BoldIta.woff") format("woff"),
+    url("#{$font-directory}Favorit-BoldIta.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+}
+*/
+
+.ff-sans {
+  font-family: font-family("sans");
+}
+.ff-serif {
+  font-family: font-family("serif");
+}

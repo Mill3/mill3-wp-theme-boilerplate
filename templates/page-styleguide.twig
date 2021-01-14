@@ -1,0 +1,159 @@
+{% extends "base.twig" %}
+
+{% block content %}
+	<div class="content-wrapper bg-color-white" data-scroll-section>
+		<article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
+			<section class="styleguide py-8 px-4">
+				<h1 class="styleguide-title">{{post.title}}</h1>
+
+        <!-- Colors -->
+				<div class="d-flex flex-column flex-lg-row">
+
+					<aside class="w-100 w-lg-60">
+						<h2 class="styleguide-subtitle">Thème de couleurs</h2>
+						<div class="styleguide-row d-flex">
+							<div class="styleguide-color bg-color-black" data-label="Black" data-ignore-css-empty></div>
+							<div class="styleguide-color bg-color-white" data-label="White" data-ignore-css-empty></div>
+							<div class="styleguide-color bg-color-gray" data-label="Gray" data-ignore-css-empty></div>
+							<div class="styleguide-color bg-color-primary" data-label="Primary" data-ignore-css-empty></div>
+							<div class="styleguide-color bg-color-secondary" data-label="Secondary" data-ignore-css-empty></div>
+						</div>
+					</aside>
+
+				</div>
+
+        <!-- Font-family & Font-style -->
+				<div class="d-flex flex-column flex-lg-row">
+
+					<aside class="w-100 w-lg-60">
+						<h2 class="styleguide-subtitle">Police de caractère</h2>
+						<div class="styleguide-row d-flex flex-column ff-serif">
+							<div class="styleguide-font heading-h1">Serif</div>
+						</div>
+					</aside>
+
+					<aside class="w-100 w-lg-40">
+						<h2 class="styleguide-subtitle">Graisses</h2>
+						<div class="styleguide-row d-flex flex-column ff-serif">
+							<div class="styleguide-font fw-300">Light (300)</div>
+							<div class="styleguide-font fw-300 fs-italic">Light Italic</div>
+							<div class="styleguide-font fw-400">Regular (400)</div>
+							<div class="styleguide-font fw-400 fs-italic">Regular Italic</div>
+						</div>
+					</aside>
+
+				</div>
+        <div class="d-flex flex-column flex-lg-row pt-6">
+
+					<aside class="w-100 w-lg-60">
+						<h2 class="styleguide-subtitle">Police de caractère</h2>
+						<div class="styleguide-row d-flex flex-column ff-sans">
+							<div class="styleguide-font heading-h1">Sans-Serif</div>
+						</div>
+					</aside>
+
+					<aside class="w-100 w-lg-40">
+						<h2 class="styleguide-subtitle">Graisses</h2>
+						<div class="styleguide-row d-flex flex-column ff-sans">
+							<div class="styleguide-font fw-300">Light (300)</div>
+							<div class="styleguide-font fw-300 fs-italic">Light Italic</div>
+							<div class="styleguide-font fw-400">Regular (400)</div>
+							<div class="styleguide-font fw-400 fs-italic">Regular Italic</div>
+						</div>
+					</aside>
+
+				</div>
+
+        <!-- Headings -->
+				<h2 class="styleguide-subtitle">Grosseur des H1-6</h2>
+				<div class="styleguide-row d-flex flex-column">
+					<h1 class="styleguide-font ff-serif fw-200" data-label="H1" data-ignore-css-empty></h1>
+					<h2 class="styleguide-font ff-serif fw-200" data-label="H2" data-ignore-css-empty></h2>
+					<h3 class="styleguide-font ff-serif fw-200" data-label="H3" data-ignore-css-empty></h3>
+					<h4 class="styleguide-font ff-serif fw-200" data-label="H4" data-ignore-css-empty></h4>
+					<h5 class="styleguide-font ff-serif fw-200" data-label="H5" data-ignore-css-empty></h5>
+					<h6 class="styleguide-font ff-serif fw-200" data-label="H6" data-ignore-css-empty></h6>
+				</div>
+
+        <!-- Font-size (desktop) -->
+				<h2 class="styleguide-subtitle">Grosseur des polices - Desktop</h2>
+				<div class="styleguide-row d-flex flex-column">
+					<div class="styleguide-font ff-serif fw-200 fz-8xl lh-8xl" data-label="148px - Très gros texte" data-ignore-css-empty></div>
+					<h1 class="styleguide-font ff-serif fw-200 lh-7xl" data-label="82px - H1" data-ignore-css-empty></h1>
+					<h2 class="styleguide-font ff-serif fw-400 lh-6xl" data-label="52px - H2" data-ignore-css-empty></h2>
+					<h3 class="styleguide-font ff-serif fw-400 lh-5xl" data-label="48px - H3" data-ignore-css-empty></h3>
+					<h4 class="styleguide-font ff-serif fw-200 lh-4xl" data-label="40px - H4" data-ignore-css-empty></h4>
+					<h5 class="styleguide-font ff-sans fw-500 lh-3xl" data-label="36px - H5" data-ignore-css-empty></h5>
+					<h6 class="styleguide-font ff-sans fw-500 lh-2xl" data-label="32px - H6" data-ignore-css-empty></h6>
+					<div class="styleguide-font fz-xl fw-300 lh-xl" data-label="24px - surtitre grand" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-lg fw-300 lh-lg" data-label="20px - sous-titre" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-base lh-base" data-label="19px - texte courant" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-md lh-md" data-label="18px - surtitre petit, menu" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-sm lh-sm" data-label="16px - petit texte, bouton" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-xs lh-xs" data-label="14px - très petit texte" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-xxs lh-xxs" data-label="12px - petit bouton" data-ignore-css-empty></div>
+				</div>
+
+				<!-- Font-size (mobile) -->
+				<h2 class="styleguide-subtitle">Grosseur des polices - Mobile</h2>
+				<div class="styleguide-row d-flex flex-column">
+					<div class="styleguide-font ff-serif fw-200 fz-8xl lh-8xl" data-label="70px - Très gros texte" data-ignore-css-empty></div>
+					<h1 class="styleguide-font ff-serif fw-200 lh-7xl" data-label="46px - H1" data-ignore-css-empty></h1>
+					<h2 class="styleguide-font ff-serif fw-400 lh-6xl" data-label="40px - H2" data-ignore-css-empty></h2>
+					<h3 class="styleguide-font ff-serif fw-400 lh-5xl" data-label="32px - H3" data-ignore-css-empty></h3>
+					<h4 class="styleguide-font ff-serif fw-200 lh-4xl" data-label="30px - H4" data-ignore-css-empty></h4>
+					<h5 class="styleguide-font ff-sans fw-500 lh-3xl" data-label="28px - H5" data-ignore-css-empty></h5>
+					<h6 class="styleguide-font ff-sans fw-500 lh-2xl" data-label="24px - H6" data-ignore-css-empty></h6>
+					<div class="styleguide-font fz-xl fw-300 lh-xl" data-label="20px - surtitre grand" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-lg fw-300 lh-lg" data-label="18px - sous-titre" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-base lh-base" data-label="19px - texte courant" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-md lh-md" data-label="18px - surtitre petit, menu" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-sm lh-sm" data-label="16px - petit texte, bouton" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-xs lh-xs" data-label="14px - très petit texte" data-ignore-css-empty></div>
+					<div class="styleguide-font fz-xxs lh-xxs" data-label="12px - petit bouton" data-ignore-css-empty></div>
+				</div>
+
+        <!-- Buttons -->
+				<h2 class="styleguide-subtitle">Boutons</h2>
+				<div class="d-flex">
+					<div class="d-flex align-items-center p-2">
+						{% include 'partial/button.twig' with {'title': 'Bouton CTA', 'style': 'cta'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray)', 'style': 'cta', 'variation': 'gray', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light)', 'style': 'cta', 'variation': 'gray-light', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white)', 'style': 'cta', 'variation': 'white', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (opaque)', 'style': 'cta', 'variation': 'opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray, opaque)', 'style': 'cta', 'variation': 'gray opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light, opaque)', 'style': 'cta', 'variation': 'gray-light opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white, opaque)', 'style': 'cta', 'variation': 'white opaque', 'classname': 'ml-2'} only %}
+					</div>
+				</div>
+				<div class="d-flex">
+					<div class="d-flex align-items-center p-2 bg-color-black">
+						{% include 'partial/button.twig' with {'title': 'Bouton CTA', 'style': 'cta'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray)', 'style': 'cta', 'variation': 'gray', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light)', 'style': 'cta', 'variation': 'gray-light', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white)', 'style': 'cta', 'variation': 'white', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (opaque)', 'style': 'cta', 'variation': 'opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray, opaque)', 'style': 'cta', 'variation': 'gray opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light, opaque)', 'style': 'cta', 'variation': 'gray-light opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white, opaque)', 'style': 'cta', 'variation': 'white opaque', 'classname': 'ml-2'} only %}
+					</div>
+				</div>
+				<div class="d-flex">
+					<div class="d-flex align-items-center p-2 bg-color-pink">
+						{% include 'partial/button.twig' with {'title': 'Bouton CTA', 'style': 'cta'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray)', 'style': 'cta', 'variation': 'gray', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light)', 'style': 'cta', 'variation': 'gray-light', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white)', 'style': 'cta', 'variation': 'white', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (opaque)', 'style': 'cta', 'variation': 'opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray, opaque)', 'style': 'cta', 'variation': 'gray opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light, opaque)', 'style': 'cta', 'variation': 'gray-light opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white, opaque)', 'style': 'cta', 'variation': 'white opaque', 'classname': 'ml-2'} only %}
+					</div>
+				</div>
+
+
+			</section>
+		</article>
+	</div><!-- /content-wrapper -->
+{% endblock %}

@@ -1,0 +1,33 @@
+[data-text-animation] {
+    $self: &;
+
+    &[data-text-animation="slidein-by-words"] {
+        .word {
+            --word-index: 0;
+
+            height: 0.85em;
+            overflow: hidden;
+        }
+        .char {
+            &:before,
+            &:after {
+                content: none;
+            }
+
+            top: 0.05em;
+        }
+
+        // apply text animation only when Splitting() is ready
+        &.splitting {
+            .char { transform: translate3d(0, 105%, 0); }
+
+            &.is-inview {
+                .char {
+                    transform: translate3d(0, 0%, 0);
+                    transition: transform duration(24) cubic-bezier(.4, 0, 0.4, 1);
+                    transition-delay: calc(var(--word-index) * 150ms);
+                }
+            }
+        }
+    }
+}

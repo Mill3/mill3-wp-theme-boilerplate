@@ -1,0 +1,16 @@
+{% extends 'page-builder/pb_row_wrapper.twig' %}
+{% set classname = classname|default('')|split(' ') %}
+
+{% if is_preview %}
+{% set classname = classname|merge(['position-relative']) %}
+{% endif %}
+
+{% block row_wrapper %}
+
+<section
+  class="pb-row-spacer {{ classname|join(' ') }}"
+  aria-hidden="true"
+  data-ignore-css-empty
+>
+</section>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% if post or content_rows %}
+
+{% set content_rows = content_rows|default(post.get_field("page_builder")) %}
+
+{% if content_rows is not empty %}
+<section class="pb-rows">
+  {% for row in content_rows %}
+    {% set layout = row.acf_fc_layout %}
+    {% include 'page-builder/'~layout~'.twig' ignore missing with { 'post': row, 'first': loop.first, 'last': loop.last } only %}
+  {% endfor %}
+</section>
+{% endif %}
+{% endif %}

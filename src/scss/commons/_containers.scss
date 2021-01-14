@@ -1,0 +1,9 @@
+.container-fluid {
+  padding-left: $gutter;
+  padding-right: $gutter;
+
+  @include media-breakpoint-up(lg) {
+    padding-left: vw-spacer-lg(8);
+    padding-right: vw-spacer-lg(8);
+  }
+}

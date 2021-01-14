@@ -1,0 +1,45 @@
+{# To learn about ?? operator, read https://twig.symfony.com/doc/3.x/templates.html#other-operators #}
+
+{% set classname = classname|default(null) %}
+{% set attributes = attributes|default([]) %}
+{% set is_preview = is_preview|default(false) %}
+{% set module = module ?? 'video' %}
+
+{% set muted = muted ?? true %}
+{% set autoplay = autoplay ?? true %}
+{% set loop = loop ?? true %}
+{% set playsInline = playsInline ?? true %}
+{% set disableRemotePlayback = disableRemotePlayback ?? true %}
+{% set playOnEnter = playOnEnter ?? false %}
+{% set pauseOnExit = pauseOnExit ?? true %}
+
+{% if playOnEnter or pauseOnExit %}
+  {% set attributes = attributes|merge(['data-scroll', 'data-scroll-call="video"']) %}
+{% endif %}
+
+{% if pauseOnExit %}
+  {% set attributes = attributes|merge(['data-scroll-repeat="true"']) %}
+{% endif %}
+
+{% if module %}
+  {% set attributes = attributes|merge(['data-module="' ~ module ~ '"']) %}
+{% endif %}
+
+<video
+  class="w-100 {{ classname }}"
+  {% if not module or is_preview %}
+  src="{{ src.url }}"
+  {% else %}
+  data-src="{{ src.url }}"
+  {% if src_mobile %}data-src-mobile="{{ src_mobile.url }}"{% endif %}
+  {% endif %}
+  {% if src and src.width %}width="{{ src.width }}"{% endif %}
+  {% if src and src.height %}height="{{ src.height }}"{% endif %}
+  {% if muted %}muted{% endif %}
+  {% if autoplay %}autoplay{% else %}preload="metadata"{% endif %}
+  {% if loop %}loop{% endif %}
+  {% if playsInline %}playsInline{% endif %}
+  {% if disableRemotePlayback %}disableRemotePlayback{% endif %}
+  {{ attributes|join(' ') }}
+>
+</video>

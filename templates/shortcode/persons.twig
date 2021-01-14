@@ -1,0 +1,5 @@
+{% set persons = get_persons() %}
+
+{% for person in persons %}
+  {% include 'post-type/persons/person-single.twig' with {'post': person} only %}
+{% endfor %}

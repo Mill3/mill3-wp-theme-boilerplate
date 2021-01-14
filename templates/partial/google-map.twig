@@ -1,0 +1,83 @@
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set alt = alt|default('') %}
+
+{# See https://developers.google.com/maps/documentation/maps-static/start for all options #}
+
+{% set width = width|default(640) %}
+{% set height = height|default(640) %}
+{% set center = center|default(null) %}
+{% set zoom = zoom|default(16) %}
+{% set scale = scale|default(1) %}
+{% set maptype = maptype|default(null) %}
+{% set language = language|default(null) %}
+{% set region = region|default(null) %}
+{% set marker = marker|default(null) %}
+{% set style = style|default(null) %}
+
+
+{% set ratio = (width / height)|default(1) %}
+{% set options = ['key=' ~ constant('GOOGLE_API_KEY')] %}
+{% set url = '' %}
+
+{% if center %}
+  {% set options = options|merge(['center=' ~ center]) %}
+{% endif %}
+
+{% if zoom %}
+  {% set options = options|merge(['zoom=' ~ zoom]) %}
+{% endif %}
+
+{# because Google Map limit image size to 640x640, we need to perform some calculations to keep request aspect ratio #}
+{% if ratio %}
+  {% set w = width %}
+  {% set h = height %}
+
+  {# if our image is off limits #}
+  {% if w > 640 or h > 640 %}
+    {# landscape mode #}
+    {% if ratio > 1 %}
+      {% set w = 640 %}
+      {% set h = (w / ratio)|round %}
+    {# portrait mode #}
+    {% else %}
+      {% set h = 640 %}
+      {% set w = (h / ratio)|round %}
+    {% endif %}
+  {% endif %}
+
+  {% set options = options|merge(['size=' ~ w ~ 'x' ~ h]) %}
+{% endif %}
+
+{% if scale %}
+  {% set options = options|merge(['scale=' ~ scale]) %}
+{% endif %}
+
+{% if maptype %}
+  {% set options = options|merge(['maptype=' ~ maptype]) %}
+{% endif %}
+
+{% if language %}
+  {% set options = options|merge(['language=' ~ language]) %}
+{% endif %}
+
+{% if region %}
+  {% set options = options|merge(['region=' ~ scale]) %}
+{% endif %}
+
+{% if marker %}
+  {% set options = options|merge(['markers=' ~ marker]) %}
+{% endif %}
+
+{% if style %}
+  {% set options = options|merge(['style=' ~ style]) %}
+{% endif %}
+
+<img
+  src="https://maps.googleapis.com/maps/api/staticmap?{{ options|join('&') }}"
+  alt="{{ alt }}"
+  width="{{ width }}"
+  height="{{ height }}"
+  class="{{ classname }}"
+  {{ attributes|join(" ") }}
+>

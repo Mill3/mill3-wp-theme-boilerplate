@@ -1,0 +1,33 @@
+#!/usr/bin/env node
+
+const { spawn } = require("child_process");
+const path = require("path");
+const { program } = require('commander');
+
+const PROCESS_PATH = path.join(process.cwd());
+const ROOT_PATH = path.join(__dirname);
+
+program
+  .command('install')
+  .description('Start installation process')
+  .action(() => {
+    require(`${ROOT_PATH}/install`);
+  });
+
+program
+  .command('dev')
+  .description('start Webpack dev server')
+  .action(() => {
+    const cmd = spawn(`${PROCESS_PATH}/node_modules/.bin/webpack`, ['serve'], {stdio: "inherit"});
+  });
+
+program
+  .command('build')
+  .description('Build static files with Webpack')
+  .action(() => {
+    const cmd = spawn(`${PROCESS_PATH}/node_modules/.bin/webpack`, ['--config=webpack.config.babel.js', '--mode=production'], {stdio: "inherit"});
+  });
+
+
+// parse program argv
+program.parse(process.argv);

@@ -1,0 +1,8 @@
+.site-search {
+  $self: &;
+
+  &[aria-hidden="true"] {
+    pointer-events: none;
+    visibility: hidden;
+  }
+}

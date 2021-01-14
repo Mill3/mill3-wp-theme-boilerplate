@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+@import "@mill3-packages/system-ui-sass/src/mixins";
+@import "@mill3-packages/system-ui-sass/src/modules/_base-elements";
+@import "@mill3-packages/system-ui-sass/src/modules/_typography";
+@import "@mill3-packages/system-ui-sass/src/modules/_colors";
+@import "~sass-easing";
+
+/*** THEME SPECIFICS ***/
+
+@import "mixins/index";
+
+@import "commons/base-elements";
+@import "commons/fonts";
+@import "commons/images";
+
+body.mce-content-body {
+  background-color: var(--color-white) !important;
+  color: var(--color-black) !important;
+  padding-left: spacer(4) !important;
+  padding-right: spacer(4) !important;
+
+  @include wysiwyg;
+}

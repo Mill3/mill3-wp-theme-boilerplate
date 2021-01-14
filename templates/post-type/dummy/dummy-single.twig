@@ -1,0 +1,27 @@
+{% extends "base.twig" %}
+
+{% set title = post.title %}
+{% set thumbnail = post.thumbnail %}
+
+{% block content %}
+
+<article class="post-single post-type-{{post.post_type}}" id="post-{{post.ID}}">
+
+  <header class="post-single__header" data-scroll-section>
+    <h1>{{ title }}</h1>
+
+    <p class="post-single__author">
+      By <a href="{{post.author.path}}">{{ post.author.name }}</a> / {{ post.date }}
+    </p>
+
+    {# custom attribute from model #}
+    {{ post.foo }}
+
+    <div class="post-single__body">
+      {{ post.content }}
+    </div>
+  </header>
+
+</article>
+
+{% endblock %}

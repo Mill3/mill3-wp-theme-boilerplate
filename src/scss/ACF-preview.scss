@@ -1,0 +1,66 @@
+@charset "utf-8";
+
+@import "vars/index";
+
+// set all CSS variables in theme outside .acfe-flexible-placeholder's scope
+@import "@mill3-packages/system-ui-sass/src/mixins/_colors";
+@import "@mill3-packages/system-ui-sass/src/mixins/_typography.scss";
+@include color-css-variables($colors);
+
+#poststuff .acfe-flexible-placeholder.-preview {
+  @import "~sass-easing";
+  @import "@mill3-packages/system-ui-sass/src/vendors/normalize";
+  @import "@mill3-packages/system-ui-sass/src/mixins/index";
+
+  // override vw/vh transformers to better suit ACF-preview
+  @function vw($value) {
+    $value: strip-unit($value);
+
+    @if $value == 0 {
+      @return 0vw;
+    } @else {
+      $percentage: $value / 100;
+      $wp_ui: 160px + 20px + 2px + 20px + 300px + 2px;
+      $scrollbar_width: 15px;
+
+      @return calc((100vw - #{$wp_ui} - #{$scrollbar_width}) * #{$percentage});
+    }
+  }
+  @function vh($value) {
+    $value: strip-unit($value);
+
+    @if $value == 0 {
+      @return 0vh;
+    } @else {
+      $percentage: $value / 100;
+      $value: $percentage * 45;
+    }
+
+    @return #{$value}vh;
+  }
+
+  @import "@mill3-packages/system-ui-sass/src/modules/index";
+
+  /*** block height and add a shade on bottom ***/
+  max-height: 45vh;
+  z-index: 0;
+  position: relative;
+  min-height: 25px !important;
+
+  /*** THEME SPECIFICS ***/
+
+  // mixins
+  @import "mixins/index";
+
+  // commons
+  @import "commons/index";
+
+  // modules
+  @import "modules/index";
+
+  // page builder
+  @import "page-builder/index";
+
+  // content types
+  @import "post-type/posts/index";
+}

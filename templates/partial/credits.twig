@@ -1,0 +1,16 @@
+{% set label = label|default('Design & Dev') %}
+<a
+  class="mill3 {{ classname }}"
+  href="https://mill3.studio/"
+  target="_blank"
+  rel="noopener noreferrer"
+  title="{{ label }} - MILL3"
+  aria-label="{{ label }} - MILL3"
+  data-barba-prevent="all"
+>
+  <span class="mill3__logo" aria-hidden="true">{{ source('src/svg/mill3.svg') }}</span>
+  <span class="mill3__wrap d-block position-relative overflow-hidden" aria-hidden="true">
+    <span class="mill3__label">{{ label }}</span>
+    <span class="mill3__credits">MILL3</span>
+  </span>
+</a>

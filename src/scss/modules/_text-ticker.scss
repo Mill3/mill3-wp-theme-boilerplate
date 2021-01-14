@@ -1,0 +1,26 @@
+@keyframes tickerText {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.text-ticker {
+  white-space: nowrap;
+
+  &__text {
+    animation-name: tickerText;
+    animation-duration: 15s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  &.--js {
+    .text-ticker__text {
+      animation: none;
+      will-change: transform;
+    }
+  }
+}

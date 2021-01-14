@@ -1,0 +1,26 @@
+{% set style = style|default(null) %}
+{% set variation = variation|default(null) %}
+{% set attributes = attributes|default([]) %}
+
+{% if id %}
+  {% set attributes = attributes|merge(['id="'~ id ~'"']) %}
+{% endif %}
+
+{% if aria_label %}
+  {% set attributes = attributes|merge(['aria-label="'~ aria_label ~'"']) %}
+{% else %}
+  {% set attributes = attributes|merge(['aria-label="'~ title ~'"']) %}
+{% endif %}
+
+{% if style and style in ['cta', 'link', 'social'] %}
+  {% set classname = classname|split(' ')|merge(['--' ~ style])|join(' ')%}
+{% endif %}
+
+{% if style and variation %}
+  {% set classname = classname|split(' ')|merge(variation|split(' ')|map(v => '--' ~ style ~ '-' ~ v))|join(' ')%}
+{% endif %}
+
+<button class="btn {{ classname }}" {{ attributes|join(" ") }}>
+  <span class="btn__bg" aria-hidden="true" data-ignore-css-empty></span>
+  <span class="btn__label" aria-hidden="true">{{ title }}</span>
+</button>

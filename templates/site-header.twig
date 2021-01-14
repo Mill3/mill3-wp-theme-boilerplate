@@ -1,0 +1,35 @@
+<header
+  class="site-header overflow-hidden"
+  data-site-header
+  data-ui="site-header"
+>
+  <div class="site-header__wrap d-flex justify-content-between align-items-center w-100 py-2 py-lg-3 px-3 px-lg-8 fz-xs">
+
+    <figure class="site-header__logo m-0 p-0 pointer-events-all" role="banner">
+      <a
+        class="site-header__logoLink d-block w-100 color-current td-none"
+        href="{{site.url}}"
+        rel="home"
+        title="{{site.name}}"
+      >{{site.name}}</a>
+    </figure>
+
+    <nav id="nav-main" class="site-header__nav" role="navigation">
+      {% include "menu.twig" with {'menu': menu.get_items, 'classname': 'site-header__menu list-none m-0 p-0'} %}
+    </nav>
+
+    <button
+      class="site-header__burger position-relative d-lg-none color-current pointer-events-all"
+      type="button"
+      aria-label="Menu"
+      aria-controls="site-nav"
+      aria-expanded="false"
+    >
+      <span class="position-absolute t-0 l-0 w-100" aria-hidden="true" data-ignore-css-empty></span>
+      <span class="position-absolute t-50 l-0 w-100" aria-hidden="true" data-ignore-css-empty></span>
+      <span class="position-absolute b-0 l-0 w-100" aria-hidden="true" data-ignore-css-empty></span>
+    </button>
+
+  </div>
+
+</header>

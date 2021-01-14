@@ -1,0 +1,78 @@
+/// Styleguide
+///
+/// @name .styleguide
+///
+/// @group modules
+
+.styleguide {
+  $self: &;
+
+  &-title {
+    font-size: 32px;
+    font-weight: 500;
+    margin: 0 0 30px 0;
+  }
+  &-subtitle {
+    color: #a4a4a4;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 60px 0 30px 0;
+  }
+  &-row {
+    &:not(.flex-column) {
+      margin: 0 -15px;
+    }
+  }
+  &-color {
+    flex: 0 1 100px;
+    width: 100px;
+    height: 35px;
+    margin: 0 15px 30px 15px;
+    border-radius: 5px;
+    box-shadow: 0 10px 10px 0 rgba(179, 179, 179, 0.4);
+  }
+  &-font {
+    position: relative;
+    margin: 0 0 30px 0;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+    &:empty {
+      &::before {
+        content: "The quick brown fox jumps over the lazy dog";
+        display: block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+
+    &[data-label] {
+      &::after {
+        color: #a4a4a4 !important;
+        font-family: monospace;
+        font-size: 10px !important;
+        padding-top: 0 !important;
+      }
+    }
+  }
+
+  [data-label] {
+    position: relative;
+
+    &::after {
+      content: attr(data-label);
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      padding-top: 6px;
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 500;
+      color: #2c2c2c;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+html,
+body {
+  height: 100%;
+}
+
+html:not(.has-scroll-init) body,
+html.--js-barba body,
+body.--scroll-disabled {
+  overflow: hidden;
+}
+
+body.--js-site-nav-opened,
+body.--js-site-search-opened {
+  overflow: hidden;
+}
