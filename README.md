@@ -1,5 +1,3 @@
-![npm](https://img.shields.io/npm/v/@mill3-packages/wp-boilerplate?style=flat-square)
-
 # MILL3-packages : Wordpress Theme Boilerplate with Webpack
 
 Our WP theme boilerplate using Timber/Twig templates
