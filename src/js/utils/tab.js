@@ -21,7 +21,7 @@ function tabVisibilityChange(hidden) {
 */
 import { on, off } from "./listener";
 
-const Tab = cb => {
+const Tab = (cb) => {
   // PUBLIC API
   const _on = () => {
     on(document, "visibilitychange", _run);
@@ -36,7 +36,7 @@ const Tab = cb => {
   const ctx = {
     on: _on,
     off: _off,
-    run: _run
+    run: _run,
   };
 
   return ctx;

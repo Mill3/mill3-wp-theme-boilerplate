@@ -18,13 +18,13 @@ function scrollCb(currentScrollY, delta, event) {
 */
 import { on, off } from "./listener";
 
-const Scroll = cb => {
+const Scroll = (cb) => {
   let tick = false,
     startScrollY = 0,
     event;
 
   // PRIVATE API
-  const gRaf = e => {
+  const gRaf = (e) => {
     event = e;
 
     if (!tick) {
@@ -55,7 +55,7 @@ const Scroll = cb => {
   const ctx = {
     on: _on,
     off: _off,
-    run: _run
+    run: _run,
   };
 
   return ctx;

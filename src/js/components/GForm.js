@@ -27,7 +27,7 @@ class GForm extends EventEmitter2 {
 
   destroy() {
     jQuery(document).off("gform_post_render", this._onRender);
-    if (this.fields) this.fields.forEach(field => field.destroy());
+    if (this.fields) this.fields.forEach((field) => field.destroy());
 
     this.el = null;
     this.id = null;
@@ -41,13 +41,13 @@ class GForm extends EventEmitter2 {
   }
 
   reset() {
-    if (this.fields) this.fields.forEach(field => field.destroy());
+    if (this.fields) this.fields.forEach((field) => field.destroy());
     if (this.submit) off(this.submit, "click", null);
 
     this.form = $("form", this.el);
     this.body = $(".gform_body", this.el);
     this.submit = $(SUBMIT_SELECTOR, this.el);
-    this.fields = [...$$(".gfield", this.body)].map(field => new GFormField(field));
+    this.fields = [...$$(".gfield", this.body)].map((field) => new GFormField(field));
 
     if (this.submit) on(this.submit, "click", this._onSubmit);
   }

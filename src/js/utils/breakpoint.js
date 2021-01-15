@@ -20,7 +20,7 @@ function resize(event) {
 
 const Breakpoint = (mediaQueries, cb) => {
   // PRIVATE API
-  const getThrottle = e => {
+  const getThrottle = (e) => {
     event = e;
 
     if (!tick) {
@@ -29,16 +29,16 @@ const Breakpoint = (mediaQueries, cb) => {
     }
   };
 
-  let listeners = mediaQueries.map(query => window.matchMedia(query)),
+  let listeners = mediaQueries.map((query) => window.matchMedia(query)),
     tick = false,
     event;
 
   // PUBLIC API
   const _on = () => {
-    listeners.forEach(mql => mql.addListener(getThrottle));
+    listeners.forEach((mql) => mql.addListener(getThrottle));
   };
   const _off = () => {
-    listeners.forEach(mql => mql.removeListener(getThrottle));
+    listeners.forEach((mql) => mql.removeListener(getThrottle));
   };
   const _run = () => {
     cb(event);
@@ -54,7 +54,7 @@ const Breakpoint = (mediaQueries, cb) => {
     dispose: _dispose,
     on: _on,
     off: _off,
-    run: _run
+    run: _run,
   };
 
   return ctx;

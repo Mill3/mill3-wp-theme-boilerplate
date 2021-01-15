@@ -12,7 +12,7 @@ try {
     ).get
   );
 } catch (e) {
-  forceRepaint = a => {
+  forceRepaint = (a) => {
     void a.offsetHeight;
   };
 }

@@ -4,23 +4,11 @@
 
 Our WP theme boilerplate using Timber/Twig templates
 
-![](https://media.giphy.com/media/XyJjfbEPltkHE4s7hg/giphy.gif)
-
 ## Requirements
 
 - npm / yarn
 - [Timber WP plugin](https://github.com/timber/timber/)
-
-## How to install
-
-Our boilerplate package is distributed with NPM, init a new project and install with it :
-
-**Note:** make sure you run thoses commands inside a fresh empty WP theme directory. Not at the root of your Wordpress installation.
-
-```bash
-npm init
-npm install @mill3-packages/wp-boilerplate
-```
+- [Advanced Custom Fields](https://www.advancedcustomfields.com/)
 
 ## How to use for local development
 
@@ -34,15 +22,15 @@ Make sure the _name_ line in `package.json` matches your theme's directory name.
 
 ```json
 {
-  "name": "mill3-wp-boilerplate",
-  "version": "2.0.0"
+  "name": "mill3wp",
+  "version": "x.x.x"
 }
 ```
 
 Directory :
 
 ```
-/wp-content/themes/mill3-wp-boilerplate/
+/wp-content/themes/mill3wp/
 ```
 
 Add bin command to your package.json file :
@@ -50,21 +38,15 @@ Add bin command to your package.json file :
 ```json
 {
   "scripts": {
-    "mill3-wp": "mill3-wp"
+    "mill3-cli": "mill3-cli",
   }
 }
-```
-
-Run the install script :
-
-```bash
-npm run mill3-wp install
 ```
 
 Then start Webpack dev server
 
 ```bash
-npm run mill3-wp dev
+npm run dev
 ```
 
 ## Local development with Docker
@@ -76,42 +58,7 @@ You can also use our [Docker boilerplate](https://github.com/Mill3/wordpress-doc
 Simply run :
 
 ```bash
-npm run mill3-wp build
+npm run build
 ```
 
 In production mode, assets are loaded from dist/assets.json file, cache busting included !
-
-## Prettier/ESLint
-
-You can ESLint your code with the following command :
-
-First add in package's script :
-
-```json
-{
-  "scripts": {
-    "lint": "eslint --fix ./src/js",
-    "prettier": "prettier-eslint ./src/js/*/*.js ./src/scss/**/*.scss --write"
-  }
-}
-```
-
-```bash
-npm run lint
-```
-
-And Prettier formatting :
-
-```bash
-npm run prettier
-```
-
-Please also note that there's a pre-commit hook using [pretty-quick](https://github.com/azz/pretty-quick) which can be added in `package.json`.
-
-```json
-"husky": {
-  "hooks": {
-    "pre-commit": "pretty-quick --staged"
-  }
-}
-```

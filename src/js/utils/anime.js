@@ -18,13 +18,13 @@
  * @params ctx <object> { lines: <array>, chars: <array> }
  * @return <object> { chars: <array>, rows: <integer>, columns: <integer>}
  */
-export const formatSplittingJSToAnimeJsGrid = ctx => {
+export const formatSplittingJSToAnimeJsGrid = (ctx) => {
   const numLines = ctx.lines.length;
   const linesLength = new Array(numLines).fill(0);
 
   // count chars per line
   ctx.lines.forEach((line, index) => {
-    line.forEach(word => (linesLength[index] += word.children.length));
+    line.forEach((word) => (linesLength[index] += word.children.length));
   });
 
   // get length of longest line
@@ -49,6 +49,6 @@ export const formatSplittingJSToAnimeJsGrid = ctx => {
   return {
     chars: grid,
     rows: longestLine,
-    columns: numLines
+    columns: numLines,
   };
 };

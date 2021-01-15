@@ -42,7 +42,7 @@ export class BarbaWebpackChunks {
 
     this._parser = new DOMParser();
     this._emitter = new EventEmitter2({
-      wildcard: true
+      wildcard: true,
     });
 
     // attach emitter globally to browser Window
@@ -72,7 +72,7 @@ export class BarbaWebpackChunks {
    */
   _stopModules() {
     // Stop all chunks with a stop() func
-    Object.keys(this._chunks).forEach(m => {
+    Object.keys(this._chunks).forEach((m) => {
       if (typeof this._chunks[m].stop === `function`) this._chunks[m].stop();
     });
 
@@ -85,7 +85,7 @@ export class BarbaWebpackChunks {
    */
   _destroyModules() {
     // Remove and destroy all chunks with a destroy() func
-    Object.keys(this._chunks).forEach(m => {
+    Object.keys(this._chunks).forEach((m) => {
       if (typeof this._chunks[m].destroy !== `function`) return;
       this._chunks[m].destroy();
       delete this._chunks[m];
@@ -96,7 +96,7 @@ export class BarbaWebpackChunks {
    * `once & enter` hook.
    */
   _initModules({ next }) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       //const { initial } = this._state;
       const source = this._parser.parseFromString(next.html, "text/html");
 
@@ -105,7 +105,7 @@ export class BarbaWebpackChunks {
         //if (initial) this._state.changeStatus(false);
 
         // Init all chunks with a init() func
-        Object.keys(this._chunks).forEach(m => {
+        Object.keys(this._chunks).forEach((m) => {
           if (typeof this._chunks[m].init === `function`) this._chunks[m].init();
         });
 
@@ -119,7 +119,7 @@ export class BarbaWebpackChunks {
    */
   _startModules() {
     // Run start() func from all chunks
-    Object.keys(this._chunks).forEach(m => {
+    Object.keys(this._chunks).forEach((m) => {
       if (typeof this._chunks[m].start === `function`) this._chunks[m].start();
     });
   }
@@ -133,7 +133,7 @@ export class BarbaWebpackChunks {
     const promises = [];
 
     // import each module as a webpack chunk
-    elements.forEach(el => {
+    elements.forEach((el) => {
       // for storing each chunk attached to element
       let chunks = [];
 
@@ -148,12 +148,12 @@ export class BarbaWebpackChunks {
       el.dataset.initialized = true;
 
       // element can cast 1 or multiple chunk module, each seperated by a coma
-      if (module) chunks = chunks.concat(module.split(",").map(m => `modules/${m}`));
+      if (module) chunks = chunks.concat(module.split(",").map((m) => `modules/${m}`));
 
-      if (ui) chunks = chunks.concat(ui.split(",").map(m => `ui/${m}`));
+      if (ui) chunks = chunks.concat(ui.split(",").map((m) => `ui/${m}`));
 
       // try to load each module attached
-      chunks.forEach(chunk => {
+      chunks.forEach((chunk) => {
         const promise = this._importChunk(chunk);
         if (promise) promises.push(promise);
       });
@@ -174,7 +174,7 @@ export class BarbaWebpackChunks {
     const promise = import(`../${name}/`);
 
     // when loading is completed
-    promise.then(chunk => {
+    promise.then((chunk) => {
       const { instance } = chunk.default;
 
       // push instance to all modules
@@ -190,7 +190,7 @@ export class BarbaWebpackChunks {
       instance.dispatcher = this._dispatcher;
     });
 
-    promise.catch(e => {
+    promise.catch((e) => {
       console.error("Error loading webpack chunk :", e);
     });
 

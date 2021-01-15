@@ -30,7 +30,7 @@ const Throttle = (options = { delay: 200, onlyAtEnd: false }) => {
       firstTime = false;
       clearTimeout(timer);
 
-      timer = setTimeout(function() {
+      timer = setTimeout(function () {
         last = now;
         cb();
       }, delay);
@@ -50,7 +50,7 @@ const Throttle = (options = { delay: 200, onlyAtEnd: false }) => {
 
   const ctx = {
     init,
-    dispose
+    dispose,
   };
 
   return ctx;

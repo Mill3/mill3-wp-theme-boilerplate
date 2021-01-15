@@ -32,65 +32,65 @@ const Browser = () => {
 
   return {
     android: () => /android/.test(userAgent),
-    chrome: range => {
+    chrome: (range) => {
       const match = /google inc/.test(vendor) ? userAgent.match(/(?:chrome|crios)\/(\d+)/) : null;
       return match !== null && !this.opera() && compareVersion(match[1], range);
     },
-    edge: range => {
+    edge: (range) => {
       const match = userAgent.match(/edge\/(\d+)/);
       return match !== null && compareVersion(match[1], range);
     },
-    firefox: range => {
+    firefox: (range) => {
       const match = userAgent.match(/(?:firefox|fxios)\/(\d+)/);
       return match !== null && compareVersion(match[1], range);
     },
-    ie: range => {
+    ie: (range) => {
       const match = userAgent.match(/(?:msie |trident.+?; rv:)(\d+)/);
       return match !== null && compareVersion(match[1], range);
     },
     ios: () => {
       return this.iphone() || this.ipad() || this.ipod();
     },
-    ipad: range => {
+    ipad: (range) => {
       const match = userAgent.match(/ipad.+?os (\d+)/);
       return match !== null && compareVersion(match[1], range);
     },
-    iphone: range => {
+    iphone: (range) => {
       // avoid false positive for Facebook in-app browser on ipad;
       // original iphone doesn't have the OS portion of the UA
       const match = this.ipad() ? null : userAgent.match(/iphone(?:.+?os (\d+))?/);
       return match !== null && compareVersion(match[1] || 1, range);
     },
-    ipod: range => {
+    ipod: (range) => {
       const match = userAgent.match(/ipod.+?os (\d+)/);
       return match !== null && compareVersion(match[1], range);
     },
     mobile: () => mobile,
-    opera: range => {
+    opera: (range) => {
       const match = userAgent.match(/(?:^opera.+?version|opr)\/(\d+)/);
       return match !== null && compareVersion(match[1], range);
     },
-    safari: range => {
+    safari: (range) => {
       const match = userAgent.match(/version\/(\d+).+?safari/);
       return match !== null && compareVersion(match[1], range);
-    }
+    },
   };
 };
 
 // build a 'comparator' object for various comparison checks
 const comparator = {
-  "<": function(a, b) {
+  "<": function (a, b) {
     return a < b;
   },
-  "<=": function(a, b) {
+  "<=": function (a, b) {
     return a <= b;
   },
-  ">": function(a, b) {
+  ">": function (a, b) {
     return a > b;
   },
-  ">=": function(a, b) {
+  ">=": function (a, b) {
     return a >= b;
-  }
+  },
 };
 
 // helper function which compares a version to a range

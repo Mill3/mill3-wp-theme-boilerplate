@@ -29,7 +29,7 @@ import { mobile } from "./mobile";
 
 const EVENT_TYPE = mobile ? "touchmove" : "mousemove";
 
-const MouseMove = options => {
+const MouseMove = (options) => {
   const el = $(options.element) || document;
   const cb = options.cb;
   const event_type = options.type || EVENT_TYPE;
@@ -37,7 +37,7 @@ const MouseMove = options => {
   let tick, event;
 
   // PRIVATE API
-  const gRaf = e => {
+  const gRaf = (e) => {
     event = e;
     if (event.cancelable) event.preventDefault();
 
@@ -69,7 +69,7 @@ const MouseMove = options => {
   const ctx = {
     on: _on,
     off: _off,
-    run: _run
+    run: _run,
   };
 
   return ctx;

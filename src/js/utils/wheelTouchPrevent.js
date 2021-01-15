@@ -14,7 +14,7 @@ import { on, off } from "./event";
 
 const WTP = () => {
   // PRIVATE API
-  const cancel = e => {
+  const cancel = (e) => {
     if (e.cancelable) {
       e.preventDefault();
     }
@@ -28,7 +28,7 @@ const WTP = () => {
     off: () => {
       off(document, "mouseWheel", cancel);
       off(document, "touchmove", cancel);
-    }
+    },
   };
 
   return ctx;

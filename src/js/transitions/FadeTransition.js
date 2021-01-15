@@ -25,7 +25,7 @@ class FadeTransition {
     // if images are loaded, skip here
     if (this._imagesLoaded === true || !this._imagesLoaded) return;
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       // if imagesLoaded has not been initialized, because next.container was null in `beforeLeave` hook.
       if (!this._imgLoader) this._imgLoader = new imagesLoaded(next.container, this._onImagesLoaded);
 
@@ -35,25 +35,25 @@ class FadeTransition {
   }
 
   leave({ current }) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       anime({
         targets: current.container,
         opacity: 0,
         duration: 1000,
         easing: "linear",
-        complete: () => resolve()
+        complete: () => resolve(),
       });
     });
   }
 
   enter({ next }) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       anime({
         targets: next.container,
         opacity: [0, 1],
         duration: 1000,
         easing: "linear",
-        complete: () => resolve()
+        complete: () => resolve(),
       });
     });
   }

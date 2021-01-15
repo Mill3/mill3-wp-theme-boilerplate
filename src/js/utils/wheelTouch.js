@@ -20,7 +20,7 @@ type → 'scroll' or 'touch'
 import Browser from "./browser";
 import { on, off } from "./listener";
 
-const WheelTouch = cb => {
+const WheelTouch = (cb) => {
   let tick = false,
     event,
     type,
@@ -28,7 +28,7 @@ const WheelTouch = cb => {
     startY;
 
   // PRIVATE API
-  const gRaf = e => {
+  const gRaf = (e) => {
     event = e;
 
     if (event.cancelable && event.type !== "touchend") event.preventDefault();
@@ -53,7 +53,7 @@ const WheelTouch = cb => {
 
     getCb();
   };
-  const onTouchStart = e => {
+  const onTouchStart = (e) => {
     startY = e.targetTouches[0].pageY;
     delta = 0;
   };
@@ -102,7 +102,7 @@ const WheelTouch = cb => {
 
   const ctx = {
     on: _on,
-    off: _off
+    off: _off,
   };
 
   return ctx;

@@ -13,13 +13,13 @@ class SiteLoader {
 
   beforeOnce({ next }) {
     // preload images from next container before once transition
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       imagesLoaded(next.container, resolve);
     });
   }
 
   once() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       anime({
         targets: this.el,
         opacity: 0,
@@ -31,7 +31,7 @@ class SiteLoader {
 
           // resolve transition
           resolve();
-        }
+        },
       });
     });
   }

@@ -5,7 +5,7 @@ import { sleep } from "@utils/sleep";
 
 const parser = new DOMParser();
 
-export const updateBodyClass = html => {
+export const updateBodyClass = (html) => {
   const source = parser.parseFromString(html, "text/html");
   const classNames = source.querySelector("body").classList;
 
@@ -23,7 +23,7 @@ barba.hooks.afterLeave(() => {
 });
 
 // before enter transition, remove old container and update body classnames
-barba.hooks.beforeEnter(data => {
+barba.hooks.beforeEnter((data) => {
   barba.transitions.remove(data);
   updateBodyClass(data.next.html);
 });
@@ -37,5 +37,5 @@ barba.hooks.after(() => {
 });
 
 export default {
-  updateBodyClass
+  updateBodyClass,
 };

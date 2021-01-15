@@ -18,13 +18,13 @@ function cb(delta, event) {
 import Browser from "./browser";
 import { on, off } from "./listener";
 
-const Wheel = cb => {
+const Wheel = (cb) => {
   let tick = false,
     event,
     delta;
 
   // PRIVATE API
-  const gRaf = e => {
+  const gRaf = (e) => {
     event = e;
 
     if (event.cancelable) event.preventDefault();
@@ -68,7 +68,7 @@ const Wheel = cb => {
 
   const ctx = {
     on: _on,
-    off: _off
+    off: _off,
   };
 
   return ctx;

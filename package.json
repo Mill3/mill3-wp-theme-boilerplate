@@ -18,7 +18,9 @@
     "precommit": "npm test",
     "mill3-cli": "mill3-cli",
     "dev": "export NODE_ENV=development && npm run mill3-cli dev",
-    "build": "export NODE_ENV=production && npm run mill3-cli build"
+    "build": "export NODE_ENV=production && npm run mill3-cli build",
+    "lint": "eslint ./src/js/*/*.js",
+    "prettier": "prettier ./src/js/*/*.js ./src/scss/**/*.scss --write"
   },
   "bugs": {
     "url": "https://github.com/Mill3/mill3-wp-theme-boilerplate/issues"
@@ -50,7 +52,7 @@
     "directory-named-webpack-plugin": "^4.0.1",
     "domready": "^1.0.8",
     "dotenv": "^8.2.0",
-    "eslint": "^6.5.1",
+    "eslint": "^7.17.0",
     "eventemitter2": "^6.4.3",
     "file-loader": "^4.2.0",
     "get-env": "^0.5.10",
@@ -70,7 +72,7 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.6.0",
     "postcss-scss": "^2.0.0",
-    "prettier": "1.18.2",
+    "prettier": "2.2.1",
     "prettier-eslint": "9.0.0",
     "prettier-eslint-cli": "5.0.0",
     "pretty-quick": "2.0.0",

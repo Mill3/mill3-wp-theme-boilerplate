@@ -20,14 +20,14 @@ export const $$ = (query, target = html) => {
   return null;
 };
 
-export const rect = el => el.getBoundingClientRect();
-export const removeAllChilds = el => {
+export const rect = (el) => el.getBoundingClientRect();
+export const removeAllChilds = (el) => {
   while (el.firstChild) el.removeChild(el.firstChild);
 };
 export const getFocusedElement = () => document.activeElement;
 
 // https://stackoverflow.com/a/56531945/519240
-export const innerDimensions = node => {
+export const innerDimensions = (node) => {
   var computedStyle = getComputedStyle(node);
 
   let width = node.clientWidth; // width with padding
@@ -47,5 +47,5 @@ export default {
   rect,
   removeAllChilds,
   getFocusedElement,
-  innerDimensions
+  innerDimensions,
 };

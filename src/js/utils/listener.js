@@ -22,8 +22,8 @@ import { $$ } from "./dom";
 
 const PASSIVE_EVENTS = ["touchmove", "mousemove", "scroll", "mouseWheel", "touchstart", "deviceorientation"];
 
-const getOptions = type => (PASSIVE_EVENTS.indexOf(type) === -1 ? false : { passive: false });
-const normalizeEventType = type => {
+const getOptions = (type) => (PASSIVE_EVENTS.indexOf(type) === -1 ? false : { passive: false });
+const normalizeEventType = (type) => {
   if (type === "mouseWheel") {
     return "onwheel" in document ? "wheel" : !isUndefined(document.onmousewheel) ? "mousewheel" : "DOMMouseScroll";
   } else if (type === "focusOut") {
@@ -52,7 +52,7 @@ export const off = (el, type, callback, options) => {
 };
 
 export const once = (el, type, callback, options) => {
-  const cb = e => {
+  const cb = (e) => {
     const t = e.currentTarget;
 
     off(t, type, cb, options);
