@@ -29,6 +29,7 @@ const Browser = () => {
   const freeSelf = isWindow(typeof self == "object" && self) && self;
   const navigator = freeSelf && freeSelf.navigator;
   const userAgent = ((navigator && navigator.userAgent) || "").toLowerCase();
+  const vendor = (navigator && navigator.vendor || '').toLowerCase();
 
   return {
     android: () => /android/.test(userAgent),
