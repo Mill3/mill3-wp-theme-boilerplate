@@ -12,11 +12,13 @@ add_filter( 'gform_validation_message', __NAMESPACE__ . '\\change_message', 10, 
 
 
 // replace spinner URL
+/*
 function spinner_url($image_src, $form) {
     return get_stylesheet_directory_uri() . '/src/images/spinner.gif';
 }
 
-//add_filter( 'gform_ajax_spinner_url', __NAMESPACE__ . '\\spinner_url', 10, 2 );
+add_filter( 'gform_ajax_spinner_url', __NAMESPACE__ . '\\spinner_url', 10, 2 );
+*/
 
 
 

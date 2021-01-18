@@ -3,6 +3,7 @@
 
 import barba from "@barba/core";
 import domready from "domready";
+import scripts from "@mill3-packages/barba-scripts";
 
 import "@core/barba";
 import BarbaWebpackChunks from "@core/barba.webpack-chunks";
@@ -14,6 +15,8 @@ if (process.env.NODE_ENV === "development") {
   import("../scss/App.scss");
   import("../scss/debug/index.scss");
 }
+
+barba.use(scripts);
 
 const BarbaWebpackChunksInstance = new BarbaWebpackChunks();
 barba.use(BarbaWebpackChunksInstance);
