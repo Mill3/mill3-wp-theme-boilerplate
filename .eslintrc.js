@@ -8,10 +8,12 @@ module.exports = {
     Atomics: "readonly",
     SharedArrayBuffer: "readonly"
   },
+  parser: "babel-eslint",
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2019,
     sourceType: "module",
-    parser: "babel-eslint"
+    parser: "babel-eslint",
+    allowImportExportEverywhere: true
   },
   rules: {}
 };

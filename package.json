@@ -53,6 +53,7 @@
     "domready": "^1.0.8",
     "dotenv": "^8.2.0",
     "eslint": "^7.17.0",
+    "eslint-plugin-import": "^2.22.1",
     "eventemitter2": "^6.4.3",
     "file-loader": "^4.2.0",
     "get-env": "^0.5.10",
@@ -86,5 +87,8 @@
     "webpack-dashboard": "^3.0.2",
     "webpack-dev-server": "^3.11.2",
     "webpackbar": "^4.0.0"
+  },
+  "dependencies": {
+    "babel-eslint": "^10.1.0"
   }
 }

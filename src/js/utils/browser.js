@@ -33,6 +33,7 @@ const Browser = () => {
   return {
     android: () => /android/.test(userAgent),
     chrome: (range) => {
+      // eslint-disable-next-line no-undef
       const match = /google inc/.test(vendor) ? userAgent.match(/(?:chrome|crios)\/(\d+)/) : null;
       return match !== null && !this.opera() && compareVersion(match[1], range);
     },

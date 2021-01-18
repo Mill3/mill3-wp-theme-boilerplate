@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import EventEmitter2 from "eventemitter2";
 
 import { $, $$ } from "@utils/dom";
