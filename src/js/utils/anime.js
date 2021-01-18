@@ -49,6 +49,6 @@ export const formatSplittingJSToAnimeJsGrid = (ctx) => {
   return {
     chars: grid,
     rows: longestLine,
-    columns: numLines,
+    columns: numLines
   };
 };

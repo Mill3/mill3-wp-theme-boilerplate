@@ -83,5 +83,5 @@ export default {
   isObject,
   isString,
   isUndefined,
-  isWindow,
+  isWindow
 };

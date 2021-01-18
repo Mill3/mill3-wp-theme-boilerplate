@@ -31,7 +31,7 @@ class SiteLoader {
 
           // resolve transition
           resolve();
-        },
+        }
       });
     });
   }

@@ -54,7 +54,7 @@ const Breakpoint = (mediaQueries, cb) => {
     dispose: _dispose,
     on: _on,
     off: _off,
-    run: _run,
+    run: _run
   };
 
   return ctx;

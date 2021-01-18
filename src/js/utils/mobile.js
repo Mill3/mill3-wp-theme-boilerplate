@@ -4,5 +4,5 @@ export const mobile =
   (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
 export default {
-  mobile,
+  mobile
 };

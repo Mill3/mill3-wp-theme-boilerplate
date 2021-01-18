@@ -50,7 +50,7 @@ const Throttle = (options = { delay: 200, onlyAtEnd: false }) => {
 
   const ctx = {
     init,
-    dispose,
+    dispose
   };
 
   return ctx;

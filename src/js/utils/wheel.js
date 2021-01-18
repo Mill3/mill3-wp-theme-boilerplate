@@ -68,7 +68,7 @@ const Wheel = (cb) => {
 
   const ctx = {
     on: _on,
-    off: _off,
+    off: _off
   };
 
   return ctx;

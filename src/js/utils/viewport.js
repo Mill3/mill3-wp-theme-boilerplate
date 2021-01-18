@@ -26,7 +26,7 @@ const Viewport = {
 
   get y() {
     return pageYOffset;
-  },
+  }
 };
 
 export default Viewport;

@@ -11,5 +11,5 @@ export const rgb2hex = (rgb) => {
 const hex = (x) => (isNaN(x) ? "00" : HEX_DIGITS[(x - (x % 16)) / 16] + HEX_DIGITS[x % 16]);
 
 export default {
-  rgb2hex,
+  rgb2hex
 };

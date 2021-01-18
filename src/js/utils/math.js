@@ -11,7 +11,7 @@ export const cover = (width, height, ratio) => {
     x: (width - w) * 0.5,
     y: (height - h) * 0.5,
     width: w,
-    height: h,
+    height: h
   };
 };
 
@@ -35,5 +35,5 @@ export default {
   cover,
   hypothenuse,
   lerp,
-  limit,
+  limit
 };

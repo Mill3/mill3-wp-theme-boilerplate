@@ -13,13 +13,13 @@ class AJAX {
   send(method = "get", action, data = {}) {
     const params = {
       action: action,
-      ...data,
+      ...data
     };
 
     return axios({
       url: wp.admin_ajax,
       method,
-      params,
+      params
     });
   }
 }

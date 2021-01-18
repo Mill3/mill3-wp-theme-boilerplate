@@ -7,5 +7,5 @@ export const shuffle = (arr) =>
     .map((a) => a[1]);
 
 export default {
-  shuffle,
+  shuffle
 };

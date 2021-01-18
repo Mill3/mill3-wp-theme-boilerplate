@@ -47,5 +47,5 @@ export default {
   rect,
   removeAllChilds,
   getFocusedElement,
-  innerDimensions,
+  innerDimensions
 };

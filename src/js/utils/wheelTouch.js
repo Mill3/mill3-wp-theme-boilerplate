@@ -102,7 +102,7 @@ const WheelTouch = (cb) => {
 
   const ctx = {
     on: _on,
-    off: _off,
+    off: _off
   };
 
   return ctx;

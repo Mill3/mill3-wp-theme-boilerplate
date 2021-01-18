@@ -41,7 +41,7 @@ class FadeTransition {
         opacity: 0,
         duration: 1000,
         easing: "linear",
-        complete: () => resolve(),
+        complete: () => resolve()
       });
     });
   }
@@ -53,7 +53,7 @@ class FadeTransition {
         opacity: [0, 1],
         duration: 1000,
         easing: "linear",
-        complete: () => resolve(),
+        complete: () => resolve()
       });
     });
   }

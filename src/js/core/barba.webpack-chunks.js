@@ -42,7 +42,7 @@ export class BarbaWebpackChunks {
 
     this._parser = new DOMParser();
     this._emitter = new EventEmitter2({
-      wildcard: true,
+      wildcard: true
     });
 
     // attach emitter globally to browser Window

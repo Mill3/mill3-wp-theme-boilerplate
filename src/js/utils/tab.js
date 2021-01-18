@@ -36,7 +36,7 @@ const Tab = (cb) => {
   const ctx = {
     on: _on,
     off: _off,
-    run: _run,
+    run: _run
   };
 
   return ctx;

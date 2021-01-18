@@ -28,7 +28,7 @@ const WTP = () => {
     off: () => {
       off(document, "mouseWheel", cancel);
       off(document, "touchmove", cancel);
-    },
+    }
   };
 
   return ctx;

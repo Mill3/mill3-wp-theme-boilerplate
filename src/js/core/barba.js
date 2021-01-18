@@ -37,5 +37,5 @@ barba.hooks.after(() => {
 });
 
 export default {
-  updateBodyClass,
+  updateBodyClass
 };

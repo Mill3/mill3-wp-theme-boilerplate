@@ -5,5 +5,5 @@ export const hasAdminBar = () => {
 };
 
 export default {
-  hasAdminBar,
+  hasAdminBar
 };

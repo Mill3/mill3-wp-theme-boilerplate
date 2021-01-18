@@ -38,7 +38,7 @@ const ResizeOrientation = (cb, delay = 200, onlyAtEnd = false) => {
   const throttle = new Throttle({
     cb: gRaf,
     delay,
-    onlyAtEnd,
+    onlyAtEnd
   });
 
   // PUBLIC API
@@ -63,7 +63,7 @@ const ResizeOrientation = (cb, delay = 200, onlyAtEnd = false) => {
     dispose: _dispose,
     on: _on,
     off: _off,
-    run: _run,
+    run: _run
   };
 
   return ctx;

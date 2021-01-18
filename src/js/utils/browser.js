@@ -74,7 +74,7 @@ const Browser = () => {
     safari: (range) => {
       const match = userAgent.match(/version\/(\d+).+?safari/);
       return match !== null && compareVersion(match[1], range);
-    },
+    }
   };
 };
 
@@ -91,7 +91,7 @@ const comparator = {
   },
   ">=": function (a, b) {
     return a >= b;
-  },
+  }
 };
 
 // helper function which compares a version to a range
