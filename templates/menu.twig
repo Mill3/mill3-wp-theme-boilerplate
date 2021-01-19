@@ -1,5 +1,6 @@
 {% if menu %}
 	{% set link_template = link_template|default('%s') %}
+	{% set ignore_divider = ignore_divider|default(false) %}
 	<ul class="{{ classname }}">
 		{% for item in menu %}
 			{# if not a divider #}
@@ -11,13 +12,27 @@
 				{% endif %}
 
 				<li class="{{ item.classes | join(' ') }}">
-					<a target="{{ item.target|default('_self') }}" href="{{ item.link }}" title="{{ item.title }}">
-						{{ link_template|format(item.title) }}
-					</a>
+					{% if item.link == '#' %}
+						<button 
+							class="{{ item.btn_classes|default('') }}" 
+							{{ link_attr|join(' ') }}
+						>
+							{{ link_template|format(item.title) }}
+						</button>
+					{% else %}
+						<a 
+							href="{{ item.link }}" 
+							title="{{ item.title }}"
+							target="{{ item.target|default('_self') }}" 
+							{{ link_attr|join(' ') }}
+						>
+							{{ link_template|format(item.title) }}
+						</a>
+					{% endif %}
 
-					{% include "menu.twig" with { 'menu': item.get_children, 'link_template': link_template } only %}
+					{% include "menu.twig" with { 'menu': item.get_children, 'link_template': link_template, 'ignore_divider': ignore_divider } only %}
 				</li>
-			{% else %}
+			{% elseif ignore_divider != true %}
 				</ul>
 				<ul class="{{ classname }}">
 			{% endif %}
