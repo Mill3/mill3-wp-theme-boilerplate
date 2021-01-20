@@ -41,6 +41,7 @@ Timber::$autoescape = false;
 
 // include theme custom classes
 $includes = [
+    'lib/translations.php',
     'lib/acf.php',
     'lib/actions.php',
     'lib/assets.php',
@@ -149,6 +150,17 @@ class StarterSite extends Timber\Site
           })
         );
 
+        // polylang functions
+        if (function_exists('pll_current_language')) {
+            $twig->addFunction(new Timber\Twig_Function('pll__', 'pll__'));
+            $twig->addFunction(new Timber\Twig_Function('pll_e', 'pll_e'));
+            $twig->addFunction(new Timber\Twig_Function('pll_current_language', 'pll_current_language'));
+            $twig->addFunction(new Timber\Twig_Function('language_switcher', function() {
+                pll_the_languages(array('show_flags'=>0,'show_names'=>0));
+            }));
+        }
+
+        // breadcrumb function
         if ( function_exists('rank_math_the_breadcrumbs') ) {
           $twig->addFunction(new Timber\Twig_Function('breadcrumb', 'rank_math_the_breadcrumbs'));
         } else {

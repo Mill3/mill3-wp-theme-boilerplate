@@ -68,32 +68,44 @@ class Theme_CustomPostTypes {
         return $this->menu_position += 1;
     }
 
+     /**
+     * Build labels for the post type
+     *
+     * @method labels
+     * @return array
+     */
+    public function labels($name, $singular_name) {
+        return array(
+            'name'                => $name,
+            'singular_name'       => $singular_name,
+            'menu_name'           => $name,
+            'parent_item_colon'   => __('Parent', $this->theme_domain ),
+            'all_items'           => __('All', $this->theme_domain ),
+            'view_item'           => __('View', $this->theme_domain ),
+            'add_new_item'        => __('Add New', $this->theme_domain ),
+            'add_new'             => __('Add New', $this->theme_domain ),
+            'edit_item'           => __('Edit', $this->theme_domain ),
+            'update_item'         => __('Update', $this->theme_domain ),
+            'search_items'        => __('Search', $this->theme_domain ),
+            'not_found'           => __('Not Found', $this->theme_domain ),
+            'not_found_in_trash'  => __('Not found in Trash', $this->theme_domain ),
+        );
+    }
+
     /**
      * Register 'dummy' post-type, serves as static texts accross the site
      *
      * @method texts
      */
     public function dummy() {
-        $labels = array(
-            'name'                => __("Dummies"),
-            'singular_name'       => __("Dummy"),
-            'menu_name'           => __( 'Dummy', $this->theme_domain ),
-            'parent_item_colon'   => __( 'Parent Dummy', $this->theme_domain ),
-            'all_items'           => __( 'All Dummies', $this->theme_domain ),
-            'view_item'           => __( 'View Dummy', $this->theme_domain ),
-            'add_new_item'        => __( 'Add New Dummy', $this->theme_domain ),
-            'add_new'             => __( 'Add New', $this->theme_domain ),
-            'edit_item'           => __( 'Edit Dummy', $this->theme_domain ),
-            'update_item'         => __( 'Update Dummy', $this->theme_domain ),
-            'search_items'        => __( 'Search Dummies', $this->theme_domain ),
-            'not_found'           => __( 'Not Found', $this->theme_domain ),
-            'not_found_in_trash'  => __( 'Not found in Trash', $this->theme_domain ),
-        );
+        $name = __('Dummies', $this->theme_domain);
+        $singular_name = __('Dummy', $this->theme_domain);
+        $labels = $this->labels($name, $singular_name);
 
         // Set other options for Custom Post Type
         $args = array(
-            'label'               => __( 'Dummies', $this->theme_domain ),
-            'description'         => __( 'Dummy details', $this->theme_domain ),
+            'label'               => $name,
+            'description'         => $singular_name,
             'labels'              => $labels,
             'supports'            => array( 'title', 'editor', 'thumbnail' ),
             'hierarchical'        => false,

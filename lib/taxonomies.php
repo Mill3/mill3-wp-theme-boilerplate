@@ -56,16 +56,20 @@ class Theme_CustomTaxonomies
     }
 
     /**
-     * Register 'portfolios types' taxonomy
+     * Register 'dummies' taxonomy
      *
-     * @method portfolios_types
+     * @method dummy
      */
     public function dummy()
     {
+        $name = __('Dummies');
+        $singular_name = __('Dummy');
+        $slug = __("dummies");
+
         // register term
         register_taxonomy(
-            'dummy',
-            array('posts'),
+            'world_locations',
+            array('events'),
             array(
                 'hierarchical' => true,
                 'query_var' => true,
@@ -76,21 +80,21 @@ class Theme_CustomTaxonomies
                 'show_admin_column' => true,
                 // This array of options controls the labels displayed in the WordPress Admin UI
                 'labels' => array(
-                    'name' => _x('Dummy', 'taxonomy general name'),
-                    'singular_name' => _x('Dummy', 'taxonomy singular name'),
-                    'search_items' => __('Search in formats'),
-                    'all_items' => __('All formats'),
-                    'parent_item' => __('Parent section'),
-                    'parent_item_colon' => __('Type of parent section :'),
-                    'edit_item' => __('Modify Dummy'),
-                    'update_item' => __('Modify Dummy'),
-                    'add_new_item' => __('Add a Dummy'),
-                    'new_item_name' => __('New Dummy'),
-                    'menu_name' => __('Dummy')
+                    'name' => $name,
+                    'singular_name' => $singular_name,
+                    'search_items' => __('Search'),
+                    'all_items' => __('All'),
+                    'parent_item' => __('Parent'),
+                    'parent_item_colon' => __('Parent :'),
+                    'edit_item' => __('Modify'),
+                    'update_item' => __('Modify'),
+                    'add_new_item' => __('Add'),
+                    'new_item_name' => __('New'),
+                    'menu_name' => $name
                 ),
                 // Control the slugs used for this taxonomy
                 'rewrite' => array(
-                    'slug' => 'dummy', // This controls the base slug that will display before each term (do not add / at the end of you slug)
+                    'slug' => $slug, // This controls the base slug that will display before each term
                     'with_front' => false, // Don't display the category base before
                     'hierarchical' => true // This will allow URL's like "/section/cat-name/cat-slug/"
                 )
