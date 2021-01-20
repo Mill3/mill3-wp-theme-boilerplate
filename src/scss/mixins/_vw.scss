@@ -18,3 +18,15 @@
 @function vw-spacer-lg($key) {
   @return vw-spacer($key, 1440);
 }
+
+@function vw-value($value) {
+  @return vw($value / 414 * 100);
+}
+
+@function vw-md($value) {
+  @return vw($value / 768 * 100);
+}
+
+@function vw-lg($value) {
+  @return vw($value / 1440px * 100);
+}
