@@ -10,15 +10,15 @@ use Mill3WP\Assets;
 function setup()
 {
     // Make theme available for translation
-    load_theme_textdomain('mill3wp', get_template_directory() . '/lang');
+    load_theme_textdomain('mill3wp', get_template_directory() . '/languages');
 
     // Register wp_nav_menu() menus
     // http://codex.wordpress.org/Function_Reference/register_nav_menus
     register_nav_menus([
-        'primary_navigation' => __('Navigation principale', 'mill3wp'),
-        'secondary_navigation' => __('Navigation secondaire', 'mill3wp'),
-        'footer_navigation' => __('Navigation footer', 'mill3wp'),
-        'social_links' => __('Liens résaux sociaux', 'mill3wp')
+        'primary_navigation' => __('Main navigation', 'mill3wp'),
+        'secondary_navigation' => __('Secondary Navigation', 'mill3wp'),
+        'footer_navigation' => __('Footer navigation', 'mill3wp'),
+        'social_links' => __('Social network links', 'mill3wp')
     ]);
 
     // Enable features
@@ -64,7 +64,7 @@ function setup()
 add_action('after_setup_theme', __NAMESPACE__ . '\\setup');
 
 /**
- * Register sidebars
+ * Register a dummy sidebar
  */
 function widgets_init()
 {

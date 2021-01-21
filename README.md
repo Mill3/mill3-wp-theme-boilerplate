@@ -25,7 +25,7 @@ Make sure the _name_ line in `package.json` matches your theme's directory name.
 }
 ```
 
-Directory :
+Installed in a directory with the same name :
 
 ```
 /wp-content/themes/mill3wp/
@@ -60,3 +60,21 @@ npm run build
 ```
 
 In production mode, assets are loaded from dist/assets.json file, cache busting included !
+
+## Polylang notes
+
+TODO !
+
+## .pot file instruction
+
+Assuming you installed on your machine wordpress-i18n PHP tools.
+
+```php /path-to/makepot.php wp-theme /path-to/[my-theme]/ /path-to/nfb-wp-theme/languages/mill3wp.pot```
+
+How to merge :
+
+```msgmerge -U fr_CA.po mill3wp.pot```
+
+How to compile :
+
+```msgfmt -o fr_CA.mo fr_CA.po```

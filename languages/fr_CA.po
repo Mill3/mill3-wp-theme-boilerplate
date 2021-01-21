@@ -1,0 +1,147 @@
+# Copyright (C) 2021 MILL3 Studio
+# This file is distributed under the Private.
+msgid ""
+msgstr ""
+"Project-Id-Version: MILL3: Boilerplate WP Theme 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/@mill3-wp-theme-"
+"boilerplate\n"
+"POT-Creation-Date: 2021-01-21 01:12:23+00:00\n"
+"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: functions.php:72
+msgid "Error locating %s for inclusion"
+msgstr ""
+
+#: lib/class-walker-nav-menu-edit.php:35 lib/class-walker-nav-menu-edit.php:36
+#: lib/menu.php:16
+msgid "Separator"
+msgstr "Séparateur"
+
+#: lib/gravity-form.php:8
+msgid ""
+"We can't process your message. Please review the fields highlighted in red "
+"below."
+msgstr ""
+"Une erreur est servenue. Voir ci-dessus."
+
+#: lib/menu.php:36
+msgid "Add to Menu"
+msgstr "Ajouter au menu"
+
+#: lib/post-type.php:82 lib/taxonomies.php:87
+msgid "Parent"
+msgstr "Parent"
+
+#: lib/post-type.php:83 lib/taxonomies.php:86
+msgid "All"
+msgstr "Tous"
+
+#: lib/post-type.php:84
+msgid "View"
+msgstr "Voir"
+
+#: lib/post-type.php:85 lib/post-type.php:86
+msgid "Add New"
+msgstr "Ajouter"
+
+#: lib/post-type.php:87
+msgid "Edit"
+msgstr "Modifer"
+
+#: lib/post-type.php:88
+msgid "Update"
+msgstr "Mettre à jour"
+
+#: lib/post-type.php:89 lib/taxonomies.php:85
+msgid "Search"
+msgstr "Rechercher"
+
+#: lib/post-type.php:90 lib/titles.php:20
+msgid "Not Found"
+msgstr "Non trouvé"
+
+#: lib/post-type.php:91
+msgid "Not found in Trash"
+msgstr "Non trouvé dans la Corbeille"
+
+#: lib/post-type.php:101 lib/taxonomies.php:65
+msgid "Dummies"
+msgstr "Nuls"
+
+#: lib/post-type.php:102 lib/taxonomies.php:66
+msgid "Dummy"
+msgstr "Nul"
+
+#: lib/setup.php:18
+msgid "Main navigation"
+msgstr "Navigation principale"
+
+#: lib/setup.php:19
+msgid "Secondary Navigation"
+msgstr "Navigation secondaire"
+
+#: lib/setup.php:20
+msgid "Footer navigation"
+msgstr "Navigation pied de page"
+
+#: lib/setup.php:21
+msgid "Social network links"
+msgstr "Liens réseaux sociaux"
+
+#: lib/setup.php:72
+msgid "my sidebar"
+msgstr ""
+
+#: lib/taxonomies.php:67
+msgid "dummies"
+msgstr ""
+
+#: lib/taxonomies.php:88
+msgid "Parent :"
+msgstr ""
+
+#: lib/taxonomies.php:89 lib/taxonomies.php:90
+msgid "Modify"
+msgstr ""
+
+#: lib/taxonomies.php:91
+msgid "Add"
+msgstr ""
+
+#: lib/taxonomies.php:92
+msgid "New"
+msgstr ""
+
+#: lib/titles.php:13
+msgid "Latest Posts"
+msgstr ""
+
+#: lib/titles.php:18
+msgid "Search Results for %s"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "MILL3: Boilerplate WP Theme"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "https://github.com/Mill3/mill3-wp-boilerplate/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Boilerplate theme"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "MILL3 Studio"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://mill3.studio"
+msgstr ""
