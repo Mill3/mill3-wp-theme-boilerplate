@@ -63,7 +63,7 @@ In production mode, assets are loaded from dist/assets.json file, cache busting 
 
 ## Polylang & i18n notes
 
-Generally, we want to seperate Wordpress core translations ```__('my string')``` from the twig templates because we are using Polylang translated with ```pll_e('my string')```, thus, Wordpress admin can't apply Polylang translations.
+Generally, we want to seperate Wordpress core translations ```__('my string')``` from the twig templates, since we are using Polylang, strings are translated with the method ```pll_e('my string')```, thus, Wordpress admin view can't apply those Polylang translations.
 
 **Golden rules :**
 
