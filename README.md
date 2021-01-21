@@ -61,17 +61,25 @@ npm run build
 
 In production mode, assets are loaded from dist/assets.json file, cache busting included !
 
-## Polylang notes
+## Polylang & i18n notes
 
-TODO !
+Generally, we want to seperate Wordpress core translations ```__('my string')``` from the twig templates because we are using Polylang translated with ```pll_e('my string')```, thus, Wordpress admin can't apply Polylang translations.
 
-## .pot file instruction
+**Golden rules :**
+
+* Anything that is displayed in WP admin views goes in ```./languages/locale_CA.po``` (post type labels mostly)
+* Do **not** use ```pll__``` method in .php files like ```taxonomies.php``` and ```post-type.php```, those files do not depends on Polylang.
+* Register twig template translations in ```./lib/translations.php```
+* Translate those twig string with Polylang string translation
+* Registering string can be skipped using Polylang (TTfP) : https://fr.wordpress.org/plugins/theme-translation-for-polylang/
+
+## .pot file usage instruction
 
 Assuming you installed on your machine wordpress-i18n PHP tools.
 
-```php /path-to/makepot.php wp-theme /path-to/[my-theme]/ /path-to/nfb-wp-theme/languages/mill3wp.pot```
+```php /path-to/makepot.php wp-theme /path-to/[my-theme]/ /path-to/[my-theme]/languages/mill3wp.pot```
 
-How to merge :
+How to merge new string from main .pot template :
 
 ```msgmerge -U fr_CA.po mill3wp.pot```
 
