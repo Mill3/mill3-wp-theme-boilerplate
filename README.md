@@ -69,13 +69,13 @@ Generally, we want to seperate Wordpress core translations ```__('my string')```
 
 * Anything that is displayed in WP admin views goes in ```./languages/locale_CA.po``` (post type labels mostly)
 * Do **not** use ```pll__``` method in .php files like ```taxonomies.php``` and ```post-type.php```, those files do not depends on Polylang.
-* Register twig template translations in ```./lib/translations.php```
-* Translate those twig string with Polylang string translation
-* Registering string can be skipped using Polylang (TTfP) : https://fr.wordpress.org/plugins/theme-translation-for-polylang/
+* Register twig template translations in ```./lib/translations.php``` using ```pll_register_string( 'mill3wp', 'Dummy', 'mill3wp' )```
+* Translate those twig strings in Polylang's string translations admin panel
+* String registration can be skipped using Polylang (TTfP) : https://fr.wordpress.org/plugins/theme-translation-for-polylang/
 
 ## .pot file usage instruction
 
-Assuming you installed on your machine wordpress-i18n PHP tools.
+Assuming you installed on your machine wordpress-i18n PHP tools, install using this fork from the original Worpdress SVN repository : https://github.com/Mill3/wordpress-makepot
 
 ```php /path-to/makepot.php wp-theme /path-to/[my-theme]/ /path-to/[my-theme]/languages/mill3wp.pot```
 
