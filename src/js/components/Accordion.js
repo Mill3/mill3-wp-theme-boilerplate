@@ -9,7 +9,7 @@ class Accordion extends EventEmitter2 {
     this.button = button;
     this.panel = panel;
 
-    this._toggled = false;
+    this._toggled = this.button.getAttribute("aria-expanded") == 'true';
     this._closeOnTapOut = closeOnTapOut;
 
     this._onClick = this._onClick.bind(this);
