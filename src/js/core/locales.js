@@ -11,8 +11,10 @@ const MESSAGES = {
   }
 };
 
+export const getCurrentlocale = () => typeof window.LOCALE !== "undefined" ? window.LOCALE : defaultLocale;
+
 export const getMessage = ID => {
-  const locale = window.LOCALE || defaultLocale;
+  const locale = getCurrentlocale();
   try {
     const msg = new IntlMessageFormat(MESSAGES[`${locale}`][ID], defaultLocale);
     return msg ? msg.format() : ID;
