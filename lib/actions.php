@@ -3,7 +3,8 @@
 // inject in <head> polylang current language
 function hook_inject_current_language($head) {
 
-    if ( ! function_exists('pll_current_language')) return;
+    // stop here if Polylang is not instlled
+    if ( ! function_exists('pll_current_language') ) return $head;
 
     $current_language = pll_current_language();
 
