@@ -7,7 +7,7 @@ const MESSAGES = {
     'My String': 'Ma string',
   },
   en: {
-    'My String': 'Ma string',
+    'My String': 'My string',
   }
 };
 
