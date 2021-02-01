@@ -88,6 +88,7 @@
     "domready": "^1.0.8",
     "eventemitter2": "^6.4.3",
     "imagesloaded": "^4.1.4",
+    "intl-messageformat": "^9.4.6",
     "load-google-maps-api": "^2.0.2",
     "locomotive-scroll": "^3.3.11",
     "sass-easing": "^1.0.3",
