@@ -1,6 +1,7 @@
 import { isArray, isDomNode, isHTMLCollection, isNodeList, isString } from "./is";
 
 export const html = document.documentElement;
+export const head = document.head;
 export const body = document.body;
 
 export const $ = (query, target = html) => {
@@ -20,14 +21,14 @@ export const $$ = (query, target = html) => {
   return null;
 };
 
-export const rect = (el) => el.getBoundingClientRect();
-export const removeAllChilds = (el) => {
+export const rect = el => el.getBoundingClientRect();
+export const removeAllChilds = el => {
   while (el.firstChild) el.removeChild(el.firstChild);
 };
 export const getFocusedElement = () => document.activeElement;
 
 // https://stackoverflow.com/a/56531945/519240
-export const innerDimensions = (node) => {
+export const innerDimensions = node => {
   var computedStyle = getComputedStyle(node);
 
   let width = node.clientWidth; // width with padding
@@ -41,6 +42,7 @@ export const innerDimensions = (node) => {
 
 export default {
   html,
+  head,
   body,
   $,
   $$,

@@ -13,8 +13,10 @@ function filter_embeded_settings($iframe, $params = array())
         'autoplay' => 0,
         'color' => 'ffffff',
         'api' => 1,
+        'enablejsapi' => 1,
         'responsive' => 1,
         'playsinline' => 1,
+        'origin' => get_site_url(),
     );
     $params = array_merge($default_params, $params);
 

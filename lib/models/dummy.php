@@ -89,12 +89,12 @@ class DummyRequests
  */
 class DummyQueries extends PostQueries\Theme_PostQueries
 {
-    private static $MY_VAR = "value";
+    private static $post_type = "dummy";
 
     public function all()
     {
         $args = [
-            'post_type' => 'dummy',
+            'post_type' => self::$post_type,
             'order' => 'ASC',
             'post_status' => 'publish',
             'posts_per_page' => parent::$limit,
