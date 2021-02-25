@@ -20,6 +20,16 @@ export const hypothenuse = (x1, y1, x2, y2) => {
 };
 
 /**
+ * degreeToRad(degree);
+ * Example :
+ * degreeToRad(45) returns 0.7853981633974483;
+ */
+export const degreeToRad = (d) => {
+  const pi = Math.PI;
+  return d * (pi/180);
+};
+
+/**
  * lerp(start, end, multiplier);
  * lerp(0, 100, 0.12);
  */
@@ -34,6 +44,7 @@ export const limit = (min, max, value) => Math.max(min, Math.min(max, value));
 export default {
   cover,
   hypothenuse,
+  degreeToRad,
   lerp,
   limit
 };
