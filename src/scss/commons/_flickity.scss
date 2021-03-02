@@ -1,0 +1,20 @@
+.flickity-page-dots {
+  display: flex;
+  justify-content: center;
+
+  .dot {
+    background: color("color-white");
+    display: block;
+    margin: 0 spacer(1);
+    opacity: 1;
+    height: spacer(2);
+    width: spacer(2);
+
+    &:first-child { margin-left: 0; }
+    &:last-child { margin-right: 0; }
+
+    &.is-selected {
+      background: color("color-black");
+    }
+  }
+}

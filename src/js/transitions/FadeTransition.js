@@ -1,5 +1,5 @@
 import anime from "animejs";
-import imagesLoaded from "imagesloaded";
+import imagesLoaded from "@utils/imagesloaded";
 
 class FadeTransition {
   constructor() {
