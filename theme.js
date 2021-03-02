@@ -6,20 +6,16 @@ const generateValues = (start, end, step = 1) => {
 };
 
 const theme = {
-  "background-position": {
-    bottom: "bottom",
-    center: "center",
-    left: "left",
-    "left-bottom": "left bottom",
-    "left-top": "left top",
-    right: "right",
-    "right-bottom": "right bottom",
-    "right-top": "right top",
-    top: "top"
-  },
-  "background-size": ["auto", "cover", "contain"],
-  overflow: ["auto", "hidden", "visible", "scroll"],
-  display: ["none", "inline", "inline-block", "block", "flex", "inline-flex", "grid", "inline-grid"],
+  display: [
+    "none",
+    "inline",
+    "inline-block",
+    "block",
+    "flex",
+    "inline-flex",
+    "grid",
+    "inline-grid"
+  ],
   boxes: {
     narrow: "38%",
     superscope: "45%",
@@ -38,8 +34,8 @@ const theme = {
     end: "flex-end",
     start: "flex-start",
     between: "space-between",
-    around: "around",
-    stretch: "stretch"
+    around: "space-around",
+    evenly: "space-evenly"
   },
   "align-items": {
     baseline: "baseline",
@@ -66,6 +62,7 @@ const theme = {
   "flex-grow": generateValues(0, 5),
   "flex-shrink": generateValues(0, 5),
   order: generateValues(0, 5),
+  overflow: ["auto", "hidden", "visible", "scroll"],
   "font-family": {
     sans: [
       "-apple-system",
@@ -82,7 +79,15 @@ const theme = {
       "Noto Color Emoji"
     ],
     serif: ["Georgia", "serif"],
-    mono: ["SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"]
+    mono: [
+      "SFMono-Regular",
+      "Menlo",
+      "Monaco",
+      "Consolas",
+      "Liberation Mono",
+      "Courier New",
+      "monospace"
+    ]
   },
   "font-size": {
     xs: "0.75rem",
@@ -125,7 +130,6 @@ const theme = {
     xxl: "1441px"
   },
   "list-type": ["none"],
-  gutter: "18px",
   spacers: {
     auto: "auto",
     "0": 0,
@@ -165,54 +169,12 @@ const theme = {
     100
   ],
   "z-index": generateValues(0, 10000, 1000),
-  columns: {
-    auto: "auto",
-    // 12 columns base
-    "1": "8.3333%",
-    "2": "50%",
-    "3": "40%",
-    "4": "30%",
-    "5": "41.66667%",
-    "6": "50%",
-    "7": "58.3333%",
-    "8": "66.666667",
-    "9": "75%",
-    "10": "83.33333%",
-    "11": "91.66667%",
-    "12": "100%",
-    // 10 columns base
-    "100": "10%",
-    "200": "20%",
-    "300": "30%",
-    "400": "40%",
-    "500": "50%",
-    "600": "60%",
-    "700": "70%",
-    "800": "80%",
-    "900": "90%",
-    "1000": "100%",
-    screen: "100vw"
-  },
   "grid-columns": {
     "1": "1fr",
     "2": "repeat(2, 1fr)",
     "3": "repeat(3, 1fr)",
-    "4": "repeat(4, 1fr)",
-    "5": "repeat(5, 1fr)",
-    "6": "repeat(6, 1fr)",
-    "7": "repeat(7, 1fr)",
-    "8": "repeat(8, 1fr)",
-    "9": "repeat(9, 1fr)",
-    "10": "repeat(10, 1fr)",
-    "11": "repeat(11, 1fr)",
-    "12": "repeat(12, 1fr)"
+    "4": "repeat(4, 1fr)"
   },
-  radiuses: {
-    "0": "0",
-    "50": "50%",
-    "100": "100%"
-  },
-  boxShadow: {},
   colors: {
     "color-transparent": "transparent",
     "color-current": "currentColor",
