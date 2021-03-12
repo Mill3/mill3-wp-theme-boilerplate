@@ -121,3 +121,46 @@ function filter_wp_edit_nav_menu_walker($walker_nav_menu_edit, $post_menu) {
 
 add_filter('nav_menu_meta_box_object', __NAMESPACE__ . '\\divider_menu_meta_box', 10, 1);
 add_filter('wp_edit_nav_menu_walker', __NAMESPACE__ . '\\filter_wp_edit_nav_menu_walker', 10, 2);
+
+
+
+
+/* 
+ * Customize Menu Item Classes
+ *
+ * @param array $classes, current menu classes
+ * @param object $item, current menu item
+ * @param object $args, menu arguments
+ * @return array $classes
+ */
+function menu_item_classes( $classes, $item, $args ) {   
+    $is_ancestor = false;
+
+    // if menu-item is a post-type archive
+    if( $item->type === 'post_type_archive' ) {
+        $post_type = $item->object;        
+
+        // if current page is from this post-type
+        if( is_singular($post_type) ) $is_ancestor = true;
+        // if current page is a taxonomy archive
+        else if( is_tax() ) {
+            // get taxonomy's associated post-types
+            $taxonomy = get_taxonomy( get_query_var('taxonomy') );
+
+            // if this post-type is associated with this taxonomy, set as ancestor
+            if( in_array($post_type, $taxonomy->object_type) ) $is_ancestor = true;
+        }
+    }
+    // if menu-item is a post, page or custom post
+    else if( $item->type === 'post_type' ) {
+        // if menu-item is Posts page
+        if( $item->object_id == get_option('page_for_posts')) {
+            // if is a post, a category archive or tag archive, set as ancestor
+            if( is_singular('post') || is_category() || is_tag() ) $is_ancestor = true;
+        }
+    }
+
+    if( $is_ancestor ) $classes[] = 'current-menu-ancestor';
+	return array_unique( $classes );
+}
+add_filter('nav_menu_css_class', __NAMESPACE__ . '\\menu_item_classes', 10, 3);
