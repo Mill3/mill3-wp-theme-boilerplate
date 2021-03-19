@@ -52,7 +52,10 @@ class SiteScroll {
     this.scroll = new LocomotiveScroll({
       el: this.el,
       smooth: true,
-      repeat: false
+      repeat: false,
+      tablet: {
+        breakpoint: 0
+      }
     });
 
     this.scroll.on("call", this._onCall);

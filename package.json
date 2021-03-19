@@ -89,7 +89,7 @@
     "eventemitter2": "^6.4.3",
     "flickity": "^2.2.2",
     "load-google-maps-api": "^2.0.2",
-    "locomotive-scroll": "^3.3.11",
+    "locomotive-scroll": "^4.1.0",
     "sass-easing": "^1.0.3",
     "splitting": "^1.0.6"
   }
