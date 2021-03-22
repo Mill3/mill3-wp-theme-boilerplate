@@ -29,6 +29,7 @@ function form_submit_button( $button, $form ) {
     $data = array(
         'id' => "gform_submit_button_{$form['id']}",
         'title' => $form['button']['text'],
+        'style' => 'cta',
         'classname' => 'gsubmit',
         'attributes' => array('type="submit"')
     );
@@ -59,8 +60,8 @@ function enqueue_gf_scripts() {
         if( !array_key_exists("acf_fc_layout", $row) ) continue;
 
         $layout = $row["acf_fc_layout"];
-        if( $layout === "pb_row_form" AND $row["gravity_form"] ) {
-            gravity_form_enqueue_scripts($row["gravity_form"], true);
+        if( $layout === "pb_row_form" AND $row["gravity_form_id"] ) {
+            gravity_form_enqueue_scripts($row["gravity_form_id"], true);
         }
     }
 }
@@ -74,3 +75,9 @@ function remove_placeholder_polyfill() {
 }
 
 add_action('gform_enqueue_scripts', __NAMESPACE__ . '\\remove_placeholder_polyfill', 11 );
+
+
+
+// Disabling Automatic Scrolling On All Forms
+// https://docs.gravityforms.com/disable-automatic-scroll-form-confirmation/
+add_filter( 'gform_confirmation_anchor', '__return_false' );
