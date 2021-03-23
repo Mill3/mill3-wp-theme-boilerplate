@@ -75,20 +75,31 @@ class Theme_CustomPostTypes {
      * @return array
      */
     public function labels($name, $singular_name) {
+        $parent_item_colon = __('Parent', 'mill3wp');
+        $all_items = __('All', 'mill3wp');
+        $view_item = __('View', 'mill3wp');
+        $add_new_item = __('Add New', 'mill3wp');
+        $add_new = __('Add New', 'mill3wp');
+        $edit_item = __('Edit', 'mill3wp');
+        $update_item = __('Update', 'mill3wp');
+        $search_items = __('Search', 'mill3wp');
+        $not_found = __('Not Found', 'mill3wp');
+        $not_found_in_trash = __('Not found in Trash', 'mill3wp');
+
         return array(
             'name'                => $name,
             'singular_name'       => $singular_name,
             'menu_name'           => $name,
-            'parent_item_colon'   => __('Parent', $this->theme_domain ),
-            'all_items'           => __('All', $this->theme_domain ),
-            'view_item'           => __('View', $this->theme_domain ),
-            'add_new_item'        => __('Add New', $this->theme_domain ),
-            'add_new'             => __('Add New', $this->theme_domain ),
-            'edit_item'           => __('Edit', $this->theme_domain ),
-            'update_item'         => __('Update', $this->theme_domain ),
-            'search_items'        => __('Search', $this->theme_domain ),
-            'not_found'           => __('Not Found', $this->theme_domain ),
-            'not_found_in_trash'  => __('Not found in Trash', $this->theme_domain ),
+            'parent_item_colon'   => $parent_item_colon,
+            'all_items'           => $all_items,
+            'view_item'           => $view_item,
+            'add_new_item'        => $add_new_item,
+            'add_new'             => $add_new,
+            'edit_item'           => $edit_item,
+            'update_item'         => $update_item,
+            'search_items'        => $search_items,
+            'not_found'           => $not_found,
+            'not_found_in_trash'  => $not_found_in_trash,
         );
     }
 
@@ -98,8 +109,8 @@ class Theme_CustomPostTypes {
      * @method texts
      */
     public function dummy() {
-        $name = __('Dummies', $this->theme_domain);
-        $singular_name = __('Dummy', $this->theme_domain);
+        $name = __('Dummies');
+        $singular_name = __('Dummy');
         $labels = $this->labels($name, $singular_name);
 
         // Set other options for Custom Post Type
