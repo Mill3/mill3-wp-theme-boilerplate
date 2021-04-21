@@ -1,6 +1,6 @@
 {
   "name": "mill3wp",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "scrc/js/App.js",
   "repository": {
     "type": "git",
@@ -87,6 +87,7 @@
     "animejs": "^3.1.0",
     "domready": "^1.0.8",
     "eventemitter2": "^6.4.3",
+    "intl-messageformat": "^9.4.6",
     "load-google-maps-api": "^2.0.2",
     "locomotive-scroll": "^4.1.0",
     "sass-easing": "^1.0.3",

@@ -1,22 +1,24 @@
-import { $$ } from "@utils/dom";
+import { $$, head } from "@utils/dom";
 import { mobile } from "@utils/mobile";
 
-export const SELECTOR = `.wysiwyg iframe[src*="vimeo.com"]`;
+export const SELECTOR = `.wysiwyg iframe[src*="youtube.com"]`;
 
 const STATUS_DESTROYED = 0;
 const STATUS_INITIALIZED = 1;
 const STATUS_STOPPED = 2;
 const STATUS_STARTED = 3;
 
-let Player;
+let UDID = 1;
 
-class LocomotiveScrollVimeo {
+class LocomotiveScrollYoutube {
   constructor(init = false) {
     this.items = null;
 
     this._elements = null;
-    this._promise = null;
+    this._script = null;
     this._status = STATUS_DESTROYED;
+
+    this._initChildren = this._initChildren.bind(this);
 
     init ? this.init() : null;
   }
@@ -29,20 +31,25 @@ class LocomotiveScrollVimeo {
 
     this._status = STATUS_INITIALIZED;
 
-    if( !Player && !this._promise ) {
-      this._promise = import("@vimeo/player");
-      this._promise.then(chunk => {
-        Player = chunk.default;
+    if( !this._script ) {
+      this._script = document.createElement("script");
+      this._script.onerror = e => {
+        console.error("Error loading Youtube iFrame API :", e);
+      };
+
+      window.onYouTubeIframeAPIReady = () => {
         if( this._status < STATUS_INITIALIZED ) return;
         
         this._initChildren();
         if( this._status === STATUS_STARTED ) this.start();
-      });
-      this._promise.catch(e => {
-        console.error("Error loading Vimeo Player API :", e);
-      });
+
+        window.onYouTubeIframeAPIReady = null;
+      }
+
+      this._script.src = "https://www.youtube.com/iframe_api";
+      head.appendChild(this._script);
     }
-    else if( Player ) this._initChildren();
+    else this._initChildren();
   }
 
   destroy() {
@@ -64,22 +71,28 @@ class LocomotiveScrollVimeo {
   }
 
   _initChildren() {
-    this.items = this._elements.map(el => new LocomotiveScrollVimeoItem(el));
+    this.items = this._elements.map(el => new LocomotiveScrollYoutubeItem(el));
     this._elements = null;
   }
 }
 
-class LocomotiveScrollVimeoItem {
+class LocomotiveScrollYoutubeItem {
   constructor(el) {
     this.el = el;
     this.parent = this.el.parentNode;
+    this.udid = this.el.id ? this.el.id : null;
 
-    // just to make sure this iframe is contained in a responsive box of our own
-    //if (!this.parent.classList.contains("box")) this.parent = null;
+    if( !this.udid ) {
+      this.udid = `youtube-smooth-scroll--${UDID++}`;
+      this.el.id = this.udid;
+    }
+
+    this._playerReady = false;
+    this._playerStatus = null;
 
     this._onClick = this._onClick.bind(this);
-    this._onPlaying = this._onPlaying.bind(this);
-    this._onPause = this._onPause.bind(this);
+    this._onReady = this._onReady.bind(this);
+    this._onStateChange = this._onStateChange.bind(this);
   }
 
   destroy() {
@@ -88,10 +101,14 @@ class LocomotiveScrollVimeoItem {
     this.el = null;
     this.parent = null;
     this.player = null;
+    this.udid = null;
+
+    this._playerReady = null;
+    this._playerStatus = null;
 
     this._onClick = null;
-    this._onPlaying = null;
-    this._onPause = null;
+    this._onReady = null;
+    this._onStateChange = null;
   }
   start() {
     this._bindEvents();
@@ -100,8 +117,8 @@ class LocomotiveScrollVimeoItem {
     this._unbindEvents();
 
     if (this.player) {
-      this.player.off("playing", this._onPlaying);
-      this.player.off("pause", this._onPause);
+      this.player.removeEventListener("onReady", this._onReady);
+      this.player.removeEventListener("onStateChange", this._onStateChange);
     }
   }
 
@@ -127,19 +144,25 @@ class LocomotiveScrollVimeoItem {
     }
 
     if (!this.player) {
-      this.player = new Player(this.el);
-      this.player.on("playing", this._onPlaying);
-      this.player.on("pause", this._onPause);
+      this.player = new YT.Player(this.udid);
+      this.player.addEventListener("onReady", this._onReady);
+      this.player.addEventListener("onStateChange", this._onStateChange);
+    } else if( this._playerReady === true ) {
+      this.player.playVideo();
     }
-
-    this.player.play();
   }
-  _onPlaying() {
+  _onReady() {
+    this._playerReady = true;
+    this.player.playVideo();
+
     this._unbindEvents();
   }
-  _onPause() {
-    this._bindEvents();
+  _onStateChange(event) {
+    // on pause or ended
+    if(event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) this._bindEvents();
+    // on playing
+    else if(event.data === YT.PlayerState.PLAYING) this._unbindEvents();
   }
 }
 
-export default LocomotiveScrollVimeo;
+export default LocomotiveScrollYoutube;
