@@ -1,41 +1,70 @@
 {% if menu %}
-	{% set link_template = link_template|default('%s') %}
-	{% set ignore_divider = ignore_divider|default(false) %}
-	<ul class="{{ classname }}">
-		{% for item in menu %}
-			{# if not a divider #}
-			{% if item.title != '_divider_' %}
-				{% set link_attr = item.attr|default([]) %}
 
-				{% if 'lang-item' in item.classes %}
-					{% set link_attr = link_attr|merge(['lang="'~item.lang~'"', 'hreflang="'~item.lang~'"', 'data-barba-prevent="all"']) %}
-				{% endif %}
+{% set link_template = link_template|default('%s') %}
+{% set ignore_divider = ignore_divider|default(false) %}
+{% set divider = divider|default(null) %}
+{% set level = level|default(0) %}
+{% set max_level = max_level|default(999) %}
 
-				<li class="{{ item.classes | join(' ') }}">
-					{% if item.link == '#' %}
-						<button 
-							class="{{ item.btn_classes|default('') }}" 
-							{{ link_attr|join(' ') }}
-						>
-							{{ link_template|format(item.title) }}
-						</button>
-					{% else %}
-						<a 
-							href="{{ item.link }}" 
-							title="{{ item.title }}"
-							target="{{ item.target|default('_self') }}" 
-							{{ link_attr|join(' ') }}
-						>
-							{{ link_template|format(item.title) }}
-						</a>
-					{% endif %}
+<ul class="{{ classname }}">
+  {% for item in menu %}
+    {# if not a divider #}
+    {% if item.title != '_divider_' %}
+      {% set img = null %}
+      {% set link_attr = item.attr|default([]) %}
+      {% set link_img = is_menu_item(item) ? function('get_field', 'img', item) : null %}
 
-					{% include "menu.twig" with { 'menu': item.get_children, 'link_template': link_template, 'ignore_divider': ignore_divider } only %}
-				</li>
-			{% elseif ignore_divider != true %}
-				</ul>
-				<ul class="{{ classname }}">
-			{% endif %}
-		{% endfor %}
-	</ul>
+      {% if link_img %}
+        {% set img %}
+          {% include 'partial/image.twig' with {
+            'image': Image(link_img),
+            'size': 'small',
+            'lazyload': true
+          } only %}
+        {% endset %}
+      {% endif %}
+
+      {% if 'lang-item' in item.classes %}
+        {% set link_attr = link_attr|merge(['lang="'~item.lang~'"', 'hreflang="'~item.lang~'"', 'data-barba-prevent="all"']) %}
+      {% endif %}
+
+      <li class="{{ item.classes | join(' ') }}">
+        {% if item.link == '#' %}
+          <button 
+            class="{{ item.btn_classes|default('') }}" 
+            {{ link_attr|join(' ') }}
+          >
+            {{ link_template|replace({'%s': item.title, '%img': img}) }}
+          </button>
+        {% else %}
+          <a 
+            href="{{ item.link }}" 
+            title="{{ item.title }}"
+            target="{{ item.target|default('_self') }}" 
+            {{ link_attr|join(' ') }}
+          >
+            {{ link_template|replace({'%s': item.title, '%img': img}) }}
+          </a>
+        {% endif %}
+
+        {% include "menu.twig" with {
+          'menu': level + 1 < max_level ? item.get_children : null,
+          'classname': classname,
+          'link_template': link_template,
+          'ignore_divider': ignore_divider,
+          'divider': divider,
+          'level': level + 1,
+          'max_level': max_level
+        } only %}
+      </li>
+    {% elseif ignore_divider != true %}
+      </ul>
+
+      {{ divider }}
+      
+      <ul class="{{ classname }}">
+    {% endif %}
+  {% endfor %}
+</ul>
+
 {% endif %}

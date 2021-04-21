@@ -53,11 +53,14 @@ $includes = [
     'lib/filters.php',
     'lib/gravity-form.php',
     'lib/menu.php',
+    'lib/newsletter.php',
     'lib/post-functions.php',
     'lib/post-queries.php',
     'lib/post-type.php',
+    'lib/recaptcha.php',
     'lib/setup.php',
     'lib/shortcodes.php',
+    'lib/svg.php',
     'lib/taxonomies.php',
     'lib/taxonomy-queries.php',
     'lib/titles.php',
@@ -116,6 +119,7 @@ class StarterSite extends Timber\Site
         $context['secondary_navigation'] = new Timber\Menu('secondary_navigation');
         $context['footer_navigation'] = new Timber\Menu('footer_navigation');
         $context['social_links'] = new Timber\Menu('social_links');
+
         if ( \function_exists('get_fields') ) {
           $context['options'] = get_fields('options');
         }
@@ -140,14 +144,42 @@ class StarterSite extends Timber\Site
           new Twig_SimpleFilter('lcfirst', 'lcfirst')
         );
         $twig->addFilter(
-          'facebook_share',
-          new Twig_SimpleFilter('facebook_share', 'filter_facebook_share')
+            'facebook_share',
+            new Twig_SimpleFilter('facebook_share', 'filter_facebook_share')
+        );
+        $twig->addFilter(
+            'twitter_share',
+            new Twig_SimpleFilter('twitter_share', 'filter_twitter_share')
+        );
+        $twig->addFilter(
+            'linkedin_share',
+            new Twig_SimpleFilter('linkedin_share', 'filter_linkedin_share')
+        );
+        $twig->addFilter(
+            'email_share',
+            new Twig_SimpleFilter('email_share', 'filter_email_share')
         );
 
         $twig->addFunction(
           new \Twig\TwigFunction('get_options', function () {
             return get_fields('options');
           })
+        );
+
+        $twig->addFunction(
+            new \Twig\TwigFunction(
+                'is_menu_item', function ($item) {
+                    return ($item instanceof Timber\MenuItem);
+                }
+            )
+        );
+
+        $twig->addFunction(
+            new \Twig\TwigFunction(
+                'barba_namespace', function () {
+                    return \Mill3WP\Barba\barba_namespace();
+                }
+            )
         );
 
         // polylang functions

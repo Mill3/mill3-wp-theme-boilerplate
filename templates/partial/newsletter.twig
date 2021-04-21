@@ -1,0 +1,40 @@
+{% with %}
+
+<section 
+    class="newsletter" 
+    data-scroll-section
+    data-module="newsletter"
+    data-newsletter
+>
+  <form 
+      class="newsletter__form"
+      method="post"
+      action="{{ function('admin_url', 'admin-ajax.php') }}"
+      novalidate
+      data-scroll
+      data-scroll-offset="200,0"
+  >
+    <input type="hidden" id="action" name="action" value="newsletter_form">
+    {{ function('wp_nonce_field', 'newsletter_form_nonce', 'newsletter_form_nonce', false, false) }}
+
+    <fieldset class="newsletter__form__field position-relative">
+      <input class="newsletter__form__input" type="text" id="email" name="email" placeholder="Email" enterkeyhint="enter" required>
+
+      {% include 'partial/button.twig' with {
+        'title': 'Send',
+        'style': 'cta',
+        'classname': 'newsletter__form__submit',
+        'attributes': ['type="submit"']
+      } only %}
+
+      <div
+        class="newsletter__form__output position-absolute t-100 l-0 w-100 pointer-events-none"
+        aria-live="polite"
+        data-ignore-css-empty
+      ></div>
+    </fieldset>
+    
+  </form>
+</section>
+
+{% endwith %}

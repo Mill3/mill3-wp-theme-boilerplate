@@ -5,9 +5,11 @@
   data-ui="site-nav"
   data-site-nav
 >
+  <div class="site-nav__scroller d-flex flex-column w-100 h-100 overflow-scroll">
+  
+    <nav class="site-nav__wrap w-100" role="navigation">
+      {% include 'menu.twig' with { 'menu': menu.get_items, 'classname': 'site-nav__menu list-none m-0 p-0' } only %}
+    </nav>
 
-  <nav class="site-nav__wrap w-100" role="navigation">
-    {% include 'menu.twig' with { 'menu': menu.get_items, 'classname': 'site-nav__menu list-none m-0 p-0' } only %}
-  </nav>
-
+  </div>
 </div>

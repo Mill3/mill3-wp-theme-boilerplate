@@ -9,9 +9,8 @@ import "@core/hello";
 import "@core/barba";
 import BarbaWebpackChunks from "@core/barba.webpack-chunks";
 import MobileViewportUnit from "@core/mobile-vh";
-import transitions from "@transitions";
-import { html } from "@utils/dom";
 import { mobile } from "@utils/mobile";
+import transitions from "@transitions";
 import views from "@views";
 
 // import main styles in dev mode only
@@ -36,11 +35,8 @@ class App {
   init() {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
-    // if not mobile, add classname to html that will immediatly overflow:hidden on html & body
-    // in order to use Locomotive-scroll
-    if( !mobile ) html.classList.add("will-scroll-smooth");
-    // otherwise, create mobie vh fix
-    else new MobileViewportUnit.init();
+    // if mobile, create mobile vh fix
+    if( mobile ) new MobileViewportUnit.init();
 
     // init barba
     barba.init({

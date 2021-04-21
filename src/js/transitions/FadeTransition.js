@@ -1,6 +1,7 @@
 import anime from "animejs";
-import imagesLoaded from "@utils/imagesloaded";
+import ImagesLoaded from "@utils/imagesloaded";
 
+const TRANSITION_DURATION_BASE = 250;
 class FadeTransition {
   constructor() {
     this.name = "fade";
@@ -18,7 +19,7 @@ class FadeTransition {
 
     // preload images from next container during leave transition
     // do not wait to images preloading to finish to start leave transition
-    this._imgLoader = imagesLoaded(next.container, this._onImagesLoaded);
+    this._imgLoader = new ImagesLoaded(next.container, this._onImagesLoaded);
   }
 
   beforeEnter({ next }) {
@@ -27,7 +28,7 @@ class FadeTransition {
 
     return new Promise((resolve) => {
       // if imagesLoaded has not been initialized, because next.container was null in `beforeLeave` hook.
-      if (!this._imgLoader) this._imgLoader = new imagesLoaded(next.container, this._onImagesLoaded);
+      if (!this._imgLoader) this._imgLoader = new ImagesLoaded(next.container, this._onImagesLoaded);
 
       // wait until images are loaded
       this._imgLoader.once("always", resolve);
@@ -39,7 +40,7 @@ class FadeTransition {
       anime({
         targets: current.container,
         opacity: 0,
-        duration: 1000,
+        duration: TRANSITION_DURATION_BASE,
         easing: "linear",
         complete: () => resolve()
       });
@@ -51,7 +52,8 @@ class FadeTransition {
       anime({
         targets: next.container,
         opacity: [0, 1],
-        duration: 1000,
+        duration: TRANSITION_DURATION_BASE,
+        delay: TRANSITION_DURATION_BASE/2,
         easing: "linear",
         complete: () => resolve()
       });
@@ -60,6 +62,8 @@ class FadeTransition {
 
   _onImagesLoaded() {
     this._imagesLoaded = true;
+    
+    this._imgLoader.destroy();
     this._imgLoader = null;
   }
 }

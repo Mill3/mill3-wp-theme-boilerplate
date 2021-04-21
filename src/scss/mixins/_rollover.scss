@@ -19,7 +19,7 @@
   }
 }
 
-@mixin underlineDrawingBase($height: 1px, $bottom: 2px) {
+@mixin underlineDrawingBase($height: 1px, $bottom: 0) {
   text-decoration: none;
   // only on device with :hover state
   @include hoverDevice {
@@ -30,7 +30,7 @@
   }
 }
 
-@mixin underlineDrawingHover($height: 1px, $bottom: 2px) {
+@mixin underlineDrawingHover($height: 1px, $bottom: 0) {
   // only on device with :hover state
   @include hoverDevice {
     background-size: 100% calc(100% - #{$height + $bottom});

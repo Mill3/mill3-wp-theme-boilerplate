@@ -29,7 +29,7 @@ function form_submit_button( $button, $form ) {
     $data = array(
         'id' => "gform_submit_button_{$form['id']}",
         'title' => $form['button']['text'],
-        'style' => 'cta',
+        //'style' => 'cta',
         'classname' => 'gsubmit',
         'attributes' => array('type="submit"')
     );

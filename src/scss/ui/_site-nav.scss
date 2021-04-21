@@ -1,6 +1,8 @@
 .site-nav {
   $self: &;
 
+  padding-top: 100px;
+
   &[aria-hidden="true"] {
     pointer-events: none;
     visibility: hidden;

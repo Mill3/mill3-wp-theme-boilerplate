@@ -1,5 +1,5 @@
 <header
-  class="site-header overflow-hidden"
+  class="site-header position-fixed z-9000 t-0 l-0 w-100 vh-100 pointer-events-none overflow-hidden"
   data-site-header
   data-ui="site-header"
 >
@@ -8,14 +8,14 @@
     <figure class="site-header__logo m-0 p-0 pointer-events-all" role="banner">
       <a
         class="site-header__logoLink d-block w-100 color-current td-none"
-        href="{{site.url}}"
+        href="{{ site.url }}"
         rel="home"
-        title="{{site.name}}"
-      >{{site.name}}</a>
+        title="{{ site.name }}"
+      >{{ site.name }}</a>
     </figure>
 
     <nav id="nav-main" class="site-header__nav" role="navigation">
-      {% include "menu.twig" with {'menu': primary_navigation.get_items, 'classname': 'site-header__menu list-none m-0 p-0'} %}
+      {% include "menu.twig" with {'menu': menu, 'classname': 'site-header__menu list-none m-0 p-0'} %}
     </nav>
 
     <button
@@ -33,3 +33,5 @@
   </div>
 
 </header>
+
+<div class="site-header__spacer w-100 visibility-hidden" data-scroll-section aria-hidden="true"></div>

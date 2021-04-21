@@ -51,33 +51,8 @@ function setup()
     // Use main stylesheet for visual editor
     // To add custom styles edit /assets/styles/layouts/_tinymce.scss
     add_editor_style(Assets\Asset_File_path('editor-style', 'css'));
-
-    // options page for ACF
-    if (function_exists('acf_add_options_page')) {
-        acf_add_options_page(array(
-            'page_title' => 'Options du thème',
-            'menu_title' => 'Options du thème',
-            'menu_slug' => 'theme-general-settings'
-        ));
-    }
 }
 add_action('after_setup_theme', __NAMESPACE__ . '\\setup');
-
-/**
- * Register a dummy sidebar
- */
-function widgets_init()
-{
-    register_sidebar([
-        'name' => __('my sidebar', 'mill3wp'),
-        'id' => 'sidebar-custom',
-        'before_widget' => '<section class="widget %1$s %2$s">',
-        'after_widget' => '</section>',
-        'before_title' => '<h3>',
-        'after_title' => '</h3>'
-    ]);
-}
-add_action('widgets_init', __NAMESPACE__ . '\\widgets_init');
 
 /**
  * Theme assets
@@ -139,17 +114,6 @@ add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 // Remove wp-embed.min.js
 add_action('wp_footer', function(){ wp_deregister_script( 'wp-embed' ); });
 
-
-/**
- * Enabe extra allowed mime types
- */
-function mill3wp_extra_mime_types($mimes)
-{
-    $mimes['svg'] = 'image/svg+xml';
-    return $mimes;
-}
-add_filter('upload_mimes', __NAMESPACE__ . '\\mill3wp_extra_mime_types');
-
 /*
  * Modify TinyMCE editor to remove H1.
  */
@@ -157,7 +121,7 @@ function mill3wp_tiny_mce_remove_unused_formats($init)
 {
     // Add block format elements you want to show in dropdown
     $init['block_formats'] =
-        'Paragraph=p;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6;Address=address;Pre=pre';
+        'Paragraph=p;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6;Address=address;Pre=pre;Blockquote=blockquote;';
     return $init;
 }
 
@@ -175,6 +139,9 @@ add_action('wp_print_styles', function() { wp_dequeue_style('wp-block-library');
 add_filter('acp/storage/file/directory', function() {
   return get_stylesheet_directory() . '/acp-settings';
 });
+
+// Remove WP Admin Bar in frontend
+add_filter( 'show_admin_bar', '__return_false' );
 
 
 if (THEME_DEV !== true) {

@@ -1,6 +1,7 @@
 {% set style = style|default(null) %}
 {% set variation = variation|default(null) %}
 {% set attributes = attributes|default([]) %}
+{% set svg_icon = svg_icon|default(null) %}
 
 {% if id %}
   {% set attributes = attributes|merge(['id="'~ id ~'"']) %}
@@ -23,4 +24,8 @@
 <button class="btn {{ classname }}" {{ attributes|join(" ") }}>
   <span class="btn__bg" aria-hidden="true" data-ignore-css-empty></span>
   <span class="btn__label" aria-hidden="true">{{ title }}</span>
+
+  {% if svg_icon %}
+  <span class="btn__icon" aria-hidden="true" data-ignore-css-empty>{{ source('src/svg/' ~ svg_icon ~ '.svg') }}</span>
+  {% endif %}
 </button>

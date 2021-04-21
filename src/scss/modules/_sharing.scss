@@ -1,0 +1,13 @@
+.sharing {
+  $self: &;
+
+  &__copyMessage {
+    white-space: nowrap;
+    opacity: 0;
+
+    &[aria-hidden="false"] {
+      opacity: 1;
+      transition: opacity 450ms linear;
+    }
+  }
+}

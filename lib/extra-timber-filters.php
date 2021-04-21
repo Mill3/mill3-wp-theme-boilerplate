@@ -36,5 +36,30 @@ function filter_slugify($slug)
 }
 
 function filter_facebook_share($url) {
-  return 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($url);
+    return 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($url);
+}
+
+function filter_twitter_share($url, $title = NULL) {
+    $attrs = [];
+
+    if( $url ) $attrs[] = 'url='.urlencode($url);
+    if( $title ) $attrs[] = 'text=' . urlencode(html_entity_decode($title));
+
+    return 'http://twitter.com/share?'.implode('&', $attrs);
+}
+
+function filter_linked_share($url, $title = NULL) {
+    $attrs = [];
+    if( $url ) $attrs[] = 'url='.urlencode($url);
+    if( $title ) $attrs[] = 'title='.urlencode(html_entity_decode($title));
+
+    return 'https://www.linkedin.com/shareArticle?mini=true?'.implode('&', $attrs);
+}
+
+function filter_email_share($url, $subject = NULL) {
+    $attrs = [];
+    if( $subject ) $attrs[] = 'subject='.rawurlencode(htmlspecialchars_decode($subject));
+    if( $url ) $attrs[] = 'body='.urlencode($url);
+
+    return 'mailto:?'.implode('&', $attrs);
 }

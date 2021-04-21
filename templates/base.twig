@@ -4,32 +4,42 @@
 </head>
 {% endblock %}
 
-<body class="{{ body_class }} {% block body_extra_class %}{% endblock %}" data-template="base.twig" data-ui="body">
+<body 
+  class="{{ body_class }} {% block body_extra_class %}{% endblock %}" 
+  data-template="base.twig" 
+  data-ui="body"
+>
+  {% if options.gtm_code %}
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ options.gtm_code }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  {% endif %}
 
   {% include 'site-loader.twig' %}
   {% include 'site-transition.twig' %}
 
   <div data-barba="wrapper" class="position-relative z-0">
-    <div data-barba="container" data-barba-namespace="default-transition" data-ui="site-scroll,locomotive-scroll-vimeo" data-scroll-container>
+    <div 
+      class="d-flex flex-column"
+      data-barba="container" 
+      data-barba-namespace="{{ barba_namespace() }}"
+      data-ui="site-scroll" 
+      data-scroll-container
+    >
 
       {% block header %}
-        {% include 'site-header.twig' %}
-        {% include 'site-nav.twig' %}
+        {% include 'site-header.twig' with {'menu': primary_navigation.get_items, 'site': site, 'options': options} only %}
+        {% include 'site-nav.twig' with {'menu': primary_navigation.get_items, 'site': site, 'options': options} only %}
       {% endblock %}
 
-      <main role="main {{sidebar_class}}">
+      <main class="flex-grow-1" role="main">
         {% block content %}
           Sorry, no content :(
         {% endblock %}
-
-        {% if sidebar %}
-          <aside class="layout-sidebar">
-            {{sidebar}}
-          </aside>
-        {% endif %}
       </main>
 
       {% block footer %}
+        {% include 'partial/newsletter.twig' %}
         {% include 'site-footer.twig' %}
       {% endblock %}
 

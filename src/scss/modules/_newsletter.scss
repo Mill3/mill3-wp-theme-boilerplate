@@ -1,0 +1,13 @@
+.newsletter {
+  $self: &;
+
+
+  &__form {
+    &__output {
+      &.--wp-error {
+        color: red;
+      }
+    }
+  }
+  
+}

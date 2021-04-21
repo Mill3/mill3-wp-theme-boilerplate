@@ -3,7 +3,7 @@
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 
-{% set form = post.gravity_form_id %}
+{% set form = post.gravity_form %}
 
 {% block row_wrapper %}
 <div
@@ -14,7 +14,7 @@
 >
   {% if form %}
   <div class="pb-row-form__form w-100">
-    {% if not is_preview %}
+    {% if not is_preview and form %}
       {{ function('do_shortcode', '[gravityform id="' ~ form ~ '" title="false" description="false" ajax="true"]') }}
     {% endif %}
   </div>

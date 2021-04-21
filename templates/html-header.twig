@@ -9,3 +9,15 @@
     <link rel="author" href="{{ site.theme.link }}/humans.txt" />
     <link rel="pingback" href="{{ site.pingback_url }}" />
     {{function('wp_head')}}
+
+    <meta name="ahrefs-site-verification" content="b3803d3e535d4234a31383131e38f454755069fd82239a50bbb931b2f628671e">
+
+    {% if options.gtm_code %}
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','{{ options.gtm_code }}');</script>
+    <!-- End Google Tag Manager -->
+    {% endif %}

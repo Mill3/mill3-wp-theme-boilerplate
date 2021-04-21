@@ -1,5 +1,5 @@
 import anime from "animejs";
-import imagesLoaded from "@utils/imagesloaded";
+import ImagesLoaded from "@utils/imagesloaded";
 
 import { $ } from "@utils/dom";
 
@@ -14,11 +14,14 @@ class SiteLoader {
   beforeOnce({ next }) {
     // preload images from next container before once transition
     return new Promise((resolve) => {
-      imagesLoaded(next.container, resolve);
+      this._imgLoader = new ImagesLoaded(next.container, resolve);
     });
   }
 
   once() {
+    this._imgLoader.destroy();
+    this._imgLoader = null;
+    
     return new Promise((resolve) => {
       anime({
         targets: this.el,

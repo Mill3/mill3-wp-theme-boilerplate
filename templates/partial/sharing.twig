@@ -1,0 +1,53 @@
+{% if post %}
+
+{% set classname = classname|default(null) %}
+{% set attributes = attributes|default([]) %}
+
+<aside 
+  class="sharing {{ classname }}"
+  data-module="sharing"
+  data-sharing
+  {{ attributes|join(' ') }}
+>
+  <ul>
+    <li>
+      {% include 'partial/link.twig' with {
+        'link': post.link|facebook_share,
+        'title': __('Partager sur Facebook', 'mill3wp'),
+        'style': 'social',
+        'classname': 'facebook'
+      } only %}
+    </li>
+    <li>
+      {% include 'partial/link.twig' with {
+        'link': post.link|twitter_share,
+        'title': __('Partager sur Twitter', 'mill3wp'),
+        'style': 'social',
+        'classname': 'twitter'
+      } only %}
+    </li>
+    <li>
+      {% include 'partial/link.twig' with {
+        'link': post.link|email_share,
+        'title': __('Partager par courriel', 'mill3wp'),
+        'style': 'social',
+        'classname': 'email'
+      } only %}
+    </li>
+    <li class="position-relative">
+      {% include 'partial/button.twig' with {
+        'title': __('Partager le lien', 'mill3wp'),
+        'style': 'social',
+        'classname': 'sharing__copyBtn link',
+        'attributes': [
+          'data-sharing-copy-url="' ~ post.link ~ '"'
+        ]
+      } only %}
+      <div 
+        class="sharing__copyMessage position-absolute t-100 l-0 pointer-events-none"
+        aria-hidden="true"
+      >{{ __('Lien copié!', 'mill3wp') }}</div>
+    </li>
+  </ul>
+</aside>
+{% endif %}
