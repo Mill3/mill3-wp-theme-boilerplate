@@ -81,16 +81,16 @@
   },
   "dependencies": {
     "@barba/core": "^2.9.7",
-    "@mill3-packages/barba-scripts": "0.1.8",
-    "@mill3-packages/system-ui-sass": "^0.6.2",
+    "@mill3-packages/barba-scripts": "0.1.9",
+    "@mill3-packages/system-ui-sass": "^0.7.2",
     "@vimeo/player": "^2.15.0",
     "animejs": "^3.1.0",
     "domready": "^1.0.8",
     "eventemitter2": "^6.4.3",
-    "flickity": "^2.2.2",
     "load-google-maps-api": "^2.0.2",
     "locomotive-scroll": "^4.1.0",
     "sass-easing": "^1.0.3",
-    "splitting": "^1.0.6"
+    "splitting": "^1.0.6",
+    "swiper": "^6.5.7"
   }
 }
