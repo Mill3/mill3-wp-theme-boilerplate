@@ -132,7 +132,10 @@ class Theme_CustomPostTypes {
             'publicly_queryable'  => false,
             'capability_type'     => 'post',
             'menu_icon'           => 'dashicons-editor-alignleft',
-            'rewrite'             => array('slug' => 'dummies')
+            'rewrite'             => array(
+                'slug' => 'dummies',
+                'with_front' => false
+            )
         );
 
         // Register, always use singular
