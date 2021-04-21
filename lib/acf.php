@@ -57,10 +57,14 @@ add_filter('acf/load_field/name=theme_color', function ($field) {
 
 // Populate select field with Gravity Form entries
 add_filter('acf/load_field/name=gravity_form_id', function ($field) {
+    // if plugin is not activated, do nothing
+    if ( !class_exists('GFAPI') ) return $field;
+
     $forms = GFAPI::get_forms(true);
     foreach ($forms as $key => $form) {
         $field['choices'][$form['id']] = $form['title'];
     }
+    
     return $field;
 });
 

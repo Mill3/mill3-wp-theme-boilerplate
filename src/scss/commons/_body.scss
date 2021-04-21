@@ -1,8 +1,14 @@
+html {
+  --vh: 1vh;
+}
+
 html,
 body {
   height: 100%;
 }
 
+html.will-scroll-smooth,
+html.will-scroll-smooth body,
 html:not(.has-scroll-init) body,
 html.--js-barba body,
 body.--scroll-disabled {

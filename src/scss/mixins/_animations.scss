@@ -1,0 +1,13 @@
+@mixin ticker($duration: 30s, $direction: normal) {
+  animation-name: ticker;
+  animation-duration: $duration;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-direction: $direction;
+  animation-iteration-count: infinite;
+  animation-play-state: paused;
+}
+
+@function duration($frames: 1) {
+  @return #{strip-unit($frames / 30)}s;
+}
