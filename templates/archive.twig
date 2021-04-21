@@ -1,36 +1,14 @@
 {% extends "base.twig" %}
 
-{# {% set first_page = pagination.pages|first.current  %} #}
-{% set featured = posts[0] %}
-{% set all_posts = posts|slice(1, posts|length) %}
-
 {% block content %}
 <section class="post-archives">
 
-  {% include 'page-builder/pb_row_hero_banner.twig' with {
-    'post': {
-      'title': 'Communiqués<br>de presse', 
-      'show_breadcrumb': true, 
-      'alignment': 'start',
-      'valign': 'start',
-      'theme_color': 'white',
-      'first': true
-    },
-    'classname': 'post-archives__header'
-  } only %}
-
   <div class="post-archives__posts container-fluid " data-scroll-section>
 
-    {% if featured %}
-    <header class="post-archives__featured mb-lg-6">
-      {% include 'post-type/post/post-preview-featured.twig' with {'post': featured } only %}
-    </header>
-    {% endif %}
-
-    <ol class="post-archives__posts list-none p-0 pt-lg-5 d-sm-grid grid-column-2 grid-gap-3 grid-gap-lg-6">
-        {% for post in all_posts %}
+    <ol class="list-none p-0 pt-lg-5 d-sm-grid grid-column-2 grid-gap-3 grid-gap-lg-6">
+        {% for post in posts %}
         <li>
-          {% include 'post-type/post/post-preview.twig' with {'post': post, 'classname': 'mb-6' } only %}
+          {% include 'post-type/post/post-preview.twig' with {'post': post, 'classname': '' } only %}
         </li>
       {% endfor %}
     </ol>
