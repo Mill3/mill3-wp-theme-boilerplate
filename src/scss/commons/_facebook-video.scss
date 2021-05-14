@@ -1,0 +1,25 @@
+.facebook-video {
+  $self: &;
+
+  &__wrapper {
+    display: block;
+    width: 100%;
+
+    & > .fb-video,
+    & > iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    &.--enable-smooth-scroll {
+      cursor: pointer;
+      
+      * {
+        pointer-events: none;
+      }
+    }
+  }
+}

@@ -25,6 +25,10 @@ export const rect = el => el.getBoundingClientRect();
 export const removeAllChilds = el => {
   while (el.firstChild) el.removeChild(el.firstChild);
 };
+export const wrap = (el, wrapper) => {
+  el.parentNode.insertBefore(wrapper, el);
+  wrapper.appendChild(el);
+};
 export const getFocusedElement = () => document.activeElement;
 
 // https://stackoverflow.com/a/56531945/519240
@@ -48,6 +52,7 @@ export default {
   $$,
   rect,
   removeAllChilds,
+  wrap,
   getFocusedElement,
   innerDimensions
 };

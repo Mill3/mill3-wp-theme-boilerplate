@@ -138,7 +138,10 @@ class StarterSite extends Timber\Site
           'slugify',
           new Twig_SimpleFilter('slugify', 'filter_slugify')
         );
-
+        $twig->addFilter(
+            'embeded_settings',
+            new Twig_SimpleFilter('embeded_settings', 'filter_embeded_settings')
+        );
         $twig->addFilter(
           'lcfirst',
           new Twig_SimpleFilter('lcfirst', 'lcfirst')
