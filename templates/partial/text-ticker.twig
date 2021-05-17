@@ -1,8 +1,17 @@
+{% set classname = classname|default(null) %}
+{% set attributes = attributes|default([]) %}
+{% set tagname = tagname|default('h3') %}
+{% set avoid_module = avoid_module|default(false) %}
+
 <header
-  class="text-ticker d-flex flex-nowrap align-items-center overflow-hidden"
+  class="text-ticker d-flex flex-nowrap align-items-center overflow-hidden {{ classname }}"
+  {% if not avoid_module %}
   data-module="text-ticker"
   data-text-ticker
+  {% endif %}
+  {{ attributes|join(' ') }}
 >
-  <h3 class="text-ticker__text m-0 p-0">{{ text }}</h3>
-  <h3 class="text-ticker__text m-0 p-0" aria-hidden="true">{{ text }}</h3>
+  <{{tagname}} class="text-ticker__text m-0 p-0" aria-label="{{ aria_label|default(text) }}">{{ text }}</{{tagname}}>
+  <{{tagname}} class="text-ticker__text m-0 p-0" aria-hidden="true">{{ text }}</{{tagname}}>
+  <{{tagname}} class="text-ticker__text m-0 p-0" aria-hidden="true">{{ text }}</{{tagname}}>
 </header>
