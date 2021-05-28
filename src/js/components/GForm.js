@@ -125,6 +125,8 @@ class GFormField {
   }
 
   _getInput() {
+    if( !this.inputContainer) return null;
+    
     const textarea = $(TEXTAREA_SELECTOR, this.inputContainer);
     if (textarea) return new GFieldTextArea(textarea);
 
