@@ -3,20 +3,10 @@
 $context = Timber\Timber::get_context();
 $context['post'] = get_row(true);
 $context['is_preview'] = $is_preview;
+$context['stylesheet'] = Mill3WP\Assets\Asset_File_path('acfPreview', 'css');
+$context['js'] = Mill3WP\Assets\Asset_File_path('acfPreviewIframe', 'js');
 
-$template = "page-builder/{$context['post']['acf_fc_layout']}.twig";
+$doc = Timber\Timber::compile("base-acf-preview.twig", $context);
 
-$options = get_fields('options');
-
-// inject brand style as CSS variables
 ?>
-<style type="text/css">
-    /* theme colors CSS variables */
-    :root {
-        --brand-color-primary: <?php echo $options['brand_color_primary'] ?>;
-        --brand-color-secondary: <?php echo $options['brand_color_secondary'] ?>;
-    }
-</style>
-<?php
-
-Timber\Timber::render($template, $context);
+<iframe srcdoc="<?php echo htmlspecialchars($doc, ENT_QUOTES, 'UTF-8', false) ?>" width="100%" frameborder="0"></iframe>

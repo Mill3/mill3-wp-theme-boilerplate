@@ -2,65 +2,26 @@
 
 @import "vars/index";
 
-// set all CSS variables in theme outside .acfe-flexible-placeholder's scope
-@import "@mill3-packages/system-ui-sass/src/mixins/_colors";
-@import "@mill3-packages/system-ui-sass/src/mixins/_typography.scss";
-@include color-css-variables($colors);
+// NPM packages
+@import "@mill3-packages/system-ui-sass/src/system-ui";
+@import "~sass-easing";
 
-#poststuff .acfe-flexible-placeholder.-preview {
-  @import "~sass-easing";
-  @import "@mill3-packages/system-ui-sass/src/vendors/normalize";
-  @import "@mill3-packages/system-ui-sass/src/mixins/index";
+// vendors
+@import "vendors/index";
 
-  // override vw/vh transformers to better suit ACF-preview
-  @function vw($value) {
-    $value: strip-unit($value);
+/*** THEME SPECIFICS ***/
 
-    @if $value == 0 {
-      @return 0vw;
-    } @else {
-      $percentage: $value / 100;
-      $wp_ui: 160px + 20px + 2px + 20px + 300px + 2px;
-      $scrollbar_width: 15px;
+// mixins
+@import "mixins/index";
 
-      @return calc((100vw - #{$wp_ui} - #{$scrollbar_width}) * #{$percentage});
-    }
-  }
-  @function vh($value) {
-    $value: strip-unit($value);
+// commons
+@import "commons/index";
 
-    @if $value == 0 {
-      @return 0vh;
-    } @else {
-      $percentage: $value / 100;
-      $value: $percentage * 45;
-    }
+// modules
+@import "modules/index";
 
-    @return #{$value}vh;
-  }
+// page builder
+@import "page-builder/index";
 
-  @import "@mill3-packages/system-ui-sass/src/modules/index";
-
-  /*** block height and add a shade on bottom ***/
-  max-height: 45vh;
-  z-index: 0;
-  position: relative;
-  min-height: 25px !important;
-
-  /*** THEME SPECIFICS ***/
-
-  // mixins
-  @import "mixins/index";
-
-  // commons
-  @import "commons/index";
-
-  // modules
-  @import "modules/index";
-
-  // page builder
-  @import "page-builder/index";
-
-  // content types
-  @import "post-type/posts/index";
-}
+// content types
+@import "post-type/posts/index";

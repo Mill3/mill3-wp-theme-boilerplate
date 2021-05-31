@@ -68,22 +68,6 @@ add_filter('acf/load_field/name=gravity_form_id', function ($field) {
     return $field;
 });
 
-// Add theme stylesheet in ACF Flexible Content field preview
-add_action('admin_enqueue_scripts', 'admin_assets');
-function admin_assets($hook)
-{
-    if (!in_array($hook, ['edit.php', 'post.php', 'post-new.php'])) {
-        return;
-    }
-
-    wp_enqueue_style(
-        'mill3wp/acf-preview-css',
-        Assets\Asset_File_path('acfPreview', 'css'),
-        false,
-        null
-    );
-}
-
 if( defined('GOOGLE_API_KEY') ) {
     add_action('acf/init', function() { acf_update_setting('google_api_key', GOOGLE_API_KEY); });
 }
