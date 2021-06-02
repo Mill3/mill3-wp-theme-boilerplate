@@ -14,9 +14,7 @@
 >
   {% if form %}
   <div class="pb-row-form__form w-100">
-    {% if not is_preview and form %}
-      {{ function('do_shortcode', '[gravityform id="' ~ form ~ '" title="false" description="false" ajax="true"]') }}
-    {% endif %}
+    {{ function('do_shortcode', '[gravityform id="' ~ form ~ '" title="false" description="false" ajax="true"]') }}
   </div>
   {% endif %}
 </div>
