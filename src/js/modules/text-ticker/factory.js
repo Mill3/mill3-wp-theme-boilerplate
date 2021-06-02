@@ -1,5 +1,4 @@
 import { $$ } from "@utils/dom";
-import { mobile } from "@utils/mobile";
 
 import Module from "../module/Module";
 import TextTicker from "./TextTicker";
@@ -23,10 +22,6 @@ class Factory extends Module {
   init() {
     // set initialized
     this.initialized = true;
-
-    // do not init this module on mobile devices
-    if (mobile) return;
-
     this.items = [...$$(SELECTOR)].map(el => new TextTicker(el, this.emitter));
   }
   destroy() {

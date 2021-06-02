@@ -1,5 +1,7 @@
-import { $$ } from "@utils/dom";
+import { $, rect } from "@utils/dom";
 import { lerp } from "@utils/math";
+import { mobile } from "@utils/mobile";
+import ResizeOrientation from "@utils/resize";
 import Wheel from "@utils/wheel";
 
 const FRICTION = 0.9;
@@ -9,59 +11,81 @@ class TextTicker {
   constructor(el, emitter) {
     this.el = el;
     this.emitter = emitter;
-    this.texts = [...$$(".text-ticker__text", this.el)];
+    this.template = $(".text-ticker__text", this.el);
+    this.texts = [this.template];
 
+    this._cssOnly = this.el.dataset.textTicker === 'false' || mobile ? true : false;
     this._velocity = { target: VELOCITY, current: VELOCITY };
     this._progress = 0;
     this._raf = null;
     this._wheel = null;
+    this._ro = null;
 
     this._onScroll = this._onScroll.bind(this);
     this._onRaf = this._onRaf.bind(this);
     this._onScrollStart = this._onScrollStart.bind(this);
     this._onScrollStop = this._onScrollStop.bind(this);
+    this._onResize = this._onResize.bind(this);
 
     this.init();
   }
 
   init() {
-    this.el.classList.add("--js");
+    this._ro = new ResizeOrientation(this._onResize);
+    this._ro.run();
 
-    this._wheel = new Wheel(this._onScroll);
+    if( !this._cssOnly ) {
+      this.el.classList.add("--mode-js");
+      this._wheel = new Wheel(this._onScroll);
+    } else {
+      this.el.classList.add('--mode-css');
+    }
+
     this._bindEvents();
   }
   destroy() {
     this._unbindEvents();
 
+    if( this._ro ) this._ro.dispose();
+
     this.el = null;
     this.emitter = null;
+    this.template = null;
     this.texts = null;
 
+    this._cssOnly = null;
     this._velocity = null;
     this._progress = null;
     this._raf = null;
     this._wheel = null;
+    this._ro = null;
 
     this._onScroll = null;
     this._onRaf = null;
     this._onScrollStart = null;
     this._onScrollStop = null;
+    this._onResize = null;
   }
 
   _bindEvents() {
-    this.emitter?.on("SiteScroll.start", this._onScrollStart);
-    this.emitter?.on("SiteScroll.stop", this._onScrollStop);
-
-    this._wheel?.on();
-    this._raf = requestAnimationFrame(this._onRaf);
+    if (this._ro) this._ro?.on();
+    if (this._wheel) this._wheel?.on();
+    if (!this._cssOnly) {
+      this.emitter?.on("SiteScroll.start", this._onScrollStart);
+      this.emitter?.on("SiteScroll.stop", this._onScrollStop);
+      this._raf = requestAnimationFrame(this._onRaf);
+    }
   }
   _unbindEvents() {
-    this.emitter?.off("SiteScroll.start", this._onScrollStart);
-    this.emitter?.off("SiteScroll.stop", this._onScrollStop);
-
-    this._wheel?.off();
-
+    if( !this._cssOnly ) {
+      this.emitter?.off("SiteScroll.start", this._onScrollStart);
+      this.emitter?.off("SiteScroll.stop", this._onScrollStop);
+    }
+    
+    if (this._ro) this._ro?.off();
+    if (this._wheel) this._wheel?.off();
     if (this._raf) cancelAnimationFrame(this._raf);
+
     this._raf = null;
   }
 
@@ -103,6 +127,19 @@ class TextTicker {
 
     if (this._raf) cancelAnimationFrame(this._raf);
     this._raf = null;
+  }
+  _onResize() {
+    const elRect = rect(this.el);
+    const textRect = rect(this.template);
+    const quantity = Math.ceil(elRect.width / textRect.width) + 1;
+
+    while( this.texts.length < quantity ) {
+      const copy = this.template.cloneNode(true);
+            copy.setAttribute('aria-hidden', true);
+
+      this.texts.push(copy);
+      this.el.appendChild(copy);
+    }
   }
 }
 
