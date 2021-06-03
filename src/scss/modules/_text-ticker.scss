@@ -25,4 +25,11 @@
       will-change: transform;
     }
   }
+
+  // DIRECTION
+  &.--mode-css.--direction-right {
+    .text-ticker__text {
+      animation-direction: reverse;
+    }
+  }
 }

@@ -1,12 +1,23 @@
 {% set classname = classname|default(null) %}
 {% set attributes = attributes|default([]) %}
 {% set tagname = tagname|default('h3') %}
-{% set css_mode = css_mode|default(false) %}
+{% set mode = mode|default('js') %}
+{% set direction = direction|default(null) %}
+
+{# make sure mode is valid #}
+{% if mode not in ['css', 'js'] %}
+  {% set mode = 'js' %}
+{% endif %}
+
+{# make sure direction is valid (both is only valid in JS mode) #}
+{% if direction not in ['left', 'right', 'both'] %}
+  {% set direction = mode == 'css' ? 'left' : 'both' %}
+{% endif %}
 
 <header
-  class="text-ticker d-flex flex-nowrap align-items-center overflow-hidden {{ classname }}"
+  class="text-ticker d-flex flex-nowrap align-items-center overflow-hidden --direction-{{ direction }} {{ classname }}"
   data-module="text-ticker"
-  data-text-ticker="{{ css_mode ? 'false' : 'true' }}"
+  data-text-ticker="{{ mode }}"
   {{ attributes|join(' ') }}
 >
   <{{tagname}} class="text-ticker__text m-0 p-0" aria-label="{{ aria_label|default(text) }}">{{ text }}</{{tagname}}>

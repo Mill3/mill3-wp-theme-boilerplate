@@ -7,6 +7,13 @@ import Wheel from "@utils/wheel";
 const FRICTION = 0.9;
 const VELOCITY = 0.08;
 
+const MODE_CSS = 'css';
+const MODE_JS = 'js';
+
+const DIRECTION_LEFT = -1;
+const DIRECTION_RIGHT = 1;
+const DIRECTION_BOTH = 0;
+
 class TextTicker {
   constructor(el, emitter) {
     this.el = el;
@@ -14,8 +21,9 @@ class TextTicker {
     this.template = $(".text-ticker__text", this.el);
     this.texts = [this.template];
 
-    this._cssOnly = this.el.dataset.textTicker === 'false' || mobile ? true : false;
-    this._velocity = { target: VELOCITY, current: VELOCITY };
+    this._mode = this.el.dataset.textTicker === MODE_CSS || mobile ? MODE_CSS : MODE_JS;
+    this._direction = this._getDirection();
+    this._velocity = { target: VELOCITY * this._direction, current: VELOCITY * this._direction };
     this._progress = 0;
     this._raf = null;
     this._wheel = null;
@@ -34,7 +42,7 @@ class TextTicker {
     this._ro = new ResizeOrientation(this._onResize);
     this._ro.run();
 
-    if( !this._cssOnly ) {
+    if(this._mode === MODE_JS ) {
       this.el.classList.add("--mode-js");
       this._wheel = new Wheel(this._onScroll);
     } else {
@@ -53,7 +61,8 @@ class TextTicker {
     this.template = null;
     this.texts = null;
 
-    this._cssOnly = null;
+    this._mode = null;
+    this._direction = null;
     this._velocity = null;
     this._progress = null;
     this._raf = null;
@@ -70,14 +79,14 @@ class TextTicker {
   _bindEvents() {
     if (this._ro) this._ro?.on();
     if (this._wheel) this._wheel?.on();
-    if (!this._cssOnly) {
+    if (this._mode === MODE_JS) {
       this.emitter?.on("SiteScroll.start", this._onScrollStart);
       this.emitter?.on("SiteScroll.stop", this._onScrollStop);
       this._raf = requestAnimationFrame(this._onRaf);
     }
   }
   _unbindEvents() {
-    if( !this._cssOnly ) {
+    if(this._mode === MODE_JS) {
       this.emitter?.off("SiteScroll.start", this._onScrollStart);
       this.emitter?.off("SiteScroll.stop", this._onScrollStop);
     }
@@ -91,6 +100,9 @@ class TextTicker {
 
   _onScroll(delta) {
     this._velocity.target = delta * 0.005;
+
+    // apply directional restriction on velocity
+    if( this._direction !== DIRECTION_BOTH ) this._velocity.target = Math.abs(this._velocity.target) * this._direction;
   }
   _onRaf() {
     // do nothing if we have no text to move
@@ -101,7 +113,7 @@ class TextTicker {
     // apply friction
     this._velocity.target *= FRICTION;
 
-    // set minimal velocity
+    // set minimal velocity based on is current direction
     if (this._velocity.target > 0) this._velocity.target = Math.max(VELOCITY, this._velocity.target);
     else this._velocity.target = Math.min(VELOCITY * -1, this._velocity.target);
 
@@ -140,6 +152,12 @@ class TextTicker {
       this.texts.push(copy);
       this.el.appendChild(copy);
     }
+  }
+
+  _getDirection() {
+    if( this.el.classList.contains('--direction-left') ) return DIRECTION_LEFT;
+    else if( this.el.classList.contains('--direction-both') ) return DIRECTION_BOTH;
+    else if( this.el.classList.contains('--direction-right') ) return DIRECTION_RIGHT;
   }
 }
 
