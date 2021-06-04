@@ -1,0 +1,18 @@
+{# WARNING: YOU SHOULD NEVER HAVE TO EDIT THIS FILE UNLESS YOU KNOW WHAT YOU ARE DOING #}
+{% set classname = classname|default(null) %}
+{% set attributes = attributes|default([]) %}
+
+{% set udid = udid|default('tab-' ~ random()) %}
+{% set hidden = hidden|default(false) %}
+
+{% if content %}
+<div 
+  id="{{ udid }}"
+  class="tab-panel {{ classname }}" 
+  role="tabpanel" 
+  aria-hidden="{{ hidden == true ? 'true' : 'false' }}"
+  {{ attributes|join(' ') }}
+>
+  {{ content }}
+</div>
+{% endif %}

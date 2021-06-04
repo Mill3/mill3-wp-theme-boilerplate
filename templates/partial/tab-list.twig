@@ -1,0 +1,24 @@
+{% if tabs %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+
+<aside 
+  class="tab-list flex-grow-0 d-flex {{ classname }}"
+  {{ attributes|join(' ') }}
+>
+  {% for tab in tabs %}
+    {% include 'partial/button.twig' with {
+      'title': tab.title,
+      'style': 'cta',
+      'classname': 'tab-list__tab',
+      'attributes': [
+        'role="tab"',
+        'aria-controls="' ~ tab.controls ~ '"',
+        'aria-selected="' ~ ((tab.selected|default(false)) ? 'true' : 'false') ~ '"'
+      ]
+    } only %}
+  {% endfor %}
+</aside>
+
+{% endif %}
