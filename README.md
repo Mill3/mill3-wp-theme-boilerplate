@@ -86,3 +86,8 @@ How to merge new string from main .pot template :
 How to compile :
 
 ```msgfmt -o fr_CA.mo fr_CA.po```
+
+## ACF base fields for our Page Builder
+
+You need to import JSON files located in ```./acf-imports/*.json``` using ACF import tool. You can find this tool under Custom Fields --> Tools.
+
