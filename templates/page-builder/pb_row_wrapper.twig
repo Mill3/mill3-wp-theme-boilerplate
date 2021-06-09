@@ -12,6 +12,9 @@
   'pb-md-' ~ padding_bottom
 ]) %}
 
+{% if layout %}
+  {% set row_classname = row_classname|merge(['--layout-' ~ layout]) %}
+{% endif %}
 
 <div 
   class="pb-row-wrapper {{ row_classname|join(' ') }}" 

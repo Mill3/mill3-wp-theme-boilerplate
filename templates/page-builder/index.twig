@@ -6,7 +6,7 @@
 <section class="pb-rows">
   {% for row in content_rows %}
     {% set layout = row.acf_fc_layout %}
-    {% include 'page-builder/'~layout~'.twig' ignore missing with { 'post': row, 'first': loop.first, 'last': loop.last } only %}
+    {% include 'page-builder/'~layout~'.twig' ignore missing with { 'post': row, 'first': loop.first, 'last': loop.last, 'layout': layout } only %}
   {% endfor %}
 </section>
 {% endif %}
