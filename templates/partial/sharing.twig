@@ -9,7 +9,7 @@
   data-sharing
   {{ attributes|join(' ') }}
 >
-  <ul>
+  <ul class="sharing__list d-flex flex-lg-column list-none m-0 p-0">
     <li>
       {% include 'partial/link.twig' with {
         'link': post.link|facebook_share,

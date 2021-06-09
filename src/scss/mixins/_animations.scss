@@ -11,3 +11,9 @@
 @function duration($frames: 1) {
   @return #{strip-unit($frames / 30)}s;
 }
+
+@mixin inView() {
+  html.has-scroll-init &[data-scroll] {
+    @content;
+  }
+}

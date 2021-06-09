@@ -1,0 +1,109 @@
+.accordions {
+  $self: &;
+
+  &__accordion {
+    position: relative;
+
+    &::after,
+    &:first-child::before {
+      content: '';
+      background-color: currentColor;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    &:first-child::before {
+      top: 0;
+      bottom: auto;
+    }
+  }
+  &__btn {
+    @include hoverDevice {
+      &:hover {
+        #{$self}__arrowDown svg {
+          transform: translate3d(0, 4px, 0);
+        }
+        #{$self}__arrowUp svg {
+          transform: translate3d(0, -4px, 0);
+        }
+      }
+    }
+
+    &[aria-expanded="true"] {
+      #{$self}__arrowDown {
+        animation: AccordionArrowDownLeave 350ms $easeInQuad both;
+      }
+      #{$self}__arrowUp {
+        animation: AccordionArrowUpEnter 450ms 300ms $easeOutCubic both;
+      }
+    }
+  }
+  &__arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 12px;
+    height: 13px;
+
+    svg {
+      transform: translate3d(0, 0px, 0);
+      transition: transform 350ms $easeOutQuad;
+    }
+  }
+  &__arrowDown {
+    animation: AccordionArrowDownEnter 450ms 300ms $easeOutCubic both;
+  }
+  &__arrowUp {
+    animation: AccordionArrowUpLeave 350ms $easeInQuad both;
+  }
+  &__content {
+    animation: AccordionContentOpen 650ms 25ms linear both;
+
+    &[aria-hidden="true"] {
+      height: 0px;
+      padding: 0 !important;
+      overflow: hidden;
+      visibility: hidden;
+      animation: none;
+    }
+  }
+
+  @include inView {
+    --delay: 0ms;
+
+    #{$self}__btn,
+    #{$self}__arrow {
+      opacity: 0.0001;
+      transform: translate3d(0, 40px, 0);
+    }
+    #{$self}__accordion:after, 
+    #{$self}__accordion:first-child::before {
+      transform: scaleX(0);
+    }
+    &.is-inview {
+      #{$self}__btn,
+      #{$self}__arrow {
+        opacity: 0.999;
+        transform: translate3d(0, 0px, 0);
+        transition: opacity 450ms linear, transform 650ms $easeOutCubic;
+      }
+      #{$self}__btn {
+        transition-delay: calc((var(--index) * 150ms) + var(--delay) + 300ms);
+      }
+      #{$self}__arrow {
+        transition-delay: calc((var(--index) * 150ms) + var(--delay) + 450ms);
+      }
+      #{$self}__accordion::after, 
+      #{$self}__accordion:first-child::before  {
+        transform: scaleX(0.9999);
+        transition: transform 750ms $easeOutCubic;
+        transition-delay: calc((var(--index) * 150ms) + var(--delay) + 150ms);
+      }
+
+      #{$self}__accordion:first-child::before  {
+        transition-delay: calc((var(--index) * 150ms) + var(--delay));
+      }
+    }
+  }
+}

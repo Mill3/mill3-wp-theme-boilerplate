@@ -1,25 +1,3 @@
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-b,
-strong,
-[class*="heading-"]:not([class*="fw-"]) {
-  font-weight: 600;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-[class*="heading-"]:not([class*="lh-"]) {
-  line-height: line-height("base");
-}
-
 a {
   color: currentColor;
 }

@@ -1,0 +1,21 @@
+{% extends 'page-builder/pb_row_wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+
+{% set video = post.video %}
+
+{% block row_wrapper %}
+<div
+  class="pb-row-oembed {{ classname }}"
+  {{ attributes|join(' ') }}
+>
+  <div class="pb-row-oembed__container container-fluid">
+    <div class="pb-row-oembed__wrap mx-auto">
+      <div class="w-100 box box-widescreen wysiwyg">
+        {{ video|embeded_settings }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

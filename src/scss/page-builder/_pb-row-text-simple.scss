@@ -1,0 +1,78 @@
+.pb-row-text-simple {
+  $self: &;
+  --delay: 0ms;
+
+  // POSITION
+  &.--position-center {
+    #{$self}__title,
+    #{$self}__body,
+    #{$self}__links {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  &.--position-right {
+    #{$self}__title,
+    #{$self}__body,
+    #{$self}__links {
+      margin-left: auto;
+    }
+  }
+
+  // WIDTH
+  &.--width-small {
+    #{$self}__title,
+    #{$self}__body,
+    #{$self}__links {
+      @include media-breakpoint-up(md) {
+        width: 520px;
+      }
+    }
+  }
+  &.--width-medium {
+    #{$self}__title,
+    #{$self}__body,
+    #{$self}__links {
+      @include media-breakpoint-up(md) {
+        width: 620px;
+      }
+    }
+  }
+  &.--width-default {
+    #{$self}__title,
+    #{$self}__body,
+    #{$self}__links {
+      @include media-breakpoint-up(md) {
+        width: 720px;
+      }
+    }
+  }
+  &.--width-large {
+    #{$self}__title,
+    #{$self}__body,
+    #{$self}__links {
+      @include media-breakpoint-up(lg) {
+        width: 920px;
+      }
+    }
+  }
+
+
+  // IN-VIEW ANIMATIONS
+  @include inView {
+    #{$self}__title, 
+    #{$self}__body {
+      opacity: 0.0001;
+      transform: translate3d(0, 40px, 0);
+    }
+
+    &.is-inview {
+      #{$self}__title, 
+      #{$self}__body {
+        opacity: 0.999;
+        transform: translate3d(0, 0px, 0);
+        transition: opacity 450ms linear, transform 650ms $easeOutCubic;
+      }
+    }
+  }
+}

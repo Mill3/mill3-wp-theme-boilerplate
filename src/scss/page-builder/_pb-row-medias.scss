@@ -1,0 +1,118 @@
+.pb-row-medias {
+  $self: &;
+  
+  &__media {
+    @include inView {
+      opacity: 0.0001;
+
+      &.is-inview {
+        opacity: 0.999;
+        transition: opacity 950ms 150ms linear;
+      }
+    }
+  }
+  &__parallax {
+    html.has-scroll-smooth & {
+      top: -6%;
+      bottom: -6%;
+    }
+  }
+
+  &__nav {
+    @include media-breakpoint-up(lg) {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+
+  // SLIDER
+  &.--layout-slider {
+    #{$self}__wrap {
+      width: min-content;
+    }
+
+    .swiper-wrapper {
+      cursor: grab;
+    }
+    #{$self}__img {
+      height: 265px;
+
+      @include media-breakpoint-up(lg) {
+        height: 448px;
+      }
+    }
+    #{$self}__slide,
+    #{$self}__img {
+      width: auto;
+    }
+  }
+
+  // GRID
+  &.--layout-grid-1,
+  &.--layout-grid-2,
+  &.--layout-grid-3,
+  &.--layout-grid-4,
+  &.--layout-grid-third,
+  &.--layout-grid-center {
+    #{$self}__grid:not(.--fullwidth) {
+      padding-left: 16px;
+      padding-right: 16px;
+      
+      @include media-breakpoint-up(lg) {
+        padding-left: 40px;
+        padding-right: 40px;
+      }
+    }
+  }
+
+  // GRID 2
+  &.--layout-grid-2 {
+    #{$self}__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  // GRID 3
+  &.--layout-grid-3 {
+    #{$self}__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  // GRID 4
+  &.--layout-grid-4 {
+    #{$self}__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  // GRID 2/3 - 1/3
+  &.--layout-grid-third {
+    #{$self}__grid {
+      grid-template-columns: 1fr 0.333fr;
+    }
+  }
+
+  // GRID CENTER
+  &.--layout-grid-center {
+    #{$self}__grid {
+      @include media-breakpoint-up(md) {
+        margin-left: auto;
+        margin-right: auto;
+        width: 720px;
+      }
+    }
+  }
+
+  // IN-VIEW ANIMATIONS
+  @include inView {
+    opacity: 0.0001;
+    transform: translate3d(0, 200px, 0);
+
+    &.is-inview {
+      opacity: 0.999;
+      transform: translate3d(0, 0px, 0);
+      transition: opacity 450ms linear, transform 950ms $easeOutCubic;
+    }
+  }
+}

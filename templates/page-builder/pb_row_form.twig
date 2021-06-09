@@ -3,18 +3,28 @@
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 
-{% set form = post.gravity_form %}
+{% set title = post.title %}
+{% set text = post.text %}
+{% set gravity_form_id = post.gravity_form_id %}
 
 {% block row_wrapper %}
 <div
-  class="pb-row pb-row-form {{ classname }}"
+  class="pb-row pb-row-form container-fluid {{ classname }}"
   data-module="pb-row-form"
   data-pb-row-form
   {{ attributes|join(' ') }}
 >
-  {% if form %}
+  {% if title %}
+  <h3 class="pb-row-form__title m-0 p-0">{{ title }}</h3>
+  {% endif %}
+
+  {% if text %}
+  <div class="pb-row-form__text wysiwyg">{{ text }}</div>
+  {% endif %}
+
+  {% if gravity_form_id %}
   <div class="pb-row-form__form w-100">
-    {{ function('do_shortcode', '[gravityform id="' ~ form ~ '" title="false" description="false" ajax="true"]') }}
+    {{ function('do_shortcode', '[gravityform id="' ~ gravity_form_id ~ '" title="false" description="false" ajax="true"]') }}
   </div>
   {% endif %}
 </div>

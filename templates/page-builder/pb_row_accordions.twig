@@ -1,0 +1,38 @@
+{% extends 'page-builder/pb_row_wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_accordions-' ~ random()) %}
+
+{% set title = post.title|default(null) %}
+{% set text = post.text|default(null) %}
+{% set accordions = post.accordions|default([]) %}
+{% set position = post.position|default('left') %}
+{% set width = post.width|default('default') %}
+
+{% block row_wrapper %}
+<section
+  id="{{ udid }}"
+  class="pb-row-accordions container-fluid --position-{{ position }} --width-{{ width }} {{ classname }}" 
+  data-scroll
+  {{ attributes|join(' ') }}
+>
+  {% if title %}
+  <h2 class="pb-row-accordions__title m-0 p-0">{{ title }}</h2>
+  {% endif %}
+
+  {% if text %}
+  <div class="pb-row-accordions__text wysiwyg">{{ text }}</div>
+  {% endif %}
+
+  {% include 'partial/accordions.twig' with {
+    'accordions': accordions,
+    'udid': udid,
+    'classname': 'pb-row-accordions__accordions',
+    'attributes': [
+      'data-scroll-target="#'~ udid ~'"'
+    ]
+  } only %}
+
+</section>
+{% endblock %}

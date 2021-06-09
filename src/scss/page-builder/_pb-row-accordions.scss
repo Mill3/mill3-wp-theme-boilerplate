@@ -1,0 +1,85 @@
+.pb-row-accordions {
+  $self: &;
+
+  &__title, 
+  &__text,
+  &__accordions {
+    width: 100%;
+  }
+
+  // POSITION
+  &.--position-center {
+    #{$self}__title,
+    #{$self}__text,
+    #{$self}__accordions {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  &.--position-right {
+    #{$self}__title,
+    #{$self}__text,
+    #{$self}__accordions {
+      margin-left: auto;
+    }
+  }
+
+  // WIDTH
+  &.--width-small {
+    @include media-breakpoint-up(md) {
+      #{$self}__title,
+      #{$self}__text,
+      #{$self}__accordions {
+        width: 520px;
+      }
+    }
+  }
+  &.--width-medium {
+    @include media-breakpoint-up(md) {
+      #{$self}__title,
+      #{$self}__text,
+      #{$self}__accordions {
+        width: 620px;
+      }
+    }
+  }
+  &.--width-default {
+    @include media-breakpoint-up(md) {
+      #{$self}__title,
+      #{$self}__text,
+      #{$self}__accordions {
+        width: 720px;
+      }
+    }
+  }
+  &.--width-large {
+    @include media-breakpoint-up(lg) {
+      #{$self}__title,
+      #{$self}__text,
+      #{$self}__accordions {
+        width: 920px;
+      }
+    }
+  }
+
+  // IN-VIEW ANIMATIONS
+  @include inView {
+    #{$self}__title,
+    #{$self}__text {
+      opacity: 0.0001;
+      transform: translate3d(0, 40px, 0);
+    }
+    #{$self}__accordions {
+      --delay: 150ms;
+    }
+
+    &.is-inview {
+      #{$self}__title,
+      #{$self}__text {
+        opacity: 0.999;
+        transform: translate3d(0, 0px, 0);
+        transition: opacity 450ms linear, transform 650ms $easeOutCubic;
+      }
+    }
+  }
+}

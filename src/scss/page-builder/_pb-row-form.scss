@@ -1,0 +1,89 @@
+.pb-row-form {
+  $self: &;
+
+  &__form {
+    .gform_wrapper {
+      input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]), 
+      select,
+      textarea {
+        display: block;
+        width: 100%;
+      }
+      textarea {
+        min-height: 1.5em;
+        overflow: hidden;
+        resize: none;
+      }
+    }
+  }
+
+  // POSITION
+  &.--position-center {
+    #{$self}__title,
+    #{$self}__text,
+    #{$self}__form {
+      @include media-breakpoint-up(md) {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+  &.--position-right {
+    #{$self}__title,
+    #{$self}__text,
+    #{$self}__form {
+      @include media-breakpoint-up(md) {
+        margin-left: auto;
+      }
+    }
+  }
+
+  // WIDTH
+  &.--width-small {
+    #{$self}__title,
+    #{$self}__text,
+    #{$self}__form {
+      @include media-breakpoint-up(md) {
+        width: 520px;
+      }
+    }
+  }
+  &.--width-medium {
+    #{$self}__title,
+    #{$self}__text,
+    #{$self}__form {
+      @include media-breakpoint-up(md) {
+        width: 620px;
+      }
+    }
+  }
+  &.--width-large {
+    #{$self}__title,
+    #{$self}__text,
+    #{$self}__form {
+      @include media-breakpoint-up(md) {
+        width: 720px;
+      }
+    }
+  }
+  &.--width-xlarge {
+    #{$self}__title,
+    #{$self}__text,
+    #{$self}__form {
+      @include media-breakpoint-up(md) {
+        width: 920px;
+      }
+    }
+  }
+  &.--width-full {
+    #{$self}__title,
+    #{$self}__text {
+      @include media-breakpoint-up(md) {
+        width: 520px;
+      }
+    }
+    #{$self}__form {
+      width: 100%;
+    }
+  }
+}

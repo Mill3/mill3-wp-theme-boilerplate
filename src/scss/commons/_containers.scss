@@ -3,7 +3,7 @@
   padding-right: spacer(3);
 
   @include media-breakpoint-up(lg) {
-    padding-left: vw-spacer-lg(8);
-    padding-right: vw-spacer-lg(8);
+    padding-left: spacer(8);
+    padding-right: spacer(8);
   }
 }

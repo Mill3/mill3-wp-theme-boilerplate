@@ -1,0 +1,69 @@
+{% extends 'page-builder/pb_row_wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+
+{% set title = post.title %}
+{% set text = post.text %}
+{% set partners = post.partners %}
+
+{% block row_wrapper %}
+<section 
+  class="pb-row-partners {{ classname }}" 
+  {{ attributes|join(' ') }}
+>
+  {% if title or text %}
+  <header class="pb-row-partners__header container-fluid">
+    {% if title %}
+    <h2 class="pb-row-partners__title m-0 p-0">{{ title }}</h2>
+    {% endif %}
+
+    {% if text %}
+    <div class="pb-row-partners__text wysiwyg">{{ text }}</div>
+    {% endif %}
+  </header>
+  {% endif %}
+
+  {% set slider %}
+    {% for partner in partners %}
+    <div class="pb-row-partners__partner">
+      {% if partner.link %}
+        <a
+          href="{{ partner.link }}"
+          title="{{ partner.name }}"
+          target="_blank"
+          class="pb-row-partners__partner__media pb-row-partners__partner__link"
+        >
+          {% include 'partial/image.twig' with {
+            'image': Image(partner.logo),
+            'size': 'small',
+            'classname': 'pb-row-partners__partner__img w-100 h-100 object-fit-contain'
+          } only %}
+        </a>
+      {% else %}
+        <figure class="pb-row-partners__partner__media">
+          {% include 'partial/image.twig' with {
+            'image': Image(partner.logo),
+            'size': 'small',
+            'classname': 'pb-row-partners__partner__img w-100 h-100 object-fit-contain'
+          } only %}
+        </figure>
+      {% endif %}
+    </div>
+    {% endfor %}
+  {% endset %}
+  {% set slider_text = partners|map(partner => partner.name) %}
+
+  {% include 'partial/text-ticker.twig' with {
+    'aria_label': slider_text|join(', '),
+    'text': slider,
+    'tagname': 'div',
+    'mode': 'css',
+    'classname': 'pb-row-partners__ticker w-100',
+    'attributes': [
+      'aria-hidden="true"'
+    ]
+  } only %}
+
+</section>
+{% endblock %}

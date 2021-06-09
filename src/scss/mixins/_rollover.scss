@@ -36,3 +36,28 @@
     background-size: 100% calc(100% - #{$height + $bottom});
   }
 }
+
+@mixin linkRollover($rollover: true) {
+  $bottom: 0em;
+  $height: 0.07em;
+
+  @include hoverDevice {
+    background-image: linear-gradient(transparent calc(100% - #{$height}), currentColor #{$height});
+    background-repeat: no-repeat;
+    background-size: 100% calc(100% - #{$height + $bottom});
+    text-decoration: none;
+
+    @if $rollover {
+      &:hover,
+      &:focus,
+      &:active {
+        @include linkRolloverHover;
+      }
+    }
+  }
+}
+
+@mixin linkRolloverHover() {
+  animation: linkRedraw 750ms cubic-bezier(.645,.045,.355,1) both;
+}
+

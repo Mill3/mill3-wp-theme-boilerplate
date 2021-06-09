@@ -1,6 +1,18 @@
 .sharing {
   $self: &;
 
+  &__list {
+    li {
+      &:not(:first-child) {
+        margin-left: 10px;
+
+        @include media-breakpoint-up(lg) {
+          margin-left: 0;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
   &__copyMessage {
     white-space: nowrap;
     opacity: 0;

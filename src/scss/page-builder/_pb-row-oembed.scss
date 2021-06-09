@@ -1,0 +1,16 @@
+.pb-row-oembed {
+  $self: &;
+
+  &__wrap {
+    max-width: 1110px;
+    
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}

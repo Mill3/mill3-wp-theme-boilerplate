@@ -1,0 +1,17 @@
+.pb-row-testimonials {
+  $self: &;
+
+  &__testimonial {
+    &__text {
+      &::before { content: "« "; }
+      &::after { content: " »"; }
+    }
+    &__credit {
+      &::before { content: "- "; }
+    }
+    &__text,
+    &__credit {
+      max-width: 520px;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{% if accordions %}
+
+{% set classname = classname|default(null) %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('accordion-' ~ random()) %}
+
+<div 
+  class="accordions {{ classname }}"
+  data-module="accordions"
+  data-accordions
+  data-scroll
+  data-scroll-offset="100px,0"
+  {{ attributes|join(' ') }}
+>
+
+  {% for accordion in accordions %}
+  <div class="accordions__accordion w-100" style="--index:{{ loop.index0 }};">
+    <button
+      class="accordions__btn position-relative w-100 ta-left"
+      aria-label="{{ accordion.title }}"
+      aria-controls="{{ udid }}-{{ loop.index }}"
+      aria-expanded="false"
+    >
+      {{ accordion.title }}
+
+      <span class="accordions__arrowDown accordions__arrow" aria-hidden="true">
+        {{ source('src/svg/arrow-down.svg') }}
+      </span>
+      <span class="accordions__arrowUp accordions__arrow" aria-hidden="true">
+        {{ source('src/svg/arrow-up.svg') }}
+      </span>
+    </button>
+
+    <div 
+      id="{{ udid }}-{{ loop.index }}"
+      class="accordions__content w-100 wysiwyg"
+      aria-hidden="true"
+    >
+      {{ accordion.content }}
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+
+{% endif %}

@@ -1,0 +1,31 @@
+{% extends 'page-builder/pb_row_wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+
+{% set title = post.title %}
+{% set text = post.text %}
+{% set position = post.position|default('center') %}
+{% set width = post.width|default('default') %}
+{% set buttons = post.buttons|default([]) %}
+
+{% block row_wrapper %}
+<div
+  class="pb-row pb-row-text-simple container-fluid --position-{{ position }} --width-{{ width }} {{ classname }}"
+  {{ attributes|join(' ') }}
+>
+  {% if title %}
+  <h3 class="pb-row-text-simple__title m-0 p-0">{{ title }}</h3>
+  {% endif %}
+
+  <div class="pb-row-text-simple__body wysiwyg">
+    {{ text }}
+  </div>
+
+  {% include 'partial/links-nav.twig' with {
+    'buttons': buttons,
+    'classname': 'pb-row-text-simple__links'
+  } only %}
+
+</div>
+{% endblock %}

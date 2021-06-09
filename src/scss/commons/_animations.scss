@@ -1,0 +1,85 @@
+@keyframes btnLinkOver {
+  from {
+    transform: translate3d(0%, 0, 0);
+  }
+  to {
+    transform: translate3d(105%, 0, 0);
+  }
+}
+
+
+
+@keyframes AccordionArrowDownEnter {
+  0% {
+    opacity: 0.0001;
+    transform: translate3d(0, -100%, 0);
+  }
+  50% {
+    opacity: 0.999;
+  }
+  100% {
+    opacity: 0.999;
+    transform: translate3d(0, 0%, 0);
+  }
+}
+@keyframes AccordionArrowDownLeave {
+  0% {
+    opacity: 0.999;
+    transform: translate3d(0, 0%, 0);
+  }
+  50% {
+    opacity: 0.999;
+  }
+  100% {
+    opacity: 0.0001;
+    transform: translate3d(0, 100%, 0);
+  }
+}
+@keyframes AccordionArrowUpEnter {
+  0% {
+    opacity: 0.0001;
+    transform: translate3d(0, 100%, 0);
+  }
+  50% {
+    opacity: 0.999;
+  }
+  100% {
+    opacity: 0.999;
+    transform: translate3d(0, 0%, 0);
+  }
+}
+@keyframes AccordionArrowUpLeave {
+  0% {
+    opacity: 0.999;
+    transform: translate3d(0, 0%, 0);
+  }
+  50% {
+    opacity: 0.999;
+  }
+  100% {
+    opacity: 0.0001;
+    transform: translate3d(0, -100%, 0);
+  }
+}
+@keyframes AccordionContentOpen {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+
+@keyframes linkRedraw {
+  $bottom: 0em;
+  $height: 0.07em;
+
+  from {
+    background-size: 0% calc(100% - #{$height + $bottom});
+  }
+  to {
+    background-size: 100% calc(100% - #{$height + $bottom});
+  }
+}
