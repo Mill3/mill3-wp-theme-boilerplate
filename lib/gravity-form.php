@@ -77,6 +77,17 @@ function remove_placeholder_polyfill() {
 add_action('gform_enqueue_scripts', __NAMESPACE__ . '\\remove_placeholder_polyfill', 11 );
 
 
+// Disable legacy CSS for all forms
+// https://docs.gravityforms.com/gform_disable_form_legacy_css/
+add_filter( 'gform_disable_form_legacy_css', '__return_true' );
+
+// Disable theme CSS for all forms
+// https://docs.gravityforms.com/gform_disable_form_theme_css
+add_filter( 'gform_disable_form_theme_css', '__return_true' );
+
+// Disable legacy markup for all forms
+// https://docs.gravityforms.com/gform_enable_legacy_markup
+add_filter( 'gform_enable_legacy_markup', '__return_false' );
 
 // Disabling Automatic Scrolling On All Forms
 // https://docs.gravityforms.com/disable-automatic-scroll-form-confirmation/
