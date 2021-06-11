@@ -21,10 +21,12 @@ const theme = {
     superscope: "45%",
     "half-square": "50%",
     widescreen: "56.25%",
-    landscape: "74%",
+    "postal-card": "66.666666667%",
+    landscape: "75%",
     "wide-angle": "87.5%",
     square: "100%",
-    portrait: "130%"
+    portrait: "133%",
+    photography: "150%"
   },
   "flex-direction": ["column", "column-reverse", "row", "row-reverse"],
   visiblity: ["visible", "hidden"],
