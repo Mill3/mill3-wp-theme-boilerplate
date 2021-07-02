@@ -5,11 +5,11 @@
 {% set direction = direction|default(null) %}
 
 {# make sure mode is valid #}
-{% if mode not in ['css', 'js'] %}
+{% if mode not in ['css', 'js', 'scroll'] %}
   {% set mode = 'js' %}
 {% endif %}
 
-{# make sure direction is valid (both is only valid in JS mode) #}
+{# make sure direction is valid (both is only valid in SCROLL & JS mode) #}
 {% if direction not in ['left', 'right', 'both'] %}
   {% set direction = mode == 'css' ? 'left' : 'both' %}
 {% endif %}

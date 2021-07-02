@@ -9,6 +9,7 @@ const VELOCITY = 0.08;
 
 const MODE_CSS = 'css';
 const MODE_JS = 'js';
+const MODE_SCROLL = 'scroll';
 
 const DIRECTION_LEFT = -1;
 const DIRECTION_RIGHT = 1;
@@ -21,7 +22,7 @@ class TextTicker {
     this.template = $(".text-ticker__text", this.el);
     this.texts = [this.template];
 
-    this._mode = this.el.dataset.textTicker === MODE_CSS || mobile ? MODE_CSS : MODE_JS;
+    this._mode = this._getMode();
     this._direction = this._getDirection();
     this._velocity = { target: VELOCITY * this._direction, current: VELOCITY * this._direction };
     this._progress = 0;
@@ -42,7 +43,7 @@ class TextTicker {
     this._ro = new ResizeOrientation(this._onResize);
     this._ro.run();
 
-    if(this._mode === MODE_JS ) {
+    if(this._mode === MODE_JS || this._mode === MODE_SCROLL ) {
       this.el.classList.add("--mode-js");
       this._wheel = new Wheel(this._onScroll);
     } else {
@@ -79,14 +80,14 @@ class TextTicker {
   _bindEvents() {
     if (this._ro) this._ro?.on();
     if (this._wheel) this._wheel?.on();
-    if (this._mode === MODE_JS) {
+    if (this._mode === MODE_JS || this._mode === MODE_SCROLL) {
       this.emitter?.on("SiteScroll.start", this._onScrollStart);
       this.emitter?.on("SiteScroll.stop", this._onScrollStop);
       this._raf = requestAnimationFrame(this._onRaf);
     }
   }
   _unbindEvents() {
-    if(this._mode === MODE_JS) {
+    if(this._mode === MODE_JS || this._mode === MODE_SCROLL) {
       this.emitter?.off("SiteScroll.start", this._onScrollStart);
       this.emitter?.off("SiteScroll.stop", this._onScrollStop);
     }
@@ -113,9 +114,11 @@ class TextTicker {
     // apply friction
     this._velocity.target *= FRICTION;
 
-    // set minimal velocity based on is current direction
-    if (this._velocity.target > 0) this._velocity.target = Math.max(VELOCITY, this._velocity.target);
-    else this._velocity.target = Math.min(VELOCITY * -1, this._velocity.target);
+     // set minimal velocity based on is current direction (only for JS mode)
+     if( this._mode === MODE_JS ) {
+      if (this._velocity.target > 0) this._velocity.target = Math.max(VELOCITY, this._velocity.target);
+      else this._velocity.target = Math.min(VELOCITY * -1, this._velocity.target);
+    }
 
     // lerp velocity
     this._velocity.current = lerp(this._velocity.current, this._velocity.target, 0.2);
@@ -158,6 +161,15 @@ class TextTicker {
     if( this.el.classList.contains('--direction-left') ) return DIRECTION_LEFT;
     else if( this.el.classList.contains('--direction-both') ) return DIRECTION_BOTH;
     else if( this.el.classList.contains('--direction-right') ) return DIRECTION_RIGHT;
+  }
+  _getMode() {
+    if( mobile ) return MODE_CSS;
+
+    switch( this.el.dataset.textTicker ){
+      case MODE_CSS: return MODE_CSS;
+      case MODE_SCROLL: return MODE_SCROLL;
+      default: return MODE_JS;
+    }
   }
 }
 

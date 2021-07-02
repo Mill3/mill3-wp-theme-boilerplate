@@ -11,7 +11,8 @@
   white-space: nowrap;
 
   // ANIMATION MODE
-  &.--mode-css {
+  &.--mode-css,
+  &.--mode-scroll {
     .text-ticker__text {
       animation-name: tickerText;
       animation-duration: 15s;
@@ -27,7 +28,8 @@
   }
 
   // DIRECTION
-  &.--mode-css.--direction-right {
+  &.--mode-css.--direction-right,
+  &.--mode-scroll.--direction-right {
     .text-ticker__text {
       animation-direction: reverse;
     }
