@@ -29,6 +29,7 @@ class SiteScroll {
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
     this.update = this.update.bind(this);
+    this.scrollTo = this.scrollTo.bind(this);
     this.scrollUp = this.scrollUp.bind(this);
 
     init ? this.init() : null;
@@ -75,6 +76,7 @@ class SiteScroll {
       this.emitter.off(`${this.name}.stop`, this.stop);
       this.emitter.off(`${this.name}.start`, this.start);
       this.emitter.off(`${this.name}.update`, this.update);
+      this.emitter.off(`${this.name}.scrollTo`, this.scrollTo);
       this.emitter.off(`${this.name}.scrollUp`, this.scrollUp);
     }
 
@@ -102,8 +104,8 @@ class SiteScroll {
     html.classList.add(SCROLL_DISABLE_CLASSNAME);
   }
 
-  scrollTo(target, offset) {
-    if (this.scroll) this.scroll.scrollTo(target, offset);
+  scrollTo(target, offset = 0) {
+    if (this.scroll) this.scroll.scrollTo(target, { offset : offset });
   }
 
   scrollUp() {
@@ -117,6 +119,7 @@ class SiteScroll {
     this.emitter.on(`${this.name}.stop`, this.stop);
     this.emitter.on(`${this.name}.start`, this.start);
     this.emitter.on(`${this.name}.update`, this.update);
+    this.emitter.on(`${this.name}.scrollTo`, this.scrollTo);
     this.emitter.on(`${this.name}.scrollUp`, this.scrollUp);
   }
 
