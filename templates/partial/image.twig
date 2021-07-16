@@ -1,5 +1,8 @@
 {% if image or src %}
 
+  {# replace Timber/Image() with our class extenxion Timber/Mill3Image #}
+  {% set image = Mill3Image(image) %}
+
   {% set src = src|default(null) %}
   {% set alt = alt|default('') %}
   {% set lazyload = lazyload|default(false) %}

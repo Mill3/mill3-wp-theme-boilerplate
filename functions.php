@@ -54,6 +54,7 @@ $includes = [
     'lib/gravity-form.php',
     'lib/menu.php',
     'lib/newsletter.php',
+    'lib/mill3-timber-image.php',
     'lib/post-functions.php',
     'lib/post-queries.php',
     'lib/post-type.php',
@@ -181,6 +182,14 @@ class StarterSite extends Timber\Site
             new \Twig\TwigFunction(
                 'barba_namespace', function () {
                     return \Mill3WP\Barba\barba_namespace();
+                }
+            )
+        );
+
+        $twig->addFunction(
+            new Timber\Twig_Function(
+                'Mill3Image', function ($attachment_id) {
+                    return new \Mill3WP\Image\Mill3Image($attachment_id);
                 }
             )
         );
