@@ -34,7 +34,7 @@ add_filter('wp_check_filetype_and_ext', function($data, $file, $filename, $mimes
 // Print css code to correctly display SVG in Admin
 add_action('admin_head', function() {
     echo '<style type="text/css">
-            .attachment-266x266, .thumbnail img {
+            .attachment-266x266, .thumbnail img[src$=".svg"] {
                 width: 100% !important;
                 height: auto !important;
             }
