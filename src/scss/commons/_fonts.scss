@@ -1,5 +1,13 @@
 $font-directory: "../fonts/";
 
+@font-face {
+  font-family: 'Madras';
+  src: url('#{$font-directory}MadrasRegular.woff2') format('woff2'),
+      url('#{$font-directory}MadrasRegular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
 /*
 @font-face {
   font-family: "Favorit";

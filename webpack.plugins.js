@@ -12,7 +12,7 @@ import { PATHS } from "./webpack.config.babel";
 export const webpackPlugins = (DEV = false) => {
   return [
     new WebpackBar(),
-    new webpack.NamedModulesPlugin(),
+    // new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       "process.env": {
         DEV: DEV ? JSON.stringify(true) : JSON.stringify(false)

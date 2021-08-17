@@ -25,7 +25,7 @@ export const PATHS = {
 
 const config = {
   mode: process.env.NODE_ENV,
-  devtool: DEV ? 'eval' : 'source-map',
+  devtool: DEV ? "eval" : "source-map",
   optimization: webpackOptimization(),
 
   //
@@ -56,8 +56,8 @@ const config = {
 
   output: {
     path: PATHS.dist,
-    filename: DEV ? `js/[name].bundle.js` : `js/[name].[hash].bundle.js`,
-    chunkFilename: `js/[name].[hash].bundle.js`,
+    filename: DEV ? `js/[name].bundle.js` : `js/[name].[chunkhash].bundle.js`,
+    chunkFilename: `js/[name].[chunkhash].bundle.js`,
     publicPath: DEV ? `http://localhost:${SERVER_PORT}/` : PATHS.public
   },
 

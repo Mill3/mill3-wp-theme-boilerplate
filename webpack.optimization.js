@@ -3,12 +3,15 @@ import TerserPlugin from "terser-webpack-plugin";
 
 export const webpackOptimization = (DEV = false) => {
   return {
+    moduleIds: 'named',
+    chunkIds: 'named',
     minimize: !DEV,
     minimizer: [
       new TerserPlugin({
-        cache: !DEV,
-        parallel: !DEV,
-        sourceMap: !DEV
+        parallel: true,
+        terserOptions: {
+          sourceMap: DEV ? 'eval' : 'source-map'
+        }
       }),
       new OptimizeCssAssetsPlugin({
         cssProcessor: require(`cssnano`),
