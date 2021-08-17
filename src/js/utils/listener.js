@@ -57,7 +57,7 @@ export const once = (el, type, callback, options) => {
     const t = e.currentTarget;
 
     off(t, type, cb, options);
-    callback.call(t, arguments);
+    callback.call(t, e);
   };
 
   listen(el, "add", type, cb, options);
