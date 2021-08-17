@@ -1,4 +1,4 @@
-import OptimizeCssAssetsPlugin from "optimize-css-assets-webpack-plugin";
+import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 import TerserPlugin from "terser-webpack-plugin";
 
 export const webpackOptimization = (DEV = false) => {
@@ -13,12 +13,9 @@ export const webpackOptimization = (DEV = false) => {
           sourceMap: DEV ? 'eval' : 'source-map'
         }
       }),
-      new OptimizeCssAssetsPlugin({
-        cssProcessor: require(`cssnano`),
-        cssProcessorPluginOptions: {
-          preset: [`default`, { discardComments: { removeAll: true } }]
-        },
-        canPrint: true
+      new CssMinimizerPlugin({
+        parallel: 8,
+        minify: DEV ? null : CssMinimizerPlugin.cssnanoMinify
       })
     ]
   };

@@ -77,7 +77,17 @@ export const webpackModules = (DEV = false) => {
         test: /\.(sa|sc|c)ss$/i,
         use: [
           ...(DEV
-            ? [`style-loader`, `css-loader`, `sass-loader`]
+            ? [
+                `style-loader`,
+                `css-loader`,
+                {
+                  loader: `sass-loader`,
+                  options: {
+                    // Prefer `node-sass`
+                    implementation: require.resolve("node-sass"),
+                  }
+                }
+              ]
             : [MiniCssExtractPlugin.loader, `css-loader`, `sass-loader`]),
           {
             loader: "sass-json-loader",

@@ -47,6 +47,13 @@
                 "operator": "==",
                 "value": "page"
             }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page_section"
+            }
         ]
     ],
     "menu_order": 0,
