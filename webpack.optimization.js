@@ -6,17 +6,20 @@ export const webpackOptimization = (DEV = false) => {
     moduleIds: 'named',
     chunkIds: 'named',
     minimize: !DEV,
-    minimizer: [
-      new TerserPlugin({
-        parallel: 4,
-        terserOptions: {
-          sourceMap: DEV ? 'eval' : 'source-map'
-        }
-      }),
-      new CssMinimizerPlugin({
-        parallel: 4,
-        minify: DEV ? null : CssMinimizerPlugin.cssnanoMinify
-      })
-    ]
+    minimizer: !DEV
+      ? [
+        new TerserPlugin({
+          parallel: 4,
+          terserOptions: {
+            sourceMap: DEV ? 'eval' : 'source-map'
+          }
+        }),
+        new CssMinimizerPlugin({
+          parallel: 4,
+          minify: DEV ? null : CssMinimizerPlugin.cssnanoMinify
+        })
+      ]
+      : [],
+
   };
 };
