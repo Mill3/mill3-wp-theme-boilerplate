@@ -1,10 +1,9 @@
 import { $$ } from "@utils/dom";
 
-import Module from "../module/Module";
-import PbRowForm from "./PBRowForm";
+import Module from "@modules/module/Module";
+import Gform from "./GForm";
 
-export const SELECTOR = `[data-pb-row-form]`;
-
+export const SELECTOR = `.gform_wrapper`;
 class Factory extends Module {
   constructor(init = false) {
     super();
@@ -16,13 +15,13 @@ class Factory extends Module {
   }
 
   get name() {
-    return "PbRowForm";
+    return "Gform";
   }
 
   init() {
     // set initialized
     this.initialized = true;
-    this.items = [...$$(SELECTOR)].map(el => new PbRowForm(el, this.emitter));
+    this.items = [...$$(SELECTOR)].map(el => new Gform(el, this.emitter));
   }
 
   destroy() {

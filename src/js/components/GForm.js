@@ -50,6 +50,9 @@ class GForm extends EventEmitter2 {
     this.submit = $(SUBMIT_SELECTOR, this.el);
     this.fields = [...$$(".gfield", this.body)].map((field) => new GFormField(field));
 
+    // add viewport detection on main element
+    this.el.setAttribute('data-scroll', '1');
+
     if (this.submit) on(this.submit, "click", this._onSubmit);
   }
 
@@ -78,7 +81,9 @@ class GFormField {
     this.el = el;
     this.label = $(".gfield_label", this.el);
     this.inputContainer = $(".ginput_container", this.el);
+    this.parentContainer = this.inputContainer.parentElement;
     this.input = this._getInput();
+    this.type = this._getType();
 
     this._onInputFocus = this._onInputFocus.bind(this);
     this._onInputBlur = this._onInputBlur.bind(this);
@@ -90,6 +95,9 @@ class GFormField {
     if (this.input) {
       this.input.on("focus", this._onInputFocus);
       this.input.on("blur", this._onInputBlur);
+
+      // set input type on parentContainer
+      if(this.parentContainer)  this.parentContainer.classList.add(`--${this.type}`);
 
       const value = this.input.value.trim();
       if (value) this._onInputFocus();
@@ -126,7 +134,7 @@ class GFormField {
 
   _getInput() {
     if( !this.inputContainer) return null;
-    
+
     const textarea = $(TEXTAREA_SELECTOR, this.inputContainer);
     if (textarea) return new GFieldTextArea(textarea);
 
@@ -138,6 +146,16 @@ class GFormField {
 
     return null;
   }
+
+  _getType() {
+    if( !this.input) return null;
+
+    const type = this.input.el.getAttribute('type');
+    const tagName = this.input.el.tagName.toLowerCase();
+
+    return type ? type : tagName;
+  }
+
 }
 
 class GFieldInput extends EventEmitter2 {

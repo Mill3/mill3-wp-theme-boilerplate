@@ -3,6 +3,9 @@
 namespace Mill3WP\GravityForm;
 use Timber;
 
+// stop here of GravityForm is not installed
+if ( ! class_exists('GFCommon') ) return;
+
 // change default error message
 function change_message( $message, $form ) {
     return "<div class='validation_error'>" . __("We can't process your message. Please review the fields highlighted in red below.", "tdp") . "</div>";
@@ -21,6 +24,15 @@ add_filter( 'gform_ajax_spinner_url', __NAMESPACE__ . '\\spinner_url', 10, 2 );
 */
 
 
+// output basic GForm JS, this is necessary for barba.scripts to work propertly
+function output_hooks_javascript($head)
+{
+    \GFCommon::output_hooks_javascript();
+    return $head;
+}
+
+add_action('wp_head', __NAMESPACE__ . '\\output_hooks_javascript');
+
 
 // https://docs.gravityforms.com/gform_submit_button/
 function form_submit_button( $button, $form ) {
@@ -29,7 +41,7 @@ function form_submit_button( $button, $form ) {
     $data = array(
         'id' => "gform_submit_button_{$form['id']}",
         'title' => $form['button']['text'],
-        //'style' => 'cta',
+        'style' => 'cta',
         'classname' => 'gsubmit',
         'attributes' => array('type="submit"')
     );
@@ -66,7 +78,7 @@ function enqueue_gf_scripts() {
     }
 }
 
-add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_gf_scripts', 100);
+// add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_gf_scripts', 100);
 
 
 /* Remove jquery.placeholder.js polyfill, because it's 2020 */

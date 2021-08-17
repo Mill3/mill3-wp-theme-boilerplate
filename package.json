@@ -81,7 +81,7 @@
   },
   "dependencies": {
     "@barba/core": "^2.9.7",
-    "@mill3-packages/barba-scripts": "0.1.9",
+    "@mill3-packages/barba-scripts": "0.2.1",
     "@mill3-packages/system-ui-sass": "^0.7.3",
     "@vimeo/player": "^2.15.0",
     "animejs": "^3.1.0",

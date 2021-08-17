@@ -25,7 +25,7 @@ export const PATHS = {
 
 const config = {
   mode: process.env.NODE_ENV,
-
+  devtool: DEV ? 'eval' : 'source-map',
   optimization: webpackOptimization(),
 
   //
