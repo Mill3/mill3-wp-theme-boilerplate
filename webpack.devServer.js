@@ -12,7 +12,8 @@ export const webpackDevServer = (DEV = false) => {
             headers: {
               "Access-Control-Allow-Origin": `*`
             },
-            stats: 'errors-only'
+            transportMode: 'ws',
+            stats: 'minimal'
           }
         }
       : {})

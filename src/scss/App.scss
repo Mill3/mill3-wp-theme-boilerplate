@@ -5,7 +5,6 @@
 
 // NPM packages
 @import "~@mill3-packages/system-ui-sass/src/system-ui.scss";
-// @import "~@mill3-packages/system-ui-sass/dist/system-ui.css";
 @import "~sass-easing";
 @import "~locomotive-scroll/dist/locomotive-scroll.min.css";
 @import "~swiper/swiper.scss";
@@ -39,3 +38,7 @@
 
 // UI
 @import "ui/index";
+
+body {
+  border: 1px solid green;
+}

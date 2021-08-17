@@ -60,7 +60,7 @@ function newsletter_form() {
     }
 
     // If form is valid
-    if( $response['success'] === TRUE AND locate_template('vendors/mailchimp/MailChimp.php', TRUE, TRUE) ) {
+    if( $response['success'] === TRUE AND locate_template('vendor/mailchimp/MailChimp.php', TRUE, TRUE) ) {
 
         // create MailChimp API instance
         $mailchimp = new \DrewM\MailChimp\MailChimp('YOUR-API-KEY');
@@ -104,7 +104,7 @@ add_action( 'wp_ajax_nopriv_newsletter_form', __NAMESPACE__ . '\\newsletter_form
 /*
 add_action( 'wp_ajax_newsletter_form_debug', function() {
     // load lib
-    locate_template('vendors/mailchimp/MailChimp.php', TRUE, TRUE);
+    locate_template('vendor/mailchimp/MailChimp.php', TRUE, TRUE);
 
     $mailchimp = new \DrewM\MailChimp\MailChimp('YOUR-API-KEY');
     $result = $mailchimp->get('lists');

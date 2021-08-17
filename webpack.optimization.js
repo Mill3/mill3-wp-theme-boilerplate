@@ -8,13 +8,13 @@ export const webpackOptimization = (DEV = false) => {
     minimize: !DEV,
     minimizer: [
       new TerserPlugin({
-        parallel: true,
+        parallel: 4,
         terserOptions: {
           sourceMap: DEV ? 'eval' : 'source-map'
         }
       }),
       new CssMinimizerPlugin({
-        parallel: 8,
+        parallel: 4,
         minify: DEV ? null : CssMinimizerPlugin.cssnanoMinify
       })
     ]
