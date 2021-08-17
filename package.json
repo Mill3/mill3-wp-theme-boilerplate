@@ -15,8 +15,8 @@
     "boilerplate"
   ],
   "scripts": {
-    "test": "jest",
-    "precommit": "npm test",
+    "test": "jest --passWithNoTests",
+    "precommit": "npm test --passWithNoTests",
     "mill3-cli": "mill3-cli",
     "dev": "export NODE_ENV=development && npm run mill3-cli dev",
     "build": "export NODE_ENV=production && npm run mill3-cli build",
