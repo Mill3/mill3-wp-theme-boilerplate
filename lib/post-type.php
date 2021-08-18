@@ -55,8 +55,8 @@ class Theme_CustomPostTypes {
      * @method run
      */
     public function run() {
-        $this->dummy();
-        $this->page_section();
+        // $this->dummy();
+        // $this->page_section();
     }
 
     /**

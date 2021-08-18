@@ -49,9 +49,13 @@ const config = {
   entry: {
     app: PATHS.app,
     style: path.join(PATHS.scss, `App.scss`),
-    "editor-style": path.join(PATHS.scss, `Editor-style.scss`),
-    acfPreview: path.join(PATHS.scss, `ACF-preview.scss`),
-    acfPreviewIframe: path.resolve(SRC_PATH, `js/ACF-Preview.js`)
+    ...(!DEV
+      ? {
+        "editor-style": path.join(PATHS.scss, `Editor-style.scss`),
+        acfPreview: path.join(PATHS.scss, `ACF-preview.scss`),
+        acfPreviewIframe: path.resolve(SRC_PATH, `js/ACF-Preview.js`)
+      } : {}
+    )
   },
 
   output: {
