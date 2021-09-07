@@ -77,21 +77,21 @@
     "webpackbar": "^5.0.0-3"
   },
   "dependencies": {
-    "@barba/core": "^2.9.7",
+    "@barba/core": "2.9.7",
     "@mill3-packages/barba-scripts": "0.2.1",
-    "@mill3-packages/system-ui-sass": "^0.7.3",
-    "@vimeo/player": "^2.15.0",
-    "animejs": "^3.1.0",
-    "axios": "^0.21.1",
-    "clipboard-copy": "^4.0.1",
-    "domready": "^1.0.8",
-    "eventemitter2": "^6.4.3",
-    "form-serialize": "^0.7.2",
-    "intl-messageformat": "^9.4.6",
-    "load-google-maps-api": "^2.0.2",
-    "locomotive-scroll": "^4.1.0",
-    "sass-easing": "^1.0.3",
-    "splitting": "^1.0.6",
-    "swiper": "^6.5.7"
+    "@mill3-packages/system-ui-sass": "0.7.3",
+    "@vimeo/player": "2.15.0",
+    "animejs": "3.1.0",
+    "axios": "0.21.1",
+    "clipboard-copy": "4.0.1",
+    "domready": "1.0.8",
+    "eventemitter2": "6.4.3",
+    "form-serialize": "0.7.2",
+    "intl-messageformat": "9.4.6",
+    "load-google-maps-api": "2.0.2",
+    "locomotive-scroll": "4.1.0",
+    "sass-easing": "1.0.3",
+    "splitting": "1.0.6",
+    "swiper": "6.8.4"
   }
 }
