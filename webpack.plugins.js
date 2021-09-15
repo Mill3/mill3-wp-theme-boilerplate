@@ -12,7 +12,6 @@ import { PATHS } from "./webpack.config.babel";
 export const webpackPlugins = (DEV = false) => {
   return [
     new WebpackBar(),
-    new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       "process.env": {
         DEV: DEV ? JSON.stringify(true) : JSON.stringify(false)
@@ -30,19 +29,19 @@ export const webpackPlugins = (DEV = false) => {
       : // prod only
         [
           new MiniCssExtractPlugin({
-            filename: "css/[name].css?hash=[hash]",
-            chunkFilename: "css/[id].[hash].css"
+            filename: "css/[name].css?hash=[chunkhash]",
+            chunkFilename: "css/[name].css"
+          }),
+          new CleanWebpackPlugin({
+            root: path.resolve(PATHS.dist),
+            verbose: true,
+            dry: false
           }),
           new AssetsPlugin({
             path: path.resolve(PATHS.dist),
             filename: `assets.json`,
             prettyPrint: true,
             includeAllFileTypes: false
-          }),
-          new CleanWebpackPlugin({
-            root: path.resolve(PATHS.dist),
-            verbose: true,
-            dry: false
           })
         ])
   ];

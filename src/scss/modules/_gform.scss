@@ -1,0 +1,139 @@
+/**
+ * Minimal styling for Gravity Form
+ * Intend to use as-is in every project
+ */
+ .gform_wrapper {
+  --input-padding: 0px;
+
+  form {
+    margin: 0;
+  }
+
+  input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]),
+  select,
+  textarea {
+    display: block;
+    width: 100%;
+    font-size: font-size(base);
+    // iOS friendly
+    border-radius: none;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  textarea {
+    overflow: hidden;
+    resize: none;
+  }
+
+  fieldset {
+    border: none;
+    padding: 0;
+    bottom: 0;
+  }
+
+  @include inView {
+    &.is-inview {
+    }
+  }
+
+  .gform_body {
+
+    .gform_fields {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .validation_error {
+    }
+
+    .gfield_validation_message {
+    }
+
+    .screen-reader-text {
+      visibility: hidden;
+      height: 0;
+      width: 0;
+      position: absolute;
+    }
+
+    // honeypot
+    .gfield.gform_validation_container {
+      position: absolute;
+      visibility: hidden;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      pointer-events: none;
+    }
+  }
+
+  // each gform field
+  .gfield {
+
+    // add delay variable for each field (up to 10)
+    @for $i from 1 through 10 {
+      &:nth-child(#{$i}) {
+        --field-delay: #{$i * 100}ms;
+      }
+    }
+
+    .gfield_label {
+    }
+
+    // field widths available in GF 2.5.x
+    &.gfield--width-half {
+      @include media-breakpoint-up(md) {
+        width: calc(50% - (var(--fields-grid-gap) / 2));
+      }
+    }
+    &.gfield--width-third {
+      @include media-breakpoint-up(lg) {
+        width: calc(33% - calc(var(--fields-grid-gap) / 1.65));
+      }
+    }
+    &.gfield--width-quarter {
+      @include media-breakpoint-up(xl) {
+        width: calc(25% - calc(var(--fields-grid-gap) / 1.33333333333));
+      }
+    }
+
+    // floating label hidden on focus and/or filled only on text, tel, email, textarea (the selector scope will prevent the effect on radio, checkboxes, select)
+    // see @components/GForm.js#100 for details
+    &.--text,
+    &.--tel,
+    &.--email,
+    &.--textarea {
+      .gfield_label {
+      }
+
+      // when filled
+      &.--filled {
+      }
+    }
+
+    // checkbox and radio
+    .ginput_container_checkbox,
+    .ginput_container_radio {
+      .gchoice {
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        align-items: center;
+      }
+    }
+
+  }
+
+  // field input container
+  .ginput_container {
+
+  }
+
+
+  // footer containain submit
+  .gform_footer {
+  }
+
+}

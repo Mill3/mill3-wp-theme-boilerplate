@@ -1,9 +1,9 @@
 import { $$ } from "@utils/dom";
 
 import Module from "../module/Module";
-import PbRowForm from "./PBRowForm";
+import SvgPathLength from "./SvgPathLength";
 
-export const SELECTOR = `[data-pb-row-form]`;
+export const SELECTOR = `[data-svg-path-length]`;
 
 class Factory extends Module {
   constructor(init = false) {
@@ -16,15 +16,14 @@ class Factory extends Module {
   }
 
   get name() {
-    return "PbRowForm";
+    return "SvgPathLength";
   }
 
   init() {
     // set initialized
     this.initialized = true;
-    this.items = [...$$(SELECTOR)].map(el => new PbRowForm(el, this.emitter));
+    this.items = [...$$(SELECTOR)].map(el => new SvgPathLength(el, this.emitter));
   }
-
   destroy() {
     if (this.items) this.items.forEach(el => el.destroy());
 

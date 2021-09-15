@@ -1,18 +1,15 @@
-import { $ } from "@utils/dom";
-
 import GForm from "@components/GForm";
 
-class PbRowForm {
+class Gform {
   constructor(el) {
     this.el = el;
-    this.gform_wrapper = $(".gform_wrapper", this.el);
     this.gform = null;
 
     this.init();
   }
 
   init() {
-    if (this.gform_wrapper) this.gform = new GForm(this.gform_wrapper);
+    this.gform = new GForm(this.el);
   }
   destroy() {
     if (this.gform) this.gform.destroy();
@@ -23,4 +20,4 @@ class PbRowForm {
   }
 }
 
-export default PbRowForm;
+export default Gform;

@@ -68,6 +68,7 @@ const theme = {
   overflow: ["auto", "hidden", "visible", "scroll"],
   "font-family": {
     heading: [
+      "Madras",
       "-apple-system",
       "BlinkMacSystemFont",
       "Segoe UI",

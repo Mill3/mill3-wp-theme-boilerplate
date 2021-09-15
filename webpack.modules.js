@@ -19,66 +19,69 @@ export const webpackModules = (DEV = false) => {
         loader: `raw-loader`
       },
       {
-        test: /\.(woff|woff2|ttf|eot|otf)(\?v=[0-9]\.[0-9]\.[0-9])?(\?[0-9a-zA-Z]*)?$/,
-        loader: `file-loader`,
-        options: {
-          name: `font-[hash].[ext]`,
-          ...(!DEV
-            ? {
-                outputPath: `./fonts`,
-                publicPath: "../fonts"
-              }
-            : {})
+        test: /\.(woff|woff2)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/font-[hash][ext][query]'
         }
       },
       {
         test: /\.(mp4|webm|wav|mp3)(\?v=[0-9]\.[0-9]\.[0-9])?(\?[0-9a-zA-Z]*)?$/,
-        loader: `file-loader?name=./medias/[hash].[ext]`
+        loader: `file-loader`,
+        options: {
+          name: `medias/[hash].[ext]`
+        }
       },
       {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
-        loaders: [
-          `file-loader?hash=sha512&digest=hex&name=./images/[hash].[ext]`,
-          {
-            loader: `image-webpack-loader`,
-            query: {
-              mozjpeg: {
-                quality: 75,
-                progressive: true,
-                optimizationLevel: 4,
-                interlaced: false
-              },
-              pngquant: {
-                quality: [0.6, 1],
-                speed: 4
-              },
-              optipng: {
-                optimizationLevel: 3
-              },
-              gifsicle: {
-                optimizationLevel: 1
-              },
-              svgo: {
-                plugins: [
-                  {
-                    removeViewBox: false
-                  },
-                  {
-                    removeEmptyAttrs: false
-                  }
-                ]
-              }
+        loader: `image-webpack-loader`,
+        options: {
+          query: {
+            mozjpeg: {
+              quality: 75,
+              progressive: true,
+              optimizationLevel: 4,
+              interlaced: false
+            },
+            pngquant: {
+              quality: [0.6, 1],
+              speed: 4
+            },
+            optipng: {
+              optimizationLevel: 3
+            },
+            gifsicle: {
+              optimizationLevel: 1
+            },
+            svgo: {
+              plugins: [
+                {
+                  removeViewBox: false
+                },
+                {
+                  removeEmptyAttrs: false
+                }
+              ]
             }
           }
-        ]
+        }
       },
       // styles loaders
       {
         test: /\.(sa|sc|c)ss$/i,
         use: [
-          ...(DEV
-            ? [`style-loader`, `css-loader`, `sass-loader`]
-            : [MiniCssExtractPlugin.loader, `css-loader`, `sass-loader`]),
+          {
+            loader: DEV ? 'style-loader' : MiniCssExtractPlugin.loader
+          },
+          `css-loader`,
+          {
+            loader: `sass-loader`,
+            options: {
+              // Prefer `node-sass`
+              implementation: require.resolve("node-sass"),
+              sourceMap: false
+            }
+          },
           {
             loader: "sass-json-loader",
             options: { path: PATHS["sass_theme"] }

@@ -14,8 +14,8 @@
  */
 
 $context = Timber::get_context();
-$context['posts'] = new Timber\PostQuery();
-$context['foo'] = 'bar';
+// $context['posts'] = new Timber\PostQuery();
+// $context['foo'] = 'bar';
 $templates = array('index.twig');
 
 if (is_front_page()) array_unshift($templates, 'home.twig');

@@ -4,9 +4,9 @@
 </head>
 {% endblock %}
 
-<body 
-  class="{{ body_class }} {% block body_extra_class %}{% endblock %}" 
-  data-template="base.twig" 
+<body
+  class="{{ body_class }} {% block body_extra_class %}{% endblock %}"
+  data-template="base.twig"
   data-ui="body"
 >
   {% if options.gtm_code %}
@@ -19,11 +19,11 @@
   {% include 'site-transition.twig' %}
 
   <div data-barba="wrapper" class="position-relative z-0">
-    <div 
+    <div
       class="d-flex flex-column"
-      data-barba="container" 
+      data-barba="container"
       data-barba-namespace="{{ barba_namespace() }}"
-      data-ui="site-scroll,locomotive-scroll-vimeo,locomotive-scroll-youtube,locomotive-scroll-facebook"
+      data-ui="site-scroll,gform,locomotive-scroll-vimeo,locomotive-scroll-youtube,locomotive-scroll-facebook"
       data-scroll-container
     >
 

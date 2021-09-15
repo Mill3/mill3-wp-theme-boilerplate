@@ -1,6 +1,6 @@
 .pb-row-medias {
   $self: &;
-  
+
   &__media {
     @include inView {
       opacity: 0.0001;
@@ -57,7 +57,7 @@
     #{$self}__grid:not(.--fullwidth) {
       padding-left: 16px;
       padding-right: 16px;
-      
+
       @include media-breakpoint-up(lg) {
         padding-left: 40px;
         padding-right: 40px;
