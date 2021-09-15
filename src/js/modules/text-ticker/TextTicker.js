@@ -114,8 +114,8 @@ class TextTicker {
     // apply friction
     this._velocity.target *= FRICTION;
 
-     // set minimal velocity based on is current direction (only for JS mode)
-     if( this._mode === MODE_JS ) {
+    // set minimal velocity based on is current direction (only for JS mode)
+    if( this._mode === MODE_JS ) {
       if (this._velocity.target > 0) this._velocity.target = Math.max(VELOCITY, this._velocity.target);
       else this._velocity.target = Math.min(VELOCITY * -1, this._velocity.target);
     }
@@ -151,6 +151,7 @@ class TextTicker {
     while( this.texts.length < quantity ) {
       const copy = this.template.cloneNode(true);
             copy.setAttribute('aria-hidden', true);
+            copy.style.setProperty('--ticker-index', this.texts.length);
 
       this.texts.push(copy);
       this.el.appendChild(copy);

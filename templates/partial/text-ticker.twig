@@ -14,11 +14,15 @@
   {% set direction = mode == 'css' ? 'left' : 'both' %}
 {% endif %}
 
-<header
+<div
   class="text-ticker d-flex flex-nowrap align-items-center overflow-hidden --direction-{{ direction }} {{ classname }}"
   data-module="text-ticker"
   data-text-ticker="{{ mode }}"
   {{ attributes|join(' ') }}
 >
-  <{{tagname}} class="text-ticker__text m-0 p-0" aria-label="{{ aria_label|default(text) }}">{{ text }}</{{tagname}}>
-</header>
+  <{{tagname}} 
+    class="text-ticker__text m-0 p-0" 
+    {% if aria_label != false %}aria-label="{{ aria_label|default(text) }}"{% endif %}
+    style="--ticker-index: 0;"
+  >{{ text }}</{{tagname}}>
+</div>
