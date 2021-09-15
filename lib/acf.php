@@ -19,8 +19,18 @@ use Mill3WP\Assets;
 add_filter('acfe/flexible/thumbnail/layout=YOUR_LAYOUT_NAME', 'acf_flexible_layout_thumbnail', 10, 3);
 
 function acf_flexible_layout_thumbnail($thumbnail, $field, $layout) {
-    if ($layout['name'] == 'YOUR_LAYOUT_NAME') {
-        return get_stylesheet_directory_uri() . '/acf-json/thumbnails/YOUR_LAYOUT_NAME.jpg';
+    $filename = $layout['name'];
+    $path = '/acf-json/thumbnails/' . $filename . '.png';
+
+    // try to find PNG first
+    if (file_exists(get_theme_file_path($path))) {
+        return get_stylesheet_directory_uri() . $path;
+    }
+
+    // then, try to find GIF
+    $path = '/acf-json/thumbnails/' . $filename . '.gif';
+    if (file_exists(get_theme_file_path($path))) {
+        return get_stylesheet_directory_uri() . $path;
     }
 }
 
