@@ -18,6 +18,12 @@
     }
   }
 
+  &__ticker {
+    &__list {
+      --item-length: 0;
+    }
+  }
+
   &__nav {
     @include media-breakpoint-up(lg) {
       padding-left: 40px;
@@ -44,6 +50,19 @@
     #{$self}__slide,
     #{$self}__img {
       width: auto;
+    }
+  }
+
+  // TICKER
+  &.--layout-ticker {
+    #{$self}__img {
+      width: auto;
+      height: auto;
+      max-height: 265px;
+
+      @include media-breakpoint-up(lg) {
+        max-height: 448px;
+      }
     }
   }
 

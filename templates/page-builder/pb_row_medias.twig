@@ -7,7 +7,9 @@
 {% set medias = post.medias %}
 {% set layout = post.layout|default('slider') %}
 {% set format = post.format|default('square') %}
+{% set ticker_direction = post.ticker_direction|default('left') %}
 {% set grid_gap = post.grid_gap|default(3) %}
+{% set grid_gap_mobile = post.grid_gap_mobile|default(3) %}
 {% set fullwidth = post.fullwidth|default(false) %}
 
 {% set classname = classname ~ ' --layout-' ~ layout %}
@@ -25,13 +27,14 @@
 <div
   id="{{ index }}"
   class="pb-row pb-row-medias {{ classname }}"
-  {% if layout in ['slider', 'grid'] %}
+  {% if layout in ['slider', 'ticker', 'grid'] %}
   data-scroll
   data-scroll-offset="100px,0"
   {% endif %}
   {{ attributes|join(' ') }}
 >
   {% if layout == 'slider' %}
+
   <div class="pb-row-medias__slider swiper-container">
     <aside 
       class="pb-row-medias__nav container-fluid d-flex align-items-center justify-content-end"
@@ -72,9 +75,53 @@
     </div>
   </div>
 
+  {% elseif layout == 'ticker' %}
+
+  {% set filtered_medias = [] %}
+  {% for media in medias if media.image %}
+    {% set filtered_medias = filtered_medias|merge([media]) %}
+  {% endfor %}
+
+  <div class="pb-row-medias__ticker" aria-hidden="true">
+    {% set ticker_content %}
+    <ul 
+      class="pb-row-medias__ticker__list d-flex align-items-start list-none m-0 p-0"
+      style="--item-length: {{ filtered_medias|length }}"
+    >
+      {% for media in filtered_medias %}
+      {% set image = Image(media.image) %}
+      <li 
+        class="mr-{{ grid_gap_mobile }} mr-lg-{{ grid_gap }}" 
+        style="--index:{{ loop.index0 }}"
+      >
+        <figure class="d-block w-100 m-0 p-0">
+          {% include 'partial/image.twig' with {
+            'image': image,
+            'classname': 'pb-row-medias__img img-fluid'
+          } only %}
+
+          {% if media.credit %}
+          <figcaption class="pb-row-medias__caption d-block m-0 mt-2 p-0">{{ media.credit }}</figcaption>
+          {% endif %}
+        </figure>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endset %}
+
+    {% include 'partial/text-ticker.twig' with {
+      'text': ticker_content,
+      'aria_label': false,
+      'tagname': 'div',
+      'mode': 'scroll',
+      'direction': ticker_direction,
+      'classname': 'pb-row-medias__ticker__ticker'
+    } only %}
+  </div>
+
   {% else %}
 
-  <div class="pb-row-medias__grid d-grid grid-gap-{{ grid_gap }} {% if fullwidth %}--fullwidth{% endif %}">
+  <div class="pb-row-medias__grid d-grid grid-gap-{{ grid_gap_mobile }} grid-gap-lg-{{ grid_gap }} {% if fullwidth %}--fullwidth{% endif %}">
     {% for media in medias if media.image %}
     {% set image = Image(media.image) %}
     <div 
