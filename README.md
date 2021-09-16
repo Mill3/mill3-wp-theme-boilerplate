@@ -61,6 +61,11 @@ npm run build
 
 In production mode, assets are loaded from dist/assets.json file, cache busting included !
 
+## TinyMCE stylesheet
+
+You have to edit ```add_editor_stylesheet``` function in ```.lib/editor.php``` to match your theme name.
+Not doing so will result in TinyMCE not loading your theme stylesheet.
+
 ## Polylang & i18n notes
 
 Generally, we want to seperate Wordpress core translations ```__('my string')``` from the twig templates, since we are using Polylang, strings are translated with the method ```pll_e('my string')```, thus, Wordpress admin view can't apply those Polylang translations.

@@ -12,7 +12,7 @@ function add_editor_stylesheet()
     // Get CSS from assets.json
     $editor_css = Assets\Asset_File_path('editor-style', 'css');
     $css_relative = str_replace(
-        '/wp-content/themes/mill3wp/',
+        '/wp-content/themes/[YOUR-THEME-NAME]/',
         '',
         $editor_css
     );
