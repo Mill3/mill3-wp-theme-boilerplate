@@ -146,6 +146,10 @@ class TextTicker {
   _onResize() {
     const elRect = rect(this.el);
     const textRect = rect(this.template);
+
+    // if one of the two elements rect is null, do nothing
+    if( elRect.width < 1 || textRect.width < 1 ) return;
+    
     const quantity = Math.ceil(elRect.width / textRect.width) + 1;
 
     while( this.texts.length < quantity ) {
