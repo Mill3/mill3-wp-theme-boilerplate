@@ -3,6 +3,8 @@
 {% set tagname = tagname|default('h3') %}
 {% set mode = mode|default('js') %}
 {% set direction = direction|default(null) %}
+{% set playInView = playInView ?? true %}
+{% set inViewOffset = inViewOffset|default(-200) %}
 
 {# make sure mode is valid #}
 {% if mode not in ['css', 'js', 'scroll'] %}
@@ -16,6 +18,12 @@
 
 <div
   class="text-ticker d-flex flex-nowrap align-items-center overflow-hidden --direction-{{ direction }} {{ classname }}"
+  {% if playInView %}
+  data-scroll
+  data-scroll-call="text-ticker"
+  data-scroll-offset="{{ inViewOffset }}px,0"
+  data-scroll-repeat="true"
+  {% endif %}
   data-module="text-ticker"
   data-text-ticker="{{ mode }}"
   {{ attributes|join(' ') }}

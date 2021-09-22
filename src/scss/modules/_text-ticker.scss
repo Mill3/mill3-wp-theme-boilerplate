@@ -11,13 +11,24 @@
   white-space: nowrap;
 
   // ANIMATION MODE
-  &.--mode-css,
-  &.--mode-scroll {
+  &.--mode-css {
     .text-ticker__text {
       animation-name: tickerText;
       animation-duration: 15s;
       animation-timing-function: linear;
       animation-iteration-count: infinite;
+    }
+
+    @include inView {
+      .text-ticker__text {
+        animation-play-state: paused;
+      }
+
+      &.is-inview {
+        .text-ticker__text {
+          animation-play-state: running;
+        }
+      }
     }
   }
   &.--mode-js {
@@ -28,8 +39,7 @@
   }
 
   // DIRECTION
-  &.--mode-css.--direction-right,
-  &.--mode-scroll.--direction-right {
+  &.--mode-css.--direction-right {
     .text-ticker__text {
       animation-direction: reverse;
     }
