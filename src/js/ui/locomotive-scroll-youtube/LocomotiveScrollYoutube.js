@@ -1,5 +1,6 @@
-import { $$, head } from "@utils/dom";
+import { $$ } from "@utils/dom";
 import { mobile } from "@utils/mobile";
+import YoutubeAPI from "@utils/youtube-api";
 
 export const SELECTOR = `.wysiwyg iframe[src*="youtube.com"]`;
 
@@ -15,7 +16,6 @@ class LocomotiveScrollYoutube {
     this.items = null;
 
     this._elements = null;
-    this._script = null;
     this._status = STATUS_DESTROYED;
 
     this._initChildren = this._initChildren.bind(this);
@@ -24,34 +24,30 @@ class LocomotiveScrollYoutube {
   }
 
   init() {
+    // do nothing for mobile
     if (mobile) return;
 
+    // query all elements that will turn into LocomotiveScrollYoutubeItem later
     this._elements = Array.from($$(SELECTOR));
+
+    // if there is no elements, skip here
     if( !this._elements || this._elements.length === 0 ) return;
 
+    // set status as initialized
     this._status = STATUS_INITIALIZED;
 
-    if( !this._script ) {
-      this._script = document.createElement("script");
-      this._script.onerror = e => {
-        console.error("Error loading Youtube iFrame API :", e);
-      };
+    // load Youtube API
+    YoutubeAPI.load().then(() => {
+      // if status is lower than initialized (ex: destroyed), do nothing
+      if( this._status < STATUS_INITIALIZED ) return;
+      
+      // create childs
+      this._initChildren();
 
-      window.onYouTubeIframeAPIReady = () => {
-        if( this._status < STATUS_INITIALIZED ) return;
-        
-        this._initChildren();
-        if( this._status === STATUS_STARTED ) this.start();
-
-        window.onYouTubeIframeAPIReady = null;
-      }
-
-      this._script.src = "https://www.youtube.com/iframe_api";
-      head.appendChild(this._script);
-    }
-    else this._initChildren();
+      // if status is started, start childs
+      if( this._status === STATUS_STARTED ) this.start();
+    });
   }
-
   destroy() {
     if (this.items) this.items.forEach(el => el.destroy());
     this.items = null;
@@ -64,10 +60,50 @@ class LocomotiveScrollYoutube {
     this._status = STATUS_STARTED;
     if (this.items) this.items.forEach(el => el.start());
   }
-
   stop() {
     if (this.items) this.items.forEach(el => el.stop());
     this._status = STATUS_STOPPED;
+  }
+
+  add(el) {
+    // do nothing for mobile
+    if (mobile) return;
+
+    // if not already initialized, set as initialized
+    if( this._status < STATUS_INITIALIZED ) this._status = STATUS_INITIALIZED;
+
+    // load YoutubeAPI and create child instance
+    YoutubeAPI.load().then(() => {
+      // if module is destroyed during API loading, do nothing
+      if( this._status < STATUS_INITIALIZED ) return;
+
+      // create child instance
+      const item = new LocomotiveScrollYoutubeItem(el);
+
+      // save instance for later
+      if( !this.items ) this.items = [];
+      this.items.push(item);
+
+      // start instance if module is started
+      if( this._status === STATUS_STARTED ) item.start();
+    });
+  }
+  remove(el) {
+    // remove from uninitialized element if exists
+    if( this._elements ) this._elements = this._elements.filter(element => element !== el);
+
+    // remove from items
+    if( this.items ) {
+      // find his index in array
+      const index = this.items.findIndex(item => item.el === el);
+
+      // if found in array, stop and remove instance
+      if( index > -1 ) {
+        const item = this.items.splice(index, 1)[0];
+              item.stop();
+              item.destroy();
+      }
+    }
   }
 
   _initChildren() {
@@ -87,6 +123,9 @@ class LocomotiveScrollYoutubeItem {
       this.el.id = this.udid;
     }
 
+    const urlParams = new URLSearchParams(this.el.src);
+
+    this._autoplay = urlParams.get('autoplay') === '1';
     this._playerReady = false;
     this._playerStatus = null;
 
@@ -103,6 +142,7 @@ class LocomotiveScrollYoutubeItem {
     this.player = null;
     this.udid = null;
 
+    this._autoplay = null;
     this._playerReady = null;
     this._playerStatus = null;
 
@@ -112,6 +152,12 @@ class LocomotiveScrollYoutubeItem {
   }
   start() {
     this._bindEvents();
+
+    // autoplay hack
+    if( this._autoplay ) {
+      this._onClick();
+      this._onStateChange({data: YT.PlayerState.PLAYING});
+    }
   }
   stop() {
     this._unbindEvents();
@@ -158,6 +204,8 @@ class LocomotiveScrollYoutubeItem {
     this._unbindEvents();
   }
   _onStateChange(event) {
+    this._playerReady = true;
+    
     // on pause or ended
     if(event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) this._bindEvents();
     // on playing

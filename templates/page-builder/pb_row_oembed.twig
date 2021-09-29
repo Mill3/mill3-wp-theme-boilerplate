@@ -4,18 +4,41 @@
 {% set attributes = attributes|default([]) %}
 
 {% set video = post.video %}
+{% set thumbnail = post.thumbnail %}
 
 {% block row_wrapper %}
 <div
   class="pb-row pb-row-oembed {{ classname }}"
+  {% if thumbnail %}
+  data-module="pb-row-oembed"
+  data-pb-row-oembed
+  {% endif %}
   {{ attributes|join(' ') }}
 >
   <div class="pb-row-oembed__container container-fluid">
-    <div class="pb-row-oembed__wrap mx-auto">
+    <div class="pb-row-oembed__wrap">
       <div class="w-100 box box-widescreen wysiwyg">
-        {{ video|embeded_settings }}
+        {% if thumbnail %}
+          <div class="pb-row-oembed__preview position-absolute t-0 l-0 w-100 h-100">
+            {% include 'partial/image.twig' with {
+              'image': Image(thumbnail),
+              'lazyload': true,
+              'classname': 'image-as-background'
+            } only %}
+
+            <button class="pb-row-oembed__button position-absolute t-0 l-0">{{ __('Play video', 'mill3wp') }}</button>
+          </div>
+        {% else %}
+          {{ video|embeded_settings }}
+        {% endif %}
       </div>
     </div>
   </div>
+
+  {% if thumbnail %}
+  <script type="text/html">
+    {{ video|embeded_settings({'autoplay': 1}) }}
+  </script>
+  {% endif %}
 </div>
 {% endblock %}
