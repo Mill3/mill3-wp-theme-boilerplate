@@ -1,4 +1,4 @@
 import SiteLoader from "./SiteLoader";
-import FadeTransition from "./FadeTransition";
+import SiteTransition from "./SiteTransition";
 
-export default [new SiteLoader(), new FadeTransition()];
+export default [new SiteLoader(), new SiteTransition()];

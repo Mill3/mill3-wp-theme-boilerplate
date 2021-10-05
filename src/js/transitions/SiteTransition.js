@@ -1,10 +1,14 @@
 import anime from "animejs";
 import ImagesLoaded from "@utils/imagesloaded";
 
-const TRANSITION_DURATION_BASE = 250;
-class FadeTransition {
+import { $ } from "@utils/dom";
+
+const SELECTOR = "[data-site-transition]";
+
+class SiteTransition {
   constructor() {
-    this.name = "fade";
+    this.el = $(SELECTOR);
+    this.name = "transition";
 
     this._imagesLoaded = false;
     this._imgLoader = null;
@@ -35,37 +39,41 @@ class FadeTransition {
     });
   }
 
-  leave({ current }) {
+  leave() {
     return new Promise((resolve) => {
       anime({
-        targets: current.container,
-        opacity: 0,
-        duration: TRANSITION_DURATION_BASE,
+        targets: this.el,
+        opacity: [0, 1],
+        duration: 250,
         easing: "linear",
         complete: () => resolve()
       });
+
+      this.el.classList.remove("visibility-hidden");
     });
   }
 
-  enter({ next }) {
+  enter() {
     return new Promise((resolve) => {
       anime({
-        targets: next.container,
-        opacity: [0, 1],
-        duration: TRANSITION_DURATION_BASE,
-        delay: TRANSITION_DURATION_BASE/2,
+        targets: this.el,
+        opacity: [1, 0],
+        duration: 250,
         easing: "linear",
-        complete: () => resolve()
+        complete: () => {
+          this.el.classList.add("visibility-hidden");
+          resolve();
+        }
       });
     });
   }
 
   _onImagesLoaded() {
     this._imagesLoaded = true;
-    
+
     this._imgLoader.destroy();
     this._imgLoader = null;
   }
 }
 
-export default FadeTransition;
+export default SiteTransition;
