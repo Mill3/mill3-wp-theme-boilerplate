@@ -33,7 +33,7 @@ export const webpackModules = (DEV = false) => {
         }
       },
       {
-        test: /.*\.(gif|png|jpe?g|svg)$/i,
+        test: /.*\.(gif|png|jpe?g)$/i,
         loader: `image-webpack-loader`,
         options: {
           query: {
@@ -52,16 +52,6 @@ export const webpackModules = (DEV = false) => {
             },
             gifsicle: {
               optimizationLevel: 1
-            },
-            svgo: {
-              plugins: [
-                {
-                  removeViewBox: false
-                },
-                {
-                  removeEmptyAttrs: false
-                }
-              ]
             }
           }
         }

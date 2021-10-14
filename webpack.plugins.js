@@ -2,7 +2,6 @@
 import path from "path";
 import webpack from "webpack";
 import WebpackBar from "webpackbar";
-import DashboardPlugin from "webpack-dashboard/plugin";
 import AssetsPlugin from "assets-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -20,7 +19,6 @@ export const webpackPlugins = (DEV = false) => {
     // in dev mode only
     ...(DEV
       ? [
-          new DashboardPlugin(),
           new webpack.LoaderOptionsPlugin({
             debug: true
           }),
