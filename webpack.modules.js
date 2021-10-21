@@ -74,6 +74,7 @@ export const webpackModules = (DEV = false) => {
             loader: DEV ? 'style-loader' : MiniCssExtractPlugin.loader
           },
           `css-loader`,
+          `postcss-loader`,
           {
             loader: `sass-loader`,
             options: {
