@@ -8,7 +8,7 @@ if ( ! class_exists('GFCommon') ) return;
 
 // change default error message
 function change_message( $message, $form ) {
-    return "<div class='validation_error'>" . __("We can't process your message. Please review the fields highlighted in red below.", "tdp") . "</div>";
+    return "<div class='validation_error'>" . __("We can't process your message. Please review the fields highlighted in red below.", "mill3wp") . "</div>";
 }
 
 add_filter( 'gform_validation_message', __NAMESPACE__ . '\\change_message', 10, 2 );
