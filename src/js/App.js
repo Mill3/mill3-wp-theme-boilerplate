@@ -9,6 +9,7 @@ import "@core/hello";
 import "@core/barba";
 import BarbaWebpackChunks from "@core/barba.webpack-chunks";
 import MobileViewportUnit from "@core/mobile-vh";
+import splitting from "@core/splitting";
 import { mobile } from "@utils/mobile";
 import transitions from "@transitions";
 import views from "@views";
@@ -37,6 +38,10 @@ class App {
 
     // if mobile, create mobile vh fix
     if( mobile ) new MobileViewportUnit.init();
+
+    // run Splitting.js before once/enter transition
+    barba.hooks.once(() => { splitting(); });
+    barba.hooks.enter(() => { splitting(); });
 
     // init barba
     barba.init({
