@@ -6,10 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ACF Preview</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" type="text/css" media="all">
   <link rel="stylesheet" href="{{ stylesheet }}" type="text/css" media="all">
 </head>
-<body class="acf-preview">
+<body class="{{ body_class }} acf-preview">
   {% set template = "page-builder/" ~ post.acf_fc_layout ~ ".twig" %}
   {% include template with {'post': post, 'is_preview': is_preview } only %}
   <script src="{{ js }}"></script>
