@@ -1,6 +1,7 @@
 <?php
 
 global $post;
+if( !$post ) $post = get_post($_POST['post_id']);
 $post_type = $post->post_type;
 
 $context = Timber\Timber::get_context();
