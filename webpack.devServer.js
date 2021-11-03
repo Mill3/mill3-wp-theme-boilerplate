@@ -6,7 +6,6 @@ export const webpackDevServer = (DEV = false) => {
       ? {
           devServer: {
             port: SERVER_PORT,
-            hot: true,
             compress: true,
             devMiddleware: {
               publicPath: `http://localhost:${SERVER_PORT}/`,

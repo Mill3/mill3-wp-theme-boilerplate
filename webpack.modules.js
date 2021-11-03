@@ -7,8 +7,10 @@ export const webpackModules = (DEV = false) => {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        use: `babel-loader`,
-        exclude: /(node_modules|bower_components)/
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: "swc-loader"
+        }
       },
       {
         test: /\.json$/,
