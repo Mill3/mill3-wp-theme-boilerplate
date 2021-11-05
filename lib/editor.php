@@ -10,9 +10,14 @@ LOAD EDITOR STYLES
 function add_editor_stylesheet()
 {
     // Get CSS from assets.json
-    $editor_css = Assets\Asset_File_path('editor-style', 'css');
+    $editor_css = Assets\Asset_File_path($asset_name, 'css');
+
+    if(!$editor_css) return;
+
+    $theme_directory_url = parse_url( get_stylesheet_directory_uri(), PHP_URL_PATH );
+
     $css_relative = str_replace(
-        '/wp-content/themes/[YOUR-THEME-NAME]/',
+        $theme_directory_url,
         '',
         $editor_css
     );
