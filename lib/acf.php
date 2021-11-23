@@ -34,6 +34,16 @@ function acf_flexible_layout_thumbnail($thumbnail, $field, $layout) {
     }
 }
 
+add_filter('acf/settings/show_admin', 'acf_show_admin', 10, 3);
+
+function acf_show_admin() {
+    if( null !== THEME_DEV && THEME_DEV === true ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 // Set a custom name for collapsed layouts in ACF Flexible Content field
 add_filter('acf/fields/flexible_content/layout_title/name=YOUR_LAYOUT_NAME', function($title, $field, $layout, $i) {
@@ -74,7 +84,7 @@ add_filter('acf/load_field/name=gravity_form_id', function ($field) {
     foreach ($forms as $key => $form) {
         $field['choices'][$form['id']] = $form['title'];
     }
-    
+
     return $field;
 });
 
