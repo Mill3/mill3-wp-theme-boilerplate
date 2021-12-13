@@ -32,6 +32,16 @@ function add_editor_stylesheet()
 
 add_action('after_setup_theme', __NAMESPACE__ . '\\add_editor_stylesheet');
 
+/**
+ * Enqueue custom MCE plugins
+ */
+function enqueue_shortcodes_scripts($plugin_array)
+{
+    $plugin_array["dummy"] = Assets\Asset_File_path('admin-shortcodes', 'js');
+    return $plugin_array;
+}
+
+// add_filter("mce_external_plugins", __NAMESPACE__ . "\\enqueue_shortcodes_scripts");
 
 
 

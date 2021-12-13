@@ -2,6 +2,8 @@
 
 // require __DIR__ . '/vendor/autoload.php';
 
+// define THEME_DEV const using WP_DEBUG if not defined in wp-config.php
+defined('THEME_DEV') or define('THEME_DEV', WP_DEBUG);
 
 /**
  * Timber starter-theme
