@@ -7,3 +7,7 @@ export const PascalCase = (s) => {
     return m.toUpperCase().replace(/-/,'');
   });
 }
+
+export const addLeadingZero = (number) => {
+  return number < 10 ? '0' + number : number.toString();
+}
