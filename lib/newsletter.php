@@ -70,11 +70,17 @@ function newsletter_form() {
         try {
             $data = [
                 'email_address' => $email,
-                'status'        => 'subscribed'
+                'status'        => 'subscribed',
+                // MERGE FIELD SAMPLE :
+                // "merge_fields" => [
+                //     "FNAME" => $_POST['FNAME'] ?? "",
+                //     "LNAME" => $_POST['LNAME'] ?? "",
+                //     "MMERGE9" => DO SOMETHING SMART HERE
+                // ]
             ];
 
             // add language if Polylang is installed
-            if( function_exists('pll_current_language') ) $data['language'] = pll_current_language();
+            if( function_exists('pll_current_language') ) $data['language'] = pll_current_language('locale');
 
             // add or update a list member
             $result = $mailchimp->put("lists/{$list_id}/members/{$user_hash}", $data);
