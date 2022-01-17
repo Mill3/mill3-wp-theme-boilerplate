@@ -1,0 +1,38 @@
+{% if post %}
+
+{% set classname = classname|default(null) %}
+{% set attributes = attributes|default([]) %}
+
+{% set title = post.title %}
+{% set link = post.link %}
+{% set thumbnail = post.thumbnail %}
+{% set type = post.type.labels.singular_name %}
+
+<article
+  class="search-preview {{ classname }}"
+  {{ attributes|join(' ') }}
+>
+  <a
+    href="{{ link }}"
+    title="{{ title }}"
+    class="search-preview__link d-block td-none"
+  >
+    {% if type %}
+    <header class="search-preview__type">{{ __(type, 'mill3wp') }}</header>
+    {% endif %}
+
+    {% if thumbnail %}
+    <figure class="search-preview__media w-100 box box-square overflow-hidden">
+      {% include 'partial/image.twig' with {
+        'image': Image(thumbnail),
+        'size': 'small',
+        'classname': 'search-preview__img image-as-background'
+      } only %}
+    </figure>
+    {% endif %}
+
+    <h4 class="search-preview__title m-0">{{ title }}</h4>
+  </a>
+</article>
+
+{% endif %}
