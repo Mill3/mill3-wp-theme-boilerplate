@@ -1,0 +1,25 @@
+[data-filtered-posts-list] {
+
+  [data-filtered-posts-list-pagination] {
+    &:empty { display: none !important; }
+  }
+
+  &.--js-filtered-posts-list-locked {
+    pointer-events: none;
+    
+    &:not([class*="position-"]) { position: relative; }
+
+    &:after {
+      cursor: wait;
+      pointer-events: all;
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 10000;
+      background-color: transparent;
+    }
+  }
+}

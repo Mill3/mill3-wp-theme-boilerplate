@@ -70,6 +70,17 @@ class Theme_PostQueries
         return $this->run_query($args);
     }
 
+    public function search($s)
+    {
+        $args = [
+            's' => $s,
+            'posts_per_page' => self::$limit,
+            'post__not_in' => self::$exclude,
+        ];
+
+        return $this->run_query($args);
+    }
+
     /**
      *  Get all recent posts, excluding sticky
      *
@@ -129,6 +140,12 @@ function add_to_twig($twig)
         new \Twig\TwigFunction('get_posts', function ($post_type = 'post') {
             $query = new \Mill3WP\PostQueries\Theme_PostQueries();
             return $query->get_posts($post_type);
+        })
+    );
+
+    $twig->addFunction(
+        new \Twig\TwigFunction('search', function ($s, $limit = -1) {
+            return (new \Mill3WP\PostQueries\Theme_PostQueries($limit, 'Timber'))->search($s);
         })
     );
 
