@@ -28,7 +28,7 @@ class SiteTransition {
 
   beforeEnter({ next }) {
     // if images are loaded, skip here
-    if (this._imagesLoaded === true || !this._imagesLoaded) return;
+    if (this._imagesLoaded === true) return;
 
     return new Promise((resolve) => {
       // if imagesLoaded has not been initialized, because next.container was null in `beforeLeave` hook.
