@@ -74,6 +74,7 @@ class Theme_PostQueries
     {
         $args = [
             's' => $s,
+            'post_type' => 'any',
             'posts_per_page' => self::$limit,
             'post__not_in' => self::$exclude,
         ];

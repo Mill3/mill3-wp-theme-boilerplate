@@ -62,6 +62,7 @@ $includes = [
     'lib/post-type.php',
     'lib/rankmath.php',
     'lib/recaptcha.php',
+    'lib/search.php',
     'lib/setup.php',
     'lib/shortcodes.php',
     'lib/svg.php',
