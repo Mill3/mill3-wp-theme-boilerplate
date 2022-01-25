@@ -33,13 +33,6 @@
     bottom: 0;
   }
 
-  @include inView {
-    &.is-inview {
-    }
-  }
-
-
-
   // default theme (we put body in front to override stylesheeet injected after our stylesheet)
   body &.gravity-theme {
     .gform_fields {
