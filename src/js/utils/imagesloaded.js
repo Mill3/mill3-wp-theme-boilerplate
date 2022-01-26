@@ -5,7 +5,6 @@ import { isArray, isNodeList } from "./is";
 import { on, off } from "./listener";
 
 
-//const IMG_SELECTOR = 'img';
 const IMG_SELECTOR = 'img:not([loading="lazy"])';
 const ELEMENT_NODE_TYPES = {
   1: true,
@@ -148,7 +147,6 @@ class LoadingImage extends EventEmitter2 {
     this._unbindEvents();
 
     this.img = null;
-    this.proxyImage = null;
     this.isLoaded = null;
 
     this._onLoad = null;
@@ -162,13 +160,8 @@ class LoadingImage extends EventEmitter2 {
       this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
       return;
     }
-  
-    // If none of the checks above matched, simulate loading on detached element.
-    this.proxyImage = new Image();
 
     this._bindEvents();
-
-    this.proxyImage.src = this.img.currentSrc;
   }
   getIsImageComplete() {
     // check for non-zero, non-undefined naturalWidth
@@ -180,23 +173,12 @@ class LoadingImage extends EventEmitter2 {
   }
 
   _bindEvents() {
-    if( this.proxyImage ) {
-      on(this.proxyImage, 'load', this._onLoad);
-      on(this.proxyImage, 'error', this._onError);
-    }    
-
-    // bind to image as well for Firefox
     if( this.img ) {
       on(this.img, 'load', this._onLoad);
       on(this.img, 'error', this._onError);
     }
   }
   _unbindEvents() {
-    if( this.proxyImage ) {
-      off(this.proxyImage, 'load', this._onLoad);
-      off(this.proxyImage, 'error', this._onError);
-    }
-
     if( this.img ) {
       off(this.img, 'load', this._onLoad);
       off(this.img, 'error', this._onError);

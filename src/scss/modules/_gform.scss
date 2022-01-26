@@ -33,9 +33,37 @@
     bottom: 0;
   }
 
-  @include inView {
-    &.is-inview {
+  // default theme (we put body in front to override stylesheeet injected after our stylesheet)
+  body &.gravity-theme {
+    .gform_fields {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-column-gap: 24px;
+      grid-row-gap: 40px;
+
+      @include media-breakpoint-up(lg) {
+        grid-template-columns: repeat(12, 1fr);
+      }
     }
+    .gfield {
+      @include media-breakpoint-up(lg) {
+        grid-column-end: span 12;
+      }
+
+      &.gfield--width-half {
+        @include media-breakpoint-down(md) {
+          grid-column: 1 / -1;
+        }
+        @include media-breakpoint-up(lg) {
+          grid-column-end: span 6;
+        }
+      }
+    }
+  }
+
+  // on submit
+  &.--submitting {
+    cursor: wait;
   }
 
   .gform_body {
@@ -124,16 +152,6 @@
       }
     }
 
-  }
-
-  // field input container
-  .ginput_container {
-
-  }
-
-
-  // footer containain submit
-  .gform_footer {
   }
 
 }

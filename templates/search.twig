@@ -1,0 +1,112 @@
+{% extends "base.twig" %}
+
+{% set search_query = function('get_search_query') %}
+{% set search_all = search(search_query) %}
+{% set num_results = posts|length %}
+
+{% set post_types = [] %}
+{% for post in search_all if not (post.post_type in post_types) %}
+  {% set post_types = post_types|merge([post.post_type]) %}
+{% endfor %}
+
+{% block content %}
+<div
+  class="search-layout container-fluid position-relative"
+  data-scroll-section
+>
+
+  <header class="search-layout__header">
+
+    <form
+      class="search-layout__form d-block position-relative"
+      action="{{ site.url }}"
+      method="get"
+      role="search"
+    >
+      <input
+        class="search-layout__input w-100 m-0 color-current"
+        type="search"
+        value="{{ search_query }}"
+        name="s"
+        placeholder="{{ __('Search by keywords', 'mill3wp') }}"
+        autocomplete="off"
+      />
+
+      <button 
+        class="search-layout__submit d-block position-absolute t-0 r-0 color-current" 
+        type="submit"
+      >
+        {{ __('Search', 'mill3wp') }}
+      </button>
+    </form>
+
+    {% if query|length > 0 %}
+      <p class="search-layout__numResults m-0">
+        {% if num_results == 0 %}
+          {{ __('No result found', 'mill3wp') }}
+        {% elseif num_results == 1 %}
+          {{ __('%s result', 'mill3wp')|format(num_results) }}
+        {% else %}
+          {{ __('%s results', 'mill3wp')|format(num_results) }}
+        {% endif %}
+      </p>
+    {% endif %}
+
+  </header>
+
+  {% if query|length > 0 %}
+  <section 
+    class="search-layout__wrap"
+    data-module="filtered-posts-list"
+    data-filtered-posts-list
+  >
+
+    <nav class="search-layout__nav">
+      {% set search_link = function('get_search_link') %}
+      {% set search_post_type = function('get_query_var', 'post_type') %}
+
+      <select 
+        class="search-layout__filter m-0 p-0"
+        data-filtered-posts-list-filters
+      >
+        <option 
+          value="{{ search_link }}"
+          {% if search_post_type == 'any' %}selected{% endif %}
+        >{{ __('Show all', 'mill3wp') }}</option>
+
+        {% for post_type in post_types %}
+        {% set post_type_object = function('get_post_type_object', post_type) %}
+        <option 
+          value="{{ search_link  }}?post_type={{ post_type }}"
+          {% if search_post_type == post_type %}selected{% endif %}
+        >{{ post_type_object.labels.name }}</option>
+        {% endfor %}
+      </select>
+    </nav>
+
+    <ul 
+      class="search-layout__results w-100 d-grid grid-column-sm-2 grid-column-md-3 grid-column-xl-4 list-none m-0 p-0"
+      data-filtered-posts-list-results
+    >
+      {% for post in posts %}
+      <li class="search-layout__result">
+        {% include 'post-type/search/search-preview.twig' with {
+          'post': post,
+          'classname': 'search-layout__preview'
+        } only %}
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div data-filtered-posts-list-pagination>
+      {% include 'partial/pagination.twig' with {
+        'pagination': posts.pagination({show_all: false, mid_size: 1, end_size: 1}),
+        'classname': 'search-layout__pagination',
+      } only %}
+    </div>    
+
+  </section>
+  {% endif %}
+
+</div>
+{% endblock %}
