@@ -5,6 +5,15 @@
 // define THEME_DEV const using WP_DEBUG if not defined in wp-config.php
 defined('THEME_DEV') or define('THEME_DEV', WP_DEBUG);
 
+// Add theme WP CLI commands.
+// note: must be invoked before Timber plugin installation status
+if (defined('WP_CLI') && WP_CLI) {
+    require_once __DIR__ . '/lib/cli.php';
+    $commands = new \Mill3WP\Cli\Commands();
+    \WP_CLI::add_command('mill3wp', $commands);
+}
+
+
 /**
  * Timber starter-theme
  * https://github.com/timber/starter-theme
