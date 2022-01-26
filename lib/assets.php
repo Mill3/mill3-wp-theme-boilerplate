@@ -56,7 +56,7 @@ function Asset_File_path($entry = 'app', $type = 'css', $relative = false)
 {
     $manifest_path = get_template_directory() . '/dist/' . 'assets.json';
     $manifest = new JsonManifest($manifest_path);
-    if ($manifest->get()) {
+    if ($entry && $manifest->get()) {
         return $manifest->get()[$entry][$type];
     } else {
         return null;
