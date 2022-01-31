@@ -137,8 +137,3 @@ add_filter('acp/storage/file/directory', function() {
 
 // Remove WP Admin Bar in frontend
 add_filter( 'show_admin_bar', '__return_false' );
-
-
-if (THEME_DEV !== true) {
-  add_filter('acp/storage/file/directory/writable', '__return_false');
-}
