@@ -1,0 +1,51 @@
+{% if buttons %}
+
+{% set classname = classname|default(null) %}
+{% set attributes = attributes|default([]) %}
+{% set layout = layout|default('horizontal') %}
+{% set layout_mobile = layout_mobile|default('horizontal') %}
+
+{% set classname = classname|split(' ')|merge(['--layout-' ~ layout, '--layout-mobile-' ~ layout_mobile])|join(' ') %}
+
+<nav
+  class="links-nav d-flex align-items-center justify-content-start grid-gap-3 grid-gap-lg-6 {{ classname }}"
+  data-scroll
+  {{ attributes|join(' ') }}
+>
+
+  {% for btn in buttons %}
+    <span class="links-nav__link">
+    {% set attributes = ['style="--index:'~ loop.index0 ~'"'] %}
+    {% set style = btn.style|default('cta') %}
+    {% set variations = style == 'cta' ? btn.cta_variations : btn.link_variations %}
+    {% set icon = style == 'cta' ? btn.cta_icon : null %}
+    {% set url = btn.link.url %}
+    {% set title = btn.link.title %}
+    {% set target = btn.link.target %}
+
+    {% if url == '#' %}
+      {% include 'partial/button.twig' with {
+        'link': url,
+        'title': title,
+        'style': style,
+        'variation': variations|default([])|join(' '),
+        'icon': icon|default(null),
+        'attributes': attributes
+      } only %}
+    {% else %}
+      {% include 'partial/link.twig' with {
+        'link': url,
+        'title': title,
+        'target': target,
+        'style': style,
+        'variation': variations|default([])|join(' '),
+        'icon': icon|default(null),
+        'attributes': attributes
+      } only %}
+    {% endif %}
+    </span>
+  {% endfor %}
+
+</nav>
+
+{% endif %}
