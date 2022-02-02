@@ -1,4 +1,4 @@
-@function vw-spacer($key, $viewport: 414) {
+@function vw-spacer($key, $viewport: 375) {
   $value: map-get($spacers, $key);
 
   @if not $value {
@@ -20,7 +20,7 @@
 }
 
 @function vw-value($value) {
-  @return vw($value / 414 * 100);
+  @return vw($value / 375 * 100);
 }
 
 @function vw-md($value) {
