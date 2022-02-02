@@ -41,6 +41,12 @@ Add bin command to your package.json file :
 }
 ```
 
+Then install NodeJS dependencies
+
+```bash
+npm ci
+```
+
 Then start Webpack dev server
 
 ```bash
