@@ -20,7 +20,7 @@
     "mill3-cli": "mill3-cli",
     "dev": "export NODE_ENV=development && npm run mill3-cli dev",
     "dev-dashboard": "export NODE_ENV=development && webpack-dashboard -- npm run mill3-cli dev",
-    "build": "export NODE_ENV=production && npm run mill3-cli build",
+    "build": "export NODE_ENV=production && webpack --config=./webpack.config.babel.js --mode=production --bail",
     "lint": "eslint ./src/js/*/*.js",
     "prettier": "prettier ./src/js/*/*.js ./src/scss/**/*.scss --write"
   },
