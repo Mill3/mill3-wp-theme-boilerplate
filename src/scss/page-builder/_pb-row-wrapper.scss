@@ -1,1 +1,9 @@
-//.pb-row-wrapper {}
+.pb-row-wrapper {
+  // automatic height calculation in JS when using smooth-scroll
+  // to prevent 1px glitch between .pb-row-wrapper
+  html.has-scroll-smooth & {
+    --row-height: auto;
+    box-sizing: content-box;
+    height: var(--row-height);
+  }
+}
