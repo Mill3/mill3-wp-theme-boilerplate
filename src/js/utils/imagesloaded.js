@@ -5,6 +5,7 @@ import { isArray, isNodeList } from "./is";
 import { on, off } from "./listener";
 
 
+//const IMG_SELECTOR = 'img';
 const IMG_SELECTOR = 'img:not([loading="lazy"])';
 const ELEMENT_NODE_TYPES = {
   1: true,
@@ -153,19 +154,17 @@ class LoadingImage extends EventEmitter2 {
     this._onError = null;
   }
   check() {
-    // If complete is true and browser supports natural sizes, try to check for image status manually.
-    var isComplete = this.getIsImageComplete();
-    if ( isComplete ) {
+    this._bindEvents();
+
+    if ( this.img.complete ) {
+      // if naturalWidth is not defined, force image to be reparsed
+      // see bug: https://stackoverflow.com/questions/45487105/ajax-loaded-images-in-safari-not-respecting-srcset
+      if( !this.img.naturalWidth ) this.img.outerHTML;
+      
       // report based on naturalWidth
       this.confirm( this.img.naturalWidth !== 0, 'naturalWidth' );
       return;
     }
-
-    this._bindEvents();
-  }
-  getIsImageComplete() {
-    // check for non-zero, non-undefined naturalWidth
-    return this.img.complete && this.img.naturalWidth;
   }
   confirm(isLoaded, message) {
     this.isLoaded = isLoaded;
