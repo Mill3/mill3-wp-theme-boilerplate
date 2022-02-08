@@ -20,17 +20,13 @@ add_filter('acfe/flexible/thumbnail/layout=YOUR_LAYOUT_NAME', 'acf_flexible_layo
 
 function acf_flexible_layout_thumbnail($thumbnail, $field, $layout) {
     $filename = $layout['name'];
-    $path = '/acf-json/thumbnails/' . $filename . '.png';
+    $extensions = ['.jpg', '.png', '.gif'];
+    $path = '/acf-json/thumbnails/' . $filename;
 
-    // try to find PNG first
-    if (file_exists(get_theme_file_path($path))) {
-        return get_stylesheet_directory_uri() . $path;
-    }
-
-    // then, try to find GIF
-    $path = '/acf-json/thumbnails/' . $filename . '.gif';
-    if (file_exists(get_theme_file_path($path))) {
-        return get_stylesheet_directory_uri() . $path;
+    foreach($extensions as $extension) {
+        if (file_exists(get_theme_file_path($path . $extension))) {
+            return get_stylesheet_directory_uri() . $path . $extension;
+        }
     }
 }
 
