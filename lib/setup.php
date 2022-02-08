@@ -126,10 +126,6 @@ add_filter(
 );
 
 
-// Remove Gutenberg Block Styles
-add_action('wp_print_styles', function() { wp_dequeue_style('wp-block-library'); }, 100);
-
-
 // Set directory for Admin Columns settings
 add_filter('acp/storage/file/directory', function() {
   return get_stylesheet_directory() . '/acp-settings';

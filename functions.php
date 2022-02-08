@@ -63,6 +63,7 @@ $includes = [
     'lib/extra-timber-filters.php',
     'lib/filters.php',
     'lib/gravity-form.php',
+    'lib/gutenberg.php',
     'lib/menu.php',
     'lib/newsletter.php',
     'lib/mill3-timber-image.php',
