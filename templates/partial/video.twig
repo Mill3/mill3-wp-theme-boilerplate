@@ -12,6 +12,7 @@
 {% set disableRemotePlayback = disableRemotePlayback ?? true %}
 {% set playOnEnter = playOnEnter ?? false %}
 {% set pauseOnExit = pauseOnExit ?? true %}
+{% set poster = poster ?? false %}
 
 {% if playOnEnter or pauseOnExit %}
   {% set attributes = attributes|merge(['data-scroll', 'data-scroll-call="video"']) %}
@@ -35,6 +36,7 @@
   {% endif %}
   {% if src and src.width %}width="{{ src.width }}"{% endif %}
   {% if src and src.height %}height="{{ src.height }}"{% endif %}
+  {% if poster %}poster="{{ poster }}"{% endif %}
   {% if muted %}muted{% endif %}
   {% if autoplay %}autoplay{% else %}preload="metadata"{% endif %}
   {% if loop %}loop{% endif %}
