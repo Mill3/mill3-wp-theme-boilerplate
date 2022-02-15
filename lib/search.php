@@ -4,6 +4,8 @@ namespace Mill3WP\Search;
 
 // create rewrite rules for search page without search query
 // make beautiful empty search page url: domain.com/fr/recherche instead of domain.com?s=
+//
+// IT'S IMPORTANT TO CHANGE URL SLUG IN POLYLANG TRANSLATIONS TO MAKE THIS WORK IN FRENCH
 add_action('init', function() {
     add_rewrite_rule('^fr/recherche(/)?$', 'index.php?s=', 'top');
     add_rewrite_rule('^en/search(/)?$', 'index.php?s=', 'top');
@@ -31,7 +33,7 @@ add_filter('pre_get_posts', function($query) {
         if( !$post_type ) {
 
             // get value from $_GET['post_type']
-            $post_type = $_GET['post_type'];
+            $post_type = isset($_GET['post_type']) ? $_GET['post_type'] : null;
 
             // if value from $_GET is null, set to any
             if( !$post_type ) $post_type = 'any';
