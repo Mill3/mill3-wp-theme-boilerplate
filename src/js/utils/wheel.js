@@ -35,11 +35,6 @@ const Wheel = (cb) => {
   };
   const onWheel = () => {
     delta = event.wheelDeltaY || event.deltaY * -1;
-
-    // deltamode === 1 -> wheel mouse, not touch pad
-    // https://developer.mozilla.org/en-US/docs/Web/API/WheelEvent#Delta_modes
-    if (Browser.firefox() && event.deltaMode === 1) delta *= 120;
-
     getCb();
   };
   const onMouseWheel = () => {
