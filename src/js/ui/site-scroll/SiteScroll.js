@@ -60,7 +60,7 @@ class SiteScroll {
       }
     });
 
-    if( !this.ro ) this.ro = new ResizeOrientation(this._onResize);
+    if( !this.ro ) this.ro = ResizeOrientation(this._onResize);
     this.ro.run();
 
     this.scroll = new LocomotiveScroll({

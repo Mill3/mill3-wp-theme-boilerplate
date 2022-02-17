@@ -35,7 +35,7 @@ const ResizeOrientation = (cb, delay = 200, onlyAtEnd = false) => {
   };
 
   let tick, event;
-  const throttle = new Throttle({
+  const throttle = Throttle({
     cb: gRaf,
     delay,
     onlyAtEnd
