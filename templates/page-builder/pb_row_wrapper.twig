@@ -1,5 +1,5 @@
-{% set row_classname = [] %}
-{% set row_styles = [] %}
+{% set is_preview = is_preview ?? false %}
+{% set zindex = zindex ?? 0 %}
 
 {% set pt = post ? post.pt|default(0) : spacer_mobile|default(0) %}
 {% set pb = post ? post.pb|default(0) : spacer_mobile|default(0) %}
@@ -10,6 +10,10 @@
 {% set mb = post ? post.mb|default(0) : 0 %}
 {% set mt_lg = post ? post.mt_lg|default(0) : 0 %}
 {% set mb_lg = post ? post.mb_lg|default(0) : 0 %}
+
+
+{% set row_classname = [] %}
+{% set row_styles = ['--zindex:' ~ zindex] %}
 
 {# create CSS colors variables from ACF stored values #}
 {% for color in ['text-color', 'bg-color'] %}
@@ -58,7 +62,7 @@
 {% endif %}
 
 <div 
-  class="pb-row-wrapper {{ row_classname|join(' ') }}" 
+  class="pb-row-wrapper position-relative {{ row_classname|join(' ') }}" 
   data-scroll-section
   {% if row_styles|length > 0 %}
   style="{{ row_styles|join(";") }}"

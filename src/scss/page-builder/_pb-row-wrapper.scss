@@ -1,6 +1,10 @@
 .pb-row-wrapper {
   $self: &;
 
+  --zindex: 0;
+
+  z-index: var(--zindex);
+
   // negative margins
   @include media-breakpoint-down(md) {
     &.mt--1 { margin-top: #{spacer(1) * -1}; }
