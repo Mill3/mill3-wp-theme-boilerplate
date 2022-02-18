@@ -18,7 +18,7 @@ class Video {
     this._onMetadata = this._onMetadata.bind(this);
 
     // listen to css breakpoints change
-    if (this._src && this._src_mobile) this._bp = new Breakpoint(BREAKPOINTS, this._onBreakpointChange);
+    if (this._src && this._src_mobile) this._bp = Breakpoint(BREAKPOINTS, this._onBreakpointChange);
 
     this.init();
   }

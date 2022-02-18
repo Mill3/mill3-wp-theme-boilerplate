@@ -15,7 +15,7 @@ class SvgPathLength {
 
   init() {
     if( this.paths.length > 0 ) {
-      this._ro = new ResizeOrientation(this._onResize);
+      this._ro = ResizeOrientation(this._onResize);
       this._ro.run();
     }
 
