@@ -6,7 +6,7 @@ DELAY
 ──────────────────────────────────────────
 ──────────────────────────────────────────
 
-const delay = new Delay(function(){
+const delay = Delay(function(){
   // do something
 }, 3500);
 
@@ -44,7 +44,7 @@ const Delay = (cb, duration) => {
     };
     const dispose = () => {
       stop();
-      
+
       raf = null;
       startTime = null;
     };

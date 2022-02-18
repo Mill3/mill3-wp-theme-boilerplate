@@ -30,15 +30,15 @@ function acf_flexible_layout_thumbnail($thumbnail, $field, $layout) {
     }
 }
 
-add_filter('acf/settings/show_admin', 'acf_show_admin', 10, 3);
+// add_filter('acf/settings/show_admin', 'acf_show_admin', 10, 3);
 
-function acf_show_admin() {
-    if( null !== THEME_DEV && THEME_DEV === true ) {
-        return true;
-    } else {
-        return false;
-    }
-}
+// function acf_show_admin() {
+//     if( null !== THEME_DEV && THEME_DEV === true ) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 
 // Set a custom name for collapsed layouts in ACF Flexible Content field
