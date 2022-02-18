@@ -23,12 +23,4 @@ jobs:
       - name: Webpack build command
         id: build
         run: npm run build
-      - name: Notify to Slack
-        if: ${{ success() }}
-        uses: act10ns/slack@v1
-        with:
-          status: ${{ job.status }}
-          channel: '#notifications'
-          config: .github/slack.yml
-
 
