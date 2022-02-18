@@ -1,9 +1,89 @@
 .pb-row-wrapper {
-  // automatic height calculation in JS when using smooth-scroll
-  // to prevent 1px glitch between .pb-row-wrapper
+  $self: &;
+
+  // negative margins
+  @include media-breakpoint-down(md) {
+    &.mt--1 { margin-top: #{spacer(1) * -1}; }
+    &.mt--2 { margin-top: #{spacer(2) * -1}; }
+    &.mt--3 { margin-top: #{spacer(3) * -1}; }
+    &.mt--4 { margin-top: #{spacer(4) * -1}; }
+    &.mt--5 { margin-top: #{spacer(5) * -1}; }
+    &.mt--6 { margin-top: #{spacer(6) * -1}; }
+    &.mt--7 { margin-top: #{spacer(7) * -1}; }
+    &.mt--8 { margin-top: #{spacer(8) * -1}; }
+    &.mt--9 { margin-top: #{spacer(9) * -1}; }
+    &.mt--10 { margin-top: #{spacer(10) * -1}; }
+
+    &.mb--1 { margin-bottom: #{spacer(1) * -1}; }
+    &.mb--2 { margin-bottom: #{spacer(2) * -1}; }
+    &.mb--3 { margin-bottom: #{spacer(3) * -1}; }
+    &.mb--4 { margin-bottom: #{spacer(4) * -1}; }
+    &.mb--5 { margin-bottom: #{spacer(5) * -1}; }
+    &.mb--6 { margin-bottom: #{spacer(6) * -1}; }
+    &.mb--7 { margin-bottom: #{spacer(7) * -1}; }
+    &.mb--8 { margin-bottom: #{spacer(8) * -1}; }
+    &.mb--9 { margin-bottom: #{spacer(9) * -1}; }
+    &.mb--10 { margin-bottom: #{spacer(10) * -1}; }
+  }
+  @include media-breakpoint-up(lg) {
+    &.mt-lg--1 { margin-top: #{spacer(1) * -1}; }
+    &.mt-lg--2 { margin-top: #{spacer(2) * -1}; }
+    &.mt-lg--3 { margin-top: #{spacer(3) * -1}; }
+    &.mt-lg--4 { margin-top: #{spacer(4) * -1}; }
+    &.mt-lg--5 { margin-top: #{spacer(5) * -1}; }
+    &.mt-lg--6 { margin-top: #{spacer(6) * -1}; }
+    &.mt-lg--7 { margin-top: #{spacer(7) * -1}; }
+    &.mt-lg--8 { margin-top: #{spacer(8) * -1}; }
+    &.mt-lg--9 { margin-top: #{spacer(9) * -1}; }
+    &.mt-lg--10 { margin-top: #{spacer(10) * -1}; }
+
+    &.mb-lg--1 { margin-bottom: #{spacer(1) * -1}; }
+    &.mb-lg--2 { margin-bottom: #{spacer(2) * -1}; }
+    &.mb-lg--3 { margin-bottom: #{spacer(3) * -1}; }
+    &.mb-lg--4 { margin-bottom: #{spacer(4) * -1}; }
+    &.mb-lg--5 { margin-bottom: #{spacer(5) * -1}; }
+    &.mb-lg--6 { margin-bottom: #{spacer(6) * -1}; }
+    &.mb-lg--7 { margin-bottom: #{spacer(7) * -1}; }
+    &.mb-lg--8 { margin-bottom: #{spacer(8) * -1}; }
+    &.mb-lg--9 { margin-bottom: #{spacer(9) * -1}; }
+    &.mb-lg--10 { margin-bottom: #{spacer(10) * -1}; }
+  }
+
+  // if row has custom background-color
+  &.--has-bg {
+    background-color: var(--bg-color);
+  }
+
+  // if row has custom text-color
+  &.--has-text-color {
+    color: var(--text-color);
+  }
+
+  // SMOOTH SCROLL ONLY: automatic height calculation in JS
   html.has-scroll-smooth & {
     --row-height: auto;
     box-sizing: content-box;
     height: var(--row-height);
+  }
+
+  // SMOOTH SCROLL ONLY: fix 1px glitch between two .pb-row-wrapper with custom background-color
+  html.has-scroll-smooth & {
+    // for tablet (portrait) and smaller
+    @include media-breakpoint-down(md) {
+      // if .pb-row-wrapper (with custom background-color), without margin-bottom 
+      // followed with another .pb-row-wrapper (with custom background-color) without margin-top
+      &.--has-bg.mb-0 + #{$self}.--has-bg.mt-0 {
+        margin-top: -1px;
+      }
+    }
+
+    // for tablet (landscape) and bigger
+    @include media-breakpoint-up(lg) {
+      // if .pb-row-wrapper (with custom backround-color), without margin-bottom 
+      // followed with another .pb-row-wrapper (with custom background-color) without margin-top
+      &.--has-bg.mb-lg-0 + #{$self}.--has-bg.mt-lg-0 {
+        margin-top: -1px;
+      }
+    }
   }
 }
