@@ -1,6 +1,6 @@
 {
   "name": "mill3-wp-theme-boilerplate",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "main": "scrc/js/App.js",
   "repository": {
     "type": "git",
