@@ -6,7 +6,7 @@ RESIZE & ORIENTATION
 ──────────────────────────────────────────
 ──────────────────────────────────────────
 
-const ro = new ResizeOrientation(resize, 100, true);
+const ro = ResizeOrientation(resize, 100, true);
 
 ro.on();  // start listening to window's resize & orientation change events
 ro.off(); // stop listening to window's resize & orientation change events

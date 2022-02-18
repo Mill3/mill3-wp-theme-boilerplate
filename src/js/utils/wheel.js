@@ -6,7 +6,7 @@ WHEEL
 ──────────────────────────────────────────
 ──────────────────────────────────────────
 
-const wt = new Wheel(cb);
+const wt = Wheel(cb);
       wt.on();  // start listening to mouse wheel events
       wt.off(); // stop listening to mouse wheel events
 

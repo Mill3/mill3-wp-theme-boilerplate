@@ -8,7 +8,7 @@ MOUSEMOVE
 
 ►►►  element is optional
 
-var mm = new MouseMove({
+var mm = MouseMove({
     element: '#element' (CSS selector OR DOM node),
     cb: mmCb
     type: null || 'touchmove' || 'mousemove'

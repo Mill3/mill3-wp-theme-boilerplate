@@ -6,7 +6,7 @@ SCROLL
 ──────────────────────────────────────────
 ──────────────────────────────────────────
 
-const scroll = new Scroll(scrollCb);
+const scroll = Scroll(scrollCb);
       scroll.on();  // start listening to window's scroll event
       scroll.off(); // stop listening to window's scroll event
       scroll.run(); // execute object callback

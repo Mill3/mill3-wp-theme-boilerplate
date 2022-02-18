@@ -6,7 +6,7 @@ BREAKPOINT
 ──────────────────────────────────────────
 ──────────────────────────────────────────
 
-const bp = new Breakpoint(['(min-width: 768px)'], callback);
+const bp = Breakpoint(['(min-width: 768px)'], callback);
 
 bp.on();  // start listening to media query's match
 bp.off(); // stop listening to media query's match
