@@ -1,0 +1,34 @@
+name: MILL3 WP Theme boilerplate build test
+on:
+  push:
+    branches: [ master ]
+jobs:
+  Mill3-Deploy-Actions:
+    runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+      SITE_NAME: ":amazed_clap: Wordpress Theme Boilerplate with Webpack test build run"
+      PROD_SITE_URL: "https://github.com/Mill3/mill3-wp-theme-boilerplate"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - name: Copy env.production sample file to .env
+        run: cp .env.production .env
+      - name: Install dep
+        run: npm ci
+      - name: Webpack build command
+        id: build
+        run: npm run build
+      - name: Notify to Slack
+        if: ${{ success() }}
+        uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          channel: '#notifications'
+          config: .github/slack.yml
+
+
