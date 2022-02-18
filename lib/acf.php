@@ -30,15 +30,27 @@ function acf_flexible_layout_thumbnail($thumbnail, $field, $layout) {
     }
 }
 
-add_filter('acf/settings/show_admin', 'acf_show_admin', 10, 3);
+add_filter('acf/settings/show_admin', function() {
+    // for development, show ACF admin menu
+    if( defined('THEME_DEV') && THEME_DEV === true ) return true;
 
-function acf_show_admin() {
-    if( null !== THEME_DEV && THEME_DEV === true ) {
-        return true;
-    } else {
-        return false;
-    }
-}
+    // get current user
+    $user = wp_get_current_user();
+
+    // if we can't find this user (it should never happen, but just in case), hide ACF admin menu
+    if( !$user ) return false;
+
+    // get user email
+    $email = $user->user_email;
+
+    // if email is not defined, hide ACF admin menu
+    if( !$email ) return false;
+
+    // show ACF admin menu if user email is from @mill3.studio
+    // otherwise, hide ACF admin menu
+    return str_ends_with($email, '@mill3.studio');
+}, 10, 3);
+
 
 
 // Set a custom name for collapsed layouts in ACF Flexible Content field
