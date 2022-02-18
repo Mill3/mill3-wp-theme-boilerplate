@@ -6,7 +6,7 @@ jobs:
   Mill3-Deploy-Actions:
     runs-on: ubuntu-latest
     env:
-      SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
       SITE_NAME: ":amazed_clap: Wordpress Theme Boilerplate with Webpack test build run"
       PROD_SITE_URL: "https://github.com/Mill3/mill3-wp-theme-boilerplate"
     steps:
@@ -23,4 +23,12 @@ jobs:
       - name: Webpack build command
         id: build
         run: npm run build
+      - name: Notify to Slack
+        if: ${{ success() }}
+        uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          channel: '#notifications'
+          config: .github/slack.yml
+
 
