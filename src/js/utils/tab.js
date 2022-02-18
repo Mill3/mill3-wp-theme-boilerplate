@@ -6,7 +6,7 @@ TAB
 ──────────────────────────────────────────
 ──────────────────────────────────────────
 
-const tab = new Tab(tabVisibilityChange);
+const tab = Tab(tabVisibilityChange);
       tab.on();   // start listening to tab visibility change
       tab.off();  // stop listening to tab visibility change
       tab.run();  // execute object callback

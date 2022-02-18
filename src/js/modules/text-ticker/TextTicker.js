@@ -42,12 +42,12 @@ class TextTicker {
   }
 
   init() {
-    this._ro = new ResizeOrientation(this._onResize);
+    this._ro = ResizeOrientation(this._onResize);
     this._ro.run();
 
     if(this._mode === MODE_JS || this._mode === MODE_SCROLL ) {
       this.el.classList.add("--mode-js");
-      this._wheel = new Wheel(this._onScroll);
+      this._wheel = Wheel(this._onScroll);
 
       // if element does'nt have data-scroll, assume he's always inView
       if( !this.el.hasAttribute('data-scroll') ) this._inView = true;
@@ -100,7 +100,7 @@ class TextTicker {
       this.emitter?.off("SiteScroll.stop", this._onScrollStop);
       this.emitter?.off("SiteScroll.text-ticker", this._onScrollCall);
     }
-    
+
     if (this._ro) this._ro?.off();
     if (this._wheel) this._wheel?.off();
     if (this._raf) cancelAnimationFrame(this._raf);

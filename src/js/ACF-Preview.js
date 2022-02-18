@@ -14,7 +14,7 @@ domready(() => {
     window.frameElement.height = limit(25, max, body.scrollHeight);
   };
 
-  const ro = new ResizeOrientation(resize);
+  const ro = ResizeOrientation(resize);
         ro.run();
         ro.on();
 

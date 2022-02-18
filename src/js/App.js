@@ -37,7 +37,7 @@ class App {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 
     // if mobile, create mobile vh fix
-    if( mobile ) new MobileViewportUnit.init();
+    if( mobile ) MobileViewportUnit.init();
 
     // run Splitting.js before once/enter transition
     barba.hooks.once(() => { splitting(); });

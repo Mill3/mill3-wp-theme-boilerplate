@@ -6,7 +6,7 @@ WHEEL & TOUCH
 ──────────────────────────────────────────
 ──────────────────────────────────────────
 
-const wt = new WheelTouch(wtCb);
+const wt = WheelTouch(wtCb);
       wt.on();  // start listening to mouse wheel & touch move events
       wt.off(); // stop listening to mouse wheel & touch move events
 
