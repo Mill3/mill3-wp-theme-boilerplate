@@ -1,0 +1,37 @@
+.links-nav {
+  $self: &;
+
+  // LAYOUT MOBILE
+  @include media-breakpoint-down(sm) {
+    &.--layout-mobile-horizontal {
+      flex-direction: row;
+      align-items: center;
+      justify-content: start;
+    }
+    &.--layout-mobile-vertical {
+      flex-direction: column;
+
+      #{$self}__link.--link {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+
+  // LAYOUT
+  @include media-breakpoint-up(md) {
+    &.--layout-horizontal {
+      flex-direction: row;
+      align-items: center;
+      justify-content: start;
+    }
+    &.--layout-vertical {
+      flex-direction: column;
+
+      #{$self}__link.--link {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+}
