@@ -1,74 +1,52 @@
 /**
- * @mill3-packages/barba-scripts
+ * @core/windmill.webpack-chunks
  * <br><br>
- * ## Barba Scripts.
+ * ## Windmill Webpack Chunks.
  *
- * - Add external scripts from head
- * - Manage inlined scripts in next.container
+ * - Load webpack-chunks from [data-module] & [data-ui] attributes
+ * - Start, stop and destroy module during Windmill's page transition
  *
- * @module barba-scripts
+ * @module windmill
  * @preferred
  */
 
 import EventEmitter2 from "eventemitter2";
 
-import { STATE } from "./state";
-
-const VERSION = `0.0.1`;
+import { STATE } from "@core/state";
+import { $$ } from "@utils/dom";
 
 const MODULES_SELECTOR = `[data-module]`;
 const UI_SELECTOR = `[data-ui]`;
 
-export class BarbaWebpackChunks {
+export class WindmillWebpackChunks {
   constructor() {
-    this.name = "@barba/webpack-chunks";
-    this.version = VERSION;
-    this.barba;
-    this.logger;
-
-    this._parser;
     this._chunks = [];
-    this._emitter = null;
-  }
-
-  /**
-   * Plugin installation.
-   */
-  install(barba) {
-    this.logger = new barba.Logger(this.name);
-    this.logger.info(this.version);
-
-    this.barba = barba;
-
     this._parser = new DOMParser();
-    this._emitter = new EventEmitter2({
-      wildcard: true
-    });
+    this._emitter = new EventEmitter2({ wildcard: true });
 
     // attach emitter globally to browser Window
     window._emitter = this._emitter;
   }
 
-  /**
-   * Plugin installation.
-   */
-  init() {
-    // before leaving current page
-    this.barba.hooks.beforeLeave(this._stopModules, this);
+  install(windmill) {
+    // when windmill has preloaded images, parse and load modules
+    windmill.on('loaded', this._initModules, this);
 
-    // after leaving transition is done
-    this.barba.hooks.afterLeave(this._destroyModules, this);
+    // before windmill exit
+    windmill.on('exiting', this._stopModules, this);
 
-    // new page is ready, parse and load modules
-    this.barba.hooks.once(this._initModules, this);
-    this.barba.hooks.enter(this._initModules, this);
+    // after windmill exit
+    windmill.on('exited', this._destroyModules, this);
 
-    // new page is ready for interactivity
-    this.barba.hooks.afterEnter(this._startModules, this);
+    // before windmill enter
+    windmill.on('entering', this._initModules, this);
+
+    // windmill completed his page transition
+    windmill.on('done', this._startModules, this);
   }
 
   /**
-   * `beforeLeave` hook.
+   * `exiting` event.
    */
   _stopModules() {
     // Stop all chunks with a stop() func
@@ -81,7 +59,7 @@ export class BarbaWebpackChunks {
   }
 
   /**
-   * `_afterLeave` hook.
+   * `exited` event.
    */
   _destroyModules() {
     // Remove and destroy all chunks with a destroy() func
@@ -93,17 +71,11 @@ export class BarbaWebpackChunks {
   }
 
   /**
-   * `once & enter` hook.
+   * `init & entering` event.
    */
-  _initModules({ next }) {
+  _initModules() {
     return new Promise((resolve) => {
-      //const { initial } = this._state;
-      const source = this._parser.parseFromString(next.html, "text/html");
-
-      this._importChunks(source).then(() => {
-        // set initial state to false
-        //if (initial) this._state.changeStatus(false);
-
+      this._importChunks().then(() => {
         // Init all chunks with a init() func
         Object.keys(this._chunks).forEach((m) => {
           if (typeof this._chunks[m].init === `function`) this._chunks[m].init();
@@ -115,7 +87,7 @@ export class BarbaWebpackChunks {
   }
 
   /**
-   * `afterEnter` hook.
+   * `done` event.
    */
   _startModules() {
     // Run start() func from all chunks
@@ -125,10 +97,10 @@ export class BarbaWebpackChunks {
   }
 
   /**
-   * the module importer, look for data-module entries in DOM source
+   * the module importer, look for data-module entries in DOM
    */
-  _importChunks(source) {
-    let elements = [...source.querySelectorAll(MODULES_SELECTOR), ...source.querySelectorAll(UI_SELECTOR)];
+  _importChunks() {
+    let elements = [ ...$$(MODULES_SELECTOR), ...$$(UI_SELECTOR) ];
 
     const promises = [];
 
@@ -149,7 +121,6 @@ export class BarbaWebpackChunks {
 
       // element can cast 1 or multiple chunk module, each seperated by a coma
       if (module) chunks = chunks.concat(module.split(",").map((m) => `modules/${m}`));
-
       if (ui) chunks = chunks.concat(ui.split(",").map((m) => `ui/${m}`));
 
       // try to load each module attached
@@ -198,4 +169,4 @@ export class BarbaWebpackChunks {
   }
 }
 
-export default BarbaWebpackChunks;
+export default WindmillWebpackChunks;

@@ -10,7 +10,7 @@ body {
 }
 
 html:not(.has-scroll-init) body,
-html.--js-barba body,
+html.windmill-is-running body,
 body.--scroll-disabled {
   overflow: hidden;
 }

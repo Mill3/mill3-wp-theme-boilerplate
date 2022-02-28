@@ -24,7 +24,7 @@ add_filter( 'gform_ajax_spinner_url', __NAMESPACE__ . '\\spinner_url', 10, 2 );
 */
 
 
-// output basic GForm JS, this is necessary for barba.scripts to work propertly
+// output basic GForm JS, this is necessary for windmill.scripts to work propertly
 function output_hooks_javascript($head)
 {
     \GFCommon::output_hooks_javascript();

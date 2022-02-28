@@ -29,8 +29,8 @@
 */
 
 import anime from "animejs";
-import barba from "@barba/core";
 
+import windmill from "@core/windmill";
 import { $ } from "@utils/dom";
 import { on, off } from "@utils/listener";
 
@@ -64,9 +64,6 @@ class FilteredPostsList {
   }
 
   init() {
-    // make sure filters has data-barba-history="replace"
-    if( this.filters ) this.filters.setAttribute('data-barba-history', 'replace');
-
     this._bindEvents();
   }
   destroy() {
@@ -101,13 +98,8 @@ class FilteredPostsList {
   _onTypeChange() {
     const href = this.filters.value;
 
-    // remove previous history state
-    barba.history.remove();
-
-    // add new history state
-    // window.history will be "replaced" instead of "pushed" because of
-    // [data-barba-history="replace"] attribute on this.filters element
-    barba.history.change(href, this.filters);
+    // replace current history state
+    windmill.replace(href);
 
     // block UI
     if( this.el ) this.el.classList.add(LOCKED_CLASSNAME);
