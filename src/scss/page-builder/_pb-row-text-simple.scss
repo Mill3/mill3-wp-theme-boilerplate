@@ -76,17 +76,10 @@
   @include inView {
     #{$self}__title,
     #{$self}__text {
-      @include slideFadeUpInitial;
     }
-
     &.is-inview {
       #{$self}__title,
       #{$self}__text {
-        @include slideFadeUp;
-      }
-
-      #{$self}__text {
-        transition-delay: 250ms;
       }
     }
   }
