@@ -1,14 +1,14 @@
 @charset "utf-8";
 
-// variables
-@import "vars/index";
-
 // NPM packages
 @import "~@mill3-packages/system-ui-sass/src/system-ui.scss";
 @import "~sass-easing";
 @import "~locomotive-scroll/dist/locomotive-scroll.min.css";
 @import "~swiper/swiper.scss";
 @import "~swiper/components/pagination/pagination.scss";
+
+// variables
+@import "vars/index";
 
 // vendors
 @import "vendors/index";

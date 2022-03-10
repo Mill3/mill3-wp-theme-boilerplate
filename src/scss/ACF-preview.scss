@@ -1,10 +1,11 @@
 @charset "utf-8";
 
-@import "vars/index";
-
 // NPM packages
 @import "@mill3-packages/system-ui-sass/src/system-ui";
 @import "~sass-easing";
+
+// variables
+@import "vars/index";
 
 // vendors
 @import "vendors/index";

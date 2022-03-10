@@ -1,15 +1,15 @@
 import LocomotiveScroll from "locomotive-scroll";
 
-import { $, $$, body, html, rect } from "@utils/dom";
-import { mobile } from "@utils/mobile";
-import ResizeOrientation from "@utils/resize";
+import { $, /*$$,*/ body, html/*, rect*/ } from "@utils/dom";
+//import { mobile } from "@utils/mobile";
+//import ResizeOrientation from "@utils/resize";
 
 export const SELECTOR = "[data-scroll-container]";
 export const SCROLL_MIN_CLASSNAME = "--js-scroll-min";
 export const SCROLL_DOWN_CLASSNAME = "--js-scroll-down";
 export const SCROLL_UP_CLASSNAME = "--js-scroll-up";
 export const SCROLL_DISABLE_CLASSNAME = "--js-scroll-disabled";
-export const SCROLL_SECTION_SELECTOR = ".pb-row-wrapper[data-scroll-section]";
+//export const SCROLL_SECTION_SELECTOR = ".pb-row-wrapper[data-scroll-section]";
 
 const SCROLL_THRESHOLD = 200;
 const SCROLL_DIFF_THRESHOLD = 2;
@@ -28,7 +28,7 @@ class SiteScroll {
 
     this._onCall = this._onCall.bind(this);
     this._onScroll = this._onScroll.bind(this);
-    this._onResize = this._onResize.bind(this);
+    //this._onResize = this._onResize.bind(this);
 
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
@@ -53,15 +53,17 @@ class SiteScroll {
     this.scrollDirection = null;
     this.previousScrollY = 0;
     this.el = $(SELECTOR);
+    /*
     this.scrollSections = [ ...$$(SCROLL_SECTION_SELECTOR, this.el) ].map(section => {
       return {
         section: section,
         target: section.firstElementChild,
       }
     });
+    */
 
-    if( !this.ro ) this.ro = ResizeOrientation(this._onResize);
-    this.ro.run();
+    //if( !this.ro ) this.ro = ResizeOrientation(this._onResize);
+    //this.ro.run();
 
     this.scroll = new LocomotiveScroll({
       el: this.el,
@@ -79,7 +81,7 @@ class SiteScroll {
   }
 
   destroy() {
-    if (this.ro) this.ro.off();
+    //if (this.ro) this.ro.off();
     if (this.scroll) {
       this.scroll.off("call", this._onCall);
       this.scroll.off("scroll", this._onScroll);
@@ -95,7 +97,7 @@ class SiteScroll {
     }
 
     this.el = null;
-    this.scrollSections = null;
+    //this.scrollSections = null;
     this.scroll = null;
     this.initialized = false;
     this.hasScrolledAboveThreshold = false;
@@ -104,7 +106,7 @@ class SiteScroll {
   }
 
   update() {
-    if (this.ro) this.ro.run();
+    //if (this.ro) this.ro.run();
     if (this.scroll) this.scroll.update();
   }
 
@@ -130,7 +132,7 @@ class SiteScroll {
 
   _bindEvents() {
     // start listening for window's resize event
-    if( this.ro ) this.ro.on();
+    //if( this.ro ) this.ro.on();
 
     // register event on global emmiter system
     if (!this.emitter) return;
@@ -202,6 +204,7 @@ class SiteScroll {
     }
   }
 
+  /*
   _onResize() {
     // do nothing for mobile
     if( mobile ) return;
@@ -212,6 +215,7 @@ class SiteScroll {
       section.style.setProperty('--row-height', `${Math.floor(height)}px`);
     });
   }
+  */
 
   // getter - setter
   get y() {

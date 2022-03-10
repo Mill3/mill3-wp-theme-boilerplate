@@ -8,13 +8,12 @@
 {% set classname = classname|split(' ')|merge(['--layout-' ~ layout, '--layout-mobile-' ~ layout_mobile])|join(' ') %}
 
 <nav
-  class="links-nav d-flex align-items-center justify-content-start grid-gap-3 grid-gap-lg-6 {{ classname }}"
+  class="links-nav d-flex {{ classname }}"
   data-scroll
   {{ attributes|join(' ') }}
 >
 
   {% for btn in buttons %}
-    <span class="links-nav__link">
     {% set attributes = ['style="--index:'~ loop.index0 ~'"'] %}
     {% set style = btn.style|default('cta') %}
     {% set variations = style == 'cta' ? btn.cta_variations : btn.link_variations %}
@@ -30,6 +29,7 @@
         'style': style,
         'variation': variations|default([])|join(' '),
         'icon': icon|default(null),
+        'classname': 'links-nav__link',
         'attributes': attributes
       } only %}
     {% else %}
@@ -40,10 +40,10 @@
         'style': style,
         'variation': variations|default([])|join(' '),
         'icon': icon|default(null),
+        'classname': 'links-nav__link',
         'attributes': attributes
       } only %}
     {% endif %}
-    </span>
   {% endfor %}
 
 </nav>

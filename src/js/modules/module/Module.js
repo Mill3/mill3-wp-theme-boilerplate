@@ -1,13 +1,13 @@
 class Module {
   init() {}
 
-  // called during Barba's afterEnter hook.
+  // called during windmill's done event.
   start() {}
 
-  // called during Barba's beforeLeave hook.
+  // called during windmill's exiting event.
   stop() {}
 
-  // called during Barba's afterLeave hook.
+  // called during windmill's exited event.
   destroy() {}
 
   // getter - setter

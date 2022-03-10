@@ -1,12 +1,28 @@
 {% if post or content_rows %}
 
 {% set content_rows = content_rows|default(post.get_field("page_builder")) %}
+{% set pb_rows_zindex = -1 %}
 
 {% if content_rows is not empty %}
 <section class="pb-rows">
   {% for row in content_rows %}
     {% set layout = row.acf_fc_layout %}
-    {% include 'page-builder/'~layout~'.twig' ignore missing with { 'post': row, 'first': loop.first, 'last': loop.last, 'layout': layout } only %}
+    {% set zindex_below = row.zindex_below|default(false) %}
+
+    {# add/reduce zindex depending on section settings (except for first row who always increase) #}
+    {% if not loop.first and zindex_below %}
+      {% set pb_rows_zindex = pb_rows_zindex - 1 %}
+    {% else %}
+      {% set pb_rows_zindex = pb_rows_zindex + 1 %}
+    {% endif %}
+
+    {% include 'page-builder/'~layout~'.twig' ignore missing with {
+      'post': row, 
+      'first': loop.first, 
+      'last': loop.last, 
+      'zindex': pb_rows_zindex,
+      'layout': layout
+    } only %}
   {% endfor %}
 </section>
 {% endif %}

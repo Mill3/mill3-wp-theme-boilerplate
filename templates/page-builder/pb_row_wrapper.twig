@@ -1,36 +1,96 @@
+{% set is_preview = is_preview ?? false %}
+{% set zindex = zindex ?? 0 %}
+
+{% set pt = post ? post.pt|default(0) : spacer_mobile|default(0) %}
+{% set pb = post ? post.pb|default(0) : spacer_mobile|default(0) %}
+{% set pt_lg = post ? post.pt_lg|default(0) : spacer|default(0) %}
+{% set pb_lg = post ? post.pb_lg|default(0) : spacer|default(0) %}
+
+{% set mt = post ? post.mt|default(0) : 0 %}
+{% set mb = post ? post.mb|default(0) : 0 %}
+{% set mt_lg = post ? post.mt_lg|default(0) : 0 %}
+{% set mb_lg = post ? post.mb_lg|default(0) : 0 %}
+
+
 {% set row_classname = [] %}
+{% set row_styles = ['--zindex:' ~ zindex] %}
 
-{% set padding_top = post ? post.padding_top|default(0) : spacer|default(0) %}
-{% set padding_bottom = post ? post.padding_bottom|default(0) : spacer|default(0) %}
-{% set padding_top_mobile = post ? post.padding_top_mobile|default(0) : spacer_mobile|default(0) %}
-{% set padding_bottom_mobile = post ? post.padding_bottom_mobile|default(0) : spacer_mobile|default(0) %}
+{# create CSS colors variables from ACF stored values #}
+{% for color in ['text-color', 'bg-color'] %}
+  {% set color_value = post[color] %}
+  {% if color_value %}
+    {% set row_styles = row_styles|merge(['--' ~ color ~ ':' ~ color_value]) %}
+  {% endif %}
+{% endfor %}
 
+{# paddings #}
 {% set row_classname = row_classname|merge([
-  'pt-' ~ padding_top_mobile,
-  'pb-' ~ padding_bottom_mobile,
-  'pt-md-' ~ padding_top,
-  'pb-md-' ~ padding_bottom
+  'pt-' ~ pt,
+  'pb-' ~ pb,
+  'pt-lg-' ~ pt_lg,
+  'pb-lg-' ~ pb_lg
 ]) %}
+
+{# apply margins only on frontend #}
+{% if not is_preview %}
+  {% set row_classname = row_classname|merge([
+    'mt-' ~ mt,
+    'mb-' ~ mb,
+    'mt-lg-' ~ mt_lg,
+    'mb-lg-' ~ mb_lg
+  ]) %}
+{% endif %}
+
+{% if post and post['bg-color'] %}
+  {% set row_classname = row_classname|merge(['--has-bg']) %}
+{% endif %}
+
+{% if post and post['text-color'] %}
+  {% set row_classname = row_classname|merge(['--has-text-color']) %}
+{% endif %}
 
 {% if layout %}
   {% set row_classname = row_classname|merge(['--layout-' ~ layout]) %}
 {% endif %}
 
+{% if first %}
+  {% set row_classname = row_classname|merge(['--first']) %}
+{% endif %}
+
+{% if last %}
+  {% set row_classname = row_classname|merge(['--last']) %}
+{% endif %}
+
 <div 
-  class="pb-row-wrapper {{ row_classname|join(' ') }}" 
+  class="pb-row-wrapper position-relative {{ row_classname|join(' ') }}" 
   data-scroll-section
+  {% if row_styles|length > 0 %}
+  style="{{ row_styles|join(";") }}"
+  {% endif %}
 >
 
   {% block row_wrapper %}{% endblock %}
 
   {# add notice in preview mode #}
-  {% if is_preview and (padding_top_mobile or padding_bottom_mobile or padding_top or padding_bottom) %}
+  {% if is_preview %}
+    {% set notices = [] %}
+
+    {% if pt or pb or pt_lg or pb_lg %}
+      {% set notices = notices|merge(['Padding: ' ~ pt ~ '/' ~ pb ~ ' --> ' ~ pt_lg ~ '/' ~ pb_lg]) %}
+    {% endif %}
+
+    {% if mt or mb or mt_lg or mb_lg %}
+      {% set notices = notices|merge(['Margin: ' ~ mt ~ '/' ~ mb ~ ' --> ' ~ mt_lg ~ '/' ~ mb_lg]) %}
+    {% endif %}
+
+    {% if notices %}
     <span 
       style="font-size: 9px; background-color: rgba(0,0,0,0.7); color: white;" 
       class="ff-mono m-0 py-1 px-2 d-block position-absolute t-0 l-0 lh-1"
     >
-      Padding: {{ padding_top_mobile }}/{{ padding_bottom_mobile }} --> {{ padding_top }}/{{ padding_bottom }}
+      {{ notices|join('<br />') }}
     </span>
+    {% endif %}
   {% endif %}
 
 </div>

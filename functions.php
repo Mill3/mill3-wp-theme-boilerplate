@@ -56,7 +56,6 @@ $includes = [
     'lib/acf.php',
     'lib/actions.php',
     'lib/assets.php',
-    'lib/barba.php',
     'lib/class-walker-nav-menu-edit.php',
     'lib/customizer.php',
     'lib/editor.php',
@@ -188,14 +187,6 @@ class StarterSite extends Timber\Site
             new \Twig\TwigFunction(
                 'is_menu_item', function ($item) {
                     return ($item instanceof Timber\MenuItem);
-                }
-            )
-        );
-
-        $twig->addFunction(
-            new \Twig\TwigFunction(
-                'barba_namespace', function () {
-                    return \Mill3WP\Barba\barba_namespace();
                 }
             )
         );
