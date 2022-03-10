@@ -5,27 +5,30 @@
 
 {% set title = post.title %}
 {% set text = post.text %}
-{% set position = post.position|default('center') %}
+{% set position = post.position|default('right') %}
 {% set width = post.width|default('default') %}
-{% set buttons = post.buttons|default([]) %}
 
 {% block row_wrapper %}
 <div
-  class="pb-row pb-row-text-simple container-fluid --position-{{ position }} --width-{{ width }} {{ classname }}"
+  class="pb-row pb-row-text-simple container-fluid d-flex grid-gap-3 --position-{{ position }} --width-{{ width }}  {{ classname }}"
   {{ attributes|join(' ') }}
+  data-scroll
+  data-scroll-offset="100px,0"
 >
+
   {% if title %}
-  <h3 class="pb-row-text-simple__title m-0 p-0">{{ title }}</h3>
+  <header class="pb-row-text-simple__header">
+    <h2 class="pb-row-text-simple__title fz-24 fz-lg-30 fz-xl-36 lh-ff-heading fw-400 m-0 p-0">
+      {{ title }}
+    </h2>
+  </header>
   {% endif %}
 
-  <div class="pb-row-text-simple__body wysiwyg">
-    {{ text }}
-  </div>
-
-  {% include 'partial/links-nav.twig' with {
-    'buttons': buttons,
-    'classname': 'pb-row-text-simple__links'
-  } only %}
+  <aside class="pb-row-text-simple__content">
+    <div class="pb-row-text-simple__text fz-16 fz-xl-18 lh-relaxed lh-xl-chill wysiwyg">
+      {{ text }}
+    </div>
+  </aside>
 
 </div>
 {% endblock %}
