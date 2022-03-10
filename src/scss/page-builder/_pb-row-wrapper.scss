@@ -64,11 +64,13 @@
   }
 
   // SMOOTH SCROLL ONLY: automatic height calculation in JS
+  /*
   html.has-scroll-smooth & {
     --row-height: auto;
     box-sizing: content-box;
     height: var(--row-height);
   }
+  */
 
   // SMOOTH SCROLL ONLY: fix 1px glitch between two .pb-row-wrapper with custom background-color
   html.has-scroll-smooth & {
