@@ -56,7 +56,7 @@ add_filter('acf/fields/flexible_content/layout_title/name=YOUR_LAYOUT_NAME', fun
 
 
 // Theme colors
-add_filter('acf/load_field/name=theme_color', function ($field) {
+add_filter('acf/prepare_field/name=theme_color', function ($field) {
     $options = get_fields('options');
     //$primary_value = $options['brand_color_primary'] ?? '';
 
@@ -72,7 +72,7 @@ add_filter('acf/load_field/name=theme_color', function ($field) {
 });
 
 // Populate select field with Gravity Form entries
-add_filter('acf/load_field/name=gravity_form_id', function ($field) {
+add_filter('acf/prepare_field/name=gravity_form_id', function ($field) {
     // if plugin is not activated, do nothing
     if ( !class_exists('GFAPI') ) return $field;
 
