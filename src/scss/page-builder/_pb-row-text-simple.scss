@@ -2,76 +2,84 @@
   $self: &;
   --delay: 0ms;
 
-  // POSITION
-  &.--position-center {
-    #{$self}__title,
-    #{$self}__body,
-    #{$self}__links {
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-  &.--position-right {
-    #{$self}__title,
-    #{$self}__body,
-    #{$self}__links {
-      margin-left: auto;
-    }
+  &__title {
+    max-width: 610px;
   }
 
-  // WIDTH
+  // WIDTHS
   &.--width-small {
-    #{$self}__title,
-    #{$self}__body,
-    #{$self}__links {
-      @include media-breakpoint-up(md) {
-        width: 520px;
-      }
-    }
+    --width: 520px;
   }
   &.--width-medium {
-    #{$self}__title,
-    #{$self}__body,
-    #{$self}__links {
-      @include media-breakpoint-up(md) {
-        width: 620px;
-      }
-    }
+    --width: 620px;
   }
   &.--width-default {
-    #{$self}__title,
-    #{$self}__body,
-    #{$self}__links {
-      @include media-breakpoint-up(md) {
-        width: 720px;
-      }
-    }
+    --width: 720px;
   }
   &.--width-large {
-    #{$self}__title,
-    #{$self}__body,
-    #{$self}__links {
-      @include media-breakpoint-up(lg) {
-        width: 920px;
+    --width: 920px;
+  }
+
+  // set WIDTH var() on content
+  #{$self}__content {
+    @include media-breakpoint-up(md) {
+      width: var(--width);
+    }
+  }
+
+  // POSITIONS
+  &.--position-center {
+    flex-direction: column;
+    grid-gap: spacer(4);
+    @include media-breakpoint-up(md) {
+      align-items: center;
+    }
+    #{$self}__header {
+      @include media-breakpoint-up(md) {
+        width: var(--width);
       }
     }
   }
 
-
-  // IN-VIEW ANIMATIONS
-  @include inView {
-    #{$self}__title, 
-    #{$self}__body {
-      opacity: 0.0001;
-      transform: translate3d(0, 40px, 0);
+  &.--position-left {
+    display: grid;
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: auto auto;
+      justify-content: space-between;
+      #{$self}__header {
+        grid-column: 2;
+        grid-row: 1;
+      }
+      #{$self}__content {
+        grid-column: 1;
+        grid-row: 1;
+      }
     }
+  }
 
+  &.--position-right {
+    display: grid;
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: auto auto;
+      justify-content: space-between;
+      #{$self}__header {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      #{$self}__content {
+        grid-column: 2;
+        grid-row: 1;
+      }
+    }
+  }
+
+  @include inView {
+    #{$self}__title,
+    #{$self}__text {
+    }
     &.is-inview {
-      #{$self}__title, 
-      #{$self}__body {
-        opacity: 0.999;
-        transform: translate3d(0, 0px, 0);
-        transition: opacity 450ms linear, transform 650ms $easeOutCubic;
+      #{$self}__title,
+      #{$self}__text {
       }
     }
   }
