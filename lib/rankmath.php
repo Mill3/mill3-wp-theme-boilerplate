@@ -27,6 +27,13 @@ add_filter(
             $post_type = get_post_type_object(get_post_type($post));
         }
 
+        // search page
+        if (is_search()) {
+            // translate last items
+            $crumbs[count($crumbs) - 1][0] = __('Search for %s', 'mill3wp');
+            return $crumbs;
+        }
+
         // when has a post_type, try to modify breadcrumb post-type singular to its name (plural)
         if (isset($post_type)) {
             foreach ($crumbs as $key => $crumb) {
