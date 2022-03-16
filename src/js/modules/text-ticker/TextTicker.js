@@ -45,6 +45,9 @@ class TextTicker {
     this._ro = ResizeOrientation(this._onResize);
     this._ro.run();
 
+    // set velocity to zero on scroll mode
+    if(this._mode === MODE_SCROLL) this._velocity.target = this._velocity.current = 0;
+
     if(this._mode === MODE_JS || this._mode === MODE_SCROLL ) {
       this.el.classList.add("--mode-js");
       this._wheel = Wheel(this._onScroll);
