@@ -96,6 +96,68 @@ add_filter('acf/prepare_field/name=gravity_form_id', function ($field) {
     return $field;
 });
 
+// Populate padding field (pt, pb, pt_lg, pb_lg)
+function acf_populate_padding($field) {
+
+    $field['default_value'] = '0';
+    $field['choices'] = array(
+        '0' => '0px',
+        '1' => '5px',
+        '2' => '10px',
+        '3' => '20px',
+        '4' => '30px',
+        '5' => '40px',
+        '6' => '50px',
+        '7' => '60px',
+        '8' => '90px',
+        '9' => '130px',
+        '10' => '200px',
+    );
+
+    return $field;
+}
+
+add_filter('acf/prepare_field/name=pt', 'acf_populate_padding');
+add_filter('acf/prepare_field/name=pb', 'acf_populate_padding');
+add_filter('acf/prepare_field/name=pt_lg', 'acf_populate_padding');
+add_filter('acf/prepare_field/name=pb_lg', 'acf_populate_padding');
+
+// Populate margin field (mt, mb, mt_lg, mb_lg)
+function acf_populate_margin($field) {
+
+    $field['default_value'] = '0';
+    $field['choices'] = array(
+        '-10' => '-200px',
+        '-9' => '-130px',
+        '-8' => '-90px',
+        '-7' => '-60px',
+        '-6' => '-50px',
+        '-5' => '-40px',
+        '-4' => '-30px',
+        '-3' => '-20px',
+        '-2' => '-10px',
+        '-1' => '-5px',
+        '0' => '0px',
+        '1' => '5px',
+        '2' => '10px',
+        '3' => '20px',
+        '4' => '30px',
+        '5' => '40px',
+        '6' => '50px',
+        '7' => '60px',
+        '8' => '90px',
+        '9' => '130px',
+        '10' => '200px',
+    );
+
+    return $field;
+}
+
+add_filter('acf/prepare_field/name=mt', 'acf_populate_margin');
+add_filter('acf/prepare_field/name=mb', 'acf_populate_margin');
+add_filter('acf/prepare_field/name=mt_lg', 'acf_populate_margin');
+add_filter('acf/prepare_field/name=mb_lg', 'acf_populate_margin');
+
 if( defined('GOOGLE_API_KEY') ) {
     add_action('acf/init', function() { acf_update_setting('google_api_key', GOOGLE_API_KEY); });
 }

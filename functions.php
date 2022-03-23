@@ -79,6 +79,8 @@ $includes = [
     'lib/taxonomy-queries.php',
     'lib/titles.php',
     'lib/utils.php',
+    // ACF custom fields
+    'lib/acf-fields/spacer/index.php',
     // model class per post-type
     'lib/models/dummy.php',
 ];
