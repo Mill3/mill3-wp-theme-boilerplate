@@ -1,6 +1,10 @@
 <?php
 
-// require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
+
+// \Sentry\init(['dsn' => 'https://4370d31ae0a848b7a4d992f20d53209d@o187655.ingest.sentry.io/6272969' ]);
+// \Sentry\captureLastError();
+// define("WP_SENTRY_PHP_DSN", "https://4370d31ae0a848b7a4d992f20d53209d@o187655.ingest.sentry.io/6272969");
 
 // define THEME_DEV const using WP_DEBUG if not defined in wp-config.php
 defined('THEME_DEV') or define('THEME_DEV', WP_DEBUG);
