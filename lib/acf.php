@@ -99,7 +99,6 @@ add_filter('acf/prepare_field/name=gravity_form_id', function ($field) {
 // Populate padding field (pt, pb, pt_lg, pb_lg)
 function acf_populate_padding($field) {
 
-    $field['default_value'] = '0';
     $field['choices'] = array(
         "0" => "0px",
         "5" => "5px",
@@ -111,7 +110,7 @@ function acf_populate_padding($field) {
         "60" => "60px",
         "70" => "70px",
         "80" => "80px",
-        "90" => "80px",
+        "90" => "90px",
         "100" => "100px",
         "110" => "110px",
         "120" => "120px",
@@ -132,11 +131,12 @@ add_filter('acf/prepare_field/name=pt', 'acf_populate_padding');
 add_filter('acf/prepare_field/name=pb', 'acf_populate_padding');
 add_filter('acf/prepare_field/name=pt_lg', 'acf_populate_padding');
 add_filter('acf/prepare_field/name=pb_lg', 'acf_populate_padding');
+add_filter('acf/prepare_field/name=grid_gap', 'acf_populate_padding');
+add_filter('acf/prepare_field/name=grid_gap_mobile', 'acf_populate_padding');
 
 // Populate margin field (mt, mb, mt_lg, mb_lg)
 function acf_populate_margin($field) {
 
-    $field['default_value'] = '0';
     $field['choices'] = array(
         "-200" => "-200px",
         "-190" => "-190px",
@@ -169,7 +169,7 @@ function acf_populate_margin($field) {
         "60" => "60px",
         "70" => "70px",
         "80" => "80px",
-        "90" => "80px",
+        "90" => "90px",
         "100" => "100px",
         "110" => "110px",
         "120" => "120px",
