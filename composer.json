@@ -1,19 +1,5 @@
 {
-  "repositories": [
-    {
-        "type": "composer",
-        "url": "https://asset-packagist.org"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/Mill3/twig-lambda.git",
-      "no-api": true
+    "require": {
+        "sentry/sdk": "^3.1"
     }
-  ],
-  "require": {
-    "guzzlehttp/guzzle": "7.3",
-    "mill3/twig-lambda": "dev-master",
-    "nesbot/carbon": "^2.48",
-    "illuminate/collections": "^8.46"
-  }
 }

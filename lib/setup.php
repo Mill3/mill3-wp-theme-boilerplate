@@ -65,7 +65,7 @@ function assets()
     // *****
 
     // webpack dev
-    if (THEME_DEV === true) {
+    if (WEBPACK_DEV_SERVER === true) {
         wp_enqueue_script(
             'mill3wp/webpack',
             "http://localhost:{$_ENV['WEBPACK_DEV_SERVER_PORT']}/js/app.bundle.js",
@@ -96,7 +96,7 @@ function assets()
       //'nonce' => wp_create_nonce('tdp_nonce'),
     );
 
-    wp_add_inline_script(THEME_DEV === true ? 'mill3wp/webpack' : 'mill3wp/js', 'window.wp = '.json_encode($wp_endpoints).';', 'before');
+    wp_add_inline_script(WEBPACK_DEV_SERVER === true ? 'mill3wp/webpack' : 'mill3wp/js', 'window.wp = '.json_encode($wp_endpoints).';', 'before');
 
     // remove core scripts and freaking emoji
     remove_action('wp_head', 'print_emoji_detection_script', 7);

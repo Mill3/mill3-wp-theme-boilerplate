@@ -32,7 +32,7 @@ function acf_flexible_layout_thumbnail($thumbnail, $field, $layout) {
 
 add_filter('acf/settings/show_admin', function() {
     // for development, show ACF admin menu
-    if( defined('THEME_DEV') && THEME_DEV === true ) return true;
+    if( defined('THEME_ENV') && THEME_ENV !== 'production' ) return true;
 
     // get current user
     $user = wp_get_current_user();
