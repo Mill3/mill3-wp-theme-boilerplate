@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Mill3 WP Theme Boilerplate
+ * https://github.com/Mill3/mill3-wp-theme-boilerplate
+ *
+ * @package  Mill3Wp
+ * @subpackage  Timber
+ */
+
 require __DIR__ . '/vendor/autoload.php';
 
 //
@@ -34,38 +42,31 @@ if (defined('WP_CLI') && WP_CLI) {
 
 //
 // Handling when Advanced Custom Fields is not installed
-// note: must be invoked before Timber plugin installation status
 //
-if ( !class_exists('ACF') ) {
+if ( !\class_exists('ACF') ) {
 
     // add notice in admin
     add_action('admin_notices', function () {
         echo '<div class="error"><p>Advanced Custom Field not activated. Make sure you activate the plugin in <a href="' .
-            esc_url(admin_url('plugins.php#timber')) .
+            esc_url(admin_url('plugins.php#advanced-custom-fields-pro')) .
             '">' .
             esc_url(admin_url('plugins.php')) .
             '</a></p></div>';
     });
 
     // fallback method avoiding 500 error when get_field is called from Twig function() method
-    if ( !is_admin() && !function_exists('get_field') ) {
+    if ( !is_admin() && !\function_exists('get_field') ) {
         function get_field() {
             return "ACF not installed.";
         }
     }
 }
 
+//
+// Handling when Timber is not installed
+//
 
-/**
- * Timber starter-theme
- * https://github.com/timber/starter-theme
- *
- * @package  WordPress
- * @subpackage  Timber
- * @since   Timber 0.1
- */
-
-if (!class_exists('Timber')) {
+if ( !\class_exists('Timber') ) {
     add_action('admin_notices', function () {
         echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' .
             esc_url(admin_url('plugins.php#timber')) .
@@ -75,7 +76,7 @@ if (!class_exists('Timber')) {
     });
 
     add_filter('template_include', function ($template) {
-        return get_stylesheet_directory() . '/static/no-timber.html';
+        return get_stylesheet_directory() . '/templates/no-timber.html';
     });
 
     return;
@@ -181,7 +182,7 @@ class Mill3WP extends Timber\Site
         $context['SENTRY_DSN_JS'] = SENTRY_DSN_JS;
         $context['SENTRY_ENV'] = SENTRY_ENV;
 
-        if ( \function_exists('get_fields') ) {
+        if ( \class_exists('ACF') ) {
           $context['options'] = get_fields('options');
         }
 
