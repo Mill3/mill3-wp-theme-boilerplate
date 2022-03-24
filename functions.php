@@ -2,14 +2,18 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-// define various constants
+//
+// Define various constants
+//
 defined('THEME_ENV') or define('THEME_ENV', 'production');
 defined('WEBPACK_DEV_SERVER') or define('WEBPACK_DEV_SERVER', THEME_ENV === 'development');
 defined('SENTRY_DSN_PHP') or define('SENTRY_DSN_PHP', null);
 defined('SENTRY_DSN_JS') or define('SENTRY_DSN_JS', null);
 defined('SENTRY_ENV') or define('SENTRY_ENV', null);
 
+//
 // Init Sentry.io
+//
 if (SENTRY_DSN_PHP && defined('Sentry')) {
     \Sentry\init([
         'dsn' => 'https://4370d31ae0a848b7a4d992f20d53209d@o187655.ingest.sentry.io/6272969',
@@ -18,14 +22,35 @@ if (SENTRY_DSN_PHP && defined('Sentry')) {
     \Sentry\captureLastError();
 }
 
-
-
+//
 // Add theme WP CLI commands.
 // note: must be invoked before Timber plugin installation status
+//
 if (defined('WP_CLI') && WP_CLI) {
     require_once __DIR__ . '/lib/cli.php';
     $commands = new \Mill3WP\Cli\Commands();
     \WP_CLI::add_command('mill3wp', $commands);
+}
+
+//
+// Handling when Advanced Custom Fields is not installed
+// note: must be invoked before Timber plugin installation status
+//
+if ( !function_exists('get_field') ) {
+
+    // add notice in admin
+    add_action('admin_notices', function () {
+        echo '<div class="error"><p>Advanced Custom Field not activated. Make sure you activate the plugin in <a href="' .
+            esc_url(admin_url('plugins.php#timber')) .
+            '">' .
+            esc_url(admin_url('plugins.php')) .
+            '</a></p></div>';
+    });
+
+    // fallback method avoiding 500 error when get_field is called from Twig function() method
+    function get_field() {
+        return "ACF not installed.";
+    }
 }
 
 

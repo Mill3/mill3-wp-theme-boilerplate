@@ -30,17 +30,17 @@
 
       <li class="{{ item.classes | join(' ') }}">
         {% if item.link == '#' %}
-          <button 
-            class="{{ item.btn_classes|default('') }}" 
+          <button
+            class="{{ item.btn_classes|default('') }}"
             {{ link_attr|join(' ') }}
           >
             {{ link_template|replace({'%s': item.title, '%img': img}) }}
           </button>
         {% else %}
-          <a 
-            href="{{ item.link }}" 
+          <a
+            href="{{ item.link }}"
             title="{{ item.title }}"
-            target="{{ item.target|default('_self') }}" 
+            target="{{ item.target|default('_self') }}"
             {{ link_attr|join(' ') }}
           >
             {{ link_template|replace({'%s': item.title, '%img': img}) }}
@@ -61,7 +61,7 @@
       </ul>
 
       {{ divider }}
-      
+
       <ul class="{{ classname }}">
     {% endif %}
   {% endfor %}
