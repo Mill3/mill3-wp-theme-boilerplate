@@ -17,8 +17,8 @@
 body.mce-content-body {
   background-color: var(--color-white) !important;
   color: var(--color-black) !important;
-  padding-left: spacer(4) !important;
-  padding-right: spacer(4) !important;
+  padding-left: spacer(30) !important;
+  padding-right: spacer(30) !important;
 
   @include wysiwyg;
 }

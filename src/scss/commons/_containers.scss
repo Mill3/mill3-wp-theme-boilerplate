@@ -1,9 +1,9 @@
 .container-fluid {
-  padding-left: spacer(3);
-  padding-right: spacer(3);
+  padding-left: spacer(20);
+  padding-right: spacer(20);
 
   @include media-breakpoint-up(lg) {
-    padding-left: spacer(8);
-    padding-right: spacer(8);
+    padding-left: spacer(90);
+    padding-right: spacer(90);
   }
 }

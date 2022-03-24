@@ -3,7 +3,7 @@
 {% block content %}
 	<div class="content-wrapper bg-color-white" data-scroll-section>
 		<article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
-			<section class="styleguide py-8 px-4">
+			<section class="styleguide pt-90 pb-90 pl-30 pr-30">
 				<h1 class="styleguide-title">{{post.title}}</h1>
 
         <!-- Colors -->
@@ -43,7 +43,7 @@
 					</aside>
 
 				</div>
-        <div class="d-grid grid-column-lg-2 pt-6">
+        <div class="d-grid grid-column-lg-2 pt-50">
 
 					<aside>
 						<h2 class="styleguide-subtitle">Police de caractère</h2>
@@ -90,39 +90,39 @@
         <!-- Buttons -->
 				<h2 class="styleguide-subtitle">Boutons</h2>
 				<div class="d-flex">
-					<div class="d-flex align-items-center p-2">
+					<div class="d-flex align-items-center p-10">
 						{% include 'partial/button.twig' with {'title': 'Bouton CTA', 'style': 'cta'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray)', 'style': 'cta', 'variation': 'gray', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray-light)', 'style': 'cta', 'variation': 'gray-light', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (white)', 'style': 'cta', 'variation': 'white', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (opaque)', 'style': 'cta', 'variation': 'opaque', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray, opaque)', 'style': 'cta', 'variation': 'gray opaque', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray-light, opaque)', 'style': 'cta', 'variation': 'gray-light opaque', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (white, opaque)', 'style': 'cta', 'variation': 'white opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray)', 'style': 'cta', 'variation': 'gray', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light)', 'style': 'cta', 'variation': 'gray-light', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white)', 'style': 'cta', 'variation': 'white', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (opaque)', 'style': 'cta', 'variation': 'opaque', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray, opaque)', 'style': 'cta', 'variation': 'gray opaque', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light, opaque)', 'style': 'cta', 'variation': 'gray-light opaque', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white, opaque)', 'style': 'cta', 'variation': 'white opaque', 'classname': 'ml-10'} only %}
 					</div>
 				</div>
 				<div class="d-flex">
-					<div class="d-flex align-items-center p-2 bg-color-black">
+					<div class="d-flex align-items-center p-10 bg-color-black">
 						{% include 'partial/button.twig' with {'title': 'Bouton CTA', 'style': 'cta'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray)', 'style': 'cta', 'variation': 'gray', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray-light)', 'style': 'cta', 'variation': 'gray-light', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (white)', 'style': 'cta', 'variation': 'white', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (opaque)', 'style': 'cta', 'variation': 'opaque', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray, opaque)', 'style': 'cta', 'variation': 'gray opaque', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray-light, opaque)', 'style': 'cta', 'variation': 'gray-light opaque', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (white, opaque)', 'style': 'cta', 'variation': 'white opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray)', 'style': 'cta', 'variation': 'gray', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light)', 'style': 'cta', 'variation': 'gray-light', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white)', 'style': 'cta', 'variation': 'white', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (opaque)', 'style': 'cta', 'variation': 'opaque', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray, opaque)', 'style': 'cta', 'variation': 'gray opaque', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light, opaque)', 'style': 'cta', 'variation': 'gray-light opaque', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white, opaque)', 'style': 'cta', 'variation': 'white opaque', 'classname': 'ml-10'} only %}
 					</div>
 				</div>
 				<div class="d-flex">
-					<div class="d-flex align-items-center p-2 bg-color-pink">
+					<div class="d-flex align-items-center p-10 bg-color-pink">
 						{% include 'partial/button.twig' with {'title': 'Bouton CTA', 'style': 'cta'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray)', 'style': 'cta', 'variation': 'gray', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray-light)', 'style': 'cta', 'variation': 'gray-light', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (white)', 'style': 'cta', 'variation': 'white', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (opaque)', 'style': 'cta', 'variation': 'opaque', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray, opaque)', 'style': 'cta', 'variation': 'gray opaque', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (gray-light, opaque)', 'style': 'cta', 'variation': 'gray-light opaque', 'classname': 'ml-2'} only %}
-						{% include 'partial/button.twig' with {'title': 'CTA (white, opaque)', 'style': 'cta', 'variation': 'white opaque', 'classname': 'ml-2'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray)', 'style': 'cta', 'variation': 'gray', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light)', 'style': 'cta', 'variation': 'gray-light', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white)', 'style': 'cta', 'variation': 'white', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (opaque)', 'style': 'cta', 'variation': 'opaque', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray, opaque)', 'style': 'cta', 'variation': 'gray opaque', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (gray-light, opaque)', 'style': 'cta', 'variation': 'gray-light opaque', 'classname': 'ml-10'} only %}
+						{% include 'partial/button.twig' with {'title': 'CTA (white, opaque)', 'style': 'cta', 'variation': 'white opaque', 'classname': 'ml-10'} only %}
 					</div>
 				</div>
 
