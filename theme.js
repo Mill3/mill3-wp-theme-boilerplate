@@ -136,8 +136,8 @@ const theme = {
     xxxl: "1800px"
   },
   spacers: {
-    auto: "auto",
-    "0": 0,
+    "auto": "auto",
+    "0": "0px",
     "5": "5px",
     "10": "10px",
     "20": "20px",

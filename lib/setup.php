@@ -68,7 +68,7 @@ function assets()
     if (WEBPACK_DEV_SERVER === true) {
         wp_enqueue_script(
             'mill3wp/webpack',
-            "http://localhost:{$_ENV['WEBPACK_DEV_SERVER_PORT']}/js/app.bundle.js",
+            "http://localhost:" . WEBPACK_DEV_SERVER_PORT . "/js/app.bundle.js",
             null,
             null,
             true
