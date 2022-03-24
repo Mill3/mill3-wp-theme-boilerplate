@@ -2,12 +2,23 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-// \Sentry\init(['dsn' => 'https://4370d31ae0a848b7a4d992f20d53209d@o187655.ingest.sentry.io/6272969' ]);
-// \Sentry\captureLastError();
-// define("WP_SENTRY_PHP_DSN", "https://4370d31ae0a848b7a4d992f20d53209d@o187655.ingest.sentry.io/6272969");
+// define various constants
+defined('THEME_ENV') or define('THEME_ENV', 'production');
+defined('WEBPACK_DEV_SERVER') or define('WEBPACK_DEV_SERVER', THEME_ENV === 'development');
+defined('SENTRY_DSN_PHP') or define('SENTRY_DSN_PHP', null);
+defined('SENTRY_DSN_JS') or define('SENTRY_DSN_JS', null);
+defined('SENTRY_ENV') or define('SENTRY_ENV', null);
 
-// define THEME_DEV const using WP_DEBUG if not defined in wp-config.php
-defined('THEME_DEV') or define('THEME_DEV', WP_DEBUG);
+// Init Sentry.io
+if (SENTRY_DSN_PHP) {
+    \Sentry\init([
+        'dsn' => 'https://4370d31ae0a848b7a4d992f20d53209d@o187655.ingest.sentry.io/6272969',
+        'environment' => SENTRY_ENV ? SENTRY_ENV : 'production'
+    ]);
+    \Sentry\captureLastError();
+}
+
+
 
 // Add theme WP CLI commands.
 // note: must be invoked before Timber plugin installation status
@@ -83,8 +94,6 @@ $includes = [
     'lib/taxonomy-queries.php',
     'lib/titles.php',
     'lib/utils.php',
-    // ACF custom fields
-    'lib/acf-fields/spacer/index.php',
     // model class per post-type
     'lib/models/dummy.php',
 ];
@@ -104,7 +113,7 @@ unset($file, $filepath);
  * We're going to configure our theme inside of a subclass of Timber\Site
  * You can move this to its own file and include here via php's include("MySite.php")
  */
-class StarterSite extends Timber\Site
+class Mill3WP extends Timber\Site
 {
     /** Add timber support. */
     public function __construct()
@@ -139,6 +148,11 @@ class StarterSite extends Timber\Site
         $context['secondary_navigation'] = new Timber\Menu('secondary_navigation');
         $context['footer_navigation'] = new Timber\Menu('footer_navigation');
         $context['social_links'] = new Timber\Menu('social_links');
+        $context['THEME_ENV'] = THEME_ENV;
+        $context['WEBPACK_DEV_SERVER'] = WEBPACK_DEV_SERVER;
+        $context['SENTRY_DSN_PHP'] = SENTRY_DSN_PHP;
+        $context['SENTRY_DSN_JS'] = SENTRY_DSN_JS;
+        $context['SENTRY_ENV'] = SENTRY_ENV;
 
         if ( \function_exists('get_fields') ) {
           $context['options'] = get_fields('options');
@@ -226,4 +240,4 @@ class StarterSite extends Timber\Site
     }
 }
 
-new StarterSite();
+new Mill3WP();

@@ -12,7 +12,7 @@
 
     <meta name="ahrefs-site-verification" content="b3803d3e535d4234a31383131e38f454755069fd82239a50bbb931b2f628671e">
 
-    {% if options.gtm_code %}
+    {% if options.gtm_code and THEME_ENV == "production" %}
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -21,3 +21,25 @@
     })(window,document,'script','dataLayer','{{ options.gtm_code }}');</script>
     <!-- End Google Tag Manager -->
     {% endif %}
+
+    {# INJECT SENTRY JS IN PRODUCTION ONLY #}
+    {% if THEME_ENV == "production" and SENTRY_DSN_JS %}
+    <script
+      src="https://browser.sentry-cdn.com/6.19.1/bundle.tracing.min.js"
+      integrity="sha384-hthbsqa5mLHmR+ZUw29J9qGt8SdDRD7AVpG02i/NAsu5cv9G9I9D9IhEtSVyoPv2"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      Sentry.init({
+        dsn: "{{ SENTRY_DSN_JS }}",
+        integrations: [new Sentry.BrowserTracing()],
+        environment: "{{ SENTRY_ENV ? SENTRY_ENV : 'production' }}",
+
+        // We recommend adjusting this value in production, or using tracesSampler
+        // for finer control
+        tracesSampleRate: 1.0,
+      });
+    </script>
+    {% endif %}
+
