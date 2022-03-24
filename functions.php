@@ -36,7 +36,7 @@ if (defined('WP_CLI') && WP_CLI) {
 // Handling when Advanced Custom Fields is not installed
 // note: must be invoked before Timber plugin installation status
 //
-if ( !function_exists('get_field') ) {
+if ( !class_exists('ACF') ) {
 
     // add notice in admin
     add_action('admin_notices', function () {
@@ -48,8 +48,10 @@ if ( !function_exists('get_field') ) {
     });
 
     // fallback method avoiding 500 error when get_field is called from Twig function() method
-    function get_field() {
-        return "ACF not installed.";
+    if ( !is_admin() && !function_exists('get_field') ) {
+        function get_field() {
+            return "ACF not installed.";
+        }
     }
 }
 
