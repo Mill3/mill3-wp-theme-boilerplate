@@ -23,7 +23,7 @@ add_filter('embed_oembed_html', __NAMESPACE__ . '\\responsive_embed', 10, 3);
  * @param  string                 $output [description]
  * @param  [type]                 $atts   [description]
  */
-function wp_gallery($output = '', $atts, $instance)
+function wp_gallery($output, $atts, $instance)
 {
     // get all gallery shortcode posts
     $posts = get_posts(array('include' => $atts['ids'], 'orderby' => $atts['orderby'], 'post_type' => 'attachment'));
