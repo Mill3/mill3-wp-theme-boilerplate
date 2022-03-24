@@ -10,7 +10,7 @@ defined('SENTRY_DSN_JS') or define('SENTRY_DSN_JS', null);
 defined('SENTRY_ENV') or define('SENTRY_ENV', null);
 
 // Init Sentry.io
-if (SENTRY_DSN_PHP) {
+if (SENTRY_DSN_PHP && defined('Sentry')) {
     \Sentry\init([
         'dsn' => 'https://4370d31ae0a848b7a4d992f20d53209d@o187655.ingest.sentry.io/6272969',
         'environment' => SENTRY_ENV ? SENTRY_ENV : 'production'

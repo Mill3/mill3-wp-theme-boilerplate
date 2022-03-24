@@ -13,7 +13,7 @@ Our WP theme boilerplate using Timber/Twig templates
 Edit `wp-config.php` and add this constant :
 
 ```php
-define('THEME_DEV', true);
+define('THEME_ENV', 'development');
 ```
 
 Make sure the _name_ line in `package.json` matches your theme's directory name.
