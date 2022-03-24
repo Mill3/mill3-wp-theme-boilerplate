@@ -5,6 +5,7 @@
 
 {% set title = post.title %}
 {% set text = post.text %}
+{% set buttons = post.buttons %}
 {% set position = post.position|default('right') %}
 {% set width = post.width|default('default') %}
 
@@ -28,6 +29,13 @@
     <div class="pb-row-text-simple__text fz-16 fz-xl-18 lh-relaxed lh-xl-chill wysiwyg">
       {{ text }}
     </div>
+
+    {% if buttons %}
+      {% include 'partial/links-nav.twig' with {
+        'buttons': buttons,
+        'classname': 'pb-row-text-simple__buttons mt-20 mt-lg-50'
+      } only %}
+    {% endif %}
   </aside>
 
 </div>
