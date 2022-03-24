@@ -30,7 +30,7 @@
   // POSITIONS
   &.--position-center {
     flex-direction: column;
-    grid-gap: spacer(4);
+    grid-gap: spacer(30);
     @include media-breakpoint-up(md) {
       align-items: center;
     }

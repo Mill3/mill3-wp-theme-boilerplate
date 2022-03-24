@@ -8,8 +8,8 @@
 {% set layout = post.layout|default('slider') %}
 {% set format = post.format|default('square') %}
 {% set ticker_direction = post.ticker_direction|default('left') %}
-{% set grid_gap = post.grid_gap|default(3) %}
-{% set grid_gap_mobile = post.grid_gap_mobile|default(3) %}
+{% set grid_gap = post.grid_gap|default(20) %}
+{% set grid_gap_mobile = post.grid_gap_mobile|default(20) %}
 {% set fullwidth = post.fullwidth|default(false) %}
 
 {% set classname = classname ~ ' --layout-' ~ layout %}
@@ -101,7 +101,7 @@
           } only %}
 
           {% if media.credit %}
-          <figcaption class="pb-row-medias__caption d-block m-0 mt-2 p-0">{{ media.credit }}</figcaption>
+          <figcaption class="pb-row-medias__caption d-block m-0 mt-10 p-0">{{ media.credit }}</figcaption>
           {% endif %}
         </figure>
       </li>

@@ -5,7 +5,7 @@
 
   <div class="post-archives__posts container-fluid " data-scroll-section>
 
-    <ol class="list-none p-0 pt-lg-5 d-sm-grid grid-column-2 grid-gap-3 grid-gap-lg-6">
+    <ol class="list-none p-0 pt-lg-40 d-sm-grid grid-column-2 grid-gap-20 grid-gap-lg-50">
         {% for post in posts %}
         <li>
           {% include 'post-type/post/post-preview.twig' with {'post': post, 'classname': '' } only %}
@@ -17,7 +17,7 @@
 
   {% include 'partial/pagination.twig' with {
     'pagination': posts.pagination({show_all: false, mid_size: 1, end_size: 1}),
-    'classname': 'post-archives__pagination pt-4 pt-lg-8',
+    'classname': 'post-archives__pagination pt-30 pt-lg-90',
     'attributes': ['data-scroll-section']
   } only %}
 

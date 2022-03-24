@@ -14,7 +14,7 @@
 >
 
   {% for btn in buttons %}
-    {% set attributes = ['style="--index:'~ loop.index0 ~'"'] %}
+    {% set attrs = ['style="--index:'~ loop.index0 ~'"'] %}
     {% set style = btn.style|default('cta') %}
     {% set variations = style == 'cta' ? btn.cta_variations : btn.link_variations %}
     {% set icon = style == 'cta' ? btn.cta_icon : null %}
@@ -22,7 +22,12 @@
     {% set title = btn.link.title %}
     {% set target = btn.link.target %}
 
-    {% if url == '#' %}
+    {% if url starts with '#' %}
+      {# if url is only #, do not handle like a scroll-to button #}
+      {% if url != '#' %}
+        {% set attrs = attrs|merge(['data-scroll-to', 'data-scroll-href="' ~ url ~ '"']) %}
+      {% endif %}
+
       {% include 'partial/button.twig' with {
         'link': url,
         'title': title,
@@ -30,7 +35,7 @@
         'variation': variations|default([])|join(' '),
         'icon': icon|default(null),
         'classname': 'links-nav__link',
-        'attributes': attributes
+        'attributes': attrs
       } only %}
     {% else %}
       {% include 'partial/link.twig' with {
@@ -41,7 +46,7 @@
         'variation': variations|default([])|join(' '),
         'icon': icon|default(null),
         'classname': 'links-nav__link',
-        'attributes': attributes
+        'attributes': attrs
       } only %}
     {% endif %}
   {% endfor %}
