@@ -1,6 +1,7 @@
 {% set is_preview = is_preview ?? false %}
 {% set zindex = zindex ?? 0 %}
 
+{% set pb_row_id = post ? post.pb_row_id : pb_row_id %}
 {% set pt = post ? post.pt|default(0) : spacer_mobile|default(0) %}
 {% set pb = post ? post.pb|default(0) : spacer_mobile|default(0) %}
 {% set pt_lg = post ? post.pt_lg|default(0) : spacer|default(0) %}
@@ -62,6 +63,7 @@
 {% endif %}
 
 <div 
+  {% if pb_row_id %}id="{{ pb_row_id }}"{% endif %}
   class="pb-row-wrapper position-relative {{ row_classname|join(' ') }}" 
   data-scroll-section
   {% if row_styles|length > 0 %}
