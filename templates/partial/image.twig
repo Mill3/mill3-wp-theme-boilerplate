@@ -9,12 +9,18 @@
   {% set attributes = attributes|default([]) %}
   {% set size = size|default('large') %}
   {% set priority = priority|default(null) %}
+  {% set decoding = decoding|default(null) %}
   {% set width = image.sizes[size].width|default((image.sizes|first).width) %}
   {% set height = image.sizes[size].height|default((image.sizes|first).height) %}
 
   {# validate priority #}
   {% if priority and priority not in ['high', 'low', 'auto'] %}
     {% set priority = null %}
+  {% endif %}
+
+  {# validate decoding #}
+  {% if decoding and decoding not in ['sync', 'async', 'auto'] %}
+    {% set decoding = null %}
   {% endif %}
 
   <img
@@ -26,6 +32,7 @@
     height="{{ height }}"
     {% if lazyload %}loading="lazy"{% endif %}
     {% if priority %}fetchpriority="{{ priority }}"{% endif %}
+    {% if decoding %}decoding="{{ decoding }}"{% endif %}
     class="{{ classname }}"
     {{ attributes|join(' ') }}
   >
