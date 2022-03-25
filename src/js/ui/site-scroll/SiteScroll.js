@@ -62,8 +62,7 @@ class SiteScroll {
     });
     */
 
-    //if( !this.ro ) this.ro = ResizeOrientation(this._onResize);
-    //this.ro.run();
+    //this._onResize();
 
     this.scroll = new LocomotiveScroll({
       el: this.el,
@@ -81,7 +80,7 @@ class SiteScroll {
   }
 
   destroy() {
-    //if (this.ro) this.ro.off();
+    //ResizeOrientation.remove(this._onResize);
     if (this.scroll) {
       this.scroll.off("call", this._onCall);
       this.scroll.off("scroll", this._onScroll);
@@ -106,7 +105,7 @@ class SiteScroll {
   }
 
   update() {
-    //if (this.ro) this.ro.run();
+    //this._onResize();
     if (this.scroll) this.scroll.update();
   }
 
@@ -132,7 +131,7 @@ class SiteScroll {
 
   _bindEvents() {
     // start listening for window's resize event
-    //if( this.ro ) this.ro.on();
+    //ResizeOrientation.add(this._onResize);
 
     // register event on global emmiter system
     if (!this.emitter) return;

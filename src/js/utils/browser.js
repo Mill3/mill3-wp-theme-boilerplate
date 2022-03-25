@@ -25,59 +25,11 @@ Browser.safari(range) // range is optional
 import { isWindow } from "./is";
 import mobile from "./mobile";
 
-const Browser = () => {
-  const freeSelf = isWindow(typeof self == "object" && self) && self;
-  const navigator = freeSelf && freeSelf.navigator;
-  const userAgent = ((navigator && navigator.userAgent) || "").toLowerCase();
-  const vendor = (navigator && navigator.vendor || '').toLowerCase();
 
-  return {
-    android: () => /android/.test(userAgent),
-    chrome: (range) => {
-      // eslint-disable-next-line no-undef
-      const match = /google inc/.test(vendor) ? userAgent.match(/(?:chrome|crios)\/(\d+)/) : null;
-      return match !== null && !this.opera() && compareVersion(match[1], range);
-    },
-    edge: (range) => {
-      const match = userAgent.match(/edge\/(\d+)/);
-      return match !== null && compareVersion(match[1], range);
-    },
-    firefox: (range) => {
-      const match = userAgent.match(/(?:firefox|fxios)\/(\d+)/);
-      return match !== null && compareVersion(match[1], range);
-    },
-    ie: (range) => {
-      const match = userAgent.match(/(?:msie |trident.+?; rv:)(\d+)/);
-      return match !== null && compareVersion(match[1], range);
-    },
-    ios: () => {
-      return this.iphone() || this.ipad() || this.ipod();
-    },
-    ipad: (range) => {
-      const match = userAgent.match(/ipad.+?os (\d+)/);
-      return match !== null && compareVersion(match[1], range);
-    },
-    iphone: (range) => {
-      // avoid false positive for Facebook in-app browser on ipad;
-      // original iphone doesn't have the OS portion of the UA
-      const match = this.ipad() ? null : userAgent.match(/iphone(?:.+?os (\d+))?/);
-      return match !== null && compareVersion(match[1] || 1, range);
-    },
-    ipod: (range) => {
-      const match = userAgent.match(/ipod.+?os (\d+)/);
-      return match !== null && compareVersion(match[1], range);
-    },
-    mobile: () => mobile,
-    opera: (range) => {
-      const match = userAgent.match(/(?:^opera.+?version|opr)\/(\d+)/);
-      return match !== null && compareVersion(match[1], range);
-    },
-    safari: (range) => {
-      const match = userAgent.match(/version\/(\d+).+?safari/);
-      return match !== null && compareVersion(match[1], range);
-    }
-  };
-};
+const freeSelf = isWindow(typeof self == "object" && self) && self;
+const navigator = freeSelf && freeSelf.navigator;
+const userAgent = ((navigator && navigator.userAgent) || "").toLowerCase();
+const vendor = (navigator && navigator.vendor || '').toLowerCase();
 
 // build a 'comparator' object for various comparison checks
 const comparator = {
@@ -104,4 +56,63 @@ const compareVersion = (version, range) => {
   return comparator[op] ? comparator[op](version, n) : version == n || n !== n;
 };
 
-export default Browser();
+
+export const android = () => /android/.test(userAgent);
+
+export const chrome = (range) => {
+  // eslint-disable-next-line no-undef
+  const match = /google inc/.test(vendor) ? userAgent.match(/(?:chrome|crios)\/(\d+)/) : null;
+  return match !== null && !opera() && compareVersion(match[1], range);
+};
+export const firefox = (range) => {
+  const match = userAgent.match(/(?:firefox|fxios)\/(\d+)/);
+  return match !== null && compareVersion(match[1], range);
+};
+export const safari = (range) => {
+  const match = userAgent.match(/version\/(\d+).+?safari/);
+  return match !== null && compareVersion(match[1], range);
+};
+export const opera = (range) => {
+  const match = userAgent.match(/(?:^opera.+?version|opr)\/(\d+)/);
+  return match !== null && compareVersion(match[1], range);
+};
+
+export const ie = (range) => {
+  const match = userAgent.match(/(?:msie |trident.+?; rv:)(\d+)/);
+  return match !== null && compareVersion(match[1], range);
+};
+export const edge = (range) => {
+  const match = userAgent.match(/edge\/(\d+)/);
+  return match !== null && compareVersion(match[1], range);
+};
+
+export const ios = () => iphone() || ipad() || ipod();
+export const ipad = (range) => {
+  const match = userAgent.match(/ipad.+?os (\d+)/);
+  return match !== null && compareVersion(match[1], range);
+};
+export const iphone = (range) => {
+  // avoid false positive for Facebook in-app browser on ipad;
+  // original iphone doesn't have the OS portion of the UA
+  const match = ipad() ? null : userAgent.match(/iphone(?:.+?os (\d+))?/);
+  return match !== null && compareVersion(match[1] || 1, range);
+};
+export const ipod = (range) => {
+  const match = userAgent.match(/ipod.+?os (\d+)/);
+  return match !== null && compareVersion(match[1], range);
+};
+
+
+export default {
+  android,
+  chrome,
+  firefox,
+  safari,
+  opera,
+  ie,
+  edge,
+  ios,
+  ipad,
+  iphone,
+  ipod,
+};

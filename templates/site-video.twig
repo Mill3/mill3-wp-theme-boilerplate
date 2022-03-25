@@ -1,0 +1,19 @@
+<div 
+  class="site-video position-fixed t-0 l-0 w-100 vh-100 d-flex align-items-center"
+  aria-hidden="true"
+  data-ui="site-video"
+  data-site-video
+>
+  <div class="site-video__bg position-absolute t-0 l-0 w-100 h-100 bg-color-black" aria-hidden="true"></div>
+
+  <div class="site-video__container w-100 box box-widescreen bg-color-black">
+    <video class="site-video__video position-absolute t-0 l-0 w-100 h-100" controls autoplay playsInline disableRemotePlayback></video>
+  </div>
+
+  <button 
+    class="site-video__close position-absolute t-0 r-0 d-flex align-items-center justify-content-center mt-10 mr-10 color-white" 
+    aria-label="{{ __('Stop video', 'mill3wp') }}"
+  >
+    {{ __('Stop video', 'mill3wp') }}
+  </button>
+</div>

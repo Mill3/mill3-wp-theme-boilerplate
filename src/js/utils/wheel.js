@@ -15,7 +15,7 @@ function cb(delta, event) {
 }
 
 */
-import Browser from "./browser";
+
 import { on, off } from "./listener";
 
 const Wheel = (cb) => {

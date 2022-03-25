@@ -4,7 +4,7 @@ import domready from "domready";
 
 import { body } from '@utils/dom';
 import { limit } from '@utils/math';
-import { on, once } from '@utils/listener';
+import { once } from '@utils/listener';
 import ResizeOrientation from '@utils/resize';
 
 domready(() => {
@@ -14,10 +14,9 @@ domready(() => {
     window.frameElement.height = limit(25, max, body.scrollHeight);
   };
 
-  const ro = ResizeOrientation(resize);
-        ro.run();
-        ro.on();
-
+  resize();
+  
+  ResizeOrientation.add(resize);
   once(window, 'load', resize);
   parent.addEventListener('resize', resize, false);
 });

@@ -17,7 +17,7 @@ function wtCb(delta, type, event) {
 type → 'scroll' or 'touch'
 
 */
-import Browser from "./browser";
+import { firefox } from "./browser";
 import { on, off } from "./listener";
 
 const WheelTouch = (cb) => {
@@ -43,7 +43,7 @@ const WheelTouch = (cb) => {
 
     // deltamode === 1 -> wheel mouse, not touch pad
     // https://developer.mozilla.org/en-US/docs/Web/API/WheelEvent#Delta_modes
-    if (Browser.firefox() && event.deltaMode === 1) delta *= 120;
+    if (firefox() && event.deltaMode === 1) delta *= 120;
 
     getCb();
   };

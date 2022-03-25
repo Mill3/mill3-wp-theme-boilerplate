@@ -36,6 +36,7 @@
         >
           {% include 'partial/image.twig' with {
             'image': Image(partner.logo),
+            'alt': partner.name,
             'size': 'small',
             'classname': 'pb-row-partners__partner__img w-100 h-100 object-fit-contain'
           } only %}
@@ -44,6 +45,7 @@
         <figure class="pb-row-partners__partner__media">
           {% include 'partial/image.twig' with {
             'image': Image(partner.logo),
+            'alt': partner.name,
             'size': 'small',
             'classname': 'pb-row-partners__partner__img w-100 h-100 object-fit-contain'
           } only %}

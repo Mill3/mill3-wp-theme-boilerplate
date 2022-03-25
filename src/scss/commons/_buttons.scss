@@ -20,8 +20,55 @@ button {
 .btn {
   $self: &;
 
-  &:focus {
-    outline: none;
+  touch-action: manipulation;
+
+  &:focus { outline: none; }
+
+
+  // CTA
+  &.--cta {
+    // default styles
+    &:not([class*="d-"]) { display: flex; }
+    //&:not([class*="position-"]) { position: relative; }
+
+    // rollover
+    @include hoverDevice {
+      &:not(.pointer-events-none) {
+        // styling only applied for button who can received hover events
+
+        &:hover,
+        &:focus,
+        &:active {
+          // do stuff here
+        }
+      }
+    }
+
+    // variations
+    //&.--cta-inverted {}
+  }
+
+
+  // LINK
+  &.--link {
+    // default styles
+    //&:not([class*="position-"]) { position: relative; }
+
+    // rollover
+    @include hoverDevice {
+      &:not(.pointer-events-none) {
+        // styling only applied for button who can received hover events
+
+        &:hover,
+        &:focus,
+        &:active {
+          // do stuff here
+        }
+      }
+    }
+
+    // variations
+    //&.--link-inverted {}
   }
 }
 

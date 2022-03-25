@@ -9,6 +9,8 @@ import WindmillScripts from "@core/windmill.scripts";
 import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 import MobileViewportUnit from "@core/mobile-vh";
 import splitting from "@core/splitting";
+import { chrome, edge, firefox, safari, ios, android } from "@utils/browser";
+import { html } from "@utils/dom";
 import { mobile } from "@utils/mobile";
 import transitions from "@transitions";
 
@@ -27,6 +29,14 @@ class App {
   }
 
   init() {
+    // add browser vendor classnames on <html>
+    if( chrome() ) html.classList.add('chrome');
+    if( edge() ) html.classList.add('edge');
+    if( firefox() ) html.classList.add('firefox');
+    if( safari() ) html.classList.add('safari');
+    if( ios() ) html.classList.add('ios');
+    if( android() ) html.classList.add('android');
+
     // if mobile, create mobile vh fix
     if( mobile ) MobileViewportUnit.init();
 

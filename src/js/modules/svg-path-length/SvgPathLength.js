@@ -14,30 +14,24 @@ class SvgPathLength {
   }
 
   init() {
-    if( this.paths.length > 0 ) {
-      this._ro = ResizeOrientation(this._onResize);
-      this._ro.run();
-    }
-
     this._bindEvents();
   }
   destroy() {
     this._unbindEvents();
 
-    if( this._ro ) this._ro.dispose();
-
     this.el = null;
     this.emitter = null;
     this.paths = null;
-
-    this._ro = null;
   }
 
   _bindEvents() {
-    if( this._ro ) this._ro.on();
+    if( this.paths.length > 0 ) {
+      ResizeOrientation.add(this._onResize);
+      this._onResize();
+    }
   }
   _unbindEvents() {
-    if( this._ro ) this._ro.off();
+    if( this.paths.length > 0 ) ResizeOrientation.remove(this._onResize);
   }
 
   _onResize() {

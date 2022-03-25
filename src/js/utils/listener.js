@@ -17,7 +17,7 @@ once(element, type, callback);
 
 */
 
-import Browser from "./browser";
+import { firefox } from "./browser";
 import { isUndefined } from "./is";
 import { $$ } from "./dom";
 
@@ -28,7 +28,7 @@ const normalizeEventType = (type) => {
   if (type === "mouseWheel") {
     return "onwheel" in document ? "wheel" : !isUndefined(document.onmousewheel) ? "mousewheel" : "DOMMouseScroll";
   } else if (type === "focusOut") {
-    return Browser.firefox() ? "blur" : "focusout";
+    return firefox() ? "blur" : "focusout";
   }
 
   return type;

@@ -42,8 +42,7 @@ class TextTicker {
   }
 
   init() {
-    this._ro = ResizeOrientation(this._onResize);
-    this._ro.run();
+    this._onResize();
 
     // set velocity to zero on scroll mode
     if(this._mode === MODE_SCROLL) this._velocity.target = this._velocity.current = 0;
@@ -62,8 +61,6 @@ class TextTicker {
   }
   destroy() {
     this._unbindEvents();
-
-    if( this._ro ) this._ro.dispose();
 
     this.el = null;
     this.emitter = null;
@@ -88,7 +85,7 @@ class TextTicker {
   }
 
   _bindEvents() {
-    if (this._ro) this._ro?.on();
+    ResizeOrientation.add(this._onResize);
     if (this._wheel) this._wheel?.on();
     if (this._mode === MODE_JS || this._mode === MODE_SCROLL) {
       this.emitter?.on("SiteScroll.start", this._onScrollStart);
@@ -104,7 +101,7 @@ class TextTicker {
       this.emitter?.off("SiteScroll.text-ticker", this._onScrollCall);
     }
 
-    if (this._ro) this._ro?.off();
+    ResizeOrientation.remove(this._onResize);
     if (this._wheel) this._wheel?.off();
     if (this._raf) cancelAnimationFrame(this._raf);
 

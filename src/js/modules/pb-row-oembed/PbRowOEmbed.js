@@ -10,6 +10,7 @@ class PbRowOEmbed {
     this.el = el;
     this.emitter = emitter;
     this.preview = $('.pb-row-oembed__preview', this.el);
+    this.videoPreview = $('.pb-row-oembed__videoPreview', this.el);
     this.button = $('.pb-row-oembed__button', this.el);
 
     this._onButtonClick = this._onButtonClick.bind(this);
@@ -22,6 +23,7 @@ class PbRowOEmbed {
     this.el = null;
     this.emitter = null;
     this.preview = null;
+    this.videoPreview = null;
     this.button = null;
 
     this._onButtonClick = null;
@@ -49,10 +51,18 @@ class PbRowOEmbed {
     // get iFrame source
     const src = $('script', this.el).innerHTML;
 
+    // destroy video-preview if exists
+    const hasVideoPreview = this.videoPreview ? true : false;
+    if( hasVideoPreview ) this.emitter.emit('Video.destroy', this.videoPreview);
+
     // add iFrame to DOM and remove preview at the same time
     this.preview.parentNode.innerHTML = src;
     this.preview = null;
     this.button = null;
+    this.videoPreview = null;
+
+    // force site-scroll update
+    if( hasVideoPreview ) this.emitter.emit('SiteScroll.update');
 
     // try to create a Youtube oEmbed
     const youtube = $(LocomotiveScrollYoutubeSelector, this.el);
