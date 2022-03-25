@@ -1,0 +1,30 @@
+{% set page_section = post.page_section %}
+{% set edit_button = null %}
+{% set zindex = zindex ?? 1 %}
+
+{# get content rows from page-section #}
+{% set content_rows = Post(page_section).get_field("page_builder") %}
+
+{% if content_rows %}
+
+  {# check if one of the rows refer to the same page_section.id, this prevent an infinite loop #}
+  {% set has_self_nested_page_section = content_rows|filter(row => row.page_section.id == page_section.id)|length > 0 %}
+
+  {# send admin alert in preview #}
+  {% if is_preview and has_self_nested_page_section %}
+  <span
+    style="font-size: 12px; background-color: red; color: black;"
+    class="ff-mono m-0 pt-5 pb-5 pl-10 pr-10 d-block position-absolute t-0 l-0 lh-1"
+  >
+    Important! A page-section element cannot refer to itself through another <em>Row "page section"</em>.
+  </span>
+  {% endif %}
+
+  {# if has content rows and no self-nested page-section #}
+  {% if content_rows and not has_self_nested_page_section %}
+  <div class="pb-row-page-section {{ classname }}">
+    {% include 'page-builder/index.twig' with { 'content_rows': content_rows, 'pb_rows_zindex': zindex - 1 } only %}
+  </div>
+  {% endif %}
+
+{% endif %}

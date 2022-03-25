@@ -22,7 +22,9 @@
           "acfe_flexible_layouts_previews": 1,
           "acfe_flexible_layouts_thumbnails": 1,
           "acfe_flexible_layouts_settings": 0,
-          "acfe_flexible_disable_ajax_title": 0,
+          "acfe_flexible_async": [
+              "layout"
+          ],
           "acfe_flexible_add_actions": [],
           "acfe_flexible_remove_button": [],
           "acfe_flexible_modal_edit": {
@@ -2375,6 +2377,54 @@
                   "acfe_flexible_settings_size": "medium",
                   "acfe_flexible_category": false
               },
+              "layout_623e26cddb9fc": {
+                  "key": "layout_623e26cddb9fc",
+                  "name": "pb_row_page_section",
+                  "label": "Page section",
+                  "display": "block",
+                  "sub_fields": [
+                      {
+                          "key": "field_623e274edba09",
+                          "label": "Page section",
+                          "name": "page_section",
+                          "type": "post_object",
+                          "instructions": "",
+                          "required": 0,
+                          "conditional_logic": 0,
+                          "wrapper": {
+                              "width": "",
+                              "class": "",
+                              "id": ""
+                          },
+                          "acfe_permissions": "",
+                          "post_type": [
+                              "page_section"
+                          ],
+                          "taxonomy": "",
+                          "allow_null": 0,
+                          "multiple": 0,
+                          "return_format": "object",
+                          "save_custom": 0,
+                          "save_post_status": "publish",
+                          "acfe_bidirectional": {
+                              "acfe_bidirectional_enabled": "0"
+                          },
+                          "acfe_settings": "",
+                          "acfe_validate": "",
+                          "ui": 1
+                      }
+                  ],
+                  "min": "",
+                  "max": "",
+                  "acfe_flexible_render_template": "acf_preview_row.php",
+                  "acfe_flexible_render_style": "",
+                  "acfe_flexible_render_script": "",
+                  "acfe_flexible_modal_edit_size": "",
+                  "acfe_flexible_thumbnail": "",
+                  "acfe_flexible_settings": false,
+                  "acfe_flexible_settings_size": "medium",
+                  "acfe_flexible_category": false
+              },
               "layout_604651af12381": {
                   "key": "layout_604651af12381",
                   "name": "pb_row_spacer",
@@ -2521,10 +2571,7 @@
           "acfe_flexible_hide_empty_message": false,
           "acfe_flexible_empty_message": "",
           "acfe_flexible_layouts_placeholder": false,
-          "acfe_flexible_layouts_state": false,
-          "acfe_flexible_async": [
-              "layout"
-          ]
+          "acfe_flexible_layouts_state": false
       }
   ],
   "location": [
@@ -2553,5 +2600,5 @@
   "acfe_form": 1,
   "acfe_meta": "",
   "acfe_note": "",
-  "modified": 1648222673
+  "modified": 1648240549
 }
