@@ -8,8 +8,14 @@
   {% set lazyload = lazyload|default(false) %}
   {% set attributes = attributes|default([]) %}
   {% set size = size|default('large') %}
+  {% set priority = priority|default(null) %}
   {% set width = image.sizes[size].width|default((image.sizes|first).width) %}
   {% set height = image.sizes[size].height|default((image.sizes|first).height) %}
+
+  {# validate priority #}
+  {% if priority and priority not in ['high', 'low', 'auto'] %}
+    {% set priority = null %}
+  {% endif %}
 
   <img
     src="{{ src ? src : image.src(size) }}"
@@ -19,6 +25,7 @@
     width="{{ width }}"
     height="{{ height }}"
     {% if lazyload %}loading="lazy"{% endif %}
+    {% if priority %}fetchpriority="{{ priority }}"{% endif %}
     class="{{ classname }}"
     {{ attributes|join(' ') }}
   >
