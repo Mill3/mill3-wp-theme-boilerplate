@@ -2147,6 +2147,103 @@
                           "acfe_validate": ""
                       },
                       {
+                          "key": "field_623de14e804de",
+                          "label": "Image (Preview)",
+                          "name": "thumbnail",
+                          "type": "image",
+                          "instructions": "",
+                          "required": 0,
+                          "conditional_logic": 0,
+                          "wrapper": {
+                              "width": "",
+                              "class": "",
+                              "id": ""
+                          },
+                          "acfe_permissions": "",
+                          "uploader": "",
+                          "acfe_thumbnail": 0,
+                          "return_format": "array",
+                          "preview_size": "medium",
+                          "min_width": "",
+                          "min_height": "",
+                          "min_size": "",
+                          "max_width": "",
+                          "max_height": "",
+                          "max_size": "",
+                          "mime_types": "",
+                          "acfe_settings": "",
+                          "acfe_validate": "",
+                          "library": "all"
+                      },
+                      {
+                          "key": "field_623de17e804df",
+                          "label": "Video (Preview)",
+                          "name": "video_preview",
+                          "type": "file",
+                          "instructions": "",
+                          "required": 0,
+                          "conditional_logic": 0,
+                          "wrapper": {
+                              "width": "50",
+                              "class": "",
+                              "id": ""
+                          },
+                          "acfe_permissions": "",
+                          "uploader": "",
+                          "return_format": "array",
+                          "min_size": "",
+                          "max_size": "",
+                          "mime_types": "mp4",
+                          "acfe_settings": "",
+                          "acfe_validate": "",
+                          "library": "all"
+                      },
+                      {
+                          "key": "field_623de19b804e0",
+                          "label": "Video Mobile (Preview)",
+                          "name": "video_preview_mobile",
+                          "type": "file",
+                          "instructions": "",
+                          "required": 0,
+                          "conditional_logic": 0,
+                          "wrapper": {
+                              "width": "50",
+                              "class": "",
+                              "id": ""
+                          },
+                          "acfe_permissions": "",
+                          "uploader": "",
+                          "return_format": "array",
+                          "min_size": "",
+                          "max_size": "",
+                          "mime_types": "mp4",
+                          "acfe_settings": "",
+                          "acfe_validate": "",
+                          "library": "all"
+                      },
+                      {
+                          "key": "field_623de1b7804e1",
+                          "label": "Caption",
+                          "name": "caption",
+                          "type": "text",
+                          "instructions": "",
+                          "required": 0,
+                          "conditional_logic": 0,
+                          "wrapper": {
+                              "width": "",
+                              "class": "",
+                              "id": ""
+                          },
+                          "acfe_permissions": "",
+                          "default_value": "",
+                          "placeholder": "",
+                          "prepend": "",
+                          "append": "",
+                          "maxlength": "",
+                          "acfe_settings": "",
+                          "acfe_validate": ""
+                      },
+                      {
                           "key": "field_620fcc27b20fd",
                           "label": "Padding & Margin",
                           "name": "",
@@ -2456,5 +2553,5 @@
   "acfe_form": 1,
   "acfe_meta": "",
   "acfe_note": "",
-  "modified": 1648143457
+  "modified": 1648222673
 }
