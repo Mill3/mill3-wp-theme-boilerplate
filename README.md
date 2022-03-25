@@ -16,7 +16,7 @@ Edit `wp-config.php` and add this constant :
 define('THEME_ENV', 'development');
 ```
 
-Make sure the _name_ line in `package.json` matches your theme's directory name.
+Make sure the **name: mill3-wp-theme-boilerplate** line in `package.json` matches your theme's directory name.
 
 ```json
 {
