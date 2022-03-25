@@ -17,3 +17,55 @@
     @content;
   }
 }
+
+
+// FADE IN
+@mixin fadeInInitial(){
+  opacity: 0.001;
+}
+@mixin fadeIn($duration: 350ms, $delay: 0ms){
+  opacity: 0.999;
+  transition: opacity $duration $delay linear;
+}
+
+
+// SLIDE VERTICALLY (y axis)
+@mixin slideYInitial($y: 90px) {
+  transform: translate3d(0,$y,0);
+}
+@mixin slideY($duration: 850ms, $delay: 0ms, $easing: $easeOutCubic) {
+  transform: translate3d(0,0,0);
+  transition: transform $delay $duration $easing;
+}
+
+
+// SLIDE HORIZONTALLY (x axis)
+@mixin slideXInitial($x: 90px) {
+  transform: translate3d($x,0,0);
+}
+@mixin slideX($duration: 850ms, $delay: 0ms, $easing: $easeOutCubic) {
+  transform: translate3d(0,0,0);
+  transition: transform $delay $duration $easing;
+}
+
+
+// SLIDE VERTICALLY + HORIZONTALLY (x & y axis)
+@mixin slideInitial($x: 90, $y: 90px) {
+  transform: translate3d(0,$y,0);
+}
+@mixin slide($duration: 850ms, $delay: 0ms, $easing: $easeOutCubic) {
+  transform: translate3d(0,0,0);
+  transition: transform $delay $duration $easing;
+}
+
+
+// SLIDE VERTICALLY + FADE IN
+@mixin slideFadeUpInitial($y: 90px) {
+  opacity: 0.001;
+  transform: translate3d(0,$y,0);
+}
+@mixin slideFadeUp($duration: 1050ms, $delay: 0ms, $easing: $easeOutCubic, $opacityDuration: 450ms) {
+  opacity: 0.999;
+  transform: translate3d(0,0,0);
+  transition: opacity $opacityDuration $delay linear, transform $duration $delay $easeOutCubic;
+}
