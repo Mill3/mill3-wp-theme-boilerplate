@@ -127,6 +127,10 @@ class Theme_PostQueries
             return new \WP_Query($args);
         }
     }
+
+    public function set_exclude($exclude) {
+        self::$exclude = $exclude;
+    }
 }
 
 /*

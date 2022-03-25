@@ -14,8 +14,8 @@ $post_type = get_post_type();
 
 // append TimberPost extended classes when needed
 switch ($post_type) {
-  case 'dummy':
-        $post = Timber::query_post('Mill3WP\PostQueries\Dummy\DummyPost');
+  case 'post':
+        $post = Timber::query_post('Mill3WP\PostQueries\Article\ArticlePost');
         break;
   default:
         $post = Timber::query_post(get_the_ID());

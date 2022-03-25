@@ -2,6 +2,7 @@
 
 {% set title = post.title %}
 {% set thumbnail = post.thumbnail %}
+{% set previousPosts = post.previous_posts(3) %}
 
 {% block content %}
 
@@ -18,6 +19,21 @@
       {{ post.content }}
     </div>
   </header>
+
+  {% if previousPosts %}
+  <footer 
+    class="post-single__footer container-fluid"
+    data-scroll-section
+  >
+    <ol>
+      {% for previousPost in previousPosts %}
+      <li>
+        {% include 'post-type/post/post-preview.twig' with {'post': previousPost} only %}
+      </li>
+      {% endfor %}
+    </ol>
+  </footer>
+  {% endif %}
 
 </article>
 

@@ -15,10 +15,11 @@
  */
 
 $templates = array('archive.twig', 'index.twig');
+$post_class = 'Timber\Post';
 
 $context = Timber::get_context();
-
 $context['title'] = 'Archive';
+
 if (is_day()) {
     $context['title'] = 'Archive: ' . get_the_date('D M Y');
 } elseif (is_month()) {
@@ -32,9 +33,15 @@ if (is_day()) {
     array_unshift($templates, 'archive-' . get_query_var('cat') . '.twig');
 } elseif (is_post_type_archive()) {
     $context['title'] = post_type_archive_title('', false);
+
+    switch( get_post_type() ) {
+        case 'post': $post_class = 'Mill3WP\PostQueries\Article\ArticlePost';
+            break;
+    }
+
     array_unshift($templates, 'archive-' . get_post_type() . '.twig');
 }
 
-$context['posts'] = new Timber\PostQuery();
+$context['posts'] = new Timber\PostQuery(false, $post_class);
 
 Timber::render($templates, $context);
