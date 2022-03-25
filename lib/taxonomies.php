@@ -52,7 +52,7 @@ class Theme_CustomTaxonomies
      */
     public function run()
     {
-        $this->dummy();
+        //$this->dummy();
     }
 
 
@@ -86,6 +86,7 @@ class Theme_CustomTaxonomies
      *
      * @method dummy
      */
+    /*
     public function dummy()
     {
         $taxonomy_name = "dummy";
@@ -116,5 +117,6 @@ class Theme_CustomTaxonomies
             )
         );
     }
+    */
 }
 ?>

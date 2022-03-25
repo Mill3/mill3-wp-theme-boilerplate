@@ -32,7 +32,6 @@ class Theme_CustomPostTypes {
      * @method __construct
      */
     public function __construct() {
-    return true;
     }
 
     /**
@@ -56,7 +55,7 @@ class Theme_CustomPostTypes {
      */
     public function run() {
         // $this->dummy();
-        // $this->page_section();
+        $this->page_section();
     }
 
     /**
@@ -109,6 +108,7 @@ class Theme_CustomPostTypes {
      *
      * @method texts
      */
+    /*
     public function dummy() {
         $name = __('Dummies');
         $singular_name = __('Dummy');
@@ -142,6 +142,7 @@ class Theme_CustomPostTypes {
         // Register, always use singular
         register_post_type( 'dummy', $args );
     }
+    */
 
     /**
      * Register 'page-section' post-type
