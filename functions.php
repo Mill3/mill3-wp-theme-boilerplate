@@ -19,12 +19,13 @@ defined('SENTRY_DSN_PHP') or define('SENTRY_DSN_PHP', null);
 defined('SENTRY_DSN_JS') or define('SENTRY_DSN_JS', null);
 defined('SENTRY_ENV') or define('SENTRY_ENV', null);
 
+
 //
 // Init Sentry.io
 //
-if (SENTRY_DSN_PHP && defined('Sentry')) {
+if (defined('SENTRY_DSN_PHP') && \function_exists('\Sentry\init')) {
     \Sentry\init([
-        'dsn' => 'https://4370d31ae0a848b7a4d992f20d53209d@o187655.ingest.sentry.io/6272969',
+        'dsn' => SENTRY_DSN_PHP,
         'environment' => SENTRY_ENV ? SENTRY_ENV : 'production'
     ]);
     \Sentry\captureLastError();
