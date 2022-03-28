@@ -33,18 +33,14 @@
           <button
             class="{{ item.btn_classes|default('') }}"
             {{ link_attr|join(' ') }}
-          >
-            {{ link_template|replace({'%s': item.title, '%img': img}) }}
-          </button>
+          >{{ link_template|replace({'%s': item.title, '%img': img}) }}</button>
         {% else %}
           <a
             href="{{ item.link }}"
             title="{{ item.title }}"
             target="{{ item.target|default('_self') }}"
             {{ link_attr|join(' ') }}
-          >
-            {{ link_template|replace({'%s': item.title, '%img': img}) }}
-          </a>
+          >{{ link_template|replace({'%s': item.title, '%img': img}) }}</a>
         {% endif %}
 
         {% include "menu.twig" with {
