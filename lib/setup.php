@@ -133,26 +133,26 @@ function mill3wp_admin_menu_order( $menu_order ) {
     // define your new desired menu positions here
     // for example, move 'upload.php' to position #9 and built-in pages to position #1
     $new_positions = array(
-      //'upload.php' => 9,
-      'edit.php?post_type=page' => 1
+        //'upload.php' => 9,
+        'edit.php?post_type=page' => 1
     );
+    
     // helper function to move an element inside an array
     function move_element(&$array, $a, $b) {
-      $out = array_splice($array, $a, 1);
-      array_splice($array, $b, 0, $out);
+        $out = array_splice($array, $a, 1);
+        array_splice($array, $b, 0, $out);
     }
 
     // traverse through the new positions and move 
     // the items if found in the original menu_positions
     foreach( $new_positions as $value => $new_index ) {
-      if( $current_index = array_search( $value, $menu_order ) ) {
-        move_element($menu_order, $current_index, $new_index);
-      }
+        if( $current_index = array_search( $value, $menu_order ) ) {
+            move_element($menu_order, $current_index, $new_index);
+        }
     }
 
     return $menu_order;
-  };
-
+};
 
 // Activate 'menu_order' filter
 add_filter('custom_menu_order', function() { return true; });
