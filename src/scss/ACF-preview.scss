@@ -3,6 +3,8 @@
 // NPM packages
 @import "@mill3-packages/system-ui-sass/src/system-ui";
 @import "~sass-easing";
+@import "~swiper/swiper.scss";
+@import "~swiper/components/pagination/pagination.scss";
 
 // variables
 @import "vars/index";
@@ -14,6 +16,13 @@
 
 // mixins
 @import "mixins/index";
+
+// override in-view mixin because there is no need to include in-view animations in our ACF previews
+@mixin inView() {
+  @if false {
+    @content;
+  }
+}
 
 // commons
 @import "commons/index";
@@ -29,3 +38,6 @@
 
 // taxonomies
 @import "taxonomy/index";
+
+
+
