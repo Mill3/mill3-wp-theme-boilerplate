@@ -10,7 +10,7 @@ import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 import MobileViewportUnit from "@core/mobile-vh";
 import splitting from "@core/splitting";
 import { chrome, edge, firefox, safari, ios, android } from "@utils/browser";
-import { html } from "@utils/dom";
+import { html, body } from "@utils/dom";
 import { mobile } from "@utils/mobile";
 import transitions from "@transitions";
 
@@ -52,6 +52,9 @@ class App {
     windmill.init({
       debug: process.env.NODE_ENV === "development",
       prevent: (url, el) => {
+        // if admin-bar is shown, prevent all barba
+        if ( body.classList.contains('admin-bar') ) return true;
+
         if (
           /.pdf/.test(url.toLowerCase()) ||
           /.jpg/.test(url.toLowerCase()) ||
