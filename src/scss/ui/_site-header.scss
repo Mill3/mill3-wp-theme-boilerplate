@@ -1,3 +1,122 @@
 .site-header {
   $self: &;
+
+  &__wrap {
+    transition: opacity 350ms linear, color 0ms 350ms linear;
+  }
+
+  &__logo,
+  &__nav,
+  &__burger {
+    transform: translate3d(0, 0px, 0);
+    transition: transform 350ms $easeOutQuad;
+  }
+  
+  &__nav {
+    // top level menu
+    & > ul {
+      display: flex;
+      gap: 20px;
+    }
+  }
+
+  &__burger {
+    width: 18px;
+    height: 12px;
+
+    > span {
+      transition: transform 650ms $easeInOutCubic;
+
+      &::before {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 1px;
+        background: currentColor;
+        transition: transform 450ms $easeInOutCubic;
+      }
+
+      &:nth-child(2) {
+        hr {
+          transform-origin: center;
+          transition-delay: 250ms;
+        }
+      }
+    }
+
+    // WHEN SITE-NAV IS OPENED
+    body.--js-site-nav-opened & {
+      > span {
+        &:first-child {
+          transform: translateY(6px) rotate(135deg);
+          transition-delay: 250ms;
+        }
+        &:nth-child(2) {
+          &::before {
+            transform: scaleX(0);
+            transition-delay: 0ms;
+          }
+        }
+        &:last-child {
+          transform: translateY(-6px) rotate(225deg);
+          transition-delay: 250ms;
+        }
+      }
+    }
+  }
+
+
+  // HIDE SITE-HEADER WHEN PAGE HAS SCROLL DOWN ENOUGH AND IS SCROLLING DOWN
+  body.--js-scroll-min.--js-scroll-down & {
+    // fade out site-header
+    &__wrap { opacity: 0.0001; }
+
+    // disable click on UI
+    &__logo,
+    &__nav,
+    &__burger {
+      pointer-events: none;
+    }
+  }
+
+  // SHOW SITE-HEADER WHEN PAGE HAS SCROLL DOWN ENOUGH AND IS SCROLLING UP
+  body.--js-scroll-min.--js-scroll-up & {
+    // fade in site-header
+    &__wrap {
+      opacity: 1.0001;
+    }
+
+    // enable click on UI
+    &__logo, 
+    &__nav,
+    &__burger {
+      pointer-events: all;
+    }
+  }
+
+  // MINIMIZE SITE-HEADER WHEN PAGE HAS SCROLL DOWN ENOUGH
+  body.--js-scroll-min & {
+    &__logo,
+    &__nav,
+    &__burger {
+      transform: translate3d(0, -4px, 0);
+
+      @include media-breakpoint-up(lg) {
+        transform: translate3d(0, -10px, 0);
+      }
+    }
+  }
+
+  // INVERT SITE-HEADER TEXT COLOR
+  body:not(.--js-scroll-min).--site-header-inverted & {
+    &__wrap {
+      color: palegreen;
+    }
+  }
+
+
+  // SPACER
+  &__spacer {
+    height: var(--site-header-spacer-height);
+  }
 }
