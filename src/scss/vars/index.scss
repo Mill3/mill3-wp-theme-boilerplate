@@ -1,0 +1,15 @@
+:root {
+  --container-fluid-margin: 16px;
+  --container-fluid-sm-margin: 16px;
+  --site-header-spacer-height: 65px;
+
+  @include media-breakpoint-up(lg) {
+    --container-fluid-margin: 60px;
+    --container-fluid-sm-margin: 40px;
+  }
+
+  @include media-breakpoint-up(xxxl) {
+    --container-fluid-margin: 200px;
+    --container-fluid-sm-margin: 120px;
+  }
+}
