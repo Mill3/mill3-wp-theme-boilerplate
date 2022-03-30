@@ -18,14 +18,6 @@ const Viewport = {
 
   get devicePixelRatio() {
     return devicePixelRatio || 1;
-  },
-
-  get x() {
-    return pageXOffset;
-  },
-
-  get y() {
-    return pageYOffset;
   }
 };
 
