@@ -1,35 +1,84 @@
-[data-text-animation] {
-  $self: &;
+// ***************** //
+// SLIDE IN BY WORDS
+// ***************** //
+// 
+// Description: Each letters slide from bottom to top individually, staggered by word index.
+// 
+// How to use
+//  - Required: 
+//    - Add [data-text-animation="slidein-by-words"], [data-scroll] and [data-splitting] attributes to your text element.
+//  - Optional: 
+//    - Add [data-scroll-target="#MY_TARGET"] and [data-scroll-offset] attributes to control when in-view will be triggered.
+//
+// Important notice
+//  - In order to work correctly, --line-height css variable must match the line-height of your element.
+//  - Example: 
+//      ** html **
+//      <h1 class="ff-heading fz-24 ff-lg-36 lh-relaxed m-0">My title</h1>
+// 
+//      ** css **
+//      h1 {
+//        --line-height: 1.5;
+//      }
+//
+// Configuration
+//  - You can customize animation by overriding css variables of this module.
+//  - If you want your customization to be applied to all [slidein-by-words] animations, edit the css variables below.
+//  - If you want to customize a [slidein-by-words] animation from a particular module, do something like this:
+//
+//    .my-custom-module {
+//       &__title {
+//          --line-height: 1.5;
+//          --duration: 1250ms;
+//          --stagger: 250ms;
+//       }
+//    }
+// 
+[data-text-animation="slidein-by-words"] {
+  --line-height: 1;
+  --duration: 800ms;
+  --delay: 450ms;
+  --stagger: 150ms;
+  --easing: #{$easeOutCubic};
 
-  &[data-text-animation="slidein-by-words"] {
-    .word {
-      --word-index: 0;
+  // element must be flex or inline-flex to work with line-height < 1.
+  // if element don't have any display defined, set to display: flex.
+  // if element is d-block, d-inline or d-inline-block, set to display: flex.
+  &:not([class*="d-"]),
+  &.d-block,
+  &.d-inline,
+  &.d-inline-block {
+    display: flex;
+  }
 
-      height: 0.85em;
-      overflow: hidden;
+  // allow text wrapping
+  flex-wrap: wrap;
+
+  .word {
+    --word-index: 0;
+    --adapted-line-height: max(1.25em, calc(var(--line-height) * 1em));
+
+    display: inline-flex;
+    height: var(--adapted-line-height);
+    margin-bottom: calc(var(--line-height) * 1em - var(--adapted-line-height));
+    overflow: hidden; // fallback for browser not supporting overflow: clip;
+    overflow: clip; // better performance for browser supporting this value
+  }
+  .char {
+    &:before,
+    &:after {
+      content: none;
     }
+
+    padding: calc((var(--adapted-line-height) - var(--line-height) * 1em) / 2) 0;
+    transform: translate3d(0, 110%, 0);
+  }
+
+  &.is-inview {
     .char {
-      &:before,
-      &:after {
-        content: none;
-      }
-
-      top: 0.05em;
-    }
-
-    // apply text animation only when Splitting() is ready
-    &.splitting {
-      .char {
-        transform: translate3d(0, 105%, 0);
-      }
-
-      &.is-inview {
-        .char {
-          transform: translate3d(0, 0%, 0);
-          transition: transform duration(24) cubic-bezier(0.4, 0, 0.4, 1);
-          transition-delay: calc(var(--word-index) * 150ms);
-        }
-      }
+      transform: translate3d(0, 0%, 0);
+      transition: transform var(--duration) calc(var(--word-index) * var(--stagger) + var(--delay)) var(--easing);
     }
   }
 }
+// ***************** //
