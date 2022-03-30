@@ -175,6 +175,7 @@ class SiteScroll {
       this.state.dispatch("SCROLL_MIN", true);
 
       body.classList.add(SCROLL_MIN_CLASSNAME);
+      this.emitter.emit(`${this.name}.scroll-min`, true);
     }
     // if scroll is lower than threshold AND was previously greater than threshold
     else if (threshold === false && this.hasScrolledAboveThreshold === true) {
@@ -182,6 +183,7 @@ class SiteScroll {
       this.state.dispatch("SCROLL_MIN", false);
 
       body.classList.remove(SCROLL_MIN_CLASSNAME);
+      this.emitter.emit(`${this.name}.scroll-min`, false);
     }
 
     // if scroll has scrolled enough to be take into account AND direction has changed
