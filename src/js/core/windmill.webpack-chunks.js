@@ -71,7 +71,7 @@
    }
  
    /**
-    * `init & entering` event.
+    * `init & enter` event.
     */
    _initModules() {
      return new Promise((resolve) => {

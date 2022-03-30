@@ -44,9 +44,9 @@ class App {
     windmill.use( new WindmillScripts() );
     windmill.use( new WindmillWebpackChunks() );
 
-    // run Splitting.js before ready/enter transition
-    windmill.on('ready', splitting);
-    windmill.on('enter', splitting);
+    // run Splitting.js after images are loaded & before enter transition
+    windmill.on('loaded', splitting);
+    windmill.on('entering', splitting);
 
     // init windmill
     windmill.init({
