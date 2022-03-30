@@ -1,7 +1,7 @@
 {% if post or content_rows %}
 
 {% set content_rows = content_rows|default(post.get_field("page_builder")) %}
-{% set pb_rows_zindex = -1 %}
+{% set pb_rows_zindex = pb_rows_zindex ?? 0 %}
 
 {% if content_rows is not empty %}
 <section class="pb-rows">
