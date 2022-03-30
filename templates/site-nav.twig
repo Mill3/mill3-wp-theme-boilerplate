@@ -1,14 +1,15 @@
 <div
   id="site-nav"
-  class="site-nav d-lg-none position-fixed z-2000 t-0 l-0 vw-100 vh-100 overflow-hidden"
+  class="site-nav d-lg-none position-fixed z-2000 t-0 l-0 vw-100 vh-100 pt-100 overflow-hidden"
   aria-hidden="true"
   data-ui="site-nav"
   data-site-nav
 >
-  <div class="site-nav__scroller d-flex flex-column w-100 h-100 overflow-scroll">
+  <div class="site-nav__bg position-absolute t-0 l-0 w-100 h-100 bg-color-white" aria-hidden="true" data-ignore-css-empty></div>
+  <div class="site-nav__scroller position-relative d-flex flex-column w-100 h-100 pb-100 overflow-scroll">
   
-    <nav class="site-nav__wrap w-100" role="navigation">
-      {% include 'menu.twig' with { 'menu': menu.get_items, 'classname': 'site-nav__menu list-none m-0 p-0' } only %}
+    <nav class="site-nav__wrap container-fluid w-100" role="navigation">
+      {% include 'menu.twig' with { 'menu': menu, 'classname': 'site-nav__menu list-none m-0 p-0' } only %}
     </nav>
 
   </div>

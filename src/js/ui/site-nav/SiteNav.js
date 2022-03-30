@@ -1,4 +1,4 @@
-import { $, $$, body } from "@utils/dom";
+import { $, $$, html } from "@utils/dom";
 import { on, off } from "@utils/listener";
 
 export const SELECTOR = `[data-site-nav]`;
@@ -7,7 +7,9 @@ export const CLASSNAME = "--js-site-nav-opened";
 class SiteNav {
   constructor() {
     this.initialized = false;
+
     this._opened = false;
+    this._scrollY = 0;
 
     this._handleTriggers = this._handleTriggers.bind(this);
     this._handleKeyDown = this._handleKeyDown.bind(this);
@@ -20,7 +22,9 @@ class SiteNav {
 
   init() {
     this.initialized = true;
+
     this._opened = false;
+    this._scrollY = 0;
 
     this.siteHeader = $(".site-header");
     this.el = $(SELECTOR);
@@ -29,6 +33,7 @@ class SiteNav {
     this._bindEvents();
   }
   destroy() {
+    html.classList.remove(CLASSNAME);
     this._unbindEvents();
 
     this.siteHeader = null;
@@ -36,6 +41,8 @@ class SiteNav {
     this.triggers = null;
 
     this._opened = false;
+    this._scrollY = 0;
+
     this.initialized = false;
   }
 
@@ -58,11 +65,15 @@ class SiteNav {
     // dispatch to state current status
     this.state.dispatch("SITE_NAV", this._opened);
 
-    // inform <body> that SiteNav is opened
-    body.classList.add(CLASSNAME);
+    // save scrollY
+    this._scrollY = window.scrollY;
 
-    // stop page scroll
+    // inform <html> that SiteNav is opened
+    html.classList.add(CLASSNAME);
+
+    // stop page scroll & site-nav open
     this.emitter.emit("SiteScroll.stop");
+    this.emitter.emit("SiteNav.open");
 
     // inform each triggers that SiteNav is opened
     this.triggers.forEach(btn => {
@@ -87,8 +98,15 @@ class SiteNav {
       btn.classList.remove("is-active");
     });
 
-    // inform <body> that SiteNav is closed
-    body.classList.remove(CLASSNAME);
+    // inform <html> that SiteNav is closed
+    html.classList.remove(CLASSNAME);
+
+    // restore previous scrollY
+    window.scrollTo({top: this._scrollY, behavior: 'auto'});
+
+    // update site-scroll & site-nav close
+    this.emitter.emit('SiteScroll.update');
+    this.emitter.emit("SiteNav.close");
 
     // close callback (should be call at animation's end)
     this._onCloseCompleted();

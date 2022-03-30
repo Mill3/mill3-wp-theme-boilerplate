@@ -1,5 +1,8 @@
 html {
   --vh: 1vh;
+  --lvh: 1vh;
+  --svh: 1vh;
+
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
@@ -15,7 +18,8 @@ body.--scroll-disabled {
   overflow: hidden;
 }
 
-body.--js-site-nav-opened,
-body.--js-site-search-opened {
-  overflow: hidden;
+html.--js-site-nav-opened {
+  &, body {
+    overflow: hidden;
+  }
 }

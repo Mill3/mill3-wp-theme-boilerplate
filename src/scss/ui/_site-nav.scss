@@ -1,7 +1,7 @@
 .site-nav {
   $self: &;
 
-  padding-top: 100px;
+  height: calc(var(--lvh) * 100);
 
   &[aria-hidden="true"] {
     pointer-events: none;
