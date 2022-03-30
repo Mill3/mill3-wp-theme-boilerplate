@@ -122,16 +122,4 @@
       }
     }
   }
-
-  // IN-VIEW ANIMATIONS
-  @include inView {
-    opacity: 0.0001;
-    transform: translate3d(0, 200px, 0);
-
-    &.is-inview {
-      opacity: 0.999;
-      transform: translate3d(0, 0px, 0);
-      transition: opacity 450ms linear, transform 950ms $easeOutCubic;
-    }
-  }
 }
