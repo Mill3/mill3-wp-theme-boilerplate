@@ -45,7 +45,7 @@
     }
 
     // WHEN SITE-NAV IS OPENED
-    body.--js-site-nav-opened & {
+    html.--js-site-nav-opened & {
       > span {
         &:first-child {
           transform: translateY(6px) rotate(135deg);
@@ -111,6 +111,24 @@
   body:not(.--js-scroll-min).--site-header-inverted & {
     &__wrap {
       color: palegreen;
+    }
+  }
+
+  // WHEN SITE-NAV IS OPENED
+  html.--js-site-nav-opened & {
+    &__wrap {
+      color: colorCurrent !important;
+      opacity: 1 !important;
+    }
+    
+    &__logo,
+    &__nav,
+    &__burger {
+      // enable click on UI
+      pointer-events: all !important;
+
+      // expand site-header
+      transform: translate3d(0, 0px, 0) !important;
     }
   }
 
