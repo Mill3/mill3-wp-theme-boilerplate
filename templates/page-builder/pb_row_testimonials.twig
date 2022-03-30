@@ -2,6 +2,7 @@
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_testimonials-' ~ random()) %}
 
 {% set title = post.title|default(null) %}
 {% set text = post.text|default(null) %}
@@ -9,6 +10,7 @@
 
 {% block row_wrapper %}
 <section
+  id="{{ udid }}"
   class="pb-row pb-row-testimonials {{ classname|join(' ') }}"
   {{ attributes|join(' ') }}
 >

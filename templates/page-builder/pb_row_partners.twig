@@ -2,6 +2,7 @@
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_partners-' ~ random()) %}
 
 {% set title = post.title %}
 {% set text = post.text %}
@@ -9,6 +10,7 @@
 
 {% block row_wrapper %}
 <section 
+  id="{{ udid }}"
   class="pb-row pb-row-partners {{ classname }}" 
   {{ attributes|join(' ') }}
 >

@@ -2,6 +2,7 @@
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_text-simple-' ~ random()) %}
 
 {% set title = post.title %}
 {% set text = post.text %}
@@ -11,6 +12,7 @@
 
 {% block row_wrapper %}
 <div
+  id="{{ udid }}"
   class="pb-row pb-row-text-simple container-fluid d-flex grid-gap-20 --position-{{ position }} --width-{{ width }}  {{ classname }}"
   {{ attributes|join(' ') }}
   data-scroll
@@ -19,7 +21,7 @@
 
   {% if title %}
   <header class="pb-row-text-simple__header">
-    <h2 class="pb-row-text-simple__title fz-24 fz-lg-30 fz-xl-36 lh-ff-heading fw-400 m-0 p-0">
+    <h2 class="pb-row-text-simple__title ff-heading fz-24 fz-lg-36 fw-400 lh-none m-0 mb-50 p-0">
       {{ title }}
     </h2>
   </header>

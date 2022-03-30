@@ -1,8 +1,8 @@
 {% extends is_shortcode ? 'shortcode/pb_wrapper.twig' : 'page-builder/pb_row_wrapper.twig' %}
 
-{% set index = index|default('pb-row-medias-' ~ random(1, 10000)) %}
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb-row-medias-' ~ random()) %}
 
 {% set medias = post.medias %}
 {% set layout = post.layout|default('slider') %}
@@ -25,7 +25,7 @@
 {% if medias %}
 
 <div
-  id="{{ index }}"
+  id="{{ udid }}"
   class="pb-row pb-row-medias {{ classname }}"
   {% if layout in ['slider', 'ticker', 'grid'] %}
   data-scroll
@@ -130,13 +130,13 @@
       data-scroll-offset="100px,0"
     >
       <figure 
-        id="{{ index ~ '_' ~ loop.index }}"
+        id="{{ udid ~ '_' ~ loop.index }}"
         class="pb-row-medias__box box box-{{ format }} overflow-hidden"
       >
         <div 
           class="pb-row-medias__parallax position-absolute t-0 l-0 r-0 b-0"
           data-scroll
-          data-scroll-target="#{{ index ~ '_' ~ loop.index }}"
+          data-scroll-target="#{{ udid ~ '_' ~ loop.index }}"
           data-scroll-speed="0.5"
         >
           {% include 'partial/image.twig' with {
