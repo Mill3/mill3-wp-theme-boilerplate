@@ -1,15 +1,3 @@
-@mixin hoverDevice() {
-  @media (any-hover: hover) {
-    @content;
-  }
-}
-
-@mixin touchDevice() {
-  @media (hover: none) {
-    @content;
-  }
-}
-
 @mixin underlineDrawing($height: 1px, $bottom: 0) {
   @include underlineDrawingBase($height, $bottom);
 

@@ -1,0 +1,46 @@
+// Media query when user's device use mouse
+@mixin hoverDevice() {
+  @media (any-hover: hover) {
+    @content;
+  }
+}
+
+// Media query when user's device is touch
+@mixin touchDevice() {
+  @media (hover: none) {
+    @content;
+  }
+}
+
+// Media query when user's is on a high resolution screen (retina, 4k, etc...)
+@mixin highResolutionDevice() {
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+    @content;
+  }
+}
+
+// Media query when user's preferred color scheme is dark
+@mixin dark-mode() {
+  @media (prefers-color-scheme: dark) {
+    html:not(.--js-prefers-color-scheme--light) & {
+      @content;
+    }
+  }
+
+  html.--js-prefers-color-scheme--dark & {
+    @content;
+  }
+}
+
+// Media query when user's preferred color scheme is light
+@mixin light-mode() {
+  @media (prefers-color-scheme: light) {
+    html:not(.--js-prefers-color-scheme--dark) & {
+      @content;
+    }
+  }
+
+  html.--js-prefers-color-scheme--light & {
+    @content;
+  }
+}
