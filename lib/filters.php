@@ -23,3 +23,26 @@ function theme_body_class($classes) {
 }
 
 add_filter( 'body_class', 'theme_body_class', 11, 2);
+
+
+/**
+ * Set JPEG quality when saved in media library
+ *
+ * @return integer
+ */
+function theme_jpeg_quality() {
+    return 90;
+}
+
+add_filter( 'jpeg_quality', 'theme_jpeg_quality', 11, 2 );
+
+/**
+ * Set big image maximum size threshold
+ *
+ * @return integer
+ */
+// function theme_big_image_size_threshold( $threshold, $imagesize, $file, $attachment_id ) {
+//     return 5500;
+// }
+
+// add_filter( 'big_image_size_threshold', 'theme_big_image_size_threshold', 10, 4 );
