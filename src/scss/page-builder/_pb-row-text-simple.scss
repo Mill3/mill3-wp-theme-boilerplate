@@ -2,85 +2,45 @@
   $self: &;
   --delay: 0ms;
 
-  &__title {
-    max-width: 610px;
-  }
-
   // WIDTHS
   &.--width-small {
-    --width: 520px;
+    #{$self}__header,
+    #{$self}__content {
+      max-width: 520px;
+    }
   }
   &.--width-medium {
-    --width: 620px;
+    #{$self}__header,
+    #{$self}__content {
+      max-width: 620px;
+    }
   }
   &.--width-default {
-    --width: 720px;
+    #{$self}__header,
+    #{$self}__content {
+      max-width: 720px;
+    }
   }
   &.--width-large {
-    --width: 920px;
-  }
-
-  // set WIDTH var() on content
-  #{$self}__content {
-    @include media-breakpoint-up(md) {
-      width: var(--width);
+    #{$self}__header,
+    #{$self}__content {
+      max-width: 920px;
     }
   }
 
   // POSITIONS
   &.--position-center {
-    flex-direction: column;
-    grid-gap: spacer(30);
-    @include media-breakpoint-up(md) {
-      align-items: center;
-    }
-    #{$self}__header {
-      @include media-breakpoint-up(md) {
-        width: var(--width);
-      }
+    #{$self}__header,
+    #{$self}__content {
+      margin-left: auto;
+      margin-right: auto;
     }
   }
-
-  &.--position-left {
-    display: grid;
-    @include media-breakpoint-up(lg) {
-      grid-template-columns: auto auto;
-      justify-content: space-between;
-      #{$self}__header {
-        grid-column: 2;
-        grid-row: 1;
-      }
-      #{$self}__content {
-        grid-column: 1;
-        grid-row: 1;
-      }
-    }
-  }
-
+  //&.--position-left {}
   &.--position-right {
-    display: grid;
-    @include media-breakpoint-up(lg) {
-      grid-template-columns: auto auto;
-      justify-content: space-between;
-      #{$self}__header {
-        grid-column: 1;
-        grid-row: 1;
-      }
-      #{$self}__content {
-        grid-column: 2;
-        grid-row: 1;
-      }
-    }
-  }
-
-  @include inView {
-    #{$self}__title,
-    #{$self}__text {
-    }
-    &.is-inview {
-      #{$self}__title,
-      #{$self}__text {
-      }
+    #{$self}__header,
+    #{$self}__content {
+      margin-left: auto;
     }
   }
 }
