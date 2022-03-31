@@ -38,7 +38,7 @@ export const isBoolean = (v) => v === true || v === false || toString.call(v) ==
 export const isDate = (v) => toString.call(v) === "[object Date]";
 
 // is a given object a DOM node?
-export const isDomNode = (v) => isObject(v) && v.nodeType > 0;
+export const isDomNode = (v) => Object(v) === v && v.nodeType > 0;
 
 // is a given value function?
 export const isFunction = (v) => toString.call(v) === "[object Function]" || typeof v === "function";
@@ -59,7 +59,7 @@ export const isNull = (v) => v === null;
 export const isNumber = (v) => Number.isFinite(v);
 
 // is a given value object?
-export const isObject = (v) => Object(v) === v;
+export const isObject = (v) => v.constructor.name == "Object";
 
 // is a given value String?
 export const isString = (v) => toString.call(v) === "[object String]";
