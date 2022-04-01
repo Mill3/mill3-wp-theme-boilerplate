@@ -12,12 +12,19 @@ function callback(event) {
   // do something
 }
 
-ResizeOrientation.add(callback); // start listening to window's resize & orientation change events
-ResizeOrientation.remove(callback); // stop listening to window's resize & orientation change events
+// start listening to window's resize & orientation change events
+//  - callback (function) : code to execute on window's resize
+//  - priority (integer) : execution priority [-999, 999], the higher will run first
+ResizeOrientation.add(callback, priority);
+
+
+// stop listening to window's resize & orientation change events
+ResizeOrientation.remove(callback);
 
 */
 
 import { on, off } from "./listener";
+import { limit } from "./math";
 import Throttle from "./throttle";
 
 
@@ -25,7 +32,7 @@ class ResizeOrientation {
   constructor() {
     this._event = null;
     this._listening = false;
-    this._listeners = new Set();
+    this._listeners = [];
     this._tick = null;
 
     this._getThrottleBnd = this._getThrottle.bind(this);
@@ -40,21 +47,39 @@ class ResizeOrientation {
     this._throttle = Throttle({ cb: this._getRafBnd, delay: 200, onlyAtEnd: false });
   }
 
-  add(callback) {
+  add(callback, priority = 0) {
+    // if callback is already registered, stop here
+    if( this._exists(callback) ) return;
+
+    // limit priority between -999 and 999
+    priority = limit(-999, 999, priority);
+
     // add callback to the list of listeners
-    this._listeners.add(callback);
+    this._listeners.push({ callback, priority });
+
+    // sort callbacks by priority (higher the better)
+    this._listeners.sort((a, b) => {
+      if( b.priority > a.priority ) return 1;
+      else if( b.priority < a.priority ) return -1;
+      
+      return 0;
+    });
 
     // if not already listening to window's resize event AND
     // if list of listeners is not empty
-    if( !this._listening && this._listeners.size > 0 ) this._bindEvents();
+    if( !this._listening && this._listeners.length > 0 ) this._bindEvents();
   }
   remove(callback) {
+    // if callback is not registered, stop here
+    if( !this._exists(callback) ) return;
+
     // remove callback from list of listeners
-    this._listeners.delete(callback);
+    const index = this._listeners.findIndex(listener => listener.callback === callback);
+    this._listeners.splice(index, 1);
 
     // if was listening to window's resize event AND
     // if list of listeners is empty
-    if( this._listeners && this._listeners.size === 0 ) this._unbindEvents();
+    if( this._listeners && this._listeners.length === 0 ) this._unbindEvents();
   }
 
   _bindEvents() {
@@ -64,6 +89,10 @@ class ResizeOrientation {
   _unbindEvents() {
     off(window, "orientationchange", this._getThrottleBnd);
     off(window, "resize", this._getThrottleBnd);
+  }
+
+  _exists(callback) {
+    return this._listeners.find(listener => listener.callback === callback);
   }
 
   _getThrottle(event) {
