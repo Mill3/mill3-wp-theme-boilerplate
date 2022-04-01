@@ -2,7 +2,7 @@ import LocomotiveScroll from "locomotive-scroll";
 
 import { $, /*$$,*/ body, html/*, rect*/ } from "@utils/dom";
 //import { mobile } from "@utils/mobile";
-//import ResizeOrientation from "@utils/resize";
+import ResizeOrientation, { MIN_PRIORITY } from "@utils/resize";
 
 export const SELECTOR = "[data-scroll-container]";
 export const SCROLL_MIN_CLASSNAME = "--js-scroll-min";
@@ -28,6 +28,7 @@ class SiteScroll {
 
     this._onCall = this._onCall.bind(this);
     this._onScroll = this._onScroll.bind(this);
+    this._resyncLocomotiveScrollResize = this._resyncLocomotiveScrollResize.bind(this);
     //this._onResize = this._onResize.bind(this);
 
     this.start = this.start.bind(this);
@@ -73,27 +74,12 @@ class SiteScroll {
       }
     });
 
-    this.scroll.on("call", this._onCall);
-    this.scroll.on("scroll", this._onScroll);
-
     this._bindEvents();
+    this.emitter.emit(`${this.name}.init`, this.y);
   }
 
   destroy() {
-    //ResizeOrientation.remove(this._onResize);
-    if (this.scroll) {
-      this.scroll.off("call", this._onCall);
-      this.scroll.off("scroll", this._onScroll);
-      this.scroll.destroy();
-    }
-
-    if (this.emitter) {
-      this.emitter.off(`${this.name}.stop`, this.stop);
-      this.emitter.off(`${this.name}.start`, this.start);
-      this.emitter.off(`${this.name}.update`, this.update);
-      this.emitter.off(`${this.name}.scrollTo`, this.scrollTo);
-      this.emitter.off(`${this.name}.scrollUp`, this.scrollUp);
-    }
+    this._unbindEvents();
 
     this.el = null;
     //this.scrollSections = null;
@@ -106,7 +92,15 @@ class SiteScroll {
 
   update() {
     //this._onResize();
+
+    // trigger event that scroll update will occur
+    this.emitter.emit(`${this.name}.before-update`, this.y);
+
+    // update scroll
     if (this.scroll) this.scroll.update();
+
+    // trigger event that scroll update is completed
+    this.emitter.emit(`${this.name}.after-update`, this.y);
   }
 
   start() {
@@ -130,17 +124,41 @@ class SiteScroll {
   }
 
   _bindEvents() {
+    if( this.scroll ) {
+      this.scroll.on("call", this._onCall);
+      this.scroll.on("scroll", this._onScroll);
+    }
+
     // start listening for window's resize event
     //ResizeOrientation.add(this._onResize);
+    ResizeOrientation.add(this._resyncLocomotiveScrollResize, MIN_PRIORITY);
 
     // register event on global emmiter system
-    if (!this.emitter) return;
+    if ( this.emitter) {
+      this.emitter.on(`${this.name}.stop`, this.stop);
+      this.emitter.on(`${this.name}.start`, this.start);
+      this.emitter.on(`${this.name}.update`, this.update);
+      this.emitter.on(`${this.name}.scrollTo`, this.scrollTo);
+      this.emitter.on(`${this.name}.scrollUp`, this.scrollUp);
+    }
+  }
+  _unbindEvents() {
+    if (this.scroll) {
+      this.scroll.off("call", this._onCall);
+      this.scroll.off("scroll", this._onScroll);
+      this.scroll.destroy();
+    }
+    
+    //ResizeOrientation.remove(this._onResize);
+    ResizeOrientation.remove(this._resyncLocomotiveScrollResize);
 
-    this.emitter.on(`${this.name}.stop`, this.stop);
-    this.emitter.on(`${this.name}.start`, this.start);
-    this.emitter.on(`${this.name}.update`, this.update);
-    this.emitter.on(`${this.name}.scrollTo`, this.scrollTo);
-    this.emitter.on(`${this.name}.scrollUp`, this.scrollUp);
+    if (this.emitter) {
+      this.emitter.off(`${this.name}.stop`, this.stop);
+      this.emitter.off(`${this.name}.start`, this.start);
+      this.emitter.off(`${this.name}.update`, this.update);
+      this.emitter.off(`${this.name}.scrollTo`, this.scrollTo);
+      this.emitter.off(`${this.name}.scrollUp`, this.scrollUp);
+    }
   }
 
   // Called when an element has a data-scroll-call='my-call' attribute
@@ -203,6 +221,21 @@ class SiteScroll {
       // emit scroll direction change to application
       this.emitter.emit(`${this.name}.direction`, direction);
     }
+  }
+
+  /**
+   ********************************************************************
+   * Resync window's resize event between our app & Locomotive-Scroll *
+   ********************************************************************
+   *
+   * Window's resize event from Locomotive-Scroll is decoupled from our ResizeOrientation util.
+   * So, when window is resized, we will force another Locomotive-scroll.update to make sure all our code is synced.
+   * This code is run AFTER all ResizeOrientation callbacks of our application. (priority: MIN_PRIORITY)
+   * 
+   * All of this will be useless when we will do our own smooth-scrolling library.
+   */
+  _resyncLocomotiveScrollResize() {
+    this.update();
   }
 
   /*

@@ -28,6 +28,9 @@ import { limit } from "./math";
 import Throttle from "./throttle";
 
 
+export const MIN_PRIORITY = -999;
+export const MAX_PRIORITY = 999;
+
 class ResizeOrientation {
   constructor() {
     this._event = null;
@@ -51,8 +54,8 @@ class ResizeOrientation {
     // if callback is already registered, stop here
     if( this._exists(callback) ) return;
 
-    // limit priority between -999 and 999
-    priority = limit(-999, 999, priority);
+    // limit priority between MIN_PRIORITY and MAX_PRIORITY
+    priority = limit(MIN_PRIORITY, MAX_PRIORITY, priority);
 
     // add callback to the list of listeners
     this._listeners.push({ callback, priority });
@@ -114,7 +117,7 @@ class ResizeOrientation {
   }
   _run() {
     // execute all callbacks
-    this._listeners.forEach(callback => callback(this._event));
+    this._listeners.forEach(({callback}) => callback(this._event));
 
     // enable another run for later
     this._tick = false;
