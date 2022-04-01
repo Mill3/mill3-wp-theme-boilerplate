@@ -13,17 +13,15 @@
 {% block row_wrapper %}
 <div
   id="{{ udid }}"
-  class="pb-row pb-row-text-simple container-fluid d-flex grid-gap-20 --position-{{ position }} --width-{{ width }}  {{ classname }}"
+  class="pb-row pb-row-text-simple container-fluid --position-{{ position }} --width-{{ width }}  {{ classname }}"
   {{ attributes|join(' ') }}
   data-scroll
   data-scroll-offset="100px,0"
 >
 
   {% if title %}
-  <header class="pb-row-text-simple__header">
-    <h2 class="pb-row-text-simple__title ff-heading fz-24 fz-lg-36 fw-400 lh-none m-0 mb-50 p-0">
-      {{ title }}
-    </h2>
+  <header class="pb-row-text-simple__header mb-50">
+    <h2 class="pb-row-text-simple__title ff-heading fz-24 fz-lg-36 fw-400 lh-none m-0">{{ title }}</h2>
   </header>
   {% endif %}
 

@@ -1,12 +1,14 @@
 /**
  * SCROLL TIMELINE
  *
- * How to use:
- * Add [data-scroll] attribute to your HTML element
- * Add [data-scroll-call="timeline"] attribute to your HTML element
- * Add [data-module="scroll-timeline"] attribute to your HTML element
- * Add [data-timeline="your-animejs-animation-object"] (must be JSON encode & html escaped)
- * Add [data-timeline-mobile="your-animejs-animation-object"] (must be JSON encode & html escaped)
+ ***************
+ * How to use: *
+ ***************
+ * Add [data-scroll] attribute to your HTML element.
+ * Add [data-scroll-call="timeline"] attribute to your HTML element.
+ * Add [data-module="scroll-timeline"] attribute to your HTML element.
+ * Add [data-timeline="your-animejs-animation-object"] (must be JSON encode & html escaped).
+ * Add [data-timeline-mobile="your-animejs-animation-object"] (must be JSON encode & html escaped).
  *
  * Example:
  * <div
@@ -23,19 +25,63 @@
  * See https://animejs.com/documentation/ for more details on passing data to AnimeJS.
  * 
  * 
- * Different scroll animation for mobile device (viewport < 768px).
- * Add [data-timeline-mobile="your-animejs-animation-object"] (must be JSON encode & html escaped)
+ ************************************************
+ * Using CSS variables in your scroll-timeline. *
+ ************************************************
+ * Add [data-css-var-YOUR_VAR_NAME]="YOUR_INITIAL_VALUE" attribute to your HTML element.
+ * Your animatable property in your scroll-timeline must match your [data-css-var-YOUR_VAR_NAME] attribute.
  * 
- * Disable scroll animation for mobile device (viewport < 768px).
+ * Example:
+ * <div
+ *  class="position-relative d-block w-100 vh-50"
+ *  data-scroll
+ *  data-scroll-call="timeline"
+ *  data-module="scroll-timeline"
+ *  data-timeline="{{ {'data-css-var-test': [1, 2]}|json_encode|escape('html_attr') }}"
+ *  data-css-var-test="1"
+ * >
+ *  <img src="image-path.jpg" class="image-as-background" />
+ * </div>
+ * 
+ * .my-element {
+ *  --test: 1;
+ *  transform: scale(var(--test));
+ * }
+ * 
+ * 
+ ***************************************************
+ * Different scroll animation for native scrolling *
+ ***************************************************
+ * Add [data-timeline-native="your-animejs-animation-object"] (must be JSON encode & html escaped).
+ * 
+ * 
+ *************************************************
+ * Disable scroll animation for native scrolling *
+ *************************************************
+ * Add [data-timeline-native] attribute, without value, to your HTML element.
+ * 
+ * 
+ ********************************************************************
+ * Different scroll animation for mobile device (viewport < 768px). *
+ ********************************************************************
+ * Add [data-timeline-mobile="your-animejs-animation-object"] (must be JSON encode & html escaped).
+ * 
+ * 
+ ******************************************************************
+ * Disable scroll animation for mobile device (viewport < 768px). *
+ ******************************************************************
  * Add [data-timeline-mobile] attribute, without value, to your HTML element.
+ * 
  */
 
 import anime from "animejs";
 
+import { mobile } from "@utils/mobile";
 import Viewport from "@utils/viewport";
 
 import Module from "../module/Module";
 
+const CSS_VARIABLE_ATTRIBUTE = 'data-css-var-';
 const TIMELINE_DEFAULTS = {
   easing: "linear",
   autoplay: false,
@@ -109,17 +155,36 @@ class ScrollTimeline extends Module {
 
     let timelineArgs;
 
-    if( Viewport.width < 768 ) {
-      // if element has no [data-timeline-mobile], fallback to [data-timeline]
-      if( !el.hasAttribute('data-timeline-mobile') ) timelineArgs = JSON.parse(el.dataset.timeline);
-      // if [data-timeline-mobile] is empty, stop here
-      else if( !el.dataset.timelineMobile ) return;
+    // if we are on native scroll & element has [data-timeline-native], it as priority
+    if( mobile && el.hasAttribute('data-timeline-native') ) {
+      // if [data-timeline-native] has no value, skip this timeline
+      if( !el.dataset.timelineNative ) return;
+
+      // JSON parse [data-timeline-native]
+      timelineArgs = JSON.parse(el.dataset.timelineNative);
+    }
+    // if viewport is small & element has [data-timeline-mobile], it as priority
+    else if( Viewport.width < 768 && el.hasAttribute('data-timeline-mobile') ) {
+      // if [data-timeline-mobile] has no value, skip this timeline
+      if( !el.dataset.timelineMobile ) return;
+
       // JSON parse [data-timeline-mobile]
-      else timelineArgs = JSON.parse(el.dataset.timelineMobile);
+      timelineArgs = JSON.parse(el.dataset.timelineMobile);
     } 
-    else {
-      // JSON parse [data-timeline]
-      timelineArgs = JSON.parse(el.dataset.timeline);
+    // JSON parse default [data-timeline]
+    else timelineArgs = JSON.parse(el.dataset.timeline);
+
+    // if (for any reason) we can't find timeline, stop here
+    if( !timelineArgs ) return;
+
+    // check if one property of timeline is a data attribute
+    const hasDataAttrs = Object.keys(timelineArgs).some(key => key.startsWith(CSS_VARIABLE_ATTRIBUTE));
+
+    // if timeline contains one data attribute, 
+    // add callbacks (change & complete) to transform each data attributes to a css variables
+    if( hasDataAttrs ) {
+      timelineArgs.change = this._updateCssVariables;
+      timelineArgs.complete = this._updateCssVariables;
     }
     
     // create AnimeJS timeline from best matching [data-timeline] or [data-timeline-mobile]
@@ -151,6 +216,18 @@ class ScrollTimeline extends Module {
       const progress = 1 - distance / limit;
 
       timeline.seek(timeline.duration * progress);
+    });
+  }
+  _updateCssVariables(anim) {
+    anim.animations.forEach(animation => {
+      // do nothing if property 
+      if( !animation.property.startsWith(CSS_VARIABLE_ATTRIBUTE) ) return;
+
+      // get css variable name from data attribute key
+      const variableName = animation.property.replace(CSS_VARIABLE_ATTRIBUTE, '');
+
+      // update css variable value
+      animation.animatable.target.style.setProperty(`--${variableName}`, animation.currentValue);
     });
   }
 }
