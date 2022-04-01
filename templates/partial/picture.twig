@@ -6,7 +6,8 @@
     'tablet-portrait-768x1024.jpg', 
     'tablet-landscape-1024x768.jpg',
     'laptop-1200x900.jpg',
-    'desktop-1900x1200.jpg'
+    'desktop-1800x1200.jpg',
+    '4k-2800x1800.jpg'
   ]
 
   If you want to skip a breakpoint, set his value to null.
@@ -15,13 +16,16 @@
     'mobile.jpg',
     null,
     'tablet.jpg',
-    'desktop.jpg'
+    'desktop.jpg',
+    null,
+    null,
+    '4k.jpg'
   ]
 
   The first src is the default value for browser not supporting the feature.
 #}
 {% if srcs is iterable and not (srcs is empty) %}
-  {% set breakpoints = [0, 576, 768, 992, 1200, 1441]|reverse %}
+  {% set breakpoints = [0, 576, 768, 992, 1200, 1441, 1800]|reverse %}
 
   {# save default src #}
   {% set src = srcs[0] %}
