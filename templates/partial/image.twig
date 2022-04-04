@@ -1,17 +1,83 @@
-{% if image or src %}
+{#
+  Sizes must be a array of values with units (px, vw, %, etc..) per breakpoints.
+  Breakpoints are:
+  [
+    max-width: 575px,
+    min-width: 576px and max-width: 767px,
+    min-width: 768px and max-width: 991px,
+    min-width: 992px and max-width: 1199px,
+    min-width: 1200px and max-width: 1400px,
+    min-width: 1401px and max-width: 1799px,
+    min-width: 1800px
+  ]
+
+  Real life scenario:
+  You want your image to be fullbleed until viewport < 992.
+  Then, your image is 50vw from 992px to 1800px.
+  Finally, when viewport >= 1800px, image stay at 1800px.
+
+  code: [ '100vw', '100vw', '100vw', '50vw', '50vw', '50vw', '1800px' ]
+
+  If you want to skip a breakpoint (to avoid repetition), set his value to null.
+  As result, this breakpoint will be skipped and use previous size.
+
+  code: [ '100vw', null, null, '50vw', null, null, '1800px' ]
+#}
+{% if image %}
 
   {# replace Timber/Image() with our class extenxion Timber/Mill3Image #}
   {% set image = Mill3Image(image) %}
 
-  {% set src = src|default(null) %}
-  {% set alt = alt|default('') %}
-  {% set lazyload = lazyload|default(false) %}
+  {% set alt = alt|default(image.alt)|default('') %}
   {% set attributes = attributes|default([]) %}
-  {% set size = size|default('large') %}
+  {% set classname = classname|default(null) %}
+  {% set lazyload = lazyload|default(false) %}
+  {% set size = size|default('small') %}
+  {% set sizes = sizes|default(null) %}
   {% set priority = priority|default(null) %}
   {% set decoding = decoding|default(null) %}
   {% set width = image.sizes[size].width|default((image.sizes|first).width) %}
   {% set height = image.sizes[size].height|default((image.sizes|first).height) %}
+
+  {# transform sizes array into an attribute compatible string #}
+  {% if sizes and sizes is iterable %}
+    {% set breakpoints = [0, 576, 768, 992, 1200, 1441, 1800] %}
+    {% set sizes_attr = [] %}
+    {% set lastDefinedSize = { 'size': null, 'min': null, 'max': null } %}
+
+    {% for s in sizes %}
+      {% set breakpoint = breakpoints[loop.index0] %}
+      {% set mqRequired = false %}
+
+      {% if s is not null %}
+        {# if we get a size for the first time, save it for later #}
+        {% if lastDefinedSize.size is null %}
+          {% set lastDefinedSize = lastDefinedSize|merge({ 'size': s }) %}
+        {% else %}
+          {# it's time to save a media query because we now have a new size to save #}
+          
+          {# save max-width #}
+          {% set lastDefinedSize = lastDefinedSize|merge({ 'max': breakpoint - 1 }) %}
+
+          {# save media-query in sizes attribute #}
+          {% if lastDefinedSize.min is not null and lastDefinedSize.max is not null %}
+            {% set sizes_attr = sizes_attr|merge(['(min-width: ' ~ lastDefinedSize.min ~ 'px) and (max-width: ' ~ lastDefinedSize.max ~ 'px) ' ~ lastDefinedSize.size]) %}
+          {% else %}
+            {% set sizes_attr = sizes_attr|merge(['(max-width: ' ~ lastDefinedSize.max ~ 'px) ' ~ lastDefinedSize.size]) %}
+          {% endif %}
+
+          {# save size and min-width for next loop #}
+          {% set lastDefinedSize = lastDefinedSize|merge({ 'size': s, 'min': breakpoint, 'max': null }) %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    {# save last rule #}
+    {% set sizes_attr = sizes_attr|merge([lastDefinedSize.size]) %}
+
+    {# flatten sizes rules #}
+    {% set sizes_attr = sizes_attr|join(', ') %}
+  {% endif %}
 
   {# validate priority #}
   {% if priority and priority not in ['high', 'low', 'auto'] %}
@@ -24,16 +90,16 @@
   {% endif %}
 
   <img
-    src="{{ src ? src : image.src(size) }}"
+    src="{{ image.src(size) }}"
     srcset="{{ image.srcset }}"
-    sizes="{{ image.img_sizes }}"
-    alt="{{ image.alt|default(alt) }}"
+    sizes="{{ sizes_attr|default(image.img_sizes) }}"
+    alt="{{ alt }}"
     width="{{ width }}"
     height="{{ height }}"
     {% if lazyload %}loading="lazy"{% endif %}
     {% if priority %}fetchpriority="{{ priority }}"{% endif %}
     {% if decoding %}decoding="{{ decoding }}"{% endif %}
-    class="{{ classname }}"
+    {% if classname %}class="{{ classname }}"{% endif %}
     {{ attributes|join(' ') }}
   >
 

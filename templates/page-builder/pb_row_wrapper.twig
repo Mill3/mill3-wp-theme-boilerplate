@@ -2,6 +2,8 @@
 {% set zindex = zindex ?? 0 %}
 
 {% set pb_row_id = post ? post.pb_row_id : pb_row_id %}
+{% set effect = post ? post.effect|default(null) : null %}
+
 {% set pt = post ? post.pt|default(0) : spacer_mobile|default(0) %}
 {% set pb = post ? post.pb|default(0) : spacer_mobile|default(0) %}
 {% set pt_lg = post ? post.pt_lg|default(0) : spacer|default(0) %}
@@ -25,12 +27,7 @@
 {% endfor %}
 
 {# paddings #}
-{% set row_classname = row_classname|merge([
-  'pt-' ~ pt,
-  'pb-' ~ pb,
-  'pt-lg-' ~ pt_lg,
-  'pb-lg-' ~ pb_lg
-]) %}
+{% set row_paddings = ['pt-' ~ pt, 'pb-' ~ pb, 'pt-lg-' ~ pt_lg, 'pb-lg-' ~ pb_lg] %}
 
 {# apply margins only on frontend #}
 {% if not is_preview %}
@@ -62,14 +59,51 @@
   {% set row_classname = row_classname|merge(['--last']) %}
 {% endif %}
 
-<div 
-  {% if pb_row_id %}id="{{ pb_row_id }}"{% endif %}
-  class="pb-row-wrapper position-relative {{ row_classname|join(' ') }}" 
-  data-scroll-section
-  {% if row_styles|length > 0 %}
-  style="{{ row_styles|join(";") }}"
-  {% endif %}
->
+
+{# create wrapper for reveal effect #}
+{% if effect == 'reveal' %}
+  {% set pb_row_id = pb_row_id|default('pb_row_wrapper-' ~ random()) %}
+
+  {% set row_open_block %}
+    <div 
+      id="{{ pb_row_id }}"
+      class="pb-row-wrapper --effect-reveal position-relative {{ row_classname|join(' ') }}" 
+      data-scroll-section
+      data-module="pb-row-wrapper-reveal"
+      data-pb-row-wrapper-reveal
+      {% if row_styles|length > 0 %}
+      style="{{ row_styles|join(";") }}"
+      {% endif %}
+    >
+      <div class="pb-row-wrapper__reveal {{ row_paddings|join(' ') }}">
+  {% endset %}
+
+  {% set row_close_block %}
+      </div>
+    </div>
+  {% endset %}
+
+{% else %} {# create default wrapper (no effect) #}
+
+  {% set row_open_block %}
+    <div 
+      {% if pb_row_id %}id="{{ pb_row_id }}"{% endif %}
+      class="pb-row-wrapper position-relative {{ row_paddings|join(' ') }} {{ row_classname|join(' ') }}" 
+      data-scroll-section
+      {% if row_styles|length > 0 %}
+      style="{{ row_styles|join(";") }}"
+      {% endif %}
+    >
+  {% endset %}
+
+  {% set row_close_block %}
+    </div>
+  {% endset %}
+
+{% endif %}
+
+
+{{ row_open_block }}
 
   {% block row_wrapper %}{% endblock %}
 
@@ -95,4 +129,4 @@
     {% endif %}
   {% endif %}
 
-</div>
+{{ row_close_block }}

@@ -1,4 +1,6 @@
 .c-scrollbar {
+  z-index: 9999;
+
   &_thumb {
     background-color: currentColor;
   }

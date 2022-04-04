@@ -123,6 +123,23 @@
   <div class="pb-row-medias__grid d-grid grid-gap-{{ grid_gap_mobile }} grid-gap-lg-{{ grid_gap }} {% if fullwidth %}--fullwidth{% endif %}">
     {% for media in medias if media.image %}
     {% set image = Image(media.image) %}
+    {% set sizes = {
+      'grid-1': ['100vw'],
+      'grid-2': ['50vw'],
+      'grid-3': ['33.3334vw'],
+      'grid-4': ['25vw'],
+      'grid-third': loop.index0 % 2 == 0 ? ['66.666vw'] : ['33.3334vw'],
+      'grid-center': ['100vw', null, '720px']
+    } %}
+    {% set parallax = {
+      'portrait': 0.5,
+      'photography': 0.5,
+      'square': 0.43,
+      'landscape': 0.35,
+      'postal-card': 0.31,
+      'half-square': 0.26,
+      'widescreen': 0.275,
+    } %}
     <div 
       class="pb-row-medias__media"
       data-scroll
@@ -136,10 +153,11 @@
           class="pb-row-medias__parallax position-absolute t-0 l-0 r-0 b-0"
           data-scroll
           data-scroll-target="#{{ udid ~ '_' ~ loop.index }}"
-          data-scroll-speed="0.5"
+          data-scroll-speed="{{ parallax[format]|default(0.5) }}"
         >
           {% include 'partial/image.twig' with {
             'image': image,
+            'sizes': sizes[layout]|default(null),
             'classname': 'pb-row-medias__img image-as-background'
           } only %}
         </div>
