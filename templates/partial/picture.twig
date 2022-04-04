@@ -30,8 +30,20 @@
   {# save default src #}
   {% set src = srcs[0] %}
 
-  {# trim srcs to not be longer than breakpoints #}
-  {% set srcs = srcs|slice(0, breakpoints|length) %}
+  {% if srcs|length > breakpoints|length %}
+    {# trim srcs to not be longer than breakpoints #}
+    {% set srcs = srcs|slice(0, breakpoints|length) %}
+  {% elseif srcs|length < breakpoints|length %}
+    {# extend srcs (with null values) to be the same length than breakpoints #}
+    {% set fills = [] %}
+    {% set quantity = breakpoints|length - srcs|length %}
+
+    {% for i in 1..quantity %}
+      {% set fills = fills|merge([null]) %}
+    {% endfor %}
+
+    {% set srcs = srcs|merge(fills) %}
+  {% endif %}
 
   {% set classname = classname|default(null) %}
   {% set attributes = attributes|default([]) %}
