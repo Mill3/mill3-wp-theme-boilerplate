@@ -33,7 +33,7 @@
               {% include 'partial/image.twig' with {
                 'image': thumbnail,
                 'alt': caption,
-                'size': 'largest_retina',
+                'sizes': ['100vw', null, null, '1110px'],
                 'classname': 'pb-row-oembed__img image-as-background'
               } only %}
             {% else %}
@@ -62,6 +62,7 @@
           {{ video|embeded_settings }}
         {% endif %}
       </div>
+
       {% if caption %}
         <figcaption class="pb-row-oembed__caption">{{ caption }}</figcaption>
       {% endif %}
