@@ -35,6 +35,10 @@ class Factory extends Module {
     this.initialized = false;
     this.items = null;
   }
+
+  stop() {
+    if (this.items) this.items.forEach(el => el.stop());
+  }
 }
 
 export default Factory;

@@ -7,12 +7,17 @@ import "@core/hello";
 import windmill from "@core/windmill";
 import WindmillScripts from "@core/windmill.scripts";
 import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
+//import WindmillDomController from "@core/windmill.dom-controller";
 import MobileViewportUnit from "@core/mobile-vh";
 import splitting from "@core/splitting";
 import { chrome, edge, firefox, safari, ios, android } from "@utils/browser";
 import { html, body } from "@utils/dom";
 import { mobile } from "@utils/mobile";
 import transitions from "@transitions";
+
+// ONLY FOR WINDMILL DOM CONTROLLER : load all UI and modules classes
+//import Modules from '@modules/index.dom-controller';
+//import UI from '@ui/index.dom-controller'
 
 // import main styles in dev mode only
 if (process.env.NODE_ENV === "development") {
@@ -43,6 +48,7 @@ class App {
     // install Windmill's plugins
     windmill.use( new WindmillScripts() );
     windmill.use( new WindmillWebpackChunks() );
+    //windmill.use( new WindmillDomController([ ...Object.values(Modules), ...Object.values(UI) ]) );
 
     // run Splitting.js after images are loaded & before enter transition
     windmill.on('loaded', splitting);

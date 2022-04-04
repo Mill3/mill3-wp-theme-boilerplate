@@ -21,7 +21,6 @@
  export class WindmillWebpackChunks {
    constructor() {
      this._chunks = [];
-     this._parser = new DOMParser();
      this._emitter = new EventEmitter2({ wildcard: true });
  
      // attach emitter globally to browser Window
