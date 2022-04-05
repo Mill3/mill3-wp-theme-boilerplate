@@ -99,6 +99,7 @@ $includes = [
     'lib/translations.php',
     'lib/acf.php',
     'lib/actions.php',
+    'lib/admin-status.php',
     'lib/assets.php',
     'lib/class-walker-nav-menu-edit.php',
     'lib/customizer.php',
