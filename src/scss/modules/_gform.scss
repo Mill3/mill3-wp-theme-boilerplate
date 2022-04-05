@@ -98,6 +98,18 @@
     }
   }
 
+  .gform_footer {
+    position: relative;
+    // spinner animation
+    .gform_ajax_spinner {
+      order: 1;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
   // each gform field
   .gfield {
 
@@ -153,5 +165,7 @@
     }
 
   }
+
+
 
 }
