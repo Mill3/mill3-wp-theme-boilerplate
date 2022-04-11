@@ -34,14 +34,12 @@ const config = {
   //
   resolve: {
     alias: {
+      "@components": path.resolve(SRC_PATH, `js/components/`),
+      "@core": path.resolve(SRC_PATH, `js/core/`),
       "@modules": path.resolve(SRC_PATH, `js/modules/`),
+      "@transitions": path.resolve(SRC_PATH, `js/transitions`),
       "@ui": path.resolve(SRC_PATH, `js/ui/`),
       "@utils": path.resolve(SRC_PATH, `js/utils/`),
-      "@core": path.resolve(SRC_PATH, `js/core/`),
-      "@components": path.resolve(SRC_PATH, `js/components/`),
-      "@controllers": path.resolve(SRC_PATH, `js/controllers/`),
-      "@transitions": path.resolve(SRC_PATH, `js/transitions`),
-      "@views": path.resolve(SRC_PATH, `js/views/`)
     }
   },
 
