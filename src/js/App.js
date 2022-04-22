@@ -22,7 +22,7 @@ import transitions from "@transitions";
 // import main styles in dev mode only
 if (process.env.NODE_ENV === "development") {
   import("../scss/App.scss");
-  import("../scss/debug/index.scss");
+  //import("../scss/debug/index.scss");
 }
 
 /*
