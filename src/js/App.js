@@ -34,6 +34,9 @@ class App {
   }
 
   init() {
+    // remove no-js classname
+    html.classList.remove('no-js');
+
     // add browser vendor classnames on <html>
     if( chrome() ) html.classList.add('chrome');
     if( edge() ) html.classList.add('edge');
