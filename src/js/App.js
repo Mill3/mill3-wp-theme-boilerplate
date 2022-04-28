@@ -22,7 +22,7 @@ import transitions from "@transitions";
 // import main styles in dev mode only
 if (process.env.NODE_ENV === "development") {
   import("../scss/App.scss");
-  import("../scss/debug/index.scss");
+  //import("../scss/debug/index.scss");
 }
 
 /*
@@ -34,6 +34,9 @@ class App {
   }
 
   init() {
+    // remove no-js classname
+    html.classList.remove('no-js');
+
     // add browser vendor classnames on <html>
     if( chrome() ) html.classList.add('chrome');
     if( edge() ) html.classList.add('edge');
