@@ -9,6 +9,8 @@ use WP_CLI_Command;
  * Mill3WP CLI commands : install our commons plugins
  */
 
+defined('ADMIN_ACCOUNT_INVITE_LIST') or define('ADMIN_ACCOUNT_INVITE_LIST', []);
+
 class Commands extends WP_CLI_Command
 {
 
@@ -29,6 +31,12 @@ class Commands extends WP_CLI_Command
         'classic-editor'
     ];
 
+    //
+    // list of admin account to create
+    //
+    static private $admin_accounts = ADMIN_ACCOUNT_INVITE_LIST;
+
+
     /**
      * Install all commons Mill3 plugins.
      *
@@ -47,5 +55,22 @@ class Commands extends WP_CLI_Command
         }
     }
 
+    /**
+     * Create admin users
+     *
+     * ## EXAMPLES
+     *
+     *     wp mill3wp create_admins
+     *
+     * @when before_wp_load
+     *
+     */
+
+    public function create_admins() {
+        \WP_CLI::line('Creating Mill3 admin users');
+        foreach (self::$admin_accounts as $key => $account) {
+            \WP_CLI::runcommand("user create {$account[0]} {$account[1]} --role=administrator --send-email");
+        }
+    }
 
 }

@@ -170,6 +170,20 @@ class Mill3WP extends Timber\Site
         Theme_CustomTaxonomies::instance()->run();
     }
 
+    /**
+     * Overide Timber\Site url() method
+     * This is for handling polylang home_url() method when its activated
+     *
+     * @return string
+     */
+    public function url() {
+        if (function_exists('pll_home_url')) {
+            return pll_home_url();
+        } else {
+            return $this->url;
+        }
+    }
+
     /** This is where you add some context
      *
      * @param string $context context['this'] Being the Twig's {{ this }}.
