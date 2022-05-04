@@ -29,7 +29,9 @@
 //    .my-custom-module {
 //       &__title {
 //          --line-height: 1.5;
+//          --delay: 100ms;
 //          --duration: 1250ms;
+//          --easing: #{$easeInOutCubic};
 //          --stagger: 250ms;
 //       }
 //    }
@@ -37,7 +39,7 @@
 [data-text-animation="slidein-by-words"] {
   --line-height: 1;
   --duration: 800ms;
-  --delay: 450ms;
+  --delay: 0ms;
   --stagger: 150ms;
   --easing: #{$easeOutCubic};
 
@@ -64,18 +66,13 @@
     overflow: hidden; // fallback for browser not supporting overflow: clip;
     overflow: clip; // better performance for browser supporting this value
   }
-  .char {
-    &:before,
-    &:after {
-      content: none;
-    }
-
+  .wordText {
     padding: calc((var(--adapted-line-height) - var(--line-height) * 1em) / 2) 0;
     transform: translate3d(0, 110%, 0);
   }
 
   &.is-inview {
-    .char {
+    .wordText {
       transform: translate3d(0, 0%, 0);
       transition: transform var(--duration) calc(var(--word-index) * var(--stagger) + var(--delay)) var(--easing);
     }
