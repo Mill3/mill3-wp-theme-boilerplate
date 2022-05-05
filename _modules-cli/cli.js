@@ -6,29 +6,39 @@ const ejs = require("ejs");
 const argv = require("yargs-parser")(process.argv.slice(2));
 
 /**
- * MILL3 - Theme CLI utils for JS and CSS modules
+ * MILL3 - Theme modules CLI utils for JS and CSS
  *
- * argument source : [js/css]
- * argument type : [modules/ui]
- * options : --name MyFooBarModule
+ * argument source : [js/scss]
+ * argument type : [modules/ui/page-builder]
+ * argument name : MyFooBarModule
  *
  * Examples :
  *
- * npm run cli js module --name MySuperModule
- * npm run cli js ui --name MySuperModule
- * npm run cli css module --name MySuperModule
+ * node cli.js js module MySuperModule
+ * node cli.js js ui MySuperModule
+ * node cli.js scss module MySuperModule
  *
  */
 
 const ALLOWED_SOURCES = ['js', 'scss'];
 const ALLOWED_TYPES = ['modules', 'ui', 'page-builder'];
 
-const src_path = path.resolve(__dirname, '../src');
-console.log('src_path:', src_path)
-
 const cli = () => {
+  //
+  // print a quick usage banner
+  //
+  console.log(chalk.blueBright('---'));
+  console.log(chalk.blueBright('MILL3 - Theme modules CLI utils for JS and CSS\n'));
+  console.log(chalk.blueBright('Usage :\n\tnpm run modules-cli source type ModuleNamePascalCased \n'));
+  console.log(chalk.blueBright(`\t- Sources available : [${ALLOWED_SOURCES.join('/')}]`));
+  console.log(chalk.blueBright(`\t- Types available : [${ALLOWED_TYPES.join('/')}] \n`));
+  console.log(chalk.blueBright('----\n'));
+
   try {
-    const { _: commands } = argv
+    const { _: commands } = argv;
+
+    // theme src path which serve as the base destination
+    const src_path = path.resolve(__dirname, '../src');
 
     // get source from commands
     const source = commands[0];
@@ -176,33 +186,37 @@ const createSCSS = (destination, type, name, module_slug) => {
  */
 
 const validateArgv = (source, type, name) => {
-  // 1. check if has source argument
+
+  const allowedSourcesMessage = ALLOWED_SOURCES.join('/');
+  const allowedTypeMessage = ALLOWED_SOURCES.join('/');
+
+  // check if has source argument
   if (!source) {
-    console.error(chalk.redBright("`source` argument is required : cli [js/scss]"))
+    console.error(chalk.redBright(`'source' argument is required : cli [${allowedSourcesMessage}]`))
     process.exit(1)
   }
 
-  // 2. check if source value is allowed
+  // check if source value is allowed
   if(!ALLOWED_SOURCES.some((s) => s === source)) {
-    console.error(chalk.redBright("`source` argument is invalid : cli [js/scss]"))
+    console.error(chalk.redBright(`'source' value '${source}' as an argument is invalid : cli [${allowedSourcesMessage}]`))
     process.exit(1)
   }
 
-  // 3. check if has source & type
+  // check if has source & type
   if (!source || !type) {
-    console.error(chalk.redBright("`source` and `type` arguments are required : cli [js/scss] [modules/ui/page-builder]"))
+    console.error(chalk.redBright(`'source' and 'type' arguments are required : cli [${allowedSourcesMessage}] [${allowedTypeMessage}]`))
     process.exit(1)
   }
 
-  // 4. check if source type is allowed
+  // check if source type is allowed
   if(!ALLOWED_TYPES.some((s) => s === type)) {
-    console.error(chalk.redBright("`type` argument is invalid : cli [modules/ui/page-builder]"))
+    console.error(chalk.redBright(`'type' value '${type}' as an argument is invalid : cli [${allowedTypeMessage}]`))
     process.exit(1)
   }
 
-  // 5. check if --name option is defined
+  // check if name arg is defined
   if(!name) {
-    console.error(chalk.redBright("`name` argument is required : cli [js/scss] [modules/ui] MyFooBarModule"))
+    console.error(chalk.redBright(`'name' argument is required : cli [${allowedSourcesMessage}] [${allowedTypeMessage}] MyFooBarModule`))
     console.error(chalk.redBright("Important : you must name your module in `PascalCase` style."))
     process.exit(1)
   }
