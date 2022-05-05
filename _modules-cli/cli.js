@@ -14,9 +14,9 @@ const argv = require("yargs-parser")(process.argv.slice(2));
  *
  * Examples :
  *
- * node cli.js js module MySuperModule
+ * node cli.js js modules MySuperModule
  * node cli.js js ui MySuperModule
- * node cli.js scss module MySuperModule
+ * node cli.js scss modules MySuperModule --dest ./src/custom-path
  *
  */
 
@@ -29,13 +29,15 @@ const cli = () => {
   //
   console.log(chalk.blueBright("---"));
   console.log(chalk.blueBright("MILL3 - Theme modules CLI utils for JS and CSS\n"));
-  console.log(chalk.blueBright("Usage :\n\tnpm run modules-cli source type ModuleNamePascalCased \n"));
+  console.log(chalk.blueBright("Usage :\n\tnpm run modules-cli source type ModuleNamePascalCased"));
+  console.log(chalk.blueBright("\tnpm run modules-cli source type ModuleNamePascalCased -- --dist ./src/custom-path  \n"));
   console.log(chalk.blueBright(`\t- Sources available : [${ALLOWED_SOURCES.join("/")}]`));
-  console.log(chalk.blueBright(`\t- Types available : [${ALLOWED_TYPES.join("/")}] \n`));
+  console.log(chalk.blueBright(`\t- Types available : [${ALLOWED_TYPES.join("/")}]`));
+  console.log(chalk.blueBright(`\t- Flag available : --dest ./src/custom-path \n`));
   console.log(chalk.blueBright("----\n"));
 
   try {
-    const { _: commands } = argv;
+    const { _: commands, dest } = argv;
 
     // theme src path which serve as the base destination
     const src_path = path.resolve(__dirname, "../src");
@@ -52,7 +54,8 @@ const cli = () => {
     const module_slug = PascalCaseToSlug(name);
 
     // create base path for source destination : ../src/[js/scss]
-    let destination_base = path.join(src_path, source);
+    // the value can be overided with --dest ./my-path option
+    let destination_base = dest ? path.join(dest) : path.join(src_path, source);
 
     // in JS source, we store each module in its own directory : ../src/js/[module/ui]/[module_slug]/MySuperModule.js
     if (source == "js") {
