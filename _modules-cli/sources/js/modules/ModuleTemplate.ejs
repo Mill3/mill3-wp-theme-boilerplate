@@ -1,0 +1,24 @@
+import { $ } from "@utils/dom";
+
+class <%= ModuleName %> {
+  constructor(el) {
+    this.el = el;
+    this.init();
+  }
+
+  init() {
+    this._bindEvents();
+  }
+  destroy() {
+    this._unbindEvents();
+    this.el = null;
+  }
+
+  start() {}
+  stop() {}
+
+  _bindEvents() {}
+  _unbindEvents() {}
+}
+
+export default <%= ModuleName %>;
