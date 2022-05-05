@@ -36,6 +36,7 @@ const cli = () => {
 
   try {
     const { _: commands } = argv;
+    console.log('argv:', argv)
 
     // theme src path which serve as the base destination
     const src_path = path.resolve(__dirname, "../src");
@@ -63,6 +64,9 @@ const cli = () => {
           break;
         case "ui":
           createJSUi(destination_base, type, name, module_slug);
+          break;
+        case "page-builder":
+          console.warn(chalk.yellowBright(`Not implemented : 'page-builder' type is not available for JS files`));
           break;
         default:
       }
