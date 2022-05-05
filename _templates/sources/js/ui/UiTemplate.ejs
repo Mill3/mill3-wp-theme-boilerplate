@@ -1,0 +1,30 @@
+import { $ } from "@utils/dom";
+
+const SELECTOR = ".<%= module_slug %>";
+
+class <%= ModuleName %> {
+  constructor() {
+    this.initialized = false;
+    this.el = null;
+  }
+
+  get name() {
+    return `<%= ModuleName %>`;
+  }
+
+  init() {
+    if (this.initialized) return;
+
+    this.initialized = true;
+    this.el = $(SELECTOR);
+    this._bindEvents();
+  }
+
+  _bindEvents() {
+    // register event on global emmiter system
+    if (!this.emitter) return;
+  }
+
+}
+
+export default <%= ModuleName %>;
