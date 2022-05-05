@@ -21,7 +21,7 @@ const argv = require("yargs-parser")(process.argv.slice(2));
  */
 
 const ALLOWED_SOURCES = ['js', 'scss'];
-const ALLOWED_TYPES = ['modules', 'ui'];
+const ALLOWED_TYPES = ['modules', 'ui', 'page-builder'];
 
 const src_path = path.resolve(__dirname, '../src');
 console.log('src_path:', src_path)
@@ -47,7 +47,6 @@ const cli = () => {
     // in JS source, we store each module in its own directory : ../src/js/[module/ui]/[module_slug]/MySuperModule.js
     if (source == 'js') {
       source_destination = path.join(source_destination, type, module_slug);
-      console.log('source_destination:', source_destination)
       switch (type) {
         case 'modules':
           createJSModule(source_destination, type, name, module_slug)
@@ -61,9 +60,11 @@ const cli = () => {
       process.exit(1);
     }
 
-    // in SCSS source, we store each module at the root of its type : ../src/js/[module/ui]/[module_slug].scss
+    // in SCSS source, we store each module at the root of its type : ../src/js/[module/ui/page-builder]/[module_slug].scss
     if (source == 'scss') {
-      source_destination = path.join(source_destination, type, module_slug);
+      source_destination = path.join(source_destination, type);
+      createSCSS(source_destination, type, name, module_slug);
+      process.exit(1);
     }
 
 
@@ -90,7 +91,7 @@ const createJSModule = (destination, type, name, module_slug) => {
     const outputFile = path.join(destination, `${name}.js`)
     fs.ensureFileSync(outputFile)
     fs.outputFileSync(outputFile, str)
-    console.log(`File ${outputFile} created!`);
+    console.log(chalk.greenBright(`File ${outputFile} created!`));
   })
 
   ejs.renderFile(template_factory, data, {}, function(err, str) {
@@ -101,7 +102,7 @@ const createJSModule = (destination, type, name, module_slug) => {
     const outputFile = path.join(destination, `factory.js`)
     fs.ensureFileSync(outputFile)
     fs.outputFileSync(outputFile, str)
-    console.log(`File ${outputFile} created!`);
+    console.log(chalk.greenBright(`File ${outputFile} created!`));
   })
 
   ejs.renderFile(template_index, data, {}, function(err, str) {
@@ -112,7 +113,7 @@ const createJSModule = (destination, type, name, module_slug) => {
     const outputFile = path.join(destination, `index.js`)
     fs.ensureFileSync(outputFile)
     fs.outputFileSync(outputFile, str)
-    console.log(`File ${outputFile} created!`);
+    console.log(chalk.greenBright(`File ${outputFile} created!`));
   })
 }
 
@@ -133,7 +134,7 @@ const createJSUi = (destination, type, name, module_slug) => {
     const outputFile = path.join(destination, `index.js`)
     fs.ensureFileSync(outputFile)
     fs.outputFileSync(outputFile, str)
-    console.log(`File ${outputFile} created!`);
+    console.log(chalk.greenBright(`File ${outputFile} created!`));
   })
 
   ejs.renderFile(template_ui, data, {}, function(err, str) {
@@ -144,7 +145,28 @@ const createJSUi = (destination, type, name, module_slug) => {
     const outputFile = path.join(destination, `${name}.js`)
     fs.ensureFileSync(outputFile)
     fs.outputFileSync(outputFile, str)
-    console.log(`File ${outputFile} created!`);
+    console.log(chalk.greenBright(`File ${outputFile} created!`));
+  })
+
+}
+
+const createSCSS = (destination, type, name, module_slug) => {
+  const template = path.join(__dirname, 'sources/scss', `style.ejs`)
+
+  const data = {
+    ModuleName: name,
+    module_slug: module_slug
+  }
+
+  ejs.renderFile(template, data, {}, function(err, str) {
+    // str => Rendered HTML string
+    if (err) {
+      console.error(err)
+    }
+    const outputFile = path.join(destination, `_${module_slug}.scss`)
+    fs.ensureFileSync(outputFile)
+    fs.outputFileSync(outputFile, str)
+    console.log(chalk.greenBright(`File ${outputFile} created!`));
   })
 
 }
@@ -156,32 +178,32 @@ const createJSUi = (destination, type, name, module_slug) => {
 const validateArgv = (source, type, name) => {
   // 1. check if has source argument
   if (!source) {
-    console.error("`source` argument is required : cli [js/scss]")
+    console.error(chalk.redBright("`source` argument is required : cli [js/scss]"))
     process.exit(1)
   }
 
   // 2. check if source value is allowed
   if(!ALLOWED_SOURCES.some((s) => s === source)) {
-    console.error("`source` argument is invalid : cli [js/scss]")
+    console.error(chalk.redBright("`source` argument is invalid : cli [js/scss]"))
     process.exit(1)
   }
 
   // 3. check if has source & type
   if (!source || !type) {
-    console.error("`source` and `type` arguments are required : cli [js/scss] [modules/ui]")
+    console.error(chalk.redBright("`source` and `type` arguments are required : cli [js/scss] [modules/ui/page-builder]"))
     process.exit(1)
   }
 
   // 4. check if source type is allowed
   if(!ALLOWED_TYPES.some((s) => s === type)) {
-    console.error("`type` argument is invalid : cli [modules/ui]")
+    console.error(chalk.redBright("`type` argument is invalid : cli [modules/ui/page-builder]"))
     process.exit(1)
   }
 
   // 5. check if --name option is defined
   if(!name) {
-    console.error("`name` argument is required : cli [js/scss] [modules/ui] MyFooBarModule")
-    console.error("Important : you must name your module in `PascalCase` style.")
+    console.error(chalk.redBright("`name` argument is required : cli [js/scss] [modules/ui] MyFooBarModule"))
+    console.error(chalk.redBright("Important : you must name your module in `PascalCase` style."))
     process.exit(1)
   }
 }
