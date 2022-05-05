@@ -23,7 +23,6 @@ Browser.safari(range) // range is optional
 */
 
 import { isWindow } from "./is";
-import mobile from "./mobile";
 
 
 const freeSelf = isWindow(typeof self == "object" && self) && self;
@@ -88,13 +87,10 @@ export const edge = (range) => {
 
 export const ios = () => iphone() || ipad() || ipod();
 export const ipad = (range) => {
-  const match = userAgent.match(/ipad.+?os (\d+)/);
-  return match !== null && compareVersion(match[1], range);
+  return safari(range) && !iphone() && !ipod() && navigator.maxTouchPoints > 1;
 };
 export const iphone = (range) => {
-  // avoid false positive for Facebook in-app browser on ipad;
-  // original iphone doesn't have the OS portion of the UA
-  const match = ipad() ? null : userAgent.match(/iphone(?:.+?os (\d+))?/);
+  const match = userAgent.match(/iphone(?:.+?os (\d+))?/);
   return match !== null && compareVersion(match[1] || 1, range);
 };
 export const ipod = (range) => {
