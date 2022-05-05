@@ -23,7 +23,7 @@
     "build": "export NODE_ENV=production && webpack --config=./webpack.config.babel.js --mode=production --bail",
     "lint": "eslint ./src/js/*/*.js",
     "prettier": "prettier ./src/js/*/*.js ./src/scss/**/*.scss --write",
-    "modules-cli": "node ./_templates/cli.js"
+    "modules-cli": "node ./_modules-cli/cli.js"
   },
   "bugs": {
     "url": "https://github.com/Mill3/mill3-wp-theme-boilerplate/issues"
