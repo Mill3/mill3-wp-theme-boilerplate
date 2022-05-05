@@ -16,12 +16,13 @@ const argv = require("yargs-parser")(process.argv.slice(2));
  *
  * node cli.js js modules MySuperModule
  * node cli.js js ui MySuperModule
+ * node cli.js js components MySuperModule
  * node cli.js scss modules MySuperModule --dest ./src/custom-path
  *
  */
 
 const ALLOWED_SOURCES = ["js", "scss"];
-const ALLOWED_TYPES = ["modules", "ui", "page-builder"];
+const ALLOWED_TYPES = ["modules", "ui", "components", "page-builder"];
 
 const cli = () => {
   //
@@ -55,11 +56,10 @@ const cli = () => {
 
     // create base path for source destination : ../src/[js/scss]
     // the value can be overided with --dest ./my-path option
-    let destination_base = dest ? path.join(dest) : path.join(src_path, source);
+    let destination_base = dest ? path.resolve(dest) : path.join(src_path, source, type);
 
     // in JS source, we store each module in its own directory : ../src/js/[module/ui]/[module_slug]/MySuperModule.js
     if (source == "js") {
-      source_destination = path.join(destination_base, type, module_slug);
       switch (type) {
         case "modules":
           createJSModule(destination_base, type, name, module_slug);
@@ -67,20 +67,38 @@ const cli = () => {
         case "ui":
           createJSUi(destination_base, type, name, module_slug);
           break;
+        case "components":
+            createJSComponent(destination_base, type, name, module_slug);
+            break;
         case "page-builder":
           console.warn(chalk.yellowBright(`Not implemented : 'page-builder' type is not available for JS files`));
           break;
         default:
       }
-      process.exit(1);
     }
 
     // in SCSS source, we store each module at the root of its type : ../src/js/[module/ui/page-builder]/[module_slug].scss
     if (source == "scss") {
-      destination_base = path.join(destination_base, type);
-      createSCSS(destination_base, name, module_slug);
-      process.exit(1);
+      switch (type) {
+        case "modules":
+          createSCSS(destination_base, name, module_slug);
+          break;
+        case "ui":
+          createSCSS(destination_base, name, module_slug);
+          break;
+        case "components":
+          console.warn(chalk.yellowBright(`Not implemented : 'components' type is not available for SCSS files`));
+          break;
+        case "page-builder":
+          createSCSS(destination_base, name, module_slug);
+          break;
+        default:
+      }
     }
+
+    // exit process
+    process.exit(1);
+
   } catch (err) {
     console.error(err);
   }
@@ -180,6 +198,38 @@ const createJSUi = (destination_base, type, name, module_slug) => {
   });
 
   ejs.renderFile(template_ui, data, {}, function (err, str) {
+    if (err) {
+      console.error(err);
+    }
+    const outputFile = path.join(destination_base, `${name}.js`);
+
+    // check if file exist or exit
+    checkOverwrite(outputFile);
+
+    // write file
+    writeFile(outputFile, str);
+  });
+};
+
+/**
+ *
+ * creates a JS ui class (index.js, MyModule.js)
+ *
+ * @param {string} destination_base
+ * @param {string} type
+ * @param {string} name
+ * @param {string} module_slug
+ */
+
+ const createJSComponent = (destination_base, type, name, module_slug) => {
+  const template_component = path.join(__dirname, "sources/js", type, `ComponentTemplate.ejs`);
+
+  const data = {
+    ModuleName: name,
+    module_slug: module_slug
+  };
+
+  ejs.renderFile(template_component, data, {}, function (err, str) {
     if (err) {
       console.error(err);
     }
