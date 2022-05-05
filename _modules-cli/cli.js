@@ -36,7 +36,6 @@ const cli = () => {
 
   try {
     const { _: commands } = argv;
-    console.log('argv:', argv)
 
     // theme src path which serve as the base destination
     const src_path = path.resolve(__dirname, "../src");
