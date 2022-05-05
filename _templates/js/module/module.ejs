@@ -1,0 +1,21 @@
+import { $ } from "@utils/dom";
+
+class PbRowMedias {
+  constructor(el) {
+    this.el = el;
+    this.init();
+  }
+
+  init() {
+    this._bindEvents();
+  }
+  destroy() {
+    this._unbindEvents();
+    this.el = null;
+  }
+
+  _bindEvents() {}
+  _unbindEvents() {}
+}
+
+export default PbRowMedias;

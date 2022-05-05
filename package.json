@@ -22,7 +22,8 @@
     "dev-dashboard": "export NODE_ENV=development && webpack-dashboard -- npm run mill3-cli dev",
     "build": "export NODE_ENV=production && webpack --config=./webpack.config.babel.js --mode=production --bail",
     "lint": "eslint ./src/js/*/*.js",
-    "prettier": "prettier ./src/js/*/*.js ./src/scss/**/*.scss --write"
+    "prettier": "prettier ./src/js/*/*.js ./src/scss/**/*.scss --write",
+    "generator": "hygen"
   },
   "bugs": {
     "url": "https://github.com/Mill3/mill3-wp-theme-boilerplate/issues"
@@ -46,9 +47,11 @@
     "debounce": "^1.2.0",
     "directory-named-webpack-plugin": "^4.0.1",
     "dotenv": "^10.0.0",
+    "ejs": "^3.1.7",
     "eslint": "^7.17.0",
     "eslint-plugin-import": "^2.22.1",
     "file-loader": "^6.2.0",
+    "fs-extra": "^10.1.0",
     "husky": "^3.0.9",
     "image-webpack-loader": "^8.0.1",
     "jest": "^27.0.6",
@@ -72,7 +75,8 @@
     "webpack-cli": "^4.8.0",
     "webpack-dashboard": "^3.3.5",
     "webpack-dev-server": "^4.0.0",
-    "webpackbar": "^5.0.0-3"
+    "webpackbar": "^5.0.0-3",
+    "yargs-parser": "^21.0.1"
   },
   "dependencies": {
     "@mill3-packages/system-ui-sass": "0.8.1",
