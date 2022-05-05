@@ -10,7 +10,7 @@ import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 //import WindmillDomController from "@core/windmill.dom-controller";
 import MobileViewportUnit from "@core/mobile-vh";
 import splitting from "@core/splitting";
-import { chrome, edge, firefox, safari, ios, android } from "@utils/browser";
+import { chrome, edge, firefox, safari, ios, iphone, ipad, android } from "@utils/browser";
 import { html, body } from "@utils/dom";
 import { mobile } from "@utils/mobile";
 import transitions from "@transitions";
@@ -43,6 +43,8 @@ class App {
     if( firefox() ) html.classList.add('firefox');
     if( safari() ) html.classList.add('safari');
     if( ios() ) html.classList.add('ios');
+    if( iphone() ) html.classList.add('iphone');
+    if( ipad() ) html.classList.add('ipad');
     if( android() ) html.classList.add('android');
 
     // if mobile, create mobile vh fix
