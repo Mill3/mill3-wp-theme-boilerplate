@@ -16,7 +16,7 @@ use Mill3WP\Assets;
 /**
  * Set layout's thumbnail in ACF Layout Selector Modal
  */
-add_filter('acfe/flexible/thumbnail/layout=YOUR_LAYOUT_NAME', 'acf_flexible_layout_thumbnail', 10, 3);
+add_filter('acfe/flexible/thumbnail/layout=pb_row_spacer', 'acf_flexible_layout_thumbnail', 10, 3);
 
 function acf_flexible_layout_thumbnail($thumbnail, $field, $layout) {
     $filename = $layout['name'];
