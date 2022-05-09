@@ -31,7 +31,9 @@ const cli = () => {
   console.log(chalk.blueBright("---"));
   console.log(chalk.blueBright("MILL3 - Theme modules CLI utils for JS and CSS\n"));
   console.log(chalk.blueBright("Usage :\n\tnpm run modules-cli source type ModuleNamePascalCased"));
-  console.log(chalk.blueBright("\tnpm run modules-cli source type ModuleNamePascalCased -- --dist ./src/custom-path  \n"));
+  console.log(
+    chalk.blueBright("\tnpm run modules-cli source type ModuleNamePascalCased -- --dist ./src/custom-path  \n")
+  );
   console.log(chalk.blueBright(`\t- Sources available : [${ALLOWED_SOURCES.join("/")}]`));
   console.log(chalk.blueBright(`\t- Types available : [${ALLOWED_TYPES.join("/")}]`));
   console.log(chalk.blueBright(`\t- Flag available : --dest ./src/custom-path \n`));
@@ -68,8 +70,8 @@ const cli = () => {
           createJSUi(destination_base, type, name, module_slug);
           break;
         case "components":
-            createJSComponent(destination_base, type, name, module_slug);
-            break;
+          createJSComponent(destination_base, type, name, module_slug);
+          break;
         case "page-builder":
           console.warn(chalk.yellowBright(`Not implemented : 'page-builder' type is not available for JS files`));
           break;
@@ -98,7 +100,6 @@ const cli = () => {
 
     // exit process
     process.exit(1);
-
   } catch (err) {
     console.error(err);
   }
@@ -164,7 +165,6 @@ const createJSModule = (destination_base, type, name, module_slug) => {
   });
 };
 
-
 /**
  *
  * creates a JS ui class (index.js, MyModule.js)
@@ -221,7 +221,7 @@ const createJSUi = (destination_base, type, name, module_slug) => {
  * @param {string} module_slug
  */
 
- const createJSComponent = (destination_base, type, name, module_slug) => {
+const createJSComponent = (destination_base, type, name, module_slug) => {
   const template_component = path.join(__dirname, "sources/js", type, `ComponentTemplate.ejs`);
 
   const data = {

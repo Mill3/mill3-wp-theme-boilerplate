@@ -1,4 +1,5 @@
 import { $ } from "@utils/dom";
+import { on, off } from "@utils/listener";
 
 const SELECTOR = ".<%= module_slug %>";
 
@@ -6,6 +7,7 @@ class <%= ModuleName %> {
   constructor() {
     this.initialized = false;
     this.el = null;
+    this._clickHandle = this._clickHandle.bind(this);
   }
 
   get name() {
@@ -20,10 +22,21 @@ class <%= ModuleName %> {
     this._bindEvents();
   }
 
-  _bindEvents() {
-    // register event on global emmiter system
-    if (!this.emitter) return;
+  destroy() {
+    this._unbindEvents();
+    this.el = null;
+    this.initialized = false;
   }
+
+  _bindEvents() {
+    on(this.el, "click", this._clickHandle);
+  }
+
+  _unbindEvents() {
+    off(this.el, "click", this._clickHandle);
+  }
+
+  _clickHandle(event) {}
 
 }
 

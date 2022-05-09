@@ -1,9 +1,11 @@
 import { $ } from "@utils/dom";
+import { on, off } from "@utils/listener";
 
 class <%= ModuleName %> {
   constructor(el) {
     this.el = el;
     this.init();
+    this._clickHandle = this._clickHandle.bind(this);
   }
 
   init() {
@@ -17,8 +19,15 @@ class <%= ModuleName %> {
   start() {}
   stop() {}
 
-  _bindEvents() {}
-  _unbindEvents() {}
+  _bindEvents() {
+    on(this.el, "click", this._clickHandle);
+  }
+  _unbindEvents() {
+    off(this.el, "click", this._clickHandle);
+  }
+
+  _clickHandle(event) {}
+
 }
 
 export default <%= ModuleName %>;
