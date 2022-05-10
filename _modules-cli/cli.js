@@ -129,7 +129,7 @@ const createJSModule = (destination_base, type, name, module_slug) => {
     if (err) {
       console.error(err);
     }
-    const outputFile = path.join(destination_base, `${name}.js`);
+    const outputFile = path.join(destination_base, module_slug, `${name}.js`);
 
     // check if file exist or exit
     checkOverwrite(outputFile);
@@ -142,7 +142,7 @@ const createJSModule = (destination_base, type, name, module_slug) => {
     if (err) {
       console.error(err);
     }
-    const outputFile = path.join(destination_base, `factory.js`);
+    const outputFile = path.join(destination_base, module_slug, `factory.js`);
 
     // check if file exist or exit
     checkOverwrite(outputFile);
@@ -155,7 +155,7 @@ const createJSModule = (destination_base, type, name, module_slug) => {
     if (err) {
       console.error(err);
     }
-    const outputFile = path.join(destination_base, `index.js`);
+    const outputFile = path.join(destination_base, module_slug, `index.js`);
 
     // check if file exist or exit
     checkOverwrite(outputFile);
@@ -188,7 +188,7 @@ const createJSUi = (destination_base, type, name, module_slug) => {
     if (err) {
       console.error(err);
     }
-    const outputFile = path.join(destination_base, `index.js`);
+    const outputFile = path.join(destination_base, module_slug, `index.js`);
 
     // check if file exist or exit
     checkOverwrite(outputFile);
@@ -201,7 +201,7 @@ const createJSUi = (destination_base, type, name, module_slug) => {
     if (err) {
       console.error(err);
     }
-    const outputFile = path.join(destination_base, `${name}.js`);
+    const outputFile = path.join(destination_base, module_slug, `${name}.js`);
 
     // check if file exist or exit
     checkOverwrite(outputFile);
@@ -213,7 +213,7 @@ const createJSUi = (destination_base, type, name, module_slug) => {
 
 /**
  *
- * creates a JS ui class (index.js, MyModule.js)
+ * creates a JS components class (index.js, MyModule.js)
  *
  * @param {string} destination_base
  * @param {string} type
