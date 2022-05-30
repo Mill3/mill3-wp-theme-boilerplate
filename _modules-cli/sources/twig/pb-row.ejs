@@ -1,0 +1,23 @@
+{# template: <%= module_slug %> #}
+{% extends 'page-builder/pb_row_wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('<%= module_slug %>-' ~ random()) %}
+
+{% set title = post.title %}
+{% set field = post.get_field('field') %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row <%= module_slug %> container-fluid {{ classname }}"
+  {{ attributes|join(' ') }}
+  data-scroll
+  data-scroll-offset="100px,0"
+  {# data-module="<%= module_slug %>"
+  data-<%= module_slug %>#}
+>
+
+</div>
+{% endblock %}

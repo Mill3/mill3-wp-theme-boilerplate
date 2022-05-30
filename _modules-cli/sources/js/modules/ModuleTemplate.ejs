@@ -2,10 +2,13 @@ import { $ } from "@utils/dom";
 import { on, off } from "@utils/listener";
 
 class <%= ModuleName %> {
-  constructor(el) {
+  constructor(el, emitter) {
     this.el = el;
-    this.init();
+    this.emitter = emitter;
+
     this._clickHandle = this._clickHandle.bind(this);
+
+    this.init();
   }
 
   init() {
@@ -13,7 +16,9 @@ class <%= ModuleName %> {
   }
   destroy() {
     this._unbindEvents();
+
     this.el = null;
+    this.emitter = null;
   }
 
   start() {}

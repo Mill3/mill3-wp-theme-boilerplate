@@ -21,7 +21,7 @@ const argv = require("yargs-parser")(process.argv.slice(2));
  *
  */
 
-const ALLOWED_SOURCES = ["js", "scss"];
+const ALLOWED_SOURCES = ["js", "scss", "templates"];
 const ALLOWED_TYPES = ["modules", "ui", "components", "page-builder"];
 
 const cli = () => {
@@ -43,7 +43,7 @@ const cli = () => {
     const { _: commands, dest } = argv;
 
     // theme src path which serve as the base destination
-    const src_path = path.resolve(__dirname, "../src");
+    // const src_path = path.resolve(__dirname, "../src");
 
     // get source from commands
     const source = commands[0];
@@ -55,6 +55,28 @@ const cli = () => {
 
     // create slug for module name
     const module_slug = PascalCaseToSlug(name);
+
+    // default src_path base
+    let src_path = path.resolve(__dirname);
+
+    // determine base destination base on source value
+    switch (source) {
+      case 'js':
+        src_path = path.resolve(src_path, "../src");
+        break;
+      case 'scss':
+        src_path = path.resolve(src_path, "../src");
+        break;
+      case 'templates':
+        src_path = path.resolve(src_path, "../");
+        break;
+      default:
+        src_path = null;
+        break;
+    }
+
+    console.log(src_path);
+
 
     // create base path for source destination : ../src/[js/scss]
     // the value can be overided with --dest ./my-path option
@@ -74,6 +96,26 @@ const cli = () => {
           break;
         case "page-builder":
           console.warn(chalk.yellowBright(`Not implemented : 'page-builder' type is not available for JS files`));
+          break;
+        default:
+      }
+    }
+
+    // in SCSS source, we store each module at the root of its type : ../src/js/[module/ui/page-builder]/[module_slug].scss
+    if (source == "templates") {
+      switch (type) {
+        case "modules":
+          console.warn(chalk.yellowBright(`Not implemented : 'modules' type is not available for Twig files`));
+          break;
+        case "ui":
+          console.warn(chalk.yellowBright(`Not implemented : 'ui' type is not available for Twig files`));
+          break;
+        case "components":
+          console.warn(chalk.yellowBright(`Not implemented : 'components' type is not available for Twig files`));
+          break;
+        case "page-builder":
+          // console.log(destination_base, name, module_slug);
+          createTwig(destination_base, name, module_slug);
           break;
         default:
       }
@@ -275,6 +317,43 @@ const createSCSS = (destination_base, name, module_slug) => {
   });
 };
 
+
+
+/**
+ *
+ * Create a Twig base file
+ *
+ * @param {string} destination_base
+ * @param {string} name
+ * @param {string} module_slug
+ */
+
+ const createTwig = (destination_base, name, module_slug) => {
+  const template = path.join(__dirname, "sources/twig", `pb-row.ejs`);
+
+  const data = {
+    ModuleName: name,
+    module_slug: module_slug
+  };
+
+  // we name or twig using underscore _ for seperating words
+  const filename_base = PascalCaseToSlug(name, "_");
+
+  ejs.renderFile(template, data, {}, function (err, str) {
+    // str => Rendered HTML string
+    if (err) {
+      console.error(err);
+    }
+    const outputFile = path.join(destination_base, `${filename_base}.twig`);
+
+    // check if file exist or exit
+    checkOverwrite(outputFile);
+
+    // write file
+    writeFile(outputFile, str);
+  });
+};
+
 /**
  * Write file and log message
  */
@@ -351,8 +430,8 @@ const validateArgv = (source, type, name) => {
  * @param {*} s string
  * @returns string
  */
-const PascalCaseToSlug = (s) => {
-  return s.trim().replace(/[A-Z]/g, (match, offset) => (offset > 0 ? "-" : "") + match.toLowerCase());
+const PascalCaseToSlug = (s, sep = "-") => {
+  return s.trim().replace(/[A-Z]/g, (match, offset) => (offset > 0 ? sep : "") + match.toLowerCase());
 };
 
 cli();
