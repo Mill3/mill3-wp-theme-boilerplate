@@ -1,0 +1,18 @@
+{% set classname = classname|default(null) %}
+
+{% set content_rows = post.get_field("page_builder") %}
+
+{# {% set edit_button %}
+  {% include 'post-type/page-section/_edit-admin-button.twig' with { 'post': post } only %}
+{% endset %} #}
+
+{% if content_rows is not empty and post %}
+<div class="single single-{{ post.post_type }} page-section {{ classname }}" id="page-{{ post.ID }}">
+  {% include 'page-builder/index.twig' with { 'post': post, 'edit_button' : edit_button } only %}
+</div>
+{% endif %}
+
+{% if not post and fn('is_user_logged_in') %}
+  <pre data-scroll-section class="bg-color-red color-white p-2 fz-xs">Page section with slug {{ slug }} not found.</pre>
+{% endif %}
+
