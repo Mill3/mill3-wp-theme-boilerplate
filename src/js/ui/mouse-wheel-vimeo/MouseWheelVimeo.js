@@ -10,7 +10,7 @@ const STATUS_STARTED = 3;
 
 let Player;
 
-class LocomotiveScrollVimeo {
+class MouseWheelVimeo {
   constructor(init = false) {
     this.items = null;
 
@@ -25,7 +25,7 @@ class LocomotiveScrollVimeo {
     // do nothing for mobile
     if (mobile) return;
 
-    // query all elements that will turn into LocomotiveScrollVimeoItem later
+    // query all elements that will turn into MouseWheelVimeoItem later
     this._elements = Array.from($$(SELECTOR));
 
     // if there is no elements, skip here
@@ -90,7 +90,7 @@ class LocomotiveScrollVimeo {
         if( this._status < STATUS_INITIALIZED ) return;
         
         // create child instance
-        const item = new LocomotiveScrollVimeoItem(el);
+        const item = new MouseWheelVimeoItem(el);
 
         // save instance for later
         if( !this.items ) this.items = [];
@@ -105,7 +105,7 @@ class LocomotiveScrollVimeo {
     }
     else if( Player ) {
       // create child instance
-      const item = new LocomotiveScrollVimeoItem(el);
+      const item = new MouseWheelVimeoItem(el);
 
       // save instance for later
       if( !this.items ) this.items = [];
@@ -134,12 +134,12 @@ class LocomotiveScrollVimeo {
   }
 
   _initChildren() {
-    this.items = this._elements.map(el => new LocomotiveScrollVimeoItem(el));
+    this.items = this._elements.map(el => new MouseWheelVimeoItem(el));
     this._elements = null;
   }
 }
 
-class LocomotiveScrollVimeoItem {
+class MouseWheelVimeoItem {
   constructor(el) {
     this.el = el;
     this.parent = this.el.parentNode;
@@ -221,4 +221,4 @@ class LocomotiveScrollVimeoItem {
   }
 }
 
-export default LocomotiveScrollVimeo;
+export default MouseWheelVimeo;

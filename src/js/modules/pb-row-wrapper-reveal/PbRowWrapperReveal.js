@@ -1,4 +1,5 @@
 import { $, rect } from "@utils/dom";
+import ResizeOrientation from "@utils/resize";
 import { getTranslate } from '@utils/transform';
 import Viewport from '@utils/viewport';
 
@@ -48,13 +49,19 @@ class PbRowWrapperReveal {
     this.emitter.on('SiteScroll.init', this._onScrollInit);
     this.emitter.on('SiteScroll.before-update', this._onScrollBeforeUpdate);
     this.emitter.on('SiteScroll.after-update', this._onScrollAfterUpdate);
+    this.emitter.on('SiteScroll.resize', this._onScrollAfterUpdate);
     this.emitter.on('SiteScroll.scroll', this._updatePosition);
+
+    ResizeOrientation.add(this._onScrollBeforeUpdate);
   }
   _unbindEvents() {
     this.emitter.off('SiteScroll.init', this._onScrollInit);
     this.emitter.off('SiteScroll.before-update', this._onScrollBeforeUpdate);
     this.emitter.off('SiteScroll.after-update', this._onScrollAfterUpdate);
+    this.emitter.off('SiteScroll.resize', this._onScrollAfterUpdate);
     this.emitter.off('SiteScroll.scroll', this._updatePosition);
+
+    ResizeOrientation.remove(this._onScrollBeforeUpdate);
   }
 
   _calculateLimits() {
@@ -94,7 +101,7 @@ class PbRowWrapperReveal {
     this._updatePosition(scrollY);
   }
   _onScrollBeforeUpdate() {
-    // reset DOM transformation to prevent incorrect calculations in Locomotive-Scroll
+    // reset DOM transformation to prevent incorrect calculations of wrapper's children by Mill3 Scroll
     this.wrapper.style.transform = `translate3d(0, 0px, 0)`;
   }
   _onScrollAfterUpdate(scrollY) {

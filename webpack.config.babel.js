@@ -37,9 +37,11 @@ const config = {
       "@components": path.resolve(SRC_PATH, `js/components/`),
       "@core": path.resolve(SRC_PATH, `js/core/`),
       "@modules": path.resolve(SRC_PATH, `js/modules/`),
+      "@scroll": path.resolve(SRC_PATH, `js/scroll/`),
       "@transitions": path.resolve(SRC_PATH, `js/transitions`),
       "@ui": path.resolve(SRC_PATH, `js/ui/`),
       "@utils": path.resolve(SRC_PATH, `js/utils/`),
+      "@vendors": path.resolve(SRC_PATH, `js/vendors/`),
     }
   },
 

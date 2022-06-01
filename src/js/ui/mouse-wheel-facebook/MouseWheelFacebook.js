@@ -11,7 +11,7 @@ const STATUS_STARTED = 3;
 
 let UDID = 1;
 
-class LocomotiveScrollFacebook {
+class MouseWheelFacebook {
   constructor(init = false) {
     this.items = null;
 
@@ -27,7 +27,7 @@ class LocomotiveScrollFacebook {
     // do nothing for mobile
     if (mobile) return;
 
-    // query all elements that will turn into LocomotiveScrollFacebookItem later
+    // query all elements that will turn into MouseWheelFacebookItem later
     this._elements = Array.from($$(SELECTOR));
 
     // if there is no elements, skip here
@@ -69,12 +69,12 @@ class LocomotiveScrollFacebook {
 
   _initChildren() {
     // create childs instance
-    this.items = this._elements.map(el => new LocomotiveScrollFacebookItem(el, this.emitter));
+    this.items = this._elements.map(el => new MouseWheelFacebookItem(el, this.emitter));
     this._elements = null;
   }
 }
 
-class LocomotiveScrollFacebookItem {
+class MouseWheelFacebookItem {
   constructor(el, emitter) {
     this.el = el;
     this.emitter = emitter;
@@ -193,4 +193,4 @@ class LocomotiveScrollFacebookItem {
   _onPlaybackFinished() { this._bindEvents(); }
 }
 
-export default LocomotiveScrollFacebook;
+export default MouseWheelFacebook;

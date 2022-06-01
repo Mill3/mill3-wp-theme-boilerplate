@@ -1,9 +1,9 @@
 import { $ } from '@utils/dom';
 import { on, off } from '@utils/listener';
-import { instance as LocomotiveScrollVimeo } from "@ui/locomotive-scroll-vimeo";
-import { instance as LocomotiveScrollYoutube } from "@ui/locomotive-scroll-youtube";
-import { SELECTOR as LocomotiveScrollVimeoSelector } from "@ui/locomotive-scroll-vimeo/LocomotiveScrollVimeo";
-import { SELECTOR as LocomotiveScrollYoutubeSelector } from "@ui/locomotive-scroll-youtube/LocomotiveScrollYoutube";
+import { instance as MouseWheelVimeo } from "@ui/mouse-wheel-vimeo";
+import { instance as MouseWheelYoutube } from "@ui/mouse-wheel-youtube";
+import { SELECTOR as VimeoSelector } from "@ui/mouse-wheel-vimeo/MouseWheelVimeo";
+import { SELECTOR as YoutubeSelector } from "@ui/mouse-wheel-youtube/MouseWheelYoutube";
 
 class PbRowOEmbed {
   constructor(el, emitter) {
@@ -65,12 +65,12 @@ class PbRowOEmbed {
     if( hasVideoPreview ) this.emitter.emit('SiteScroll.update');
 
     // try to create a Youtube oEmbed
-    const youtube = $(LocomotiveScrollYoutubeSelector, this.el);
-    if( youtube ) LocomotiveScrollYoutube.add(youtube);
+    const youtube = $(MouseWheelYoutube, this.el);
+    if( youtube ) YoutubeSelector.add(youtube);
     else {
       // otherwise, try Vimeo oEmbed
-      const vimeo = $(LocomotiveScrollVimeoSelector, this.el);
-      if( vimeo ) LocomotiveScrollVimeo.add(vimeo);
+      const vimeo = $(VimeoSelector, this.el);
+      if( vimeo ) MouseWheelVimeo.add(vimeo);
     }
   }
 }

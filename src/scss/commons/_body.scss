@@ -2,9 +2,11 @@ html {
   --vh: 1vh;
   --lvh: 1vh;
   --svh: 1vh;
+  --scrollbar-width: 0px;
 
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  overflow-y: scroll;
 }
 
 html,
@@ -12,14 +14,12 @@ body {
   height: 100%;
 }
 
-html:not(.has-scroll-init) body,
-html.windmill-is-running body,
-body.--scroll-disabled {
+html.--js-scrollbar-hidden {
   overflow: hidden;
-}
-
-html.--js-site-nav-opened {
-  &, body {
-    overflow: hidden;
+  
+  .site-header,
+  .site-nav,
+  [data-scroll-container] {
+    width: calc(100vw - var(--scrollbar-width)) !important;
   }
 }
