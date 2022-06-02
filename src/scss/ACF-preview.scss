@@ -24,6 +24,12 @@
   }
 }
 
+html,
+body {
+  // hide scrollbar
+  overflow: hidden;
+}
+
 // commons
 @import "commons/index";
 

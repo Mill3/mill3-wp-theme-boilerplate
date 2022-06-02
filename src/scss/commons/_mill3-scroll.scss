@@ -1,0 +1,35 @@
+html {
+  &.has-scroll-dragging { user-select: none; }
+}
+
+body {
+  html.has-scroll-smooth & { --scrollHeight: 0px; }
+  html.has-scroll-smooth.smooth-scroll-ready & {
+    height: var(--scrollHeight);
+  }
+}
+
+[data-scroll-container] {
+  html.has-scroll-smooth & {
+    --top: 0px;
+
+    min-height: 100vh;
+    visibility: hidden;
+  }
+  html.smooth-scroll-ready & {
+    position: fixed;
+    top: var(--top);
+    width: 100%;
+    visibility: visible;
+  }
+}
+
+[data-scroll] {
+  // enable GPU transformations on elements with parallax
+  &[data-scroll-speed],
+  &[data-scroll-sticky] {
+    html.has-scroll-smooth & {
+      will-change: transform;
+    }
+  }
+}

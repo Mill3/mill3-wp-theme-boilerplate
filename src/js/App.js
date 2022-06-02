@@ -9,6 +9,7 @@ import WindmillScripts from "@core/windmill.scripts";
 import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 //import WindmillDomController from "@core/windmill.dom-controller";
 import MobileViewportUnit from "@core/mobile-vh";
+import scrollbarWidth from "@core/scrollbar-width";
 import splitting from "@core/splitting";
 import { chrome, edge, firefox, safari, ios, iphone, ipad, android } from "@utils/browser";
 import { html, body } from "@utils/dom";
@@ -46,6 +47,9 @@ class App {
     if( iphone() ) html.classList.add('iphone');
     if( ipad() ) html.classList.add('ipad');
     if( android() ) html.classList.add('android');
+
+    // set scrollbar width in css variables
+    html.style.setProperty('--scrollbar-width', `${scrollbarWidth()}px`);
 
     // if mobile, create mobile vh fix
     if( mobile ) MobileViewportUnit.init();

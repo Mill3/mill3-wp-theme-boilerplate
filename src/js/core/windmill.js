@@ -111,7 +111,6 @@
  * 
  * - runningClassname [string] : Classname added to <html> when Windmill is running. (default: windmill-is-running)
  * - scrollRestoration [boolean] : Use `history.scrollRestoration = "manual"` or not. (default: true)
- * - scrollTarget [object] : Object from which get scrollY on `history.pushState` and from which set scrollY on `history.popstate`. (default: window)
  * - timeout [integer] : How long (in milliseconds) we should wait for AJAX response before forcing `window.location` to new URL. (default: 5000)
  * - transitions [array] : Array of transitions
  * - wrapper [string] : CSS selector of Windmill's wrapper. DOMElement that will be added/removed from Windmill's container. (default: [data-windmill="wrapper"])
@@ -204,7 +203,6 @@
    prevent: () => false,
    runningClassname: 'windmill-is-running',
    scrollRestoration: true,
-   scrollTarget: window,
    timeout: 5000,
    transitions: [],
    wrapper: '[data-windmill="wrapper"]',
@@ -333,7 +331,7 @@
      }
  
      // push new state into history
-     history.pushState({ scrollY: this._options.scrollTarget.scrollY | 0 }, '', url);
+     history.pushState({ scrollY: window.scrollY }, '', url);
  
      // perform transition
      this._run(url);
@@ -443,7 +441,7 @@
        .then(() => this._addNewPage())
        .then(() => this._preloadImages())
        .then(() => this._emit('entering'))
-       //.then(() => this._restoreScroll())
+       .then(() => this._restoreScroll())
        .then(() => this._emit('enter'))
        .then(() => this._emit('entered'))
        .then(() => this._performCompletion())
@@ -470,19 +468,22 @@
    }
    _removeOldPage() {
      return new Promise(resolve => {
-       // get & check container
-       const container = $(this._options.container);
-       if( !container && this._options.debug === true ) throw new Error('[windmill] Can\'t find container.');
- 
-       // remove old content from DOM
-       if( container ) container.remove();
- 
-       // remove all class on body
-       body.removeAttribute("class");
- 
-       // if fetch as not responded, wait for it to resolve promise
-       if( this._fetched ) resolve();
-       else this._removeOldPagePromise = resolve;
+      // get & check container
+      const container = $(this._options.container);
+      if( !container && this._options.debug === true ) throw new Error('[windmill] Can\'t find container.');
+
+      // remove old content from DOM
+      if( container ) container.remove();
+
+      // remove all class on body
+      body.removeAttribute("class");
+
+      // scroll to top
+      window.scrollTo({ top: 0, behavior: 'instant' });
+
+      // if fetch as not responded, wait for it to resolve promise
+      if( this._fetched ) resolve();
+      else this._removeOldPagePromise = resolve;
      });
    }
    _addNewPage() {
@@ -536,11 +537,7 @@
    _restoreScroll() {
      // if scrollRestoration is enabled, try to restore scroll
      if( this._options.scrollRestoration === true ) {
-       if( this._scrollY > 0 ) {
-         if( this._options.scrollTarget === window ) window.scrollTo(0, this._scrollY);
-         else this._options.scrollTarget.scrollTo(this._scrollY);
-       }
- 
+       if( this._scrollY > 0 ) window.scrollTo({ top: this._scrollY, behavior: 'instant' });
        this._scrollY = 0;
      }
    }
@@ -597,7 +594,7 @@
      if( link.getAttribute('data-windmill-method') === 'replace' ) this.replace(href);
      else {
        // push new state into history
-       history.pushState({ scrollY: this._options.scrollTarget.scrollY | 0 }, '', href);
+       history.pushState({ scrollY: window.scrollY }, '', href);
  
        // perform transition
        this._run(href, link, event);
@@ -630,9 +627,6 @@
  
    // getter - setter
    get debug() { return this._options.debug }
- 
-   get scrollTarget() { return this._options.scrollTarget; }
-   set scrollTarget(value) { this._options.scrollTarget = value; }
  }
  
  // loop through parent until we find <a> with href

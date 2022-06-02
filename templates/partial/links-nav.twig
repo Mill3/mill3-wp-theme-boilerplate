@@ -25,7 +25,7 @@
     {% if url starts with '#' %}
       {# if url is only #, do not handle like a scroll-to button #}
       {% if url != '#' %}
-        {% set attrs = attrs|merge(['data-scroll-to', 'data-scroll-href="' ~ url ~ '"']) %}
+        {% set attrs = attrs|merge(['data-scroll-to="' ~ url ~ '"']) %}
       {% endif %}
 
       {% include 'partial/button.twig' with {

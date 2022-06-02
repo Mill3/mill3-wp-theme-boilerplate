@@ -11,7 +11,7 @@ const STATUS_STARTED = 3;
 
 let UDID = 1;
 
-class LocomotiveScrollYoutube {
+class MouseWheelYoutube {
   constructor(init = false) {
     this.items = null;
 
@@ -27,7 +27,7 @@ class LocomotiveScrollYoutube {
     // do nothing for mobile
     if (mobile) return;
 
-    // query all elements that will turn into LocomotiveScrollYoutubeItem later
+    // query all elements that will turn into MouseWheelYoutubeItem later
     this._elements = Array.from($$(SELECTOR));
 
     // if there is no elements, skip here
@@ -78,7 +78,7 @@ class LocomotiveScrollYoutube {
       if( this._status < STATUS_INITIALIZED ) return;
 
       // create child instance
-      const item = new LocomotiveScrollYoutubeItem(el);
+      const item = new MouseWheelYoutubeItem(el);
 
       // save instance for later
       if( !this.items ) this.items = [];
@@ -107,12 +107,12 @@ class LocomotiveScrollYoutube {
   }
 
   _initChildren() {
-    this.items = this._elements.map(el => new LocomotiveScrollYoutubeItem(el));
+    this.items = this._elements.map(el => new MouseWheelYoutubeItem(el));
     this._elements = null;
   }
 }
 
-class LocomotiveScrollYoutubeItem {
+class MouseWheelYoutubeItem {
   constructor(el) {
     this.el = el;
     this.parent = this.el.parentNode;
@@ -213,4 +213,4 @@ class LocomotiveScrollYoutubeItem {
   }
 }
 
-export default LocomotiveScrollYoutube;
+export default MouseWheelYoutube;

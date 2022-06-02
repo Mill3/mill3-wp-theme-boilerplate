@@ -29,6 +29,7 @@ import Throttle from "./throttle";
 
 
 export const MIN_PRIORITY = -999;
+export const MILL3_SCROLL_PRIORITY = -450;
 export const MAX_PRIORITY = 999;
 
 class ResizeOrientation {

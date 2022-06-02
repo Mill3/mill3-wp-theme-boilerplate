@@ -3,6 +3,10 @@
 
   height: calc(var(--lvh) * 100);
 
+  &__scroller {
+    overflow-y: auto;
+  }
+
   &[aria-hidden="true"] {
     pointer-events: none;
     visibility: hidden;

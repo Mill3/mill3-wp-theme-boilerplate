@@ -7,7 +7,6 @@
 <body
   class="{{ body_class }} {% block body_extra_class %}{% endblock %}"
   data-template="base.twig"
-  data-ui="body"
 >
   {% if options.gtm_code %}
   <!-- Google Tag Manager (noscript) -->
@@ -21,7 +20,7 @@
   <div data-windmill="wrapper">
     <div
       data-windmill="container"
-      data-ui="site-scroll,gform,locomotive-scroll-vimeo,locomotive-scroll-youtube,locomotive-scroll-facebook"
+      data-ui="site-scroll,gform,mouse-wheel-vimeo,mouse-wheel-youtube,mouse-wheel-facebook"
       data-scroll-container
     >
 
