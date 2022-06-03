@@ -191,8 +191,8 @@ class Core extends EventEmitter2 {
       //  return;
       //}
 
-      // if element is already inView and not repeat, stop here
-      //if( element.inView && !element.repeat ) return;
+      // if element is not sticky and inView without repeat, stop here
+      if( !element.sticky && element.inView && !element.repeat ) return;
 
       if( element.inView ) {
         // check if element is out of viewport
