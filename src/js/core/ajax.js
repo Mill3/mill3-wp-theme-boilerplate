@@ -17,7 +17,7 @@ class AJAX {
     };
 
     return axios({
-      url: wp.admin_ajax,
+      url: MILL3WP.admin_ajax,
       method,
       params
     });

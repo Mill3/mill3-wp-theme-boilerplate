@@ -96,7 +96,7 @@ function assets()
       //'nonce' => wp_create_nonce('tdp_nonce'),
     );
 
-    wp_add_inline_script(WEBPACK_DEV_SERVER === true ? 'mill3wp/webpack' : 'mill3wp/js', 'window.wp = '.json_encode($wp_endpoints).';', 'before');
+    wp_add_inline_script(WEBPACK_DEV_SERVER === true ? 'mill3wp/webpack' : 'mill3wp/js', 'window.MILL3WP = '.json_encode($wp_endpoints).';', 'before');
 
     // remove core scripts and freaking emoji
     remove_action('wp_head', 'print_emoji_detection_script', 7);
