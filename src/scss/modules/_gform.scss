@@ -154,6 +154,47 @@
       }
     }
 
+    &.--file {
+      position: relative;
+
+      // this must be skinned to your project's need
+      //.gfield_label {}
+      
+      .ginput_container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+
+        input[type="file"] {
+          visibility: hidden;
+          width: 0;
+          height: 0;
+        }
+        
+        .ginput_preview {
+          display: none;
+        }
+      }
+      .gform_fileupload_rules {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        max-width: 100%;
+
+        &.--filled {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+
+      // this must be skinned to your project's need
+      //.gform_mill3_btn {}
+    }
+
     // checkbox and radio
     .ginput_container_checkbox,
     .ginput_container_radio {

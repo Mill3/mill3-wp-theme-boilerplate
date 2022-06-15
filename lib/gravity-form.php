@@ -52,6 +52,44 @@ function form_submit_button( $button, $form ) {
 add_filter('gform_submit_button', __NAMESPACE__ . '\\form_submit_button', 10, 2);
 
 
+function form_replace_file_upload($field_content, $field, $value, $entry_id, $form_id) {
+    if( $field->type === 'fileupload' ) {
+        $data = array(
+            'title' => __('Choose file', 'mill3wp'),
+            'style' => 'cta',
+            'classname' => 'gform_mill3_btn pointer-events-none',
+            'attributes' => array('aria-hidden="true"')
+        );
+
+        $button = Timber::compile('partial/button.twig', $data);
+        $field_content = str_replace('</label>', $button . '</label>', $field_content);
+
+        $allowed_files_extensions = explode(',', $field->allowedExtensions);
+        if( $allowed_files_extensions ) {
+            $allowed_mime_types = array();
+
+            foreach($allowed_files_extensions as $extension) {
+                $mime = wp_check_filetype('dummy.' . $extension);
+
+                if( $mime && $mime['type'] ) {
+                    array_push($allowed_mime_types, '.' . $extension);
+                    array_push($allowed_mime_types, $mime['type']);
+                }
+            }
+
+            if( $allowed_mime_types ) {
+                $allowed_mime_types = implode(',', $allowed_mime_types);
+                $field_content = str_replace('type=\'file\'', 'type=\'file\' accept=\'' . $allowed_mime_types . '\'', $field_content);
+            }
+        }
+    }
+
+    return $field_content;
+}
+
+add_filter('gform_field_content', __NAMESPACE__ . '\\form_replace_file_upload', 10, 5);
+
+
 
 /**
  * Check if a pb_row_form.twig is part of this page
