@@ -1,7 +1,6 @@
 <?php
 
-function filter_embeded_settings($iframe, $params = array())
-{
+function filter_embeded_settings($iframe, $params = array()) {
     // use preg_match to find iframe src
     preg_match('/src="(.+?)"/', $iframe, $matches);
     $src = $matches[1];
@@ -30,36 +29,33 @@ function filter_embeded_settings($iframe, $params = array())
     return $iframe;
 }
 
-function filter_slugify($slug)
-{
+function filter_slugify($slug) {
     return sanitize_title($slug);
 }
 
 function filter_facebook_share($url) {
-    return 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($url);
+    return 'https://www.facebook.com/sharer.php?u=' . urlencode($url);
 }
 
-function filter_twitter_share($url, $title = NULL) {
+function filter_twitter_share($url, $title = NULL, $hashtags = NULL, $via_user =  NULL) {
     $attrs = [];
 
-    if( $url ) $attrs[] = 'url='.urlencode($url);
-    if( $title ) $attrs[] = 'text=' . urlencode(html_entity_decode($title));
+    if ($url) $attrs[] = 'url=' . urlencode($url);
+    if ($title) $attrs[] = 'text=' . urlencode(html_entity_decode($title));
+    if ($via_user) $attrs[] = 'via=' . $via_user; // User ID
+    if ($hashtags) $attrs[] = 'hashtags=' . $hashtags; // Comma separated list, example : 'tag1,tag2,tag3'
 
-    return 'http://twitter.com/share?'.implode('&', $attrs);
+    return 'https://twitter.com/intent/tweet?' . implode('&', $attrs);
 }
 
-function filter_linked_share($url, $title = NULL) {
-    $attrs = [];
-    if( $url ) $attrs[] = 'url='.urlencode($url);
-    if( $title ) $attrs[] = 'title='.urlencode(html_entity_decode($title));
-
-    return 'https://www.linkedin.com/shareArticle?mini=true?'.implode('&', $attrs);
+function filter_linked_share($url) {
+    return 'https://www.linkedin.com/sharing/share-offsite/?url=' . urlencode($url);
 }
 
 function filter_email_share($url, $subject = NULL) {
     $attrs = [];
-    if( $subject ) $attrs[] = 'subject='.rawurlencode(htmlspecialchars_decode($subject));
-    if( $url ) $attrs[] = 'body='.urlencode($url);
+    if ($subject) $attrs[] = 'subject=' . rawurlencode(htmlspecialchars_decode($subject));
+    if ($url) $attrs[] = 'body=' . urlencode($url);
 
-    return 'mailto:?'.implode('&', $attrs);
+    return 'mailto:?' . implode('&', $attrs);
 }
