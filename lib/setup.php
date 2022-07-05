@@ -134,7 +134,8 @@ function mill3wp_admin_menu_order( $menu_order ) {
     // for example, move 'upload.php' to position #9 and built-in pages to position #1
     $new_positions = array(
         //'upload.php' => 9,
-        'edit.php?post_type=page' => 1
+        'index.php' => 1,
+        'edit.php?post_type=page' => 2
     );
     
     // helper function to move an element inside an array
