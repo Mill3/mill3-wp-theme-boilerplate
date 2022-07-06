@@ -10,7 +10,7 @@
  * @preferred
  */
 
- export const SCRIPTS_SELECTOR = 'script[type="text/javascript"]';
+ export const SCRIPTS_SELECTOR = 'script[src][type="text/javascript"]';
  export const INLINE_SCRIPTS_SELECTOR = 'script:not([src]):not([type="application/ld+json"]):not([type="application/json"]):not([type="text/html"])';
  
  export class WindmillScripts {
