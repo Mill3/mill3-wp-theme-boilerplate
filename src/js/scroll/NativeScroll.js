@@ -1,4 +1,4 @@
-import { INVIEW_CLASSNAME, SCROLL_TO_OPTIONS } from "@scroll/constants";
+import { SCROLL_TO_OPTIONS } from "@scroll/constants";
 import Core from "@scroll/Core";
 import { getCall, getOffset, getRepeat, getTarget } from "@scroll/utils";
 import { $, $$, rect } from "@utils/dom";

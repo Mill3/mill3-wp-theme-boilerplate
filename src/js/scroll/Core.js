@@ -249,7 +249,8 @@ class Core extends EventEmitter2 {
     }
 
     obj.y = y;
-    obj.el.style.transform = `translate3d(0, ${y}px, 0)`;
+    //obj.el.style.transform = `translate3d(0, ${y}px, 0)`;
+    obj.el.style.transform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${y},0,1)`;
 
     return delayCompleted;
   }
