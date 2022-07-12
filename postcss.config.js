@@ -6,6 +6,9 @@ module.exports = {
         grid: false,
         flex: false,
         supports: true
+      },
+      features: {
+        'clamp': false,
       }
     }
   }
