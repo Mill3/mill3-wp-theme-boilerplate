@@ -3,8 +3,8 @@
 // NPM packages
 @import "@mill3-packages/system-ui-sass/src/system-ui";
 @import "~sass-easing";
-@import "~swiper/swiper.scss";
-@import "~swiper/components/pagination/pagination.scss";
+@import "~swiper/css/";
+@import "~swiper/css/pagination";
 
 // variables
 @import "vars/index";
