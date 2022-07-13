@@ -8,6 +8,7 @@ class Accordion extends EventEmitter2 {
 
     this.button = button;
     this.panel = panel;
+    this.parent = button.closest('.accordions__accordion');
 
     this._toggled = this.button.getAttribute("aria-expanded") == 'true';
     this._closeOnTapOut = closeOnTapOut;
@@ -39,6 +40,7 @@ class Accordion extends EventEmitter2 {
     if (this._toggled === true) return;
     this._toggled = true;
 
+    this.parent.setAttribute("aria-expanded", true);
     this.button.setAttribute("aria-expanded", true);
     this.panel.setAttribute("aria-hidden", false);
 
@@ -52,6 +54,7 @@ class Accordion extends EventEmitter2 {
 
     if (this._closeOnTapOut) window.removeEventListener("click", this._onClickOutside);
 
+    this.parent.setAttribute("aria-expanded", false);
     this.button.setAttribute("aria-expanded", false);
     this.panel.setAttribute("aria-hidden", true);
 
