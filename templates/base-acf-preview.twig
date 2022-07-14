@@ -10,7 +10,7 @@
 </head>
 <body class="{{ body_class }} acf-preview">
   {% set template = "page-builder/" ~ post.acf_fc_layout ~ ".twig" %}
-  {% include template with {'post': post, 'is_preview': is_preview } only %}
+  {% include template with {'post': post, 'layout': post.acf_fc_layout, 'is_preview': is_preview } only %}
   <script src="{{ js }}"></script>
 </body>
 </html>
