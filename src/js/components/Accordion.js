@@ -40,7 +40,7 @@ class Accordion extends EventEmitter2 {
     if (this._toggled === true) return;
     this._toggled = true;
 
-    this.parent.setAttribute("aria-expanded", true);
+    if(this.parent) this.parent.setAttribute("aria-expanded", true);
     this.button.setAttribute("aria-expanded", true);
     this.panel.setAttribute("aria-hidden", false);
 
@@ -54,7 +54,7 @@ class Accordion extends EventEmitter2 {
 
     if (this._closeOnTapOut) window.removeEventListener("click", this._onClickOutside);
 
-    this.parent.setAttribute("aria-expanded", false);
+    if(this.parent) this.parent.setAttribute("aria-expanded", false);
     this.button.setAttribute("aria-expanded", false);
     this.panel.setAttribute("aria-hidden", true);
 
