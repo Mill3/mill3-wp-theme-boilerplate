@@ -1,0 +1,6 @@
+// this mixin return nothing in App.scss because we don't need this code on front-end
+@mixin acfPreview() {
+  @if false {
+    @content;
+  }
+}

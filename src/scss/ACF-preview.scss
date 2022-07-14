@@ -17,6 +17,11 @@
 // mixins
 @import "mixins/index";
 
+// override acfPreview mixin because we want this code in our ACF previews
+@mixin acfPreview() {
+  @content;
+}
+
 // override in-view mixin because there is no need to include in-view animations in our ACF previews
 @mixin inView() {
   @if false {
