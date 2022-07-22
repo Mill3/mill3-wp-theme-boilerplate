@@ -28,7 +28,10 @@
   {# replace Timber/Image() with our class extenxion Timber/Mill3Image #}
   {% set image = Mill3Image(image) %}
 
-  {% set alt = alt|default(image.alt)|default('') %}
+  {# creates default title value based on alt, if none is set get title value #}
+  {% set default_title = image.alt ? image.alt : image.title %}
+
+  {% set alt = alt|default(default_title)|default('') %}
   {% set attributes = attributes|default([]) %}
   {% set classname = classname|default(null) %}
   {% set lazyload = lazyload|default(false) %}
@@ -36,8 +39,8 @@
   {% set sizes = sizes|default(null) %}
   {% set priority = priority|default(null) %}
   {% set decoding = decoding|default(null) %}
-  {% set width = image.sizes[size].width|default((image.sizes|first).width) %}
-  {% set height = image.sizes[size].height|default((image.sizes|first).height) %}
+  {% set width = width|default(image.sizes[size].width)|default(image.sizes[size ~ '-width'])|default((image.sizes|first).width) %}
+  {% set height = height|default(image.sizes[size].height)|default(image.sizes[size ~ '-height'])|default((image.sizes|first).height) %}
 
   {# transform sizes array into an attribute compatible string #}
   {% if sizes and sizes is iterable %}
@@ -55,7 +58,7 @@
           {% set lastDefinedSize = lastDefinedSize|merge({ 'size': s }) %}
         {% else %}
           {# it's time to save a media query because we now have a new size to save #}
-          
+
           {# save max-width #}
           {% set lastDefinedSize = lastDefinedSize|merge({ 'max': breakpoint - 1 }) %}
 
