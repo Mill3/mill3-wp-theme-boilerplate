@@ -14,6 +14,7 @@ class GForm extends EventEmitter2 {
 
     this.el = el;
     this.id = parseInt(this.el.id.replace("gform_wrapper_", ""));
+    this.postTitle = '';
 
     this._onRender = this._onRender.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
@@ -43,6 +44,7 @@ class GForm extends EventEmitter2 {
     this.body = null;
     this.submit = null;
     this.fields = null;
+    this.postTitle = null;
 
     this._onRender = null;
     this._onSubmit = null;
@@ -69,6 +71,13 @@ class GForm extends EventEmitter2 {
     if (this.submit) on(this.submit, "click", this._onSubmit);
   }
 
+  updatePostTitle(postTitle = '') {
+    this.fields.forEach(field => {
+      const input = field.input;
+      if( input && input instanceof GFieldPostTitle ) input.update(postTitle);
+    });
+  }
+
   _onRender(event, formId) {
     if (formId !== this.id) return;
 
@@ -80,7 +89,7 @@ class GForm extends EventEmitter2 {
     //window.dispatchEvent(new Event("resize"));
   }
   _onSubmit() {
-    this.el.classList.add(SUBMITING_CLASSNAME);
+    if( this.el ) this.el.classList.add(SUBMITING_CLASSNAME);
   }
   _onResize() {
     this.emit("resize");
@@ -92,6 +101,7 @@ const INPUT_SELECTOR =
 const TEXTAREA_SELECTOR = "textarea";
 const SELECT_SELECTOR = "select";
 const FILE_UPLOAD_SELECTOR = 'input[type="file"]';
+const POST_TITLE_SELECTOR = 'input[type="hidden"][data-gform-post-title-input]';
 
 class GFormField extends EventEmitter2 {
   constructor(el) {
@@ -143,7 +153,7 @@ class GFormField extends EventEmitter2 {
   }
 
   _onInputFocus() {
-    this.el.classList.add(CLASSNAME);
+    if( this.el ) this.el.classList.add(CLASSNAME);
   }
   _onInputBlur() {
     // check if input is empty
@@ -152,7 +162,7 @@ class GFormField extends EventEmitter2 {
       if (value) return;
     }
 
-    this.el.classList.remove(CLASSNAME);
+    if( this.el ) this.el.classList.remove(CLASSNAME);
   }
   _onInputResize() {
     this.emit("resize", this);
@@ -170,12 +180,14 @@ class GFormField extends EventEmitter2 {
     const file_input = $(FILE_UPLOAD_SELECTOR, this.inputContainer);
     if (file_input) return new GFieldFileUpload(file_input);
 
+    const post_title_input = $(POST_TITLE_SELECTOR, this.inputContainer);
+    if( post_title_input ) return new GFieldPostTitle(post_title_input);
+
     const input = $(INPUT_SELECTOR, this.inputContainer);
     if (input) return new GFieldInput(input);
 
     return null;
   }
-
   _getType() {
     if( !this.input) return null;
 
@@ -325,6 +337,29 @@ class GFieldFileUpload extends GFieldInput {
     // update output message
     this.outputEl.classList[ output === this._defaultOuputHTML ? 'remove' : 'add' ]('--filled');
     this.outputEl.innerHTML = output;
+  }
+}
+
+class GFieldPostTitle extends EventEmitter2 {
+  constructor(el) {
+    super();
+
+    this.el = el;
+
+    this.init();
+  }
+
+  init() {}
+  destroy() {
+    this.el = null;
+  }
+  update(value) {
+    this.el.value = value;
+  }
+
+  // getter 
+  get value() {
+    return this.el.value;
   }
 }
 
