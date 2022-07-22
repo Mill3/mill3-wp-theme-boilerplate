@@ -12,6 +12,8 @@ function setup()
     // Make theme available for translation
     load_theme_textdomain('mill3wp', get_template_directory() . '/languages');
 
+    // unregister_block_type('core/heading');
+
     // Register wp_nav_menu() menus
     // http://codex.wordpress.org/Function_Reference/register_nav_menus
     register_nav_menus([
@@ -137,14 +139,14 @@ function mill3wp_admin_menu_order( $menu_order ) {
         'index.php' => 1,
         'edit.php?post_type=page' => 2
     );
-    
+
     // helper function to move an element inside an array
     function move_element(&$array, $a, $b) {
         $out = array_splice($array, $a, 1);
         array_splice($array, $b, 0, $out);
     }
 
-    // traverse through the new positions and move 
+    // traverse through the new positions and move
     // the items if found in the original menu_positions
     foreach( $new_positions as $value => $new_index ) {
         if( $current_index = array_search( $value, $menu_order ) ) {

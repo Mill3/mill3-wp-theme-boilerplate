@@ -19,7 +19,6 @@ defined('SENTRY_DSN_PHP') or define('SENTRY_DSN_PHP', null);
 defined('SENTRY_DSN_JS') or define('SENTRY_DSN_JS', null);
 defined('SENTRY_ENV') or define('SENTRY_ENV', null);
 
-
 //
 // Init Sentry.io
 //

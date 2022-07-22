@@ -33,6 +33,22 @@ function add_editor_stylesheet()
 add_action('after_setup_theme', __NAMESPACE__ . '\\add_editor_stylesheet');
 
 /**
+ * Enqueue custom Gutenberg script for our theme
+ */
+function add_gutenberg_scripts() {
+
+    wp_enqueue_script(
+        'mill3-blockeditor',
+        get_stylesheet_directory_uri() . '/src/js/admin/blockeditor.js',
+        array( 'wp-blocks', 'wp-dom' ),
+        filemtime( get_stylesheet_directory() . '/src/js/admin/blockeditor.js' ),
+        true
+    );
+}
+
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\add_gutenberg_scripts' );
+
+/**
  * Enqueue custom MCE plugins
  */
 function enqueue_shortcodes_scripts($plugin_array)
