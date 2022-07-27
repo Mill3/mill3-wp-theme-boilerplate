@@ -13,7 +13,7 @@ require __DIR__ . '/vendor/autoload.php';
 //
 // Define various constants
 //
-defined('THEME_ENV') or define('THEME_ENV', 'production');
+// defined('THEME_ENV') or define('THEME_ENV', 'production');
 defined('WEBPACK_DEV_SERVER') or define('WEBPACK_DEV_SERVER', THEME_ENV === 'development');
 defined('SENTRY_DSN_PHP') or define('SENTRY_DSN_PHP', null);
 defined('SENTRY_DSN_JS') or define('SENTRY_DSN_JS', null);

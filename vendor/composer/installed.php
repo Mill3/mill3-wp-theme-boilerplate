@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '90e2465120a6f32dcf5a37eedfc57c2014864eb3',
+        'reference' => 'e4f27e34cf87f9fe5de2bd0da945a432a1d58fb4',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '90e2465120a6f32dcf5a37eedfc57c2014864eb3',
+            'reference' => 'e4f27e34cf87f9fe5de2bd0da945a432a1d58fb4',
             'dev_requirement' => false,
         ),
         'clue/stream-filter' => array(
@@ -62,6 +62,15 @@
             'install_path' => __DIR__ . '/../jean85/pretty-package-versions',
             'aliases' => array(),
             'reference' => 'ae547e455a3d8babd07b96966b17d7fd21d9c6af',
+            'dev_requirement' => false,
+        ),
+        'palmiak/timber-acf-wp-blocks' => array(
+            'pretty_version' => '1.15',
+            'version' => '1.15.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../palmiak/timber-acf-wp-blocks',
+            'aliases' => array(),
+            'reference' => '4d3ecfc31ba5c90964a4f0e7e10b97cb3a2ceb7e',
             'dev_requirement' => false,
         ),
         'php-http/async-client-implementation' => array(

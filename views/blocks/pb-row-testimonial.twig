@@ -1,0 +1,27 @@
+{% extends 'views/blocks/block-wrapper.twig' %}
+{#
+  Title: Testimonials
+  Category: text
+  Icon: format-status
+  Keywords: quote testimonial
+  Mode: edit
+  PostTypes: page post
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+#}
+
+{% block row_wrapper %}
+<div class="pb-row-text-simple container-fluid-sm" data-{{ block.id }}>
+  <div class="d-grid grid-gap-30">
+    <blockquote class="m-0 ta-center fw-500 fz-48">
+      « {{ fields.text }} »
+    </blockquote>
+    {% if fields.title %}
+    <header class="pt-20">
+      <h3 class="m-0 ta-center ff-heading fz-18 fw-700">- {{ fields.title }}</h3>
+    </header>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

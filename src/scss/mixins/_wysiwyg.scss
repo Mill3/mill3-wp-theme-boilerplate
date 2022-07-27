@@ -1,3 +1,12 @@
 // these styling will be shared in frontend and backend
 @mixin wysiwyg() {
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: Madras, sans-serif;
+  }
+
+  p, ul, ol {
+    font-family: Madras, sans-serif;
+  }
+
 }

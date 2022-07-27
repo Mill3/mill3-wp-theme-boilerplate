@@ -1,5 +1,5 @@
 wp.domReady(() => {
-  console.log(wp.blocks.getBlockTypes());
+  // console.log(wp.blocks.getBlockTypes());
   //
   // THIS IS DISABLING ALL DEFAULT CORE BLOCKS
   //

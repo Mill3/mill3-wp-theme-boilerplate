@@ -1,0 +1,26 @@
+{% extends 'views/blocks/block-wrapper.twig' %}
+{#
+  Title: Text Simple
+  Description: Simple text with optional title
+  Category: text
+  Icon: admin-comments
+  Keywords: text simple
+  Mode: edit
+  PostTypes: page post
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+#}
+
+{% block row_wrapper %}
+<div class="pb-row-text-simple container-fluid-sm" data-{{ block.id }}>
+  <div class="d-grid grid-column-lg-2 grid-gap-30">
+    <header>
+      <h3 class="m-0 ff-heading fz-24 fz-lg-48 fw-300">{{ fields.title }}</h3>
+    </header>
+    <aside class="wysiwyg fz-14 fz-lg-18">
+      {{ fields.text }}
+    </aside>
+  </div>
+</div>
+{% endblock %}

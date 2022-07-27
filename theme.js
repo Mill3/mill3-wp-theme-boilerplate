@@ -68,7 +68,7 @@ const theme = {
   overflow: ["auto", "hidden", "visible", "scroll"],
   "font-family": {
     heading: [
-      "Madras",
+      "Aeonik",
       "-apple-system",
       "BlinkMacSystemFont",
       "Segoe UI",
@@ -82,7 +82,17 @@ const theme = {
       "Segoe UI Symbol",
       "Noto Color Emoji"
     ],
-    body: ["Georgia", "serif"],
+    body: [
+      "Aeonik",
+      "Helvetica Neue",
+      "Arial",
+      "Noto Sans",
+      "sans-serif",
+      "Apple Color Emoji",
+      "Segoe UI Emoji",
+      "Segoe UI Symbol",
+      "Noto Color Emoji"
+    ],
     mono: [
       "SFMono-Regular",
       "Menlo",
