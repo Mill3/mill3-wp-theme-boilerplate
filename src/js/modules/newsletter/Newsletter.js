@@ -1,6 +1,3 @@
-import axios from 'axios';
-import serialize from 'form-serialize';
-
 import { $ } from "@utils/dom";
 import { on, off } from "@utils/listener";
 
@@ -29,10 +26,10 @@ class Newsletter {
     this._onReset = this._onReset.bind(this);
     this._send = this._send.bind(this);
     this._removeOutputMessage = this._removeOutputMessage.bind(this);
-    
+
     this.init();
   }
-  
+
   init() {
     if (this.input) {
       on(this.input, "focus", this._onFocus);
@@ -141,7 +138,7 @@ class Newsletter {
     return false;
   }
   _onSubmitCallback(response) {
-    const { success, message, errors } = response.data;
+    const { success, message, errors } = response;
 
     if( success ) {
       this.form.classList.remove(VALIDATION_CLASSNAME);
@@ -180,14 +177,16 @@ class Newsletter {
   }
 
   _send(token = null) {
-    // send form via AJAX
     const url = this.form.getAttribute('action');
-    let data = serialize(this.form);
+    const formData = new FormData(this.form)
 
     // add token if available
-    if( token ) data += `&${encodeURIComponent('reCAPTCHA')}=${encodeURIComponent(token)}`;
+    // if( token ) data += `&${encodeURIComponent('reCAPTCHA')}=${encodeURIComponent(token)}`;
 
-    axios.post(url, data)
+    if(token) formData.append('reCAPTCHA', token)
+
+    return fetch(url, { method: 'post', body: formData })
+      .then((response) => response.json())
       .then(this._onSubmitCallback)
       .catch(this._onSubmitError);
   }
