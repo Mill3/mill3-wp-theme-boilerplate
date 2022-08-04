@@ -1,5 +1,10 @@
 /* eslint-disable no-undef */
-import axios from "axios";
+
+//
+// Usage :
+//
+// AJAX.post('get_all_dummies', { 'bar': 1 });
+//
 
 class AJAX {
   get(action, data = {}) {
@@ -11,16 +16,23 @@ class AJAX {
   }
 
   send(method = "get", action, data = {}) {
-    const params = {
-      action: action,
-      ...data
-    };
+    const formData = new FormData();
+    formData.append('action', action);
+    //
+    Object.entries(data).forEach((d) => {
+      console.log('d:', d)
+      formData.append(d[0], d[1]);
+    })
 
-    return axios({
-      url: MILL3WP.admin_ajax,
-      method,
-      params
-    });
+    // combine optons and body unless method is in GET
+    let options = { method, ...(method !== "get" ? { body: formData } : {}) };
+    console.log('options:', options)
+
+    return fetch(MILL3WP.admin_ajax, options)
+      .then((response) => response.json())
+      .then((json) => {
+        return json;
+      });
   }
 }
 
