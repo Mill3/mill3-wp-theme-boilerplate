@@ -35,7 +35,7 @@
 }
 @mixin slideY($duration: 850ms, $delay: 0ms, $easing: $easeOutCubic) {
   transform: translate3d(0,0,0);
-  transition: transform $delay $duration $easing;
+  transition: transform $duration $delay $easing;
 }
 
 
@@ -45,7 +45,7 @@
 }
 @mixin slideX($duration: 850ms, $delay: 0ms, $easing: $easeOutCubic) {
   transform: translate3d(0,0,0);
-  transition: transform $delay $duration $easing;
+  transition: transform $duration $delay $easing;
 }
 
 
@@ -55,7 +55,7 @@
 }
 @mixin slide($duration: 850ms, $delay: 0ms, $easing: $easeOutCubic) {
   transform: translate3d(0,0,0);
-  transition: transform $delay $duration $easing;
+  transition: transform $duration $delay $easing;
 }
 
 
