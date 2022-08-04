@@ -70,16 +70,55 @@ function additional_gallery_settings()
             <label for="gallery-settings-grid_gap" class="name">Espace entre les médias</label>
             <select id="gallery-settings-grid_gap" name="grid_gap" data-setting="grid_gap">
                 <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
                 <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
                 <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="100">100</option>
+                <option value="110">110</option>
+                <option value="120">120</option>
+                <option value="130">130</option>
+                <option value="140">140</option>
+                <option value="150">150</option>
+                <option value="160">160</option>
+                <option value="170">170</option>
+                <option value="180">180</option>
+                <option value="190">190</option>
+                <option value="200">200</option>
+
+            </select>
+        </span>
+        <span class="setting">
+            <label for="gallery-settings-grid_gap_mobile" class="name">Espace entre les médias (mobile)</label>
+            <select id="gallery-settings-grid_gap_mobile" name="grid_gap_mobile" data-setting="grid_gap_mobile">
+                <option value="0">0</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="100">100</option>
+                <option value="110">110</option>
+                <option value="120">120</option>
+                <option value="130">130</option>
+                <option value="140">140</option>
+                <option value="150">150</option>
+                <option value="160">160</option>
+                <option value="170">170</option>
+                <option value="180">180</option>
+                <option value="190">190</option>
+                <option value="200">200</option>
             </select>
         </span>
     </script>
@@ -87,7 +126,8 @@ function additional_gallery_settings()
         jQuery( document ).ready(function() {
             _.extend( wp.media.galleryDefaults, {
                 format: 'square',
-                grid_gap: 3
+                grid_gap: 0,
+                grid_gap_mobile: 0
             });
 
             wp.media.view.Settings.Gallery = wp.media.view.Settings.Gallery.extend({

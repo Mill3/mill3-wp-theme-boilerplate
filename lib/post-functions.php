@@ -29,7 +29,8 @@ function wp_gallery($output, $atts, $instance)
     $posts = get_posts(array('include' => $atts['ids'], 'orderby' => $atts['orderby'], 'post_type' => 'attachment'));
     $columns = isset($atts['columns']) ? $atts['columns'] : 3;
     $format = isset($atts['format']) ? $atts['format'] : 'square';
-    $grid_gap = isset($atts['grid_gap']) ? $atts['grid_gap'] : 3;
+    $grid_gap = isset($atts['grid_gap']) ? $atts['grid_gap'] :0;
+    $grid_gap_mobile = isset($atts['grid_gap_mobile']) ? $atts['grid_gap_mobile'] :0;
 
     $medias = array_map(function($image){
         // transform array to a WP Post object
@@ -50,6 +51,7 @@ function wp_gallery($output, $atts, $instance)
             'layout' => 'grid-' . min($columns, 4),
             'format' => $format,
             'grid_gap' => $grid_gap,
+            'grid_gap_mobile' => $grid_gap_mobile,
             'fullwidth' => true,
             'color_theme' => 'theme-default'
         ),
