@@ -181,8 +181,6 @@ class Newsletter {
     const formData = new FormData(this.form)
 
     // add token if available
-    // if( token ) data += `&${encodeURIComponent('reCAPTCHA')}=${encodeURIComponent(token)}`;
-
     if(token) formData.append('reCAPTCHA', token)
 
     return fetch(url, { method: 'post', body: formData })

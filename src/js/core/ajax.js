@@ -26,7 +26,8 @@ class AJAX {
       formData.append(d[0], d[1]);
     })
 
-    // combine optons and body unless method is in GET
+    // Combine options and body unless method is GET.
+    // Reason : Fetch API won't accept body param in GET mode
     let options = { method, ...(method !== "get" ? { body: formData } : {}) };
 
     return fetch(MILL3WP.admin_ajax, options)

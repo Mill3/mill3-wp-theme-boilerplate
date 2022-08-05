@@ -42,16 +42,21 @@ const cli = () => {
   try {
     const { _: commands, dest } = argv;
 
-    // theme src path which serve as the base destination
-    // const src_path = path.resolve(__dirname, "../src");
-
     // get source from commands
     const source = commands[0];
     const type = commands[1];
     const name = commands[2];
 
-    // validate argv
+    //
+    // First, validate argv, will stop here if fail
+    //
+
     validateArgv(source, type, name);
+
+
+    //
+    // moving on...
+    //
 
     // create slug for module name
     const module_slug = PascalCaseToSlug(name);
@@ -74,9 +79,6 @@ const cli = () => {
         src_path = null;
         break;
     }
-
-    console.log(src_path);
-
 
     // create base path for source destination : ../src/[js/scss]
     // the value can be overided with --dest ./my-path option
