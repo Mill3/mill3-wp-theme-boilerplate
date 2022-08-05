@@ -1,5 +1,10 @@
 /* eslint-disable no-undef */
-import axios from "axios";
+
+//
+// Usage :
+//
+// AJAX.post('get_all_dummies', { 'bar': 1 });
+//
 
 class AJAX {
   get(action, data = {}) {
@@ -11,16 +16,25 @@ class AJAX {
   }
 
   send(method = "get", action, data = {}) {
-    const params = {
-      action: action,
-      ...data
-    };
+    const formData = new FormData();
 
-    return axios({
-      url: MILL3WP.admin_ajax,
-      method,
-      params
-    });
+    // set action on formdata
+    formData.append('action', action);
+
+    // append to formData all data entries
+    Object.entries(data).forEach((d) => {
+      formData.append(d[0], d[1]);
+    })
+
+    // Combine options and body unless method is GET.
+    // Reason : Fetch API won't accept body param in GET mode
+    let options = { method, ...(method !== "get" ? { body: formData } : {}) };
+
+    return fetch(MILL3WP.admin_ajax, options)
+      .then((response) => response.json())
+      .then((json) => {
+        return json;
+      });
   }
 }
 
