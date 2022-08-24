@@ -2,24 +2,29 @@
 
 {% set title = post.title %}
 {% set thumbnail = post.thumbnail %}
+{% set posts_random = post.random_dummies(2) %}
 
 {% block content %}
 
-<article class="post-single post-type-{{post.post_type}}" id="post-{{post.ID}}">
+<article class="container-fluid post-single post-type-{{post.post_type}}" id="post-{{post.ID}}">
 
   <header class="post-single__header" data-scroll-section>
     <h1>{{ title }}</h1>
 
-    <p class="post-single__author">
-      By <a href="{{post.author.path}}">{{ post.author.name }}</a> / {{ post.date }}
-    </p>
-
     {# custom attribute from model #}
-    {{ post.foo }}
+    <pre>This is a custom attribute from models/dummy.php : {{ post.foo }}</pre>
 
     <div class="post-single__body">
       {{ post.content }}
     </div>
+
+    <h3>Random post</h3>
+    <ul>
+    {% for this_post in posts_random %}
+      <li>{{ this_post.title }}</li>
+    {% endfor %}
+    </ul>
+
   </header>
 
 </article>

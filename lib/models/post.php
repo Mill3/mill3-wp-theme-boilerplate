@@ -20,6 +20,25 @@ use Timber;
  */
 class ArticlePost extends Timber\Post
 {
+
+    /**
+     * model query instance
+     *
+     * @var class
+     */
+    public static $query;
+
+    /**
+     * extended class constructor, send to parent constructor the $post object
+     *
+     * @param [type] $post
+     */
+    public function __construct($post)
+    {
+        parent::__construct($post);
+        self::$query = new ArticleQueries();
+    }
+
     /**
      * Return a number of posts previous to the current one
      *
@@ -27,20 +46,9 @@ class ArticlePost extends Timber\Post
      */
     public function previous_posts($limit = -1)
     {
-        return $this->query($limit)->get_previous_posts($this->post_date);
-    }
-
-
-    /**
-     * Create a ArticleDateQueries auto-excluding $this->id
-     *
-     * @return class
-     */
-    private function query($limit = -1)
-    {
-        $query = new ArticleQueries($limit);
-        $query->set_exclude([$this->id]);
-        return $query;
+        self::$query->set_limit($limit);
+        self::$query->set_exclude([$this->id]);
+        return self::$query->get_previous_posts($this->post_date);
     }
 
 }
@@ -53,32 +61,36 @@ class ArticlePost extends Timber\Post
  */
 class ArticleQueries extends PostQueries\Theme_PostQueries
 {
-    private static $post_type = "post";
+    public static $post_type = "post";
 
     public function get_previous_posts($date)
     {
+        $limit = self::$limit;
+        $exclude = self::$exclude;
+
         $args = array(
             'post_type' => self::$post_type,
+            'posts_per_page' => self::$limit,
             'post__not_in' => self::$exclude,
             'date_query' => array(
                 array(
                     'before'    => $date,
                     'inclusive' => true,
                 ),
-            ),
-            'posts_per_page' => self::$limit,
+            )
         );
 
         // get all posts
-        $posts = parent::run_query($args, 'Mill3WP\PostQueries\Article\ArticlePost');
+        $posts = self::run_query($args, 'Mill3WP\PostQueries\Article\ArticlePost');
 
-        if(count($posts) < self::$limit) {
-            $difference = self::$limit - count($posts);
-            $query = new $this($difference);
+        // if we have less post then requested, find more posts
+        if(count($posts) < $limit) {
+            $difference_limit = $limit - count($posts);
+            $query = new $this($difference_limit);
+            $query->set_exclude($exclude);
             $posts = array_merge($posts, $query->get_posts());
         }
 
-        // normalize sorting
         return $posts;
     }
 

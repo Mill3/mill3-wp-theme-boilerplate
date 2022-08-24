@@ -22,7 +22,7 @@ class PageSectionQueries extends PostQueries\Theme_PostQueries
             'posts_per_page' => 1
         );
 
-        $post = parent::run_query($args);
+        $post = self::run_query($args);
 
         $context = Timber\Timber::get_context();
 
@@ -55,8 +55,7 @@ function add_to_twig($twig)
 {
     $twig->addFunction(
         new \Twig\TwigFunction('PageSection', function ($slug = null, $classname = null) {
-            $query = new \Mill3WP\PostQueries\PageSection\PageSectionQueries();
-            return $query->get($slug, $classname);
+            return (new \Mill3WP\PostQueries\PageSection\PageSectionQueries())->get($slug, $classname);
         })
     );
 

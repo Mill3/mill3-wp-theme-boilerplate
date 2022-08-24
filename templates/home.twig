@@ -20,4 +20,27 @@
     <li>Vitae harum voluptate eius est quis exercitationem.</li>
   </ul>
 </div>
+
+<div data-scroll-section class="container-fluid">
+  <h3 class="ff-heading">Test get_post(1) and search('hello') functions :</h3>
+
+  {% set posts = get_posts(1) %}
+  {% set search = search('hello') %}
+
+  <pre class="bg-gray-100 fz-12 overflow-hidden p-10">
+    {{ dump(posts) }}
+  </pre>
+
+  <pre class="bg-gray-100 fz-12 overflow-hidden p-10">
+    {{ dump(search) }}
+  </pre>
+
+</div>
+
+<div data-scroll-section class="container-fluid">
+  <h3 class="ff-heading">Test page-section functions :</h3>
+</div>
+
+{{ PageSection('should-not-be-found') }}
+
 {% endblock %}

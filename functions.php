@@ -44,7 +44,7 @@ if (defined('WP_CLI') && WP_CLI) {
 //
 // Handling when Advanced Custom Fields is not installed
 //
-if ( !\class_exists('ACF') ) {
+if (!\class_exists('ACF')) {
 
     // add notice in admin
     add_action('admin_notices', function () {
@@ -56,8 +56,9 @@ if ( !\class_exists('ACF') ) {
     });
 
     // fallback method avoiding 500 error when get_field is called from Twig function() method
-    if ( !is_admin() && !\function_exists('get_field') ) {
-        function get_field() {
+    if (!is_admin() && !\function_exists('get_field')) {
+        function get_field()
+        {
             return "ACF not installed.";
         }
     }
@@ -67,7 +68,7 @@ if ( !\class_exists('ACF') ) {
 // Handling when Timber is not installed
 //
 
-if ( !\class_exists('Timber') ) {
+if (!\class_exists('Timber')) {
     add_action('admin_notices', function () {
         echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' .
             esc_url(admin_url('plugins.php#timber')) .
@@ -127,7 +128,7 @@ $includes = [
     // custom field type
     'lib/acf-fields/spacer/index.php',
     // model class per post-type
-    // 'lib/models/dummy.php',
+    'lib/models/dummy.php',
     'lib/models/page-section.php',
     'lib/models/post.php',
 ];
@@ -177,7 +178,8 @@ class Mill3WP extends Timber\Site
      *
      * @return string
      */
-    public function url() {
+    public function url()
+    {
         if (function_exists('pll_home_url')) {
             return pll_home_url();
         } else {
@@ -202,8 +204,8 @@ class Mill3WP extends Timber\Site
         $context['SENTRY_DSN_JS'] = SENTRY_DSN_JS;
         $context['SENTRY_ENV'] = SENTRY_ENV;
 
-        if ( \class_exists('ACF') ) {
-          $context['options'] = get_fields('options');
+        if (\class_exists('ACF')) {
+            $context['options'] = get_fields('options');
         }
 
         return $context;
@@ -217,16 +219,16 @@ class Mill3WP extends Timber\Site
     {
         $twig->addExtension(new Twig_Extension_StringLoader());
         $twig->addFilter(
-          'slugify',
-          new Twig_SimpleFilter('slugify', 'filter_slugify')
+            'slugify',
+            new Twig_SimpleFilter('slugify', 'filter_slugify')
         );
         $twig->addFilter(
             'embeded_settings',
             new Twig_SimpleFilter('embeded_settings', 'filter_embeded_settings')
         );
         $twig->addFilter(
-          'lcfirst',
-          new Twig_SimpleFilter('lcfirst', 'lcfirst')
+            'lcfirst',
+            new Twig_SimpleFilter('lcfirst', 'lcfirst')
         );
         $twig->addFilter(
             'facebook_share',
@@ -246,14 +248,15 @@ class Mill3WP extends Timber\Site
         );
 
         $twig->addFunction(
-          new \Twig\TwigFunction('get_options', function () {
-            return get_fields('options');
-          })
+            new \Twig\TwigFunction('get_options', function () {
+                return get_fields('options');
+            })
         );
 
         $twig->addFunction(
             new \Twig\TwigFunction(
-                'is_menu_item', function ($item) {
+                'is_menu_item',
+                function ($item) {
                     return ($item instanceof Timber\MenuItem);
                 }
             )
@@ -261,7 +264,8 @@ class Mill3WP extends Timber\Site
 
         $twig->addFunction(
             new Timber\Twig_Function(
-                'Mill3Image', function ($attachment_id) {
+                'Mill3Image',
+                function ($attachment_id) {
                     return new \Mill3WP\Image\Mill3Image($attachment_id);
                 }
             )
@@ -272,16 +276,18 @@ class Mill3WP extends Timber\Site
             $twig->addFunction(new Timber\Twig_Function('pll__', 'pll__'));
             $twig->addFunction(new Timber\Twig_Function('pll_e', 'pll_e'));
             $twig->addFunction(new Timber\Twig_Function('pll_current_language', 'pll_current_language'));
-            $twig->addFunction(new Timber\Twig_Function('language_switcher', function() {
-                pll_the_languages(array('show_flags'=>0,'show_names'=>0));
+            $twig->addFunction(new Timber\Twig_Function('language_switcher', function () {
+                pll_the_languages(array('show_flags' => 0, 'show_names' => 0));
             }));
         }
 
         // breadcrumb function
-        if ( function_exists('rank_math_the_breadcrumbs') ) {
-          $twig->addFunction(new Timber\Twig_Function('breadcrumb', 'rank_math_the_breadcrumbs'));
+        if (function_exists('rank_math_the_breadcrumbs')) {
+            $twig->addFunction(new Timber\Twig_Function('breadcrumb', 'rank_math_the_breadcrumbs'));
         } else {
-          $twig->addFunction(new Timber\Twig_Function('breadcrumb', function() { return "RankMath plugin is not installed"; } ));
+            $twig->addFunction(new Timber\Twig_Function('breadcrumb', function () {
+                return "RankMath plugin is not installed";
+            }));
         }
 
         return $twig;

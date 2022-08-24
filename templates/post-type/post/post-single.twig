@@ -2,13 +2,13 @@
 
 {% set title = post.title %}
 {% set thumbnail = post.thumbnail %}
-{% set previousPosts = post.previous_posts(3) %}
+{% set previousPosts = post.previous_posts(2) %}
 
 {% block content %}
 
 <article class="post-single post-type-{{post.post_type}}" id="post-{{post.ID}}">
 
-  <header class="post-single__header" data-scroll-section>
+  <header class="post-single__header container-fluid" data-scroll-section>
     <h1>{{ title }}</h1>
 
     <p class="post-single__author">
@@ -21,8 +21,8 @@
   </header>
 
   {% if previousPosts %}
-  <footer 
-    class="post-single__footer container-fluid"
+  <footer
+    class="post-single__footer container-fluid pt-50"
     data-scroll-section
   >
     <ol>

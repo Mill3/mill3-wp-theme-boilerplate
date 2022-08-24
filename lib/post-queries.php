@@ -15,21 +15,38 @@ use Timber;
 
 class Theme_PostQueries
 {
-    /**
-     * Holds this instance.
-     *
-     * @var \Theme_PostQueries
-     */
-    private static $instance;
 
-    // static variables
-    public static $post;
+    /**
+     * set post_type for query
+     *
+     * @var array
+     */
+    public static $post_type = 'post';
+
+    /**
+     * set limit in query
+     *
+     * @var integer
+     */
     public static $limit;
-    public static $orderby;
+
+    /**
+     * set exclude for query
+     *
+     * @var array
+     */
     public static $exclude;
+
+    /**
+     * set query engine for query
+     *
+     * @var string
+     */
     public static $query_engine;
 
-    // init class
+    /**
+     * main constructor
+     */
     public function __construct($limit = -1, $query_engine = 'Timber', $exclude = [])
     {
         self::$limit = $limit ?? $this->post_per_page();
@@ -38,31 +55,17 @@ class Theme_PostQueries
     }
 
     /**
-     * Create an instance and allows multiple copy of class
+     * get_post for a specific post-type
      *
-     * @param integer $limit
-     *
-     * @param string  $orderby
-     *
-     * @param array   $exclude
-     *
-     * @return instance
+     * @param string $post_type
+     * @return object
      */
-    public static function instance(
-        $limit = 10,
-        $query_engine = 'Timber',
-        $exclude = []
-    ) {
-        global $post;
-        self::$post = $post;
-
-        return self::$instance = new self($limit, $query_engine, $exclude);
-    }
-
     public function get_posts($post_type = 'post')
     {
+        $this->set_post_type($post_type);
+
         $args = [
-            'post_type' => $post_type,
+            'post_type' => self::$post_type,
             'posts_per_page' => self::$limit,
             'post__not_in' => self::$exclude,
         ];
@@ -70,11 +73,19 @@ class Theme_PostQueries
         return $this->run_query($args);
     }
 
-    public function search($s)
+    /**
+     * search for posts in all post type or specific post-type
+     *
+     * @param string $post_type
+     * @return object
+     */
+    public function search($s, $post_type = 'any')
     {
+        $this->set_post_type($post_type);
+
         $args = [
             's' => $s,
-            'post_type' => 'any',
+            'post_type' => self::$post_type,
             'posts_per_page' => self::$limit,
             'post__not_in' => self::$exclude,
         ];
@@ -106,7 +117,13 @@ class Theme_PostQueries
         return get_option('posts_per_page');
     }
 
-    public function build_exclude_list($data)
+    /**
+     * Parse list of post ID to exclude depending if parameter is an array or WP_Posts object
+     *
+     * @param [array] $data
+     * @return array
+     */
+    private function build_exclude_list($data)
     {
         if (is_array($data)) {
             return $data;
@@ -117,6 +134,15 @@ class Theme_PostQueries
         return [];
     }
 
+    /**
+     * Main method firing the query
+     *
+     * @param array $args : WP_Query aguments
+     *
+     * @param [class] $timber_post_class : A model class extending Timber/Post
+     *
+     * @return WP_Query
+     */
     public function run_query($args = [], $timber_post_class = null)
     {
         if (self::$query_engine == 'Timber') {
@@ -128,8 +154,48 @@ class Theme_PostQueries
         }
     }
 
-    public function set_exclude($exclude) {
+    /**
+     * change static $post_type
+     *
+     * @param string $post_type
+     * @return void
+     */
+    public function set_post_type($post_type)
+    {
+        self::$post_type = $post_type;
+    }
+
+    /**
+     * change static $limit
+     *
+     * @param integer $limit
+     * @return void
+     */
+    public function set_limit($limit)
+    {
+        self::$limit = $limit;
+    }
+
+    /**
+     * change static $exclude
+     *
+     * @param array $exclude
+     * @return void
+     */
+    public function set_exclude($exclude)
+    {
         self::$exclude = $exclude;
+    }
+
+    /**
+     * change static $query_engine
+     *
+     * @param string $query_engine
+     * @return void
+     */
+    public function set_query_engine($query_engine)
+    {
+        self::$query_engine = $query_engine;
     }
 }
 
@@ -142,15 +208,14 @@ add_filter('timber/twig', __NAMESPACE__ . '\\add_to_twig');
 function add_to_twig($twig)
 {
     $twig->addFunction(
-        new \Twig\TwigFunction('get_posts', function ($post_type = 'post') {
-            $query = new \Mill3WP\PostQueries\Theme_PostQueries();
-            return $query->get_posts($post_type);
+        new \Twig\TwigFunction('get_posts', function ($limit = 10, $post_type = 'post') {
+            return (new \Mill3WP\PostQueries\Theme_PostQueries($limit, 'Timber'))->get_posts($post_type);
         })
     );
 
     $twig->addFunction(
-        new \Twig\TwigFunction('search', function ($s, $limit = -1) {
-            return (new \Mill3WP\PostQueries\Theme_PostQueries($limit, 'Timber'))->search($s);
+        new \Twig\TwigFunction('search', function ($s, $limit = -1, $post_type = 'any') {
+            return (new \Mill3WP\PostQueries\Theme_PostQueries($limit, 'Timber'))->search($s, $post_type);
         })
     );
 

@@ -106,7 +106,7 @@ class Theme_CustomPostTypes {
     /**
      * Register 'dummy' post-type, serves as static texts accross the site
      *
-     * @method texts
+     * @method dummy
      */
     /*
     public function dummy() {
@@ -128,9 +128,9 @@ class Theme_CustomPostTypes {
             'show_in_admin_bar'   => true,
             'menu_position'       => $this->incrementMenuPosition(),
             'can_export'          => true,
-            'has_archive'         => false,
+            'has_archive'         => true,
             'exclude_from_search' => true,
-            'publicly_queryable'  => false,
+            'publicly_queryable'  => true,
             'capability_type'     => 'post',
             'menu_icon'           => 'dashicons-editor-alignleft',
             'rewrite'             => array(
@@ -143,6 +143,7 @@ class Theme_CustomPostTypes {
         register_post_type( 'dummy', $args );
     }
     */
+
 
     /**
      * Register 'page-section' post-type
