@@ -12,7 +12,6 @@
 namespace Mill3WP\PostQueries\Article;
 
 use Mill3WP\PostQueries;
-use Carbon\Carbon;
 use Timber;
 
 /**
@@ -86,7 +85,7 @@ class ArticleQueries extends PostQueries\Theme_PostQueries
         // if we have less post then requested, find more posts
         if(count($posts) < $limit) {
             $difference_limit = $limit - count($posts);
-            $query = new $this($difference_limit);
+            $query = new self($difference_limit);
             $query->set_exclude($exclude);
             $posts = array_merge($posts, $query->get_posts());
         }
