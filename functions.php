@@ -248,6 +248,12 @@ class Mill3WP extends Timber\Site
         );
 
         $twig->addFunction(
+            new \Twig\TwigFunction('get_context', function () {
+                return Timber::get_context();
+            })
+        );
+
+        $twig->addFunction(
             new \Twig\TwigFunction('get_options', function () {
                 return get_fields('options');
             })
