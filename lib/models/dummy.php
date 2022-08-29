@@ -75,11 +75,16 @@ class DummyPost extends Timber\Post
  */
 class DummyRequests
 {
+    /**
+     * query instance
+     *
+     * @var class
+     */
     public static $query;
 
     public function __construct()
     {
-        self::$query = new \Mill3WP\PostQueries\Dummy\DummyQueries();
+        self::$query = new \Mill3WP\PostQueries\Dummy\DummyQueries(-1, 'WP_Query');
     }
 
     public function run()
