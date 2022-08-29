@@ -75,11 +75,11 @@ class DummyPost extends Timber\Post
  */
 class DummyRequests
 {
-    private $query_instance;
+    public static $query;
 
-    public function __construct($limit = -1, $exclude = null)
+    public function __construct()
     {
-        $this->query_instance = new \Mill3WP\PostQueries\Dummy\DummyQueries($limit, $query_engine = 'WP_Query', $exclude);
+        self::$query = new \Mill3WP\PostQueries\Dummy\DummyQueries();
     }
 
     public function run()
@@ -97,7 +97,7 @@ class DummyRequests
     public function get_all()
     {
         $posts = [];
-        foreach ($this->query_instance->all()->posts as $key => $post) {
+        foreach (self::$query->all()->posts as $key => $post) {
             $posts[] = $post;
         }
 
