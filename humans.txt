@@ -1,10 +1,26 @@
 ## Team
 
-MILL3
+MILL3 Studio
 https://mill3.studio/
-@Mill3Studio
+info@mill3.studio
 
+## Wordpress/PHP Packages
 
-## Site
+* Timber
+* spatie/color
+* illuminate/collections
 
-Software: Built with [Timber](http://upstatement.com/timber) by Upstatement
+## NPM Packages
+
+* webpback
+* babel
+* swc
+* autoprefixer
+* chalk
+* animejs
+* splittingjs
+* swiper
+* lottie
+* cssnano
+* postcss
+* sass
