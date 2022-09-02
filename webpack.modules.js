@@ -14,7 +14,8 @@ export const webpackModules = (DEV = false) => {
       },
       {
         test: /\.json$/,
-        loader: `json-loader`
+        type: 'json'
+        //loader: `json-loader`
       },
       {
         test: /\.txt$/,
