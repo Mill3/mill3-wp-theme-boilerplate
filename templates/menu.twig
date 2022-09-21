@@ -28,6 +28,10 @@
         {% set link_attr = link_attr|merge(['lang="'~item.lang~'"', 'hreflang="'~item.lang~'"', 'data-windmill-prevent']) %}
       {% endif %}
 
+      {% if 'current-menu-item' in item.classes %}
+        {% set link_attr = link_attr|merge(['aria-current="page"']) %}
+      {% endif %}
+
       <li class="{{ item.classes | join(' ') }}">
         {% if item.link == '#' %}
           <button
