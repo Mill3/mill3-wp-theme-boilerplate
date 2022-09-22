@@ -160,6 +160,19 @@ class Mill3WP extends Timber\Site
         parent::__construct();
     }
 
+    /** Override Timber\Site\link method :
+     *
+     *  When Polylang is installed, returns home_url() core function instead of $this->url
+     *
+     */
+    public function link() {
+        if( function_exists('pll_current_language') ) {
+            return home_url();
+        } else {
+            return $this->url;
+        }
+	}
+
     /** This is where you can register custom post types. */
     public function register_post_types()
     {
@@ -284,10 +297,6 @@ class Mill3WP extends Timber\Site
             $twig->addFunction(new Timber\Twig_Function('pll_current_language', 'pll_current_language'));
             $twig->addFunction(new Timber\Twig_Function('language_switcher', function () {
                 pll_the_languages(array('show_flags' => 0, 'show_names' => 0));
-            }));
-        } else {
-            $twig->addFunction(new Timber\Twig_Function('pll_current_language', function () {
-                return null;
             }));
         }
 
