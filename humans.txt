@@ -7,7 +7,6 @@ info@mill3.studio
 ## Wordpress/PHP Packages
 
 * Timber
-* spatie/color
 * illuminate/collections
 
 ## NPM Packages

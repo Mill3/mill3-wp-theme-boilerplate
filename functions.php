@@ -285,6 +285,10 @@ class Mill3WP extends Timber\Site
             $twig->addFunction(new Timber\Twig_Function('language_switcher', function () {
                 pll_the_languages(array('show_flags' => 0, 'show_names' => 0));
             }));
+        } else {
+            $twig->addFunction(new Timber\Twig_Function('pll_current_language', function () {
+                return null;
+            }));
         }
 
         // breadcrumb function
