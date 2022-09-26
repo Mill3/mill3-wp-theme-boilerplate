@@ -36,7 +36,11 @@ export const webpackModules = (DEV = false) => {
         }
       },
       {
-        test: /.*\.(gif|png|jpe?g|svg)$/i,
+        test: /\.(svg)$/,
+        type: 'asset/source'
+      },
+      {
+        test: /.*\.(gif|png|jpe?g)$/i,
         loader: `image-webpack-loader`,
         options: {
           query: {
