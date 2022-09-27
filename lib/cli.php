@@ -19,7 +19,7 @@ class Commands extends WP_CLI_Command
     //
     static private $install_plugins_list = [
         'https://mill3-wp-plugins.netlify.app/admin-columns-pro.zip',
-        'https://mill3-wp-plugins.netlify.app/advanced-custom-fields-pro.zip',
+        'https://mill3-wp-plugins.netlify.app/advanced-custom-fields-pro-6.0.zip',
         'https://mill3-wp-plugins.netlify.app/gravityforms.zip',
         'https://mill3-wp-plugins.netlify.app/wp-migrate-db-pro.zip',
         'https://mill3-wp-plugins.netlify.app/wp-migrate-db-pro-media-files.zip',
