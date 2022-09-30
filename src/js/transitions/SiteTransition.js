@@ -1,6 +1,7 @@
 import anime from "animejs";
 
-import { $ } from "@utils/dom";
+import { $, $$ } from "@utils/dom";
+import { inViewport } from "./utils";
 
 const SELECTOR = "[data-site-transition]";
 
@@ -24,6 +25,15 @@ class SiteTransition {
       });
 
       this.el.classList.remove("visibility-hidden");
+    });
+  }
+
+  entering() {
+    // increment --module-delay css variable to each [data-module-delay] in viewport during initialization
+    [ ...$$(`[data-module-delay]`) ].forEach((el, index) => {
+      const isInViewport = inViewport(el);
+      el.setAttribute('data-module-delay', isInViewport);
+      if( isInViewport ) el.style.setProperty("--module-delay", `${index * 350 + 450}ms`);
     });
   }
 

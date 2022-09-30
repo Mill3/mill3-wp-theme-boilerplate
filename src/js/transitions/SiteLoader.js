@@ -1,16 +1,9 @@
 import anime from "animejs";
 
-import { $, $$, rect } from "@utils/dom";
-import Viewport from "@utils/viewport";
+import { $, $$, body } from "@utils/dom";
+import { inViewport } from "./utils";
 
 const SELECTOR = "[data-site-loader]";
-
-function inViewport(el) {
-  if (!el) return false;
-
-  const { top } = rect(el);
-  return top <= Viewport.height;
-}
 
 class SiteLoader {
   constructor() {
@@ -18,9 +11,11 @@ class SiteLoader {
   }
 
   loaded() {
-    // increment --row-delay css variable to each .pb-row-wrapper[data-scroll-section] in viewport during initialization
-    [ ...$$(`main .pb-row-wrapper[data-scroll-section]`) ].forEach((el, index) => {
-      if (inViewport(el)) el.style.setProperty("--row-delay", `${index * 650}ms`);
+    // increment --module-delay css variable to each [data-module-delay] in viewport during initialization
+    [ ...$$(`[data-module-delay]`) ].forEach((el, index) => {
+      const isInViewport = inViewport(el);
+      el.setAttribute('data-module-delay', isInViewport);
+      if( isInViewport ) el.style.setProperty("--module-delay", `${index * 350 + 550}ms`);
     });
   }
 
@@ -34,6 +29,9 @@ class SiteLoader {
         complete: () => {
           // remove from DOM when completed
           this.el.parentNode.removeChild(this.el);
+
+          // add class on body when transition is ready
+          body.classList.add("--js-ready");
 
           // resolve transition
           resolve();
