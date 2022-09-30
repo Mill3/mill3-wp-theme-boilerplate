@@ -69,7 +69,7 @@ In production mode, assets are loaded from dist/assets.json file, cache busting 
 
 # Module CLI tool
 
-Our theme comes with an utility cli for creating JS, CSS and Liquid templates.
+Our theme comes with an utility cli for creating JS, CSS and Twig templates.
 
 Let's create all required file for a page-builder feature :
 
