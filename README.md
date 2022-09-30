@@ -67,6 +67,32 @@ npm run build
 
 In production mode, assets are loaded from dist/assets.json file, cache busting included !
 
+# Module CLI tool
+
+Our theme comes with an utility cli for creating JS, CSS and Liquid templates.
+
+Let's create all required file for a page-builder feature :
+
+```bash
+npm run modules-cli js modules PbRowRadModule
+npm run modules-cli scss modules PbRowRadModule
+npm run modules-cli templates module PbRowRadModule
+```
+
+![CleanShot 2022-05-11 at 09 49 03](https://media.cleanshot.cloud/media/15151/ykqkfdIhJMPqezcefYtia2F2UKXVuH8zGy71Ck5s.jpeg?Expires=1664563096&Signature=U~98aD6fO1wQv7-ORklEF6Fu4WDptyWTqhejsYyGMCAK1tKFDzJlu0VPFi0EP-cqhMQFpYUrrUwWhwAASUa2CLJ5saBSEhc7OSKH726ZTeiojVatfSdnhKupntsStl3meIgB6f0nOJk57~htIpfH6nSn3hDEcO3v2FcBsnQaPZMNvzpwveBCPCutN9xdC0DOX1Z-c70L7TL-7f~fEGg0SAX1pi-GCvn81kFSOaowm5Cwf6rPlmmo55C9tN~G0CYHIQfW46KZG8wRescBLaz~8BBYnRyY0jgmUTNoFxv5Lk7ZcrXWH-JT5AWplkSoNYBttFIMxFEt6gEFGk3IEKfKGQ__&Key-Pair-Id=K269JMAT9ZF4GZ)
+
+Or a site-ui element :
+
+```bash
+npm run modules-cli js ui VideoModal
+```
+
+It's also possible to generate a file from a source template and target and exact destination directory
+
+```bash
+npm run modules-cli scss modules PostPreview -- --dest ./src/scss/post-type/post/
+```
+
 ## TinyMCE stylesheet
 
 You have to edit ```add_editor_stylesheet``` function in ```.lib/editor.php``` to match your theme name.
