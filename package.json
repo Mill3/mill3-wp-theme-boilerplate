@@ -80,7 +80,7 @@
     "yargs-parser": "^21.0.1"
   },
   "dependencies": {
-    "@mill3-packages/system-ui-sass": "^0.9.0",
+    "@mill3-packages/system-ui-sass": "^0.10.0",
     "@vimeo/player": "2.15.0",
     "animejs": "3.2.1",
     "clipboard-copy": "4.0.1",
