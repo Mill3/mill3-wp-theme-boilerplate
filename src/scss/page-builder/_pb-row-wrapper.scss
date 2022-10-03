@@ -1,7 +1,6 @@
 .pb-row-wrapper {
   $self: &;
 
-  --row-delay: 0ms;
   --zindex: 0;
 
   z-index: var(--zindex);

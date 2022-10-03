@@ -71,6 +71,7 @@
       data-scroll-id="{{ pb_row_id }}"
       data-scroll-section
       data-module="pb-row-wrapper-reveal"
+      data-module-delay
       data-pb-row-wrapper-reveal
       {% if row_styles|length > 0 %}
       style="{{ row_styles|join(";") }}"
@@ -92,6 +93,7 @@
       class="pb-row-wrapper position-relative {{ row_paddings|join(' ') }} {{ row_classname|join(' ') }}" 
       {% if pb_row_id %}data-scroll-id="{{ pb_row_id }}"{% endif %}
       data-scroll-section
+      data-module-delay
       {% if row_styles|length > 0 %}
       style="{{ row_styles|join(";") }}"
       {% endif %}
