@@ -18,12 +18,12 @@ class Commands extends WP_CLI_Command
     // list of plugin to install
     //
     static private $install_plugins_list = [
-        'https://mill3-wp-plugins.netlify.app/admin-columns-pro.zip',
-        'https://mill3-wp-plugins.netlify.app/advanced-custom-fields-pro.zip',
-        'https://mill3-wp-plugins.netlify.app/gravityforms.zip',
-        'https://mill3-wp-plugins.netlify.app/wp-migrate-db-pro.zip',
-        'https://mill3-wp-plugins.netlify.app/wp-migrate-db-pro-media-files.zip',
-        'https://mill3-wp-plugins.netlify.app/polylang-pro.zip',
+        'https://wordpress-commercial-plugins.vercel.app/admin-columns-pro.zip',
+        'https://wordpress-commercial-plugins.vercel.app/advanced-custom-fields-pro.zip',
+        'https://wordpress-commercial-plugins.vercel.app/gravityforms.zip',
+        'https://wordpress-commercial-plugins.vercel.app/wp-migrate-db-pro.zip',
+        'https://wordpress-commercial-plugins.vercel.app/wp-migrate-db-pro-media-files.zip',
+        'https://wordpress-commercial-plugins.vercel.app/polylang-pro.zip',
         'timber-library',
         'acf-extended',
         'seo-by-rank-math',
