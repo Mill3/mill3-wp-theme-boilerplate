@@ -1,0 +1,72 @@
+$FIGMA_MOBILE_WIDTH: 375px;
+$FIGMA_TABLET_WIDTH: 820px;
+$FIGMA_DESKTOP_WIDTH: 1440px;
+
+$fz_breakpoints: "xs", "md", "lg";
+
+/// generate-fluid-font-size
+@mixin generate-fluid-font-size($values) {
+  // Loop over each breakpoint
+  @each $breakpoint in $fz_breakpoints {
+    @include media-breakpoint-up($breakpoint) {
+      $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+      // Loop over each values in map
+      @each $key, $value in $values {
+        .ffz#{$infix}-#{$key} {
+          @if $breakpoint == "xs" {
+            font-size: vw($value / $FIGMA_MOBILE_WIDTH * 100);
+          }
+          @else if $breakpoint == "md" {
+            font-size: vw($value / $FIGMA_TABLET_WIDTH * 100);
+          }
+          @else if $breakpoint == "lg" {
+            $vw: vw($value / $FIGMA_DESKTOP_WIDTH * 100);
+            font-size: unquote('min(#{$vw}, #{$value})');
+          }
+        }
+      }
+    }
+  }
+}
+
+$spacer_breakpoints: "md";
+
+// generate-fluid-spacers
+@mixin generate-fluid-spacers(
+  $property,
+  $values,
+  $classname: $property,
+  $negative: false
+) {
+  // Loop over each breakpoint
+  @each $breakpoint in $spacer_breakpoints {
+    @include media-breakpoint-up($breakpoint) {
+      $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+      // Loop over each values in map and ignore "auto" value
+      @each $key, $value in map-remove($values, "auto") {
+        $selector: ".#{$classname}#{$infix}-#{$key}";
+
+        // Handle negative margins
+        @if $negative {
+          $selector: ".#{$classname}#{$infix}--#{$key}";
+          $value: $value * -1;
+        }
+
+        #{$selector} {
+          @each $prop in $property {
+            @if $value == 0 {
+              #{$prop}: 0;
+            }
+
+            @else {
+              $vw: vw($value / $FIGMA_DESKTOP_WIDTH * 100);
+              #{$prop}: unquote('min(#{$vw}, #{$value})');
+            }
+          }
+        }
+      }
+    }
+  }
+}

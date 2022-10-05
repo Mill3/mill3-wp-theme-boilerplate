@@ -95,7 +95,6 @@ const theme = {
   },
   "font-size": {
     base: "18px",
-
     12: "12px",
     14: "14px",
     15: "15px",
@@ -167,12 +166,8 @@ const theme = {
     100
   ],
   "z-index": generateValues(0, 10000, 1000),
-  "grid-columns": {
-    "1": "1fr",
-    "2": "repeat(2, 1fr)",
-    "3": "repeat(3, 1fr)",
-    "4": "repeat(4, 1fr)"
-  },
+  "grid-columns": 4,
+  "grid-rows": 6,
   colors: {
     "color-transparent": "transparent",
     "color-current": "currentColor",
