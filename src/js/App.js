@@ -58,8 +58,8 @@ class App {
     // install Windmill's plugins
     windmill.use( new WindmillScripts() );
     windmill.use( new WindmillWebpackChunks() );
-    windmill.use( new WindmillScroll() );
     //windmill.use( new WindmillDomController([ ...Object.values(Modules), ...Object.values(UI) ]) );
+    windmill.use( new WindmillScroll() );
 
     // run Splitting.js after images are loaded & before enter transition
     windmill.on('loaded', splitting);
