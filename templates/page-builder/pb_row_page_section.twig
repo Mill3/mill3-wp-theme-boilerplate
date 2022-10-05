@@ -1,9 +1,18 @@
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+
 {% set page_section = post.page_section %}
+{% set effect = post.effect|default(null) %}
 {% set edit_button = null %}
 {% set zindex = zindex ?? 1 %}
 
 {# get content rows from page-section #}
 {% set content_rows = Post(page_section).get_field("page_builder") %}
+
+{# effect stacked #}
+{% if effect == 'stacked' %}
+  {% set classname = classname|split(' ')|merge(['--effect-stacked'])|join(' ') %}
+{% endif %}
 
 {% if content_rows %}
 
@@ -22,7 +31,7 @@
 
   {# if has content rows and no self-nested page-section #}
   {% if content_rows and not has_self_nested_page_section %}
-  <div class="pb-row-page-section {{ classname }}">
+  <div class="pb-row-page-section {{ classname }}" {{ attributes|join(' ') }}>
     {% include 'page-builder/index.twig' with { 'content_rows': content_rows, 'pb_rows_zindex': zindex - 1 } only %}
   </div>
   {% endif %}

@@ -71,10 +71,6 @@ export const getSpeed = (el) => {
   return parseFloat(el.getAttribute('data-scroll-speed')) * 0.1;
 };
 
-export const getSticky = (el) => {
-  return el.hasAttribute('data-scroll-sticky');
-};
-
 export const getTarget = (el) => {
   // if element doesn't have [data-scroll-target] attribute, return null
   if( !el.hasAttribute('data-scroll-target') ) return null;
@@ -103,6 +99,5 @@ export default {
   getPosition,
   getRepeat,
   getSpeed,
-  getSticky,
   getTarget,
 };

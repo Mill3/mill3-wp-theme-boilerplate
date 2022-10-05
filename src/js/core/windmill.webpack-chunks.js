@@ -9,9 +9,7 @@
  * @module windmill
  * @preferred
  */
-
- import EventEmitter2 from "eventemitter2";
-
+ import EMITTER from "@core/emitter";
  import { STATE } from "@core/state";
  import { $$ } from "@utils/dom";
  
@@ -21,10 +19,10 @@
  export class WindmillWebpackChunks {
    constructor() {
      this._chunks = [];
-     this._emitter = new EventEmitter2({ wildcard: true });
+     this._emitter = EMITTER;
  
      // attach emitter globally to browser Window
-     window._emitter = this._emitter;
+     //window._emitter = this._emitter;
    }
  
    install(windmill) {
