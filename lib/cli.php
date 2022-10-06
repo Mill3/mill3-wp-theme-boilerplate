@@ -22,7 +22,6 @@ class Commands extends WP_CLI_Command
         'https://wordpress-commercial-plugins.vercel.app/advanced-custom-fields-pro.zip',
         'https://wordpress-commercial-plugins.vercel.app/gravityforms.zip',
         'https://wordpress-commercial-plugins.vercel.app/wp-migrate-db-pro.zip',
-        'https://wordpress-commercial-plugins.vercel.app/wp-migrate-db-pro-media-files.zip',
         'https://wordpress-commercial-plugins.vercel.app/polylang-pro.zip',
         'timber-library',
         'acf-extended',
