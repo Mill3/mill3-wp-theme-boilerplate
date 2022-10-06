@@ -1,0 +1,9 @@
+#
+# ignore list for rsync deploy from Github action
+#
+bower_components
+npm-debug.log
+.DS_Store
+yarn-error.log
+node_modules
+.git
