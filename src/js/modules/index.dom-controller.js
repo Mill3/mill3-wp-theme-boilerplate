@@ -10,7 +10,6 @@ import PbRowTabs from "./pb-row-tabs";
 import PbRowTestimonials from "./pb-row-testimonials";
 import PbRowWrapperReveal from "./pb-row-wrapper-reveal";
 //import PrefersColorSchemeBtn from "./prefers-color-scheme-btn";
-import ScrollTimeline from "./scroll-timeline";
 import Sharing from "./sharing";
 import SvgPathLength from "./svg-path-length";
 import TextTicker from './text-ticker';
@@ -29,7 +28,6 @@ export default {
   PbRowTestimonials,
   PbRowWrapperReveal,
   //PrefersColorSchemeBtn,
-  ScrollTimeline,
   Sharing,
   SvgPathLength,
   TextTicker,

@@ -189,7 +189,7 @@ class FilteredPostsList {
     this._newResultsHTML = null;
     this._newPaginationHTML = null;
 
-    // refresh locomotive-scroll
+    // refresh site-scroll
     this.emitter.emit('SiteScroll.update');
 
     // fade in results & pagination

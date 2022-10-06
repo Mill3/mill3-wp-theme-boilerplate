@@ -4,7 +4,7 @@
 	<div class="content-wrapper bg-color-white">
 		<article class="mill3-scroll-demo post-type-{{post.post_type}}" id="post-{{post.ID}}">
 
-      <header class="mill3-scroll-demo__header pt-60 pt-lg-120 pb-60 pb-lg-120" data-scroll-section>
+      <header class="mill3-scroll-demo__header pt-60 pt-lg-120 pb-60 pb-lg-120">
         <div class="container-fluid">
 				  <h1 
             class="lh-none m-0 mb-60 p-0" 
@@ -23,7 +23,7 @@
         </div>
       </header>
 
-      <section class="mill3-scroll-demo__speed pt-60 pt-lg-120 pb-60 pb-lg-120 bg-color-black" data-scroll-section>
+      <section class="mill3-scroll-demo__speed pt-60 pt-lg-120 pb-60 pb-lg-120 bg-color-black">
         <div class="container-fluid">
           <h2 
             class="lh-none m-0 mb-90 p-0 color-white" 
@@ -63,93 +63,14 @@
         </div>
       </section>
 
-      {#
-      <section class="mill3-scroll-demo__speed pt-60 pt-lg-120 pb-60 pb-lg-120" data-scroll-section>
-        <div class="container-fluid d-grid grid-column-4 grid-gap-10">
-          <div class="box box-square" data-scroll style="background: pink;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center ta-center">
-              position "elementTop"
-            </div>
-          </div>
+      {% include 'page-builder/pb_row_page_section.twig' with {
+        'post': {
+          'page_section': Post(259),
+          'effect': 'stacked',
+        }
+      } only %}
 
-          <div class="box box-square" data-scroll data-scroll-speed="1" data-scroll-position="elementTop" style="background: red;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
-              Speed 1
-            </div>
-          </div>
-
-          <div class="box box-square" data-scroll data-scroll-speed="2" data-scroll-position="elementTop" style="background: yellow;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
-              Speed 2
-            </div>
-          </div>
-
-          <div class="box box-square" data-scroll data-scroll-speed="4" data-scroll-position="elementTop" style="background: papayawhip;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
-              Speed 4
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="mill3-scroll-demo__speed pt-60 pt-lg-120 pb-60 pb-lg-120 bg-color-black" data-scroll-section>
-        <div class="container-fluid d-grid grid-column-4 grid-gap-10">
-          <div class="box box-square" data-scroll style="background: pink;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center ta-center">
-              position "top"
-            </div>
-          </div>
-
-          <div class="box box-square" data-scroll data-scroll-speed="1" data-scroll-position="top" style="background: red;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
-              Speed 1
-            </div>
-          </div>
-
-          <div class="box box-square" data-scroll data-scroll-speed="2" data-scroll-position="top" style="background: yellow;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
-              Speed 2
-            </div>
-          </div>
-
-          <div class="box box-square" data-scroll data-scroll-speed="4" data-scroll-position="top" style="background: papayawhip;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
-              Speed 4
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="mill3-scroll-demo__speed pt-60 pt-lg-120 pb-60 pb-lg-120" data-scroll-section>
-        <div class="container-fluid d-grid grid-column-4 grid-gap-10">
-          <div class="box box-square" data-scroll style="background: pink;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center ta-center">
-              position "bottom"
-            </div>
-          </div>
-
-          <div class="box box-square" data-scroll data-scroll-speed="1" data-scroll-position="bottom" style="background: red;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
-              Speed 1
-            </div>
-          </div>
-
-          <div class="box box-square" data-scroll data-scroll-speed="2" data-scroll-position="bottom" style="background: yellow;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
-              Speed 2
-            </div>
-          </div>
-
-          <div class="box box-square" data-scroll data-scroll-speed="4" data-scroll-position="bottom" style="background: papayawhip;">
-            <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
-              Speed 4
-            </div>
-          </div>
-        </div>
-      </section>
-      #}
-
-      <section class="mill3-scroll-demo__sticky pt-60 pt-lg-120 pb-60 pb-lg-120" data-scroll-section>
+      <section class="mill3-scroll-demo__sticky pt-60 pt-lg-120 pb-60 pb-lg-120">
         <div class="container-fluid d-grid grid-column-md-2 grid-gap-60">
           <div>
             <h2 
@@ -176,20 +97,36 @@
             <button data-scroll-to="top">Scroll to Top</button>
           </div>
 
-          <aside class="mill3-scroll-demo__sticky__target" style="background: #000;">
-            <div 
-              class="p-30 ta-center"
-              data-scroll
-              data-scroll-id="sticky"
-              data-scroll-target=".mill3-scroll-demo__sticky__target"
-              data-scroll-sticky
-              style="background: #d4d4d4;"
-            >Help, I'm sticked here !</div>
+          <aside class="mill3-scroll-demo__sticky__target" style="background: #000; min-height: calc(var(--vh) * 100);">
+            <div class="position-sticky t-0 l-0 p-30 ta-center" style="background: #d4d4d4;">Help, I'm sticked here !</div>
           </aside>
         </div>
       </section>
 
-      <section id="delays" class="mill3-scroll-demo__delay pt-60 pt-lg-120 pb-60 pb-lg-120" data-scroll-section>
+      {% set text %}
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus lectus, scelerisque eget ultrices non, consectetur quis justo. Etiam dapibus justo in maximus gravida. Sed et quam eu libero congue accumsan. Sed bibendum metus a consectetur gravida. Praesent aliquam pulvinar libero, ut pellentesque massa tincidunt nec. Vestibulum eget imperdiet neque. Quisque euismod massa ut ullamcorper ullamcorper. Suspendisse potenti. Duis nisl ligula, sagittis sed consequat a, luctus et sapien. Aenean mollis convallis egestas. Vestibulum sed ornare felis, ut porttitor massa. Donec porttitor tempus urna. Suspendisse sed lorem bibendum, ornare mi eu, vestibulum mi. Vestibulum in massa sed augue finibus molestie.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus lectus, scelerisque eget ultrices non, consectetur quis justo. Etiam dapibus justo in maximus gravida. Sed et quam eu libero congue accumsan. Sed bibendum metus a consectetur gravida. Praesent aliquam pulvinar libero, ut pellentesque massa tincidunt nec. Vestibulum eget imperdiet neque. Quisque euismod massa ut ullamcorper ullamcorper. Suspendisse potenti. Duis nisl ligula, sagittis sed consequat a, luctus et sapien. Aenean mollis convallis egestas. Vestibulum sed ornare felis, ut porttitor massa. Donec porttitor tempus urna. Suspendisse sed lorem bibendum, ornare mi eu, vestibulum mi. Vestibulum in massa sed augue finibus molestie.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus lectus, scelerisque eget ultrices non, consectetur quis justo. Etiam dapibus justo in maximus gravida. Sed et quam eu libero congue accumsan. Sed bibendum metus a consectetur gravida. Praesent aliquam pulvinar libero, ut pellentesque massa tincidunt nec. Vestibulum eget imperdiet neque. Quisque euismod massa ut ullamcorper ullamcorper. Suspendisse potenti. Duis nisl ligula, sagittis sed consequat a, luctus et sapien. Aenean mollis convallis egestas. Vestibulum sed ornare felis, ut porttitor massa. Donec porttitor tempus urna. Suspendisse sed lorem bibendum, ornare mi eu, vestibulum mi. Vestibulum in massa sed augue finibus molestie.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus lectus, scelerisque eget ultrices non, consectetur quis justo. Etiam dapibus justo in maximus gravida. Sed et quam eu libero congue accumsan. Sed bibendum metus a consectetur gravida. Praesent aliquam pulvinar libero, ut pellentesque massa tincidunt nec. Vestibulum eget imperdiet neque. Quisque euismod massa ut ullamcorper ullamcorper. Suspendisse potenti. Duis nisl ligula, sagittis sed consequat a, luctus et sapien. Aenean mollis convallis egestas. Vestibulum sed ornare felis, ut porttitor massa. Donec porttitor tempus urna. Suspendisse sed lorem bibendum, ornare mi eu, vestibulum mi. Vestibulum in massa sed augue finibus molestie.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus lectus, scelerisque eget ultrices non, consectetur quis justo. Etiam dapibus justo in maximus gravida. Sed et quam eu libero congue accumsan. Sed bibendum metus a consectetur gravida. Praesent aliquam pulvinar libero, ut pellentesque massa tincidunt nec. Vestibulum eget imperdiet neque. Quisque euismod massa ut ullamcorper ullamcorper. Suspendisse potenti. Duis nisl ligula, sagittis sed consequat a, luctus et sapien. Aenean mollis convallis egestas. Vestibulum sed ornare felis, ut porttitor massa. Donec porttitor tempus urna. Suspendisse sed lorem bibendum, ornare mi eu, vestibulum mi. Vestibulum in massa sed augue finibus molestie.</p>
+      {% endset %}
+
+      {% include 'page-builder/pb_row_text_simple.twig' with {
+        'post': {
+          'title': 'Reveal Panel',
+          'text': text,
+          'position': 'left',
+          'pt': 60,
+          'pb': 60,
+          'pt_lg': 100,
+          'pb_lg': 100,
+          'effect': 'reveal',
+          'bg-color': 'yellow',
+        },
+        'layout': 'pb_row_text_simple'
+      } only %}
+
+      <section id="delays" class="mill3-scroll-demo__delay pt-60 pt-lg-120 pb-60 pb-lg-120">
         <div class="container-fluid">
           <h2 
             class="lh-none m-0 mb-30 p-0" 
@@ -231,7 +168,7 @@
         </div>
       </section>
 
-      <section class="mill3-scroll-demo__timeline pt-60 pt-lg-120 pb-60 pb-lg-120" data-scroll-section>
+      <section class="mill3-scroll-demo__timeline pt-60 pt-lg-120 pb-60 pb-lg-120">
         <div class="container-fluid">
           <h2 
             class="lh-none m-0 mb-60 p-0" 
@@ -250,14 +187,13 @@
               'attributes': [
                 'data-scroll',
                 'data-scroll-call="timeline"',
-                'data-module="scroll-timeline"',
-                'data-timeline="' ~ {translateY: -100, scale: [1, 1.2], opacity: [1, 0.5]}|json_encode|escape('html_attr') ~ '"'
+                'data-timeline="' ~ {translateY: '-10%', scale: [1, 1.2], opacity: [1, 0.5]}|json_encode|escape('html_attr') ~ '"'
               ]
             } only %}
           </div>
       </section>
 
-      <div class="container-fluid d-flex align-items-end grid-gap-20 vh-100 pb-120" data-scroll-section>
+      <div class="container-fluid d-flex align-items-end grid-gap-20 vh-100 pb-120">
         <button data-scroll-to="top">Scroll to Top</button>
         <button data-scroll-to="#delays">Scroll to Delays</button>
         <button data-scroll-to="#sticky-paragraph3">Scroll to Sticky 3rd paragraph</button>

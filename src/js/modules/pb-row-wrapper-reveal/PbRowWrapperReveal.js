@@ -1,6 +1,5 @@
 import { $, rect } from "@utils/dom";
-import ResizeOrientation from "@utils/resize";
-import { getTranslate } from '@utils/transform';
+import ResizeOrientation, { MAX_PRIORITY, MIN_PRIORITY } from "@utils/resize";
 import Viewport from '@utils/viewport';
 
 class PbRowWrapperReveal {
@@ -12,6 +11,7 @@ class PbRowWrapperReveal {
     this._height = 0;
     this._top = 0;
     this._bottom = 0;
+    this._scroll = null;
 
     this._updatePosition = this._updatePosition.bind(this);
     this._onScrollInit = this._onScrollInit.bind(this);
@@ -22,9 +22,6 @@ class PbRowWrapperReveal {
   }
 
   init() {
-    // set scroll-section to overflow to create reveal effect
-    this.el.style.overflow = 'hidden';
-
     this._bindEvents();
   }
   destroy() {
@@ -35,13 +32,13 @@ class PbRowWrapperReveal {
     this._height = null;
     this._top = 0;
     this._bottom = 0;
+    this._scroll = null;
 
     this._updatePosition = null;
     this._onScrollInit = null;
     this._onScrollBeforeUpdate = null;
     this._onScrollAfterUpdate = null;
   }
-
   stop() { this._unbindEvents(); }
 
 
@@ -49,27 +46,27 @@ class PbRowWrapperReveal {
     this.emitter.on('SiteScroll.init', this._onScrollInit);
     this.emitter.on('SiteScroll.before-update', this._onScrollBeforeUpdate);
     this.emitter.on('SiteScroll.after-update', this._onScrollAfterUpdate);
-    this.emitter.on('SiteScroll.resize', this._onScrollAfterUpdate);
     this.emitter.on('SiteScroll.scroll', this._updatePosition);
 
-    ResizeOrientation.add(this._onScrollBeforeUpdate);
+    ResizeOrientation.add(this._onScrollBeforeUpdate, MAX_PRIORITY);
+    ResizeOrientation.add(this._onScrollAfterUpdate, MIN_PRIORITY);
   }
   _unbindEvents() {
     this.emitter.off('SiteScroll.init', this._onScrollInit);
     this.emitter.off('SiteScroll.before-update', this._onScrollBeforeUpdate);
     this.emitter.off('SiteScroll.after-update', this._onScrollAfterUpdate);
-    this.emitter.off('SiteScroll.resize', this._onScrollAfterUpdate);
     this.emitter.off('SiteScroll.scroll', this._updatePosition);
 
-    ResizeOrientation.remove(this._onScrollBeforeUpdate);
+    ResizeOrientation.remove(this._onScrollBeforeUpdate, MAX_PRIORITY);
+    ResizeOrientation.remove(this._onScrollAfterUpdate, MIN_PRIORITY);
   }
 
   _calculateLimits() {
     this._height = rect(this.wrapper).height;
-    this._top = rect(this.el).top - Viewport.height - getTranslate(this.el).y;
+    this._top = rect(this.el).top - Viewport.height + this._scroll.y;
     this._bottom = this._top + this._height + Viewport.height;
   }
-  _updatePosition(scrollY) {
+  _updatePosition({ y: scrollY }) {
     // stop here if element is not in viewport
     if( scrollY < this._top || scrollY > this._bottom ) return;
 
@@ -93,20 +90,22 @@ class PbRowWrapperReveal {
     }
 
     // update DOM
-    this.wrapper.style.transform = `translate3d(0, ${y}px, 0)`;
+    this.wrapper.style.transform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${y},0,1)`;
   }
 
-  _onScrollInit(scrollY) {
+  _onScrollInit(scroll) {
+    this._scroll = scroll;
+
     this._calculateLimits();
-    this._updatePosition(scrollY);
+    this._updatePosition(this._scroll);
   }
   _onScrollBeforeUpdate() {
     // reset DOM transformation to prevent incorrect calculations of wrapper's children by Mill3 Scroll
-    this.wrapper.style.transform = `translate3d(0, 0px, 0)`;
+    this.wrapper.style.transform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,0,0,1)`;
   }
-  _onScrollAfterUpdate(scrollY) {
+  _onScrollAfterUpdate() {
     this._calculateLimits();
-    this._updatePosition(scrollY);
+    this._updatePosition(this._scroll);
   }
 }
 

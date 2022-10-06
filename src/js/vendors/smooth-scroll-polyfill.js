@@ -4,12 +4,15 @@
 import { html } from "@utils/dom";
 import { isObject } from "@utils/is";
 
+let polyfillApplied = false;
+
 const polyfill = () => {
   // detect support for the behavior property in ScrollOptions
   const supportsNativeSmoothScroll = 'scrollBehavior' in html.style;
 
-  // if feature is natively supported, do nothing
-  if( supportsNativeSmoothScroll ) return;
+  // if feature is natively supported or polyfill is already applied, do nothing
+  if( supportsNativeSmoothScroll || polyfillApplied ) return;
+  polyfillApplied = true;
 
   const nativeScrollTo = window.scrollTo;
 

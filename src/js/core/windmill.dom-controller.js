@@ -32,8 +32,7 @@
  * @preferred
  */
 
- import EventEmitter2 from "eventemitter2";
-
+ import EMITTER from "@core/emitter";
  import { STATE } from "@core/state";
  import { $$ } from "@utils/dom";
  import { PascalCase } from "@utils/string";
@@ -44,13 +43,13 @@
  export class WindmillDomController {
    constructor(classes = []) {
      this._chunks = [];
-     this._emitter = new EventEmitter2({ wildcard: true });
+     this._emitter = EMITTER;
 
      // available classes
      this._classes = classes;
 
      // attach emitter globally to browser Window
-     window._emitter = this._emitter;
+     //window._emitter = this._emitter;
    }
 
    /**

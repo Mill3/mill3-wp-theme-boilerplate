@@ -6,6 +6,7 @@ import domready from "domready";
 import "@core/hello";
 import windmill from "@core/windmill";
 import WindmillScripts from "@core/windmill.scripts";
+import WindmillScroll from "@core/windmill.scroll";
 import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 //import WindmillDomController from "@core/windmill.dom-controller";
 import MobileViewportUnit from "@core/mobile-vh";
@@ -58,6 +59,7 @@ class App {
     windmill.use( new WindmillScripts() );
     windmill.use( new WindmillWebpackChunks() );
     //windmill.use( new WindmillDomController([ ...Object.values(Modules), ...Object.values(UI) ]) );
+    windmill.use( new WindmillScroll() );
 
     // run Splitting.js after images are loaded & before enter transition
     windmill.on('loaded', splitting);
