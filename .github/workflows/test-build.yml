@@ -16,6 +16,10 @@ jobs:
           node-version: '16'
           cache: 'npm'
           cache-dependency-path: package-lock.json
+      - name: Create destination directy
+        run: mkdir -p /temp/wp-content/themes/mill3-wp-theme-boilerplate
+      - name: List directories content
+        run: ls -la ./ && ls -la /temp/
       - name: Copy env.production sample file to .env
         run: cp .env.production .env
       - name: Install dep
