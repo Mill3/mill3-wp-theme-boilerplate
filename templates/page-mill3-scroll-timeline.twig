@@ -1,0 +1,149 @@
+{# copy of https://tympanus.net/Development/OnScrollViewSwitch/ with our internal tools #}
+{% extends "base.twig" %}
+
+{# remove header & footer for this demo #}
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block head %}
+<style type="text/css">
+  body {
+    background: #080808;
+    color: #5e5754;
+  }
+
+  .header {
+    padding-left: 50%;
+    mix-blend-mode: color-dodge;
+  }
+  .header__title {
+    color: #f1e4dd;
+    font-size: 85px;
+    width: min-content;
+    white-space: nowrap;
+  }
+  .header__sub {
+    color: #f1e4dd;
+  }
+
+  .overflow-clip {
+    overflow: hidden;
+    overflow: clip;
+  }
+
+  .content {
+    gap: 20vh;
+    padding: 58vh 13.25vw 10vw;
+  }
+
+  .item {
+    grid-template-columns: 25vw 1fr;
+    grid-gap: 1vw;
+  }
+  .item__title {
+    color: #944d3e;
+    font-size: 60px;
+    width: min-content;
+    white-space: nowrap;
+  }
+  .item__caption {
+    max-width: 200px;
+  }
+  .item__media {
+    z-index: 0;
+  }
+  .item__img {
+    transform-origin: top center;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<article class="mill3-scroll-timeline">
+
+  <header class="header position-fixed z-4000 t-0 l-0 w-100 d-flex flex-column pointer-events-none overflow-clip">
+    <h1 
+      class="header__title ff-heading fw-400 tt-uppercase m-0"
+      data-scroll
+      data-scroll-call="timeline"
+      data-scroll-target=".mill3-scroll-timeline"
+      data-timeline="{{ {translateX: '-70%'}|json_encode|escape('html_attr') }}"
+    >Projects * Insomnia * Projects * Insomnia * Projects * Insomnia * Projects</h1>
+    <span class="header__sub fz-16">1984 - 2022</span>
+  </header>
+
+  <div class="content d-flex flex-column">
+
+    {% set items = [
+      ['Cast a spell', 'J5DIOISkDko'], 
+      ['Corruption', 'inSRFe_CpD4'], 
+      ['All their lives', 'pfZtyK7SbC8'], 
+      ['You\'ll burn in hell', 'RPUI6gtn49g'], 
+      ['What we become', 'ZaOWcaK_f0s'], 
+      ['Take a bow', 'jRI4-6xgPps'], 
+      ['You bring death', '1PtM6b85sdw'], 
+      ['You must pay', 'GQ5uX_BlfmY'], 
+      ['Feed the hex', 'GRI_6wnQjjs'], 
+      ['Beg for their lives', '76HhAKI5JXI'], 
+      ['For all your sins', 'RYtToJM4WII'], 
+      ['Beholden', '0iPebSCgKoA']
+    ] %}
+
+    {% for item in items %}
+    <figure id="item-{{ loop.index }}" class="item d-grid">
+      <figcaption class="d-flex flex-column fz-18 position-relative z-2000">
+        <span 
+          class="item__index lh-base mb-10 overflow-clip"
+          data-scroll
+          data-scroll-call="timeline"
+          data-scroll-target="#item-{{ loop.index }}"
+          data-timeline="{{ {translateY: '-150%'}|json_encode|escape('html_attr') }}"
+        >
+          <span
+            class="d-block"
+            data-scroll
+            data-scroll-call="timeline"
+            data-scroll-target="#item-{{ loop.index }} .item__index"
+            data-scroll-offset="0,20%"
+            data-timeline="{{ {translateY: '-100%', easing: 'easeInExpo'}|json_encode|escape('html_attr') }}"
+          >{{ "%02d"|format(loop.index) }}</span>
+        </span>
+
+        <h2 
+          class="item__title fw-400 lh-base m-0 mb-20 overflow-clip"
+          data-scroll
+          data-scroll-call="timeline"
+          data-scroll-target="#item-{{ loop.index }}"
+          data-timeline="{{ {translateY: '-150%'}|json_encode|escape('html_attr') }}"
+        >
+          <span 
+            class="d-block"
+            data-scroll
+            data-scroll-call="timeline"
+            data-scroll-target="#item-{{ loop.index }} .item__title"
+            data-scroll-offset="0,20%"
+            data-timeline="{{ {translateY: '-100%', easing: 'easeInExpo'}|json_encode|escape('html_attr') }}"
+          >{{ item[0] }}</span>
+        </h2>
+
+        <p class="item__caption m-0">All natural and technological processes proceed in such a way that the availability of the remaining energy decreases.</p>
+      </figcaption>
+
+      <div class="item__media box box-postal-card overflow-clip z-1000">
+        <img 
+          src="https://source.unsplash.com/{{ item[1] }}" 
+          alt="" 
+          class="item__img image-as-background"
+          data-scroll
+          data-scroll-call="timeline"
+          data-scroll-target="#item-{{ loop.index }}"
+          data-timeline="{{ {scaleX: 1.2, scaleY: 2.4, opacity: 0}|json_encode|escape('html_attr') }}"
+        >
+      </div>
+    </figure>
+    {% endfor %}
+
+  </div>
+
+</article>
+{% endblock %}

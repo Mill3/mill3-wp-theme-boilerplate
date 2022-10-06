@@ -1,3 +1,123 @@
+/**
+ * SCROLL INTERSECTION
+ *
+ ***************
+ * How to use: *
+ ***************
+ * Add [data-scroll] attribute to your HTML element.
+ *
+ * Example:
+ * <h1 class="hello-world" data-scroll>Hello World</h1>
+ * 
+ * Scroll Intersection will check when your element enter viewport and add .is-inview classname.
+ * 
+ ***********
+ * OPTIONS *
+ ***********
+ * You can customize intersection calculations by playing with these options.
+ * All of these options are optional.
+ * 
+ * [data-scroll-id] (string) : If you do not provide an ID, one will be attributed automatically. 
+ *                             Useful if you want to scope your element and get the progress of your element in the viewport for example.
+ * 
+ * [data-scroll-target] (string) : CSS Selector specifying which HTML element to use as in-view position.
+ * 
+ * [data-scroll-offset] (string) : Element in-view trigger offset.
+ *                                 Offset is composed of 2 comma separated values. 
+ *                                 First value is added to [data-scroll-target] in-view calculation.
+ *                                 Second value is added to [data-scroll-target] out-view calculation.
+ *                                 Values can be integer or percentage.
+ *                                 Percentage is relative to viewport height, otherwise it's absolute pixels.
+ * 
+ * [data-scroll-call] (string) : Event dispatched when element enter/exit viewport.
+ *                               Event will be dispatched globally by @core/emitter prepended by SiteScroll.event-name.
+ *                               You can dispatch multiple events from the same element by separate event with commas. 
+ *                               E.g. [data-scroll-call="event1,event2,event3"]
+ *                               
+ * [data-scroll-repeat] (boolean) : Add .is-inview classname and execute [data-scroll-call] every time element enter/exit viewport. (default = false)
+ * 
+ * [data-scroll-position] (string) : Change in-view calculation.
+ *                                   Accepted values: bottom
+ * 
+ *                                   default: in-view when element's top reach viewport's bottom
+ *                                            out-view when element's bottom reach viewport's top (can be bigger than scroll maximum)
+ *                                            ** This is what you want for 99% of the time.
+ * 
+ *                                   bottom:  in-view when element's top reach viewport's bottom
+ *                                            out-view when element's bottom reach viewport's top (maxed to scroll maximum if element can't reach viewport's top)
+ *                                            ** This is what you want for elements in .site-footer using [data-scroll-timeline].
+ * 
+ * Example:
+ * <h1
+ *  class="hello-world"
+ *  data-scroll
+ *  data-scroll-id="hello-world"
+ *  data-scroll-target=".my-other-element"
+ *  data-scroll-offset="100px,25%"
+ *  data-scroll-call="HelloWorld"
+ *  data-scroll-repeat="true"
+ *  data-scroll-position="bottom"
+ * >
+ *  Hello World
+ * </h1>
+ * 
+ ****************************************
+ * OPTIONS FOR NON-MOBILE BROWSERS ONLY *
+ ****************************************
+ * For desktop, you can create parallax effect by playing with various [data-scroll-speed] and [data-scroll-delay].
+ * All of these options are optional.
+ * 
+ * [data-scroll-speed] (float) : Element parallax speed. Negative value will invert direction.
+ *                               For example, an element with [data-scroll-speed="2"] will scroll 2 times faster than usual.
+ *                               Important to note that each element translateY will equal 0 when their center meet viewport's center.
+ *                               This behavior can be modified by using [data-scroll-position].  
+ * 
+ * [data-scroll-delay] (float) : Element parallax linear interpolation (LERP).
+ *                               Accepted values: [0, 1].
+ *                               The lower the value, the slower the element will snap to his position.
+ *                               [data-scroll-speed] is required for this to work.
+ * 
+ * [data-scroll-position] (string) : Will modify how element parallax speed is applied.
+ *                                   Accepted values: top, bottom.
+ * 
+ *                                   default: translateY = ( distance from element's center to viewport's center ) * speed
+ *                                   top: translateY = page scroll * speed
+ *                                   bottom: translateY = distance from page's bottom * speed
+ * 
+ *                                   ** Most of the time, you don't need to change [data-scroll-position].
+ *                                      If you want to achieve a particular effect and don't quite get it, 
+ *                                      try changing [data-scroll-position] to see how it react in your project.
+ * 
+ * Example:
+ * <div
+ *  class="position-relative d-block w-100 vh-50"
+ *  data-scroll
+ *  data-scroll-speed="2.5"
+ *  data-scroll-delay="0.1"
+ *  data-scroll-position="top|bottom"
+ * >
+ *  <img src="image-path.jpg" class="image-as-background" />
+ * </div>
+ * 
+ ***************************************
+ * HOW TO LISTEN TO [data-scroll-call] *
+ ***************************************
+ * 
+ * HTML:
+ *  
+ * <h1 class="hello-world" data-scroll data-scroll-call="HelloWorld">Hello World</h1>
+ * 
+ * 
+ * Javascript: 
+ * 
+ * import EMITTER from "@core/emitter";
+ * 
+ * EMITTER.on("SiteScroll.HelloWorld", (direction, obj) => {
+ *    console.log(direction, obj);
+ * });
+ * 
+ */
+
 import EMITTER from "@core/emitter";
 import { INVIEW_CLASSNAME, INVIEW_ENTER, INVIEW_EXIT } from "@scroll/constants";
 import { getCall, getDelay, getOffset, getPosition, getRepeat, getSpeed, getTarget } from "@scroll/utils";
@@ -83,16 +203,7 @@ class ScrollIntersection {
       const delay = getDelay(element);
       const position = getPosition(element);
       const speed = getSpeed(element);
-
-      const bcr = rect(target);
-      const translate = getTranslate(target);
-
-      let top = bcr.top - translate.y + this.scroll.y;
-      let bottom = Math.min(top + bcr.height, this.scroll.limit);
-      let middle = (bottom - top) * 0.5 + top;
-
-      top   += offset[0];
-      bottom = Math.min(bottom - offset[1], this.scroll.limit);
+      const [ top, middle, bottom ] = this._computeElementConstraints(target, offset, position);
 
       const data = {
         id,
@@ -106,6 +217,7 @@ class ScrollIntersection {
         position,
         repeat,
         call,
+        called: false,
         delay: delay,
         speed: speed,
         inView: false,
@@ -124,21 +236,15 @@ class ScrollIntersection {
 
     this._elements.forEach(element => {
       const offset = getOffset(element.el) ?? this._options.offset;
-      const bcr = rect(element.target);
-      const translate = getTranslate(element.target);
-
-      let top = bcr.top - translate.y + this.scroll.y;
-      let bottom = Math.min(top + bcr.height, this.scroll.limit);
-      let middle = (bottom - top) * 0.5 + top;
-
-      top   += offset[0];
-      bottom = Math.min(bottom - offset[1], this.scroll.limit);
+      const [ top, middle, bottom ] = this._computeElementConstraints(element.target, offset, element.position);
 
       // update data & save in Map
       element.offset = offset;
       element.top = top;
       element.middle = middle;
       element.bottom = bottom;
+      element.inView = false;
+      element.called = false;
 
       this._elements.set(element.id, element);
     });
@@ -160,9 +266,11 @@ class ScrollIntersection {
                     transformDistance = this.scroll.y * element.speed * -1;
                     break;
 
+                /*
                 case 'elementTop':
                     transformDistance = (scrollBottom - element.top) * element.speed * -1;
                     break;
+                */
 
                 case 'bottom':
                     transformDistance = (this.scroll.limit - scrollBottom + Viewport.height) * element.speed;
@@ -229,7 +337,12 @@ class ScrollIntersection {
     element.el.classList.add(INVIEW_CLASSNAME);
 
     // emit call event
-    if( element.call && !silent ) this._notify(element, INVIEW_ENTER);
+    if( element.call && !element.called && !silent ) {
+      // if repeat != true, set has called to prevent recalling method when re-entering viewport
+      if( !element.repeat ) element.called = true;
+
+      this._notify(element, INVIEW_ENTER);
+    }
   }
   _setOutView(element, silent = false) {
     // if element is already out of view, stop here
@@ -239,10 +352,25 @@ class ScrollIntersection {
     element.inView = false;
 
     // emit call event
-    if( element.call && !silent ) this._notify(element, INVIEW_EXIT);
+    if( element.call && element.repeat && !silent ) this._notify(element, INVIEW_EXIT);
 
     // if repeat = true, remove inView classname
     if( element.repeat ) element.el.classList.remove(INVIEW_CLASSNAME);
+  }
+
+  _computeElementConstraints(element, offset, position) {
+    const bcr = rect(element);
+    const translate = getTranslate(element);
+    const max = position === 'bottom' ? this.scroll.limit : Infinity;
+
+    let top = bcr.top - translate.y + this.scroll.y;
+    let bottom = Math.min(top + bcr.height, max);
+    let middle = (bottom - top) * 0.5 + top;
+
+    top   += offset[0];
+    bottom = Math.min(bottom - offset[1], max);
+
+    return [top, middle, bottom];
   }
 }
 

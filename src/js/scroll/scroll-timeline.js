@@ -76,6 +76,7 @@ import anime from "animejs";
 
 import EMITTER from "@core/emitter";
 import { INVIEW_ENTER } from "@scroll/constants";
+import { limit } from "@utils/math";
 import { mobile } from "@utils/mobile";
 import Viewport from "@utils/viewport";
 
@@ -121,9 +122,9 @@ class ScrollTimeline {
 
       const { timeline, top, bottom } = tl;
 
-      const limit = Math.min(bottom, vh + bottom - top);
-      const distance = Math.min(limit, Math.max(0, bottom - y));
-      const progress = 1 - distance / limit;
+      const height = Math.min(bottom, vh + bottom - top);
+      const distance = limit(0, height, bottom - y);
+      const progress = 1 - distance / height;
 
       timeline.seek(timeline.duration * progress);
     });
