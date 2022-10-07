@@ -68,7 +68,10 @@ const theme = {
   overflow: ["auto", "hidden", "visible", "scroll"],
   "font-family": {
     heading: [
-      "Madras",
+      "Times Now", "Georgia", "serif",
+    ],
+    body: [
+      "Inter",
       "-apple-system",
       "BlinkMacSystemFont",
       "Segoe UI",
@@ -82,7 +85,6 @@ const theme = {
       "Segoe UI Symbol",
       "Noto Color Emoji"
     ],
-    body: ["Georgia", "serif"],
     mono: [
       "SFMono-Regular",
       "Menlo",

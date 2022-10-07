@@ -112,14 +112,14 @@
           >{{ "%02d"|format(loop.index) }}</span>
         </span>
 
-        <h2 
+        <h2
           class="item__title fw-400 lh-base m-0 mb-20 overflow-clip"
           data-scroll
           data-scroll-call="timeline"
           data-scroll-target="#item-{{ loop.index }}"
           data-timeline="{{ {translateY: '-150%'}|json_encode|escape('html_attr') }}"
         >
-          <span 
+          <span
             class="d-block"
             data-scroll
             data-scroll-call="timeline"
