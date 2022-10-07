@@ -91,6 +91,7 @@
     "lottie-web": "^5.9.1",
     "sass-easing": "1.0.3",
     "splitting": "1.0.6",
-    "swiper": "^8.2.6"
+    "swiper": "^8.2.6",
+    "three": "^0.145.0"
   }
 }
