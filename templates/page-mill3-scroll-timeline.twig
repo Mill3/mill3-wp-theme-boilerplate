@@ -58,6 +58,10 @@
   .item__img {
     transform-origin: top center;
   }
+
+  html.has-scroll-webgl .item__media {
+    visibility: hidden;
+  }
 </style>
 {% endblock %}
 
@@ -77,22 +81,13 @@
 
   <div class="content d-flex flex-column">
 
-    {% set items = [
-      ['Cast a spell', '01'], 
-      ['Corruption', '02'], 
-      ['All their lives', 'pfZtyK7SbC8'], 
-      ['You\'ll burn in hell', 'RPUI6gtn49g'], 
-      ['What we become', 'ZaOWcaK_f0s'], 
-      ['Take a bow', 'jRI4-6xgPps'], 
-      ['You bring death', '1PtM6b85sdw'], 
-      ['You must pay', 'GQ5uX_BlfmY'], 
-      ['Feed the hex', 'GRI_6wnQjjs'], 
-      ['Beg for their lives', '76HhAKI5JXI'], 
-      ['For all your sins', 'RYtToJM4WII'], 
-      ['Beholden', '0iPebSCgKoA']
+    {% set titles = [
+      'Cast a spell', 'Corruption', 'All their lives', 'You\'ll burn in hell',
+      'What we become', 'Take a bow', 'You bring death', 'You must pay',
+      'Feed the hex', 'Beg for their lives', 'For all your sins', 'Beholden'
     ] %}
 
-    {% for item in items %}
+    {% for title in titles %}
     <figure id="item-{{ loop.index }}" class="item d-grid align-items-start">
       <figcaption class="item__wrap d-flex flex-column fz-18 position-relative z-2000">
         <span 
@@ -126,7 +121,7 @@
             data-scroll-target="#item-{{ loop.index }} .item__title"
             data-scroll-offset="0,20%"
             data-timeline="{{ {translateY: '-100%', easing: 'easeInExpo'}|json_encode|escape('html_attr') }}"
-          >{{ item[0] }}</span>
+          >{{ title }}</span>
         </h2>
 
         <p class="item__caption m-0">All natural and technological processes proceed in such a way that the availability of the remaining energy decreases.</p>
