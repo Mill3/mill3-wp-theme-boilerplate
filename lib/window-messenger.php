@@ -61,8 +61,10 @@ class windowMessenger {
         // block any calls until windmill is ready
         if(!SINGLETON._ready) return;
 
-        // emit to SiteScroll a new scroll value, unless the value is the same
-        if(window.scrollY !== value) window._emitter.emit("SiteScroll.scrollTo", value, { smooth: false });
+        // Emit to SiteScroll a new scroll value, unless the value is the same
+        // - `smooth` param is for Mill3's SiteScroll
+        // - `disableLerp` & `duration` params are for Locomotive Scroll
+        if(window.scrollY !== value) window._emitter.emit("SiteScroll.scrollTo", value, { smooth: false, duration: 0, disableLerp: true });
 
         // stop here if even has no source
         if(!event.source) return;
