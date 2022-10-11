@@ -1,12 +1,14 @@
 import EMITTER from "@core/emitter";
-import { SCROLLBAR_HIDDEN_CLASSNAME, SCROLL_TO_OPTIONS } from "@scroll/constants";
+import { FPS, SCROLLBAR_HIDDEN_CLASSNAME, SCROLL_TO_OPTIONS } from "@scroll/constants";
 import Scroll from "@scroll/scroll";
 import ScrollDirection from "@scroll/scroll-direction";
 import ScrollIntersection from "@scroll/scroll-intersection";
 import ScrollMinimum from "@scroll/scroll-minimum";
 import ScrollTimeline from "@scroll/scroll-timeline";
 import ScrollTo from "@scroll/scroll-to";
+import ScrollWebGL from "@scroll/scroll-webgl";
 import { html } from "@utils/dom";
+import { mobile } from "@utils/mobile";
 import ResizeOrientation, { MILL3_SCROLL_PRIORITY } from "@utils/resize";
 
 /**
@@ -29,9 +31,11 @@ export class WindmillScroll {
     this.minimum = null;
     this.timeline = null;
     this.to = null;
+    this.webgl = null;
 
     this._raf = null;
     this._started = false;
+    this._lastTime = null;
 
     this._onRAF = this._onRAF.bind(this);
     this._onResize = this._onResize.bind(this);
@@ -47,6 +51,7 @@ export class WindmillScroll {
   */
   install(windmill) {
     windmill.on('init', this._onInit, this);
+    windmill.on('loaded', this._onLoaded, this);
     windmill.on('ready', this._onPageReady, this);
     windmill.on('enter', this._onPageReady, this);
     windmill.on('exiting', this._onPageExit, this);
@@ -60,6 +65,10 @@ export class WindmillScroll {
     this.minimum = new ScrollMinimum(this.scroll);
     this.timeline = new ScrollTimeline(this.scroll);
     this.to = new ScrollTo(this.scroll);
+    if( !mobile ) this.webgl = new ScrollWebGL(this.scroll);
+  }
+  _onLoaded() {
+    this.webgl?.cleanup();
   }
   _onRAF() {
     if( !this._started ) {
@@ -67,9 +76,15 @@ export class WindmillScroll {
       return;
     }
 
-    this.scroll.raf();
-    this.intersection?.raf();
+    const time = performance.now();
+    const delta = this._lastTime ? Math.min(Math.ceil((time - this._lastTime) / FPS * 10) / 10, 1) : 1;
+
+    this._lastTime = time;
+
+    this.scroll.raf(delta);
+    this.intersection?.raf(delta);
     this.timeline?.raf();
+    this.webgl?.raf(delta);
 
     this._raf = requestAnimationFrame(this._onRAF);
   }
@@ -78,11 +93,15 @@ export class WindmillScroll {
 
     this.scroll?.resize();
     this.intersection?.resize();
+    this.webgl?.resize();
   }
 
   _onPageReady() {
+    this._lastTime = null;
+
     this.scroll?.init();
     this.intersection?.init();
+    this.webgl?.init();
 
     this._startModules();
     this._bindEvents();
@@ -97,6 +116,8 @@ export class WindmillScroll {
     this.intersection?.reset();
     this.minimum?.reset();
     this.timeline?.reset();
+    this.webgl?.reset();
+    this.webgl?.cleanup();
   }
 
   _onSiteScrollStart() {
@@ -153,6 +174,7 @@ export class WindmillScroll {
     this.minimum?.start();
     this.timeline?.start();
     this.to?.start();
+    this.webgl?.start();
     this.scroll?.start();
   }
   _stopModules() {
@@ -164,6 +186,7 @@ export class WindmillScroll {
     this.minimum?.stop();
     this.timeline?.stop();
     this.to?.stop();
+    this.webgl?.stop();
     
     this._started = false;
   }

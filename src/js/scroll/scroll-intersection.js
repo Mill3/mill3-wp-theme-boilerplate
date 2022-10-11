@@ -139,6 +139,7 @@ class ScrollIntersection {
 
     this._options = { ...DEFAULT_OPTIONS, ...options };
     this._started = false;
+    this._delta = 1;
 
     this._elements = new Map();
     this._parallaxElements = new Map();
@@ -161,8 +162,10 @@ class ScrollIntersection {
     if( !this._started ) return;
     this._started = false;
   }
-  raf() {
+  raf(delta = 1) {
     if( !this._started ) return;
+
+    this._delta = delta;
 
     this._checkElements();
     this._transformElements();
@@ -177,6 +180,7 @@ class ScrollIntersection {
     this._elements.clear();
 
     this._started = false;
+    this._delta = 1;
   }
 
   _addElements() {
@@ -290,7 +294,7 @@ class ScrollIntersection {
     // apply delay if not ignored
     if( obj.delay && !ignoreDelay ) {
       // calculate linear interpolation
-      const lerpY = lerp(obj.y, y, obj.delay);
+      const lerpY = lerp(obj.y, y, obj.delay * this._delta);
 
       // check if delay is completed
       const delayCompleted = Math.abs(y - lerpY) < this._options.threshold;

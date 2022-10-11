@@ -61,11 +61,11 @@ class Scroll {
       if (target) this.scrollTo(target);
     }
   }
-  raf() {
+  raf(delta = 1) {
     if( !this._data.started || !this._data.isMouseWheeling ) return;
 
     // lerp mouseWheel
-    this._data.lastScroll = lerp(this._data.lastScroll, this._data.targetScroll, this._options.lerp);
+    this._data.lastScroll = lerp(this._data.lastScroll, this._data.targetScroll, this._options.lerp * delta);
 
     // if target reached, mouse wheel is done
     this._data.isMouseWheeling = Math.abs(this._data.scroll - this._data.targetScroll) > this._options.threshold;
@@ -279,14 +279,14 @@ class Scroll {
     }
   }
   _updateScroll(y = window.scrollY) {
-    // update scroll value
-    this._data.scroll = y;
-
     // where native scroll happens
     if( !this._data.isMouseWheeling ) {
-      this._data.targetScroll =
+      this._data.targetScroll = y;
       this._data.lastScroll = this._data.scroll;
     }
+
+    // update scroll value
+    this._data.scroll = y;
   }
 
 
@@ -294,7 +294,7 @@ class Scroll {
   get direction() { return this._data.direction; }
   get limit() { return this._data.max; }
   get progress() { return this._data.scroll / this._data.max; }
-  get velocity() { return this._data.scroll - this._data.lastScroll; }
+  get velocity() { return this._data.lastScroll - this._data.targetScroll; }
   get y() { return this._data.scroll; }
 }
 

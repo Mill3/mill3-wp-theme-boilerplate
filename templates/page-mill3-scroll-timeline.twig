@@ -11,6 +11,9 @@
     background: #080808;
     color: #5e5754;
   }
+  canvas {
+    z-index: -1;
+  }
 
   .header {
     padding-left: 50%;
@@ -55,6 +58,10 @@
   .item__img {
     transform-origin: top center;
   }
+
+  html.has-scroll-webgl .item__media {
+    visibility: hidden;
+  }
 </style>
 {% endblock %}
 
@@ -62,8 +69,8 @@
 <article class="mill3-scroll-timeline">
 
   <header class="header position-fixed z-4000 t-0 l-0 w-100 d-flex flex-column pointer-events-none overflow-clip">
-    <h1
-      class="header__title ff-heading fw-400 tt-uppercase m-0"
+    <h1 
+      class="header__title fw-400 tt-uppercase m-0"
       data-scroll
       data-scroll-call="timeline"
       data-scroll-target=".mill3-scroll-timeline"
@@ -74,25 +81,16 @@
 
   <div class="content d-flex flex-column">
 
-    {% set items = [
-      ['Cast a spell', 'J5DIOISkDko'],
-      ['Corruption', 'inSRFe_CpD4'],
-      ['All their lives', 'pfZtyK7SbC8'],
-      ['You\'ll burn in hell', 'RPUI6gtn49g'],
-      ['What we become', 'ZaOWcaK_f0s'],
-      ['Take a bow', 'jRI4-6xgPps'],
-      ['You bring death', '1PtM6b85sdw'],
-      ['You must pay', 'GQ5uX_BlfmY'],
-      ['Feed the hex', 'GRI_6wnQjjs'],
-      ['Beg for their lives', '76HhAKI5JXI'],
-      ['For all your sins', 'RYtToJM4WII'],
-      ['Beholden', '0iPebSCgKoA']
+    {% set titles = [
+      'Cast a spell', 'Corruption', 'All their lives', 'You\'ll burn in hell',
+      'What we become', 'Take a bow', 'You bring death', 'You must pay',
+      'Feed the hex', 'Beg for their lives', 'For all your sins', 'Beholden'
     ] %}
 
-    {% for item in items %}
-    <figure id="item-{{ loop.index }}" class="item d-grid">
-      <figcaption class="d-flex flex-column fz-18 position-relative z-2000">
-        <span
+    {% for title in titles %}
+    <figure id="item-{{ loop.index }}" class="item d-grid align-items-start">
+      <figcaption class="item__wrap d-flex flex-column fz-18 position-relative z-2000">
+        <span 
           class="item__index lh-base mb-10 overflow-clip"
           data-scroll
           data-scroll-call="timeline"
@@ -123,21 +121,22 @@
             data-scroll-target="#item-{{ loop.index }} .item__title"
             data-scroll-offset="0,20%"
             data-timeline="{{ {translateY: '-100%', easing: 'easeInExpo'}|json_encode|escape('html_attr') }}"
-          >{{ item[0] }}</span>
+          >{{ title }}</span>
         </h2>
 
         <p class="item__caption m-0">All natural and technological processes proceed in such a way that the availability of the remaining energy decreases.</p>
       </figcaption>
 
       <div class="item__media box box-postal-card overflow-clip z-1000">
-        <img
-          src="https://source.unsplash.com/{{ item[1] }}"
-          alt=""
+        <img 
+          src="{{ theme.link }}/src/images/timeline-{{ "%02d"|format(loop.index) }}.jpg" 
+          alt="" 
           class="item__img image-as-background"
           data-scroll
           data-scroll-call="timeline"
-          data-scroll-target="#item-{{ loop.index }}"
+          data-scroll-target="#item-{{ loop.index }} .item__media"
           data-timeline="{{ {scaleX: 1.2, scaleY: 2.4, opacity: 0}|json_encode|escape('html_attr') }}"
+          data-webgl
         >
       </div>
     </figure>

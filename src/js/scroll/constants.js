@@ -1,3 +1,5 @@
+export const FPS = 1000 / 60;
+
 export const INVIEW_CLASSNAME = 'is-inview';
 export const INVIEW_ENTER = 'enter';
 export const INVIEW_EXIT = 'exit';
@@ -18,6 +20,7 @@ export const SCROLL_TO_OPTIONS = {
 };
 
 export default {
+  FPS,
   INVIEW_CLASSNAME,
   INVIEW_ENTER,
   INVIEW_EXIT,
