@@ -47,7 +47,7 @@ class windowMessenger {
     if (!action || !value) return;
 
     // stop here if we have no Emitter
-    if(!window.MILL3_EMITTER) {
+    if(!window._emitter) {
       console.warn(`MILL3_EMITTER not detected, windowMessenger instance can't continue :(`);
       return;
     }
@@ -62,7 +62,7 @@ class windowMessenger {
         if(!SINGLETON._ready) return;
 
         // emit to SiteScroll a new scroll value, unless the value is the same
-        if(window.scrollY !== value) MILL3_EMITTER.emit("SiteScroll.scrollTo", value, { smooth: false });
+        if(window.scrollY !== value) window._emitter.emit("SiteScroll.scrollTo", value, { smooth: false });
 
         // stop here if even has no source
         if(!event.source) return;
