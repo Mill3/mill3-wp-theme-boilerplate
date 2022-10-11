@@ -130,7 +130,7 @@ $includes = [
     // model class per post-type
     'lib/models/dummy.php',
     'lib/models/page-section.php',
-    'lib/models/post.php',
+    'lib/models/post.php'
 ];
 
 foreach ($includes as $file) {
