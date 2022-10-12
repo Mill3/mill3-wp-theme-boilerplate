@@ -29,8 +29,7 @@ function inject_windowMessenger() {
         if( window === parent ) return;
     
         var targetOrigin = "<?php echo $referer ?>";
-        console.log(targetOrigin);
-    
+        var tick = null;
     
         function start() {
             // send scroll maximum value
@@ -58,9 +57,19 @@ function inject_windowMessenger() {
                 break;
             }
         }
+        function onResize() {
+            if( tick ) clearTimeout(tick);
+
+            // wait 300ms after last resize event to update scrollMax
+            tick = setTimeout(function() {
+                // send scroll maximum value
+                parent.postMessage({action: "resized", value: Math.max(0, document.body.scrollHeight - innerHeight)}, targetOrigin);
+            }, 300);
+        }
     
         // listen for message from parent window
         window.addEventListener("message", onMessage);
+        window.addEventListener("resize", onResize);
         
         // start cross window messaging when page is loaded
         addEventListener("load", start);
