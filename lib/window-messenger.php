@@ -6,8 +6,12 @@
 function inject_windowMessenger() {
     if( !isset($_GET["windowMessenger"]) ) return;
 
-    // if referer is not defined, it means the page is not included from a iFrame
     $referer = $_SERVER['HTTP_REFERER'];
+
+    // save cookie with "wordpress" prefix to prevent caching in WPEngine
+    setcookie('wordpress_window_messenger_cache_buster', $referer);
+
+    // if referer is not defined, it means the page is not included from a iFrame
     if( !$referer ) return;
 
     // remove last / from referer
