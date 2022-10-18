@@ -1,0 +1,19 @@
+.lottie {
+  --ratio: 1;
+  --ratio-mobile: 1;
+
+  &::before {
+    padding-top: calc(var(--ratio-mobile) * 100%);
+
+    @include media-breakpoint-up(lg) {
+      padding-top: calc(var(--ratio) * 100%);
+    }
+  }
+
+  canvas, svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+}
