@@ -231,35 +231,16 @@ class Mill3WP extends Timber\Site
      */
     public function add_to_twig($twig)
     {
-        $twig->addExtension(new Twig_Extension_StringLoader());
-        $twig->addFilter(
-            'slugify',
-            new Twig_SimpleFilter('slugify', 'filter_slugify')
-        );
-        $twig->addFilter(
-            'embeded_settings',
-            new Twig_SimpleFilter('embeded_settings', 'filter_embeded_settings')
-        );
-        $twig->addFilter(
-            'lcfirst',
-            new Twig_SimpleFilter('lcfirst', 'lcfirst')
-        );
-        $twig->addFilter(
-            'facebook_share',
-            new Twig_SimpleFilter('facebook_share', 'filter_facebook_share')
-        );
-        $twig->addFilter(
-            'twitter_share',
-            new Twig_SimpleFilter('twitter_share', 'filter_twitter_share')
-        );
-        $twig->addFilter(
-            'linkedin_share',
-            new Twig_SimpleFilter('linkedin_share', 'filter_linkedin_share')
-        );
-        $twig->addFilter(
-            'email_share',
-            new Twig_SimpleFilter('email_share', 'filter_email_share')
-        );
+        $twig->addExtension(new \Twig_Extension_StringLoader());
+        $twig->addFilter(new \Timber\Twig_Filter('slugify', 'filter_slugify'));
+        $twig->addFilter(new \Timber\Twig_Filter('embeded_settings', 'filter_embeded_settings'));
+        $twig->addFilter(new \Timber\Twig_Filter('lcfirst', 'lcfirst'));
+        $twig->addFilter(new \Timber\Twig_Filter('facebook_share', 'filter_facebook_share'));
+        $twig->addFilter(new \Timber\Twig_Filter('twitter_share', 'filter_twitter_share'));
+        $twig->addFilter(new \Timber\Twig_Filter('linkedin_share', 'filter_linkedin_share'));
+        $twig->addFilter(new \Timber\Twig_Filter('email_share', 'filter_email_share'));
+        $twig->addFilter(new \Timber\Twig_Filter('line_breaks', 'filter_line_breaks'));
+        $twig->addFilter(new \Timber\Twig_Filter('word_highlights', 'filter_ventriloc_word_highlights'));
 
         $twig->addFunction(
             new \Twig\TwigFunction('get_context', function () {
