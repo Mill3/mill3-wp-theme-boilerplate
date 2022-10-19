@@ -1,0 +1,57 @@
+{% set classname = classname|default(null) %}
+{% set attributes = attributes|default([]) %}
+
+{% set loading = loading|default('external') %}
+
+{# prepare JSON data #}
+{% set path = loading == 'external' ? lottie.url : null %}
+{% set animationData = loading == 'inline' ? source(Image(lottie).file_loc, ignore_missing = true) : null %}
+
+{# settings #}
+{% set autoplay = autoplay|default(false) %}
+{% set container = container|default(null) %}
+{% set delay = delay|default(0) %}
+{% set loop = loop|default(true) %}
+{% set path = path|default(null) %}
+{% set name = name|default(null) %}
+{% set renderer = renderer|default('canvas') %}
+{% set on_rollover = on_rollover|default(false) %}
+
+{# dimension and ratio #}
+{% set width = width|default(1000) %}
+{% set height = height|default(1000) %}
+{% set width_mobile = width_mobile|default(320) %}
+{% set height_mobile = height_mobile|default(320) %}
+
+{% set ratio = height / width %}
+{% set ratio_mobile = height_mobile / width_mobile %}
+
+{% set lottie_options = {
+  'autoplay': autoplay,
+  'container': container,
+  'delay': delay,
+  'loop': loop,
+  'path': path,
+  'name': name,
+  'renderer': renderer,
+  'on_rollover': on_rollover
+} %}
+
+{% if path or animationData %}
+<div
+  class="lottie box {{ classname }}"
+  data-module="lottie"
+  data-lottie="{{ lottie_options|json_encode|escape('html_attr') }}"
+  data-scroll
+  data-scroll-repeat="true"
+  data-scroll-call="lottie"
+  style="--ratio: {{ ratio }}; --ratio-mobile: {{ ratio_mobile }};"
+  {{ attributes|join(' ') }}
+>
+  {% if animationData %}
+  <script type="application/json">
+    {{ animationData }}
+  </script>
+  {% endif %}
+</div>
+{% endif %}

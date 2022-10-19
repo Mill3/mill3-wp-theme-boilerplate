@@ -125,6 +125,7 @@ $includes = [
     'lib/taxonomy-queries.php',
     'lib/titles.php',
     'lib/utils.php',
+    'lib/window-messenger.php',
     // custom field type
     'lib/acf-fields/spacer/index.php',
     // model class per post-type

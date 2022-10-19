@@ -1,99 +1,89 @@
-<script>
+<?php
 
-/**
- *
- * global handler for window.postMessage() browser messaging system
- *
- * Use case :
- *
- * Remote site aaa.com has an iframe including this site, remote site wants to send a message here :
- *
- * const frame = document.querySelector('#iframe');
- * frame.contentWindow.postMessage({ 'action': 'scrollTo', 'value': 100 }, "*")
- *
- * This site receives the message and act on it. Message must include 2 objects: action, value
- *
- * Implement below any possible message handling beyond the default use case presented here
- *
- */
+//
+// inject our windowMessenger system only when url param is specified
+//
+function inject_windowMessenger() {
+    if( !isset($_GET["windowMessenger"]) ) return;
 
-class windowMessenger {
-  constructor() {
-    this._ready = false;
-    this._messageHandler = this._messageHandler.bind(this);
-    this.init();
-  }
+    $referer = $_SERVER['HTTP_REFERER'];
 
-  init() {
-    this._bindEvents();
-  }
+    // save cookie with "wordpress" prefix to prevent caching in WPEngine
+    setcookie('wordpress_window_messenger_cache_buster', $referer);
 
-  _bindEvents() {
-    window.addEventListener("message", this._messageHandler, false);
-  }
+    // if referer is not defined, it means the page is not included from a iFrame
+    if( !$referer ) return;
 
-  start() {
-    this._ready = true;
-    console.warn(`windowMessenger is ready, this page can receive postMessage event!`);
-  }
+    // remove last / from referer
+    $referer = rtrim($referer, '/');
 
-  _messageHandler(event) {
-    const { action, value } = event.data;
+    // if referer isn't localhost, force to mill3.studio
+    if( !str_starts_with($referer, 'http://localhost') ) $referer = "https://mill3.studio";
+    
+    // hide Locomotive-scroll custom scrollbar
+    wp_add_inline_style('mill3wp/css', '.c-scrollbar { visibility: hidden !important; }');
 
-    // sample for limiting event origin domain, leave as is for now
-    // if (event.origin !== "http://mill3.studio/") return;
-
-    // stop here if no action or value are defined in event
-    if (!action || !value) return;
-
-    // stop here if we have no Emitter
-    if(!window._emitter) {
-      console.warn(`MILL3_EMITTER not detected, windowMessenger instance can't continue :(`);
-      return;
-    }
-
-    switch (action) {
-      //
-      // handles : `scrollTo` message event
-      // return  : current scrollY and window maxScroll value through a 'callback' postMessage send back to original event.source window
-      //
-      case "scrollTo":
-        // block any calls until windmill is ready
-        if(!SINGLETON._ready) return;
-
-        // Emit to SiteScroll a new scroll value, unless the value is the same
-        // - `smooth` param is for Mill3's SiteScroll
-        // - `disableLerp` & `duration` params are for Locomotive Scroll
-        if(window.scrollY !== value) window._emitter.emit("SiteScroll.scrollTo", value, { smooth: false, duration: 0, disableLerp: true });
-
-        // stop here if even has no source
-        if(!event.source) return;
-
-        // send back a message to event.source (might be silent on the other end)
-        event.source.postMessage(
-          {
-            action: "scrollUpdate",
-            value: {
-              scrollY: window.scrollY,
-              scrollYMax: Math.max(0, document.body.scrollHeight - innerHeight)
+    // javascript
+    ob_start();
+    ?>
+    
+    // old school sandbox
+    (function() {
+        // if page is not embedded as a iframe, stop here
+        if( window === parent ) return;
+    
+        var targetOrigin = "<?php echo $referer ?>";
+        var tick = null;
+    
+        function start() {
+            // send scroll maximum value
+            parent.postMessage({action: "ready", value: Math.max(0, document.body.scrollHeight - innerHeight)}, targetOrigin);
+        }    
+        function onMessage(event) {
+            // sample for limiting event origin domain, leave as is for now
+            if( event.origin !== targetOrigin ) return;
+    
+            var data = event.data;
+            if( !data ) return;
+    
+            var action = data.action;
+            var value = data.value;
+    
+            if( !action ) return;
+    
+            switch(action) {
+                case "scrollTo": 
+                    // Emit to SiteScroll a new scroll value, unless the value is the same
+                    // - `smooth` param is for Mill3\'s SiteScroll
+                    // - `disableLerp` & `duration` params are for Locomotive Scroll
+                    if( window._emitter ) window._emitter.emit("SiteScroll.scrollTo", value, { smooth: false, duration: 0, disableLerp: true });
+    
+                break;
             }
-          },
-          "*"
-        );
-        break;
-    }
-  }
+        }
+        function onResize() {
+            if( tick ) clearTimeout(tick);
+
+            // wait 300ms after last resize event to update scrollMax
+            tick = setTimeout(function() {
+                // send scroll maximum value
+                parent.postMessage({action: "resized", value: Math.max(0, document.body.scrollHeight - innerHeight)}, targetOrigin);
+            }, 300);
+        }
+    
+        // listen for message from parent window
+        window.addEventListener("message", onMessage);
+        window.addEventListener("resize", onResize);
+        
+        // start cross window messaging when page is loaded
+        addEventListener("load", start);
+    })();
+    
+    <?php
+
+    // inject our bridge communication system
+    $js = ob_get_clean();
+    wp_add_inline_script(WEBPACK_DEV_SERVER === true ? 'mill3wp/webpack' : 'mill3wp/js', $js, 'after');
 }
 
-const SINGLETON = new windowMessenger();
-
-addEventListener('DOMContentLoaded', (event) => {
-    SINGLETON.start();
-});
-
-</script>
-
-<style>
-/* hide Locomotive-scroll custom scroll-bar element */
-.c-scrollbar { visibility: hidden !important; }
-</style>
+add_action('wp_enqueue_scripts', 'inject_windowMessenger', 100);

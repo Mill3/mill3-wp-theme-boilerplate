@@ -1,4 +1,4 @@
-import { $$ } from '@utils/dom';
+import { $$, rect } from '@utils/dom';
 import ResizeOrientation from '@utils/resize';
 
 
@@ -22,6 +22,8 @@ class SvgPathLength {
     this.el = null;
     this.emitter = null;
     this.paths = null;
+
+    this._onResize = null;
   }
 
   _bindEvents() {
@@ -35,7 +37,10 @@ class SvgPathLength {
   }
 
   _onResize() {
-    this.paths.forEach(path => path.style.setProperty('--length', `${path.getTotalLength()}px`));
+    this.paths.forEach(path => {
+      const scale = path.getAttribute('vector-effect') === 'non-scaling-stroke' ? rect(path).width / path.getBBox().width : 1;
+      path.style.setProperty('--length', `${path.getTotalLength() * scale}px`);
+    });
   }
 }
 
