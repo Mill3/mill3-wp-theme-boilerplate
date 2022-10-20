@@ -268,6 +268,12 @@ class Scroll {
   _updateDirection(y = window.scrollY) {
     // calculation scroll direction
     const distance = y - this._data.scroll;
+
+    // if scroll hasn't changed, stop here
+    if( Math.abs(distance) === 0 ) return;
+    
+    // if distance is positive, we are scrolling down
+    // otherwise, we are scrolling up
     const direction = distance >= 0 ? DIRECTION_DOWN : DIRECTION_UP;
 
     // update direction AND trigger event if value has changed
@@ -279,14 +285,14 @@ class Scroll {
     }
   }
   _updateScroll(y = window.scrollY) {
-    // where native scroll happens
-    if( !this._data.isMouseWheeling ) {
-      this._data.targetScroll = y;
-      this._data.lastScroll = this._data.scroll;
-    }
-
     // update scroll value
     this._data.scroll = y;
+
+    // where native scroll happens
+    if( !this._data.isMouseWheeling ) {
+      this._data.targetScroll =
+      this._data.lastScroll = this._data.scroll;
+    }
   }
 
 
@@ -294,7 +300,7 @@ class Scroll {
   get direction() { return this._data.direction; }
   get limit() { return this._data.max; }
   get progress() { return this._data.scroll / this._data.max; }
-  get velocity() { return this._data.lastScroll - this._data.targetScroll; }
+  get velocity() { return this._data.scroll - this._data.lastScroll; }
   get y() { return this._data.scroll; }
 }
 
