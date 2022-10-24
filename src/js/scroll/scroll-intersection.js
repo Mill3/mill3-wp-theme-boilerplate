@@ -122,7 +122,7 @@
  import { INVIEW_CLASSNAME, INVIEW_ENTER, INVIEW_EXIT } from "@scroll/constants";
  import { getCall, getDelay, getOffset, getPosition, getRepeat, getSpeed, getTarget } from "@scroll/utils";
  import { $$, rect } from "@utils/dom";
- import { lerp, limit } from "@utils/math";
+ import { lerp } from "@utils/math";
  import { mobile } from "@utils/mobile";
  import { getTranslate } from "@utils/transform";
  import Viewport from "@utils/viewport";
@@ -368,11 +368,13 @@
      const max = position === 'bottom' ? this.scroll.limit : Infinity;
  
      let top = bcr.top - translate.y + this.scroll.y;
-     let bottom = limit(top, max, top + bcr.height);
+     //let bottom = limit(top, max, top + bcr.height);
+     let bottom = Math.min(max, top + bcr.height);
      let middle = (bottom - top) * 0.5 + top;
  
      top   += offset[0];
-     bottom = limit(top, max, bottom - offset[1]);
+     //bottom = limit(top, max, bottom - offset[1]);
+     bottom = Math.min(max, bottom - offset[1]);
  
      return [top, middle, bottom];
    }
