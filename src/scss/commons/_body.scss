@@ -19,7 +19,7 @@ html.--js-scrollbar-hidden {
   
   .site-header,
   .site-nav,
-  [data-scroll-container] {
+  [data-windmill="wrapper"] {
     width: calc(100vw - var(--scrollbar-width)) !important;
   }
 }

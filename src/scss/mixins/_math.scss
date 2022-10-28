@@ -1,0 +1,10 @@
+//
+// map --scroll-progress between a range
+//
+// example
+// you want opacity to go from 0 to 1 at 50% of your element --scroll-progress
+// opacity: progress-between(0, 0.5, var(--scroll-progress));
+//
+@function progress-between($start, $end, $value) {
+  @return calc( Min(#{$end - $start}, Max(#{$start}, #{$value}) - #{$start}) / #{$end - $start} );
+}

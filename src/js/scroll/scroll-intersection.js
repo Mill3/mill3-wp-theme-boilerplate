@@ -47,6 +47,10 @@
  *                                            out-view when element's bottom reach viewport's top (maxed to scroll maximum if element can't reach viewport's top)
  *                                            ** This is what you want for elements in .site-footer using [data-scroll-timeline].
  * 
+ * [data-scroll-progress] (string) : Track element progression.
+ *                                   Accepted values: easing function name (see: @utils/easings)
+ *                                   If you omit easing function name or set a non-valid value, linear easing is applied.
+ * 
  * Example:
  * <h1
  *  class="hello-world"
@@ -57,6 +61,7 @@
  *  data-scroll-call="HelloWorld"
  *  data-scroll-repeat="true"
  *  data-scroll-position="bottom"
+ *  data-scroll-progress="easeOutCubic"
  * >
  *  Hello World
  * </h1>
@@ -112,27 +117,27 @@
  * 
  * import EMITTER from "@core/emitter";
  * 
- * EMITTER.on("SiteScroll.HelloWorld", (direction, obj) => {
- *    console.log(direction, obj);
+ * EMITTER.on("SiteScroll.HelloWorld", (direction, obj, scroll) => {
+ *    console.log(direction, obj, scroll);
  * });
  * 
  */
 
  import EMITTER from "@core/emitter";
  import { INVIEW_CLASSNAME, INVIEW_ENTER, INVIEW_EXIT } from "@scroll/constants";
- import { getCall, getDelay, getOffset, getPosition, getRepeat, getSpeed, getTarget } from "@scroll/utils";
+ import { getCall, getDelay, getOffset, getPosition, getProgress, getRepeat, getSpeed, getTarget } from "@scroll/utils";
  import { $$, rect } from "@utils/dom";
- import { lerp } from "@utils/math";
+ import { lerp, limit } from "@utils/math";
  import { mobile } from "@utils/mobile";
  import { getTranslate } from "@utils/transform";
  import Viewport from "@utils/viewport";
- 
+  
  const DEFAULT_OPTIONS = {
    offset: [0, 0],
    repeat: false,
    threshold: 0.2,
  };
- 
+  
  class ScrollIntersection {
    constructor(scroll, options = DEFAULT_OPTIONS) {
      this.scroll = scroll;
@@ -144,7 +149,7 @@
      this._elements = new Map();
      this._parallaxElements = new Map();
    }
- 
+  
    init() {
      this._addElements();
      this._transformElements(true);
@@ -207,6 +212,7 @@
        const delay = getDelay(element);
        const position = getPosition(element);
        const speed = getSpeed(element);
+       const [ progress, progressEasing ] = getProgress(element);
        const [ top, middle, bottom ] = this._computeElementConstraints(target, offset, position);
  
        const data = {
@@ -220,6 +226,8 @@
          offset,
          position,
          repeat,
+         progress,
+         progressEasing,
          call,
          called: false,
          delay: delay,
@@ -308,17 +316,34 @@
    }
    _notify(element, direction) {
      const func = Array.isArray(element.call) ? element.call : [element.call];
-     func.forEach(call => EMITTER.emit(`SiteScroll.${call}`, direction, element));
+     func.forEach(call => EMITTER.emit(`SiteScroll.${call}`, direction, element, this.scroll));
    }
  
    _checkElements(silent = false) {
      // if there is no elements, stop here
      if( this._elements.size === 0 ) return;
      
+     const vh = Viewport.height;
      const scrollTop = this.scroll.y;
-     const scrollBottom = scrollTop + Viewport.height;
+     const scrollBottom = scrollTop + vh;
  
      this._elements.forEach(element => {
+ 
+       // update element progress
+       if( element.progress !== false ) {
+         const height = Math.min(element.bottom, vh + element.bottom - element.top);
+         const distance = limit(0, height, element.bottom - this.scroll.y);
+         let progress = 1 - distance / height;
+ 
+         // apply easing function if defined
+         if( element.progressEasing ) progress = element.progressEasing(progress, 0, 1, 1);
+ 
+         if( progress !== element.progress ) {
+           element.progress = progress;
+           element.el.style.setProperty('--scroll-progress', progress);
+         }
+       }
+ 
        if( element.inView ) {
          // check if element is out of viewport
          const outView = scrollBottom < element.top || scrollTop > element.bottom;
@@ -378,7 +403,7 @@
  
      return [top, middle, bottom];
    }
- }
- 
- export default ScrollIntersection;
- 
+  }
+  
+  export default ScrollIntersection;
+  

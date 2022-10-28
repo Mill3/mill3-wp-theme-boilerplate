@@ -1,4 +1,5 @@
 import { $ } from "@utils/dom";
+import easings from "@utils/easings";
 import Viewport from "@utils/viewport";
 
 export const getCall = (el) => {
@@ -52,6 +53,19 @@ export const getPosition = (el) => {
   return el.getAttribute('data-scroll-position');
 };
 
+export const getProgress = (el) => {
+  // if element doesn't have [data-scroll-progress] attribute, return false
+  if( !el.hasAttribute('data-scroll-progress') ) return [false, null];
+
+  // float current value or return 0
+  const progress = parseFloat( getComputedStyle(el).getPropertyValue('--scroll-progress') || 0 );
+
+  // return easing function or null
+  const easing = easings[ el.getAttribute('data-scroll-progress') ] || null;
+  
+  return [progress, easing];
+};
+
 export const getRepeat = (el) => {
   // if element doesn't have [data-scroll-repeat] attribute, return null
   if( !el.hasAttribute('data-scroll-repeat') ) return null;
@@ -97,6 +111,7 @@ export default {
   getDelay,
   getOffset,
   getPosition,
+  getProgress,
   getRepeat,
   getSpeed,
   getTarget,
