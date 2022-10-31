@@ -1,7 +1,7 @@
 import anime from "animejs";
 
-import { $, $$, body } from "@utils/dom";
-import { inViewport } from "./utils";
+import { $, body } from "@utils/dom";
+import { moduleDelays } from "./utils";
 
 const SELECTOR = "[data-site-loader]";
 
@@ -11,12 +11,7 @@ class SiteLoader {
   }
 
   loaded() {
-    // increment --module-delay css variable to each [data-module-delay] in viewport during initialization
-    [ ...$$(`[data-module-delay]`) ].forEach((el, index) => {
-      const isInViewport = inViewport(el);
-      el.setAttribute('data-module-delay', isInViewport);
-      if( isInViewport ) el.style.setProperty("--module-delay", `${index * 350 + 550}ms`);
-    });
+    moduleDelays(350, 550);
   }
 
   ready() {
