@@ -1,5 +1,6 @@
 import { $ } from "@utils/dom";
 import easings from "@utils/easings";
+import { mobile } from "@utils/mobile";
 import Viewport from "@utils/viewport";
 
 export const getCall = (el) => {
@@ -29,8 +30,8 @@ export const getOffset = (el) => {
   // if element doesn't have [data-scroll-offset] attribute, return null
   if( !el.hasAttribute('data-scroll-offset') ) return null;
 
-  // get value from [data-scroll-offset] attribute and split into array
-  const offset = el.dataset.scrollOffset.split(',');
+  // get value from [data-scroll-offset] attribute or [data-scroll-offset-native] and split into array
+  const offset = (mobile && el.hasAttribute('data-scroll-offset-native') ? el.dataset.scrollOffsetNative : el.dataset.scrollOffset ).split(',');
 
   // if offset is empty after splitting, return null
   if( !offset ) return null;

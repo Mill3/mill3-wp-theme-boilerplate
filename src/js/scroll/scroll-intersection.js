@@ -121,6 +121,12 @@
  *    console.log(direction, obj, scroll);
  * });
  * 
+ * 
+ ************************************************
+ * Different scroll offset for native scrolling *
+ ************************************************
+ * Add [data-scroll-offset-native="0,0"] to your element. 
+ * See [data-scroll-offset] for details.
  */
 
  import EMITTER from "@core/emitter";
