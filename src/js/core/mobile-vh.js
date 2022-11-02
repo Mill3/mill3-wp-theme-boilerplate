@@ -23,7 +23,7 @@ const MobileViewportUnit = (() => {
   let vh = 0;
 
   const onResize = () => {
-    vh = Viewport.height * 0.01;
+    vh = (Viewport.height * 0.01).toFixed(2);
     
     // set svh (short viewport height)
     if( !svh ) svh = vh;
