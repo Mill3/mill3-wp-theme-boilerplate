@@ -1,5 +1,6 @@
 import { getOffset } from "@scroll/utils";
 import { $$, rect } from "@utils/dom";
+import { getTranslate } from "@utils/transform";
 import Viewport from "@utils/viewport";
 
 export const inViewport = (el) => {
@@ -7,9 +8,10 @@ export const inViewport = (el) => {
 
   const bcr = rect(el);
   const offset = getOffset(el) ?? [0, 0];
+  const translate = getTranslate(el);
 
-  const top = bcr.top + offset[0];
-  const bottom = bcr.top + bcr.height - offset[1];
+  const top = bcr.top - translate.y + offset[0];
+  const bottom = bcr.top - translate.y + bcr.height - offset[1];
 
   return top < Viewport.height && bottom > 0;
 }
