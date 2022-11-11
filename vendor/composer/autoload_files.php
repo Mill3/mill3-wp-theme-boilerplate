@@ -15,4 +15,5 @@ return array(
     'c964ee0ededf28c96ebd9db5099ef910' => $vendorDir . '/guzzlehttp/promises/src/functions_include.php',
     '09f6b20656683369174dd6fa83b7e5fb' => $vendorDir . '/symfony/polyfill-uuid/bootstrap.php',
     'fb4ca2d97fe7ba6af750497425204e70' => $vendorDir . '/sentry/sentry/src/functions.php',
+    '32a4c26a4fcb93d787a6a7cafb8c7c9d' => $vendorDir . '/palmiak/timber-acf-wp-blocks/timber-acf-wp-blocks.php',
 );
