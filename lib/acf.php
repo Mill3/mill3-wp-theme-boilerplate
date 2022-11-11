@@ -42,8 +42,8 @@ function acf_block_example($slug)
     $re = "/{$slug}(|-[0-9]?[0-9]).(jpg|jpeg|webp|png)/imu";
     $matches = preg_grep($re, $files);
 
-    foreach ($matches as $matche) {
-        $html[] = "<p><img src='{$theme_directory}{$matche}' alt='{$slug}' style='width: 100%; height: auto;'></p>";
+    foreach ($matches as $match) {
+        $html[] = "<p><img src='{$theme_directory}{$match}' alt='{$slug}' style='width: 100%; height: auto;'></p>";
     }
 
     if (count($html) > 0) {
@@ -147,14 +147,12 @@ add_filter('acf/settings/show_admin', function () {
 
 // Set a custom name for collapsed layouts in ACF Flexible Content field
 // add_filter('acf/fields/flexible_content/layout_title/name=YOUR_LAYOUT_NAME', function ($title, $field, $layout, $i) {
-
 //     switch ($layout['name']) {
 //         case 'partners_group':
 //             $name = get_sub_field('name');
 //             return "{$name} <em>({$title})</em>";
 //             break;
 //     }
-
 //     return $title;
 // }, 10, 4);
 

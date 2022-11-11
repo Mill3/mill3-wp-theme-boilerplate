@@ -4,10 +4,11 @@
         "title": "Post type : Page sections",
         "fields": [
             {
-                "key": "field_621f82378175a",
-                "label": "Content",
-                "name": "",
-                "type": "tab",
+                "key": "field_633da4c430a1d",
+                "label": "Page section slug",
+                "name": "post_slug",
+                "aria-label": "",
+                "type": "acfe_dynamic_render",
                 "instructions": "",
                 "required": 0,
                 "conditional_logic": 0,
@@ -16,29 +17,8 @@
                     "class": "",
                     "id": ""
                 },
-                "placement": "left",
-                "endpoint": 0
-            },
-            {
-                "key": "field_621f8237817a5",
-                "label": "Page Builder",
-                "name": "post_page_builder",
-                "type": "clone",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "clone": [
-                    "group_600996a032f44"
-                ],
-                "display": "seamless",
-                "layout": "block",
-                "prefix_label": 0,
-                "prefix_name": 0
+                "acfe_field_group_condition": 0,
+                "render": ""
             }
         ],
         "location": [
@@ -51,27 +31,27 @@
             ]
         ],
         "menu_order": 0,
-        "position": "normal",
-        "style": "default",
+        "position": "side",
+        "style": "seamless",
         "label_placement": "top",
         "instruction_placement": "label",
         "hide_on_screen": [
+            "categories",
+            "comments",
             "the_content",
             "discussion",
-            "comments",
-            "format",
-            "categories"
+            "format"
         ],
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "acfe_display_title": "",
         "acfe_autosync": [
             "json"
         ],
         "acfe_form": 0,
+        "acfe_display_title": "Page section",
         "acfe_meta": "",
         "acfe_note": "",
-        "modified": 1646232139
+        "modified": 1664984356
     }
 ]
