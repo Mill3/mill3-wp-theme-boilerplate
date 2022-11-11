@@ -1,0 +1,10 @@
+//
+// scss module : PbRowPageTitle
+//
+
+.pb-row-page-title {
+  $self: &;
+  @include inView {
+    &.is-inview { }
+  }
+}

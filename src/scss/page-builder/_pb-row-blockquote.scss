@@ -1,0 +1,10 @@
+//
+// scss module : PbRowBlockquote
+//
+
+.pb-row-blockquote {
+  $self: &;
+  @include inView {
+    &.is-inview { }
+  }
+}

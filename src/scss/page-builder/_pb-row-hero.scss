@@ -1,0 +1,10 @@
+//
+// scss module : PbRowHero
+//
+
+.pb-row-hero {
+  $self: &;
+  @include inView {
+    &.is-inview { }
+  }
+}
