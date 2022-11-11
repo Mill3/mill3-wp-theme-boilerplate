@@ -1,0 +1,10 @@
+//
+// scss module : PbRowTextColumns
+//
+
+.pb-row-text-columns {
+  $self: &;
+  @include inView {
+    &.is-inview { }
+  }
+}

@@ -1,0 +1,40 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Contact
+  Description: Contact form & infos
+  Category: widgets
+  Icon: location-alt
+  Keywords: contact form info address
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Contact" }
+#}
+
+{% set post = Post(fields) %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb-row-contact-' ~ random()) %}
+
+{% set title = post.get_field('title')|default(null) %}
+{% set gravity_form_id = post.get_field('gravity_form_id')|default(null) %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-contact container-fluid {{ classname }}"
+  {{ attributes|join(' ') }}
+  data-scroll
+  data-scroll-offset="100px,0"
+>
+
+  {% if gravity_form_id %}
+    <div class="pb-row-contact__form">
+      {{ function('do_shortcode', '[gravityform id="' ~ gravity_form_id ~ '" title="false" description="false" ajax="true"]') }}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

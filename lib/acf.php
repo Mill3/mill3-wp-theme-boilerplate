@@ -11,6 +11,98 @@
 
 use Mill3WP\Assets;
 
+/**
+ * ACF block example for Gutenberg
+ *
+ * Function will scan /acf-json/thumbnails/ directory and search for images matching the block slug value
+ *
+ * Instructions :
+ *
+ * in directory /acf-json/thumbnails/, add images ending with numbers
+ *
+ * - /acf-json/thumbnails/pb-row-slug.png
+ * - /acf-json/thumbnails/pb-row-other-slug-1.png
+ * - /acf-json/thumbnails/pb-row-other-slug-2.png
+ * - /acf-json/thumbnails/pb-row-other-slug-3.png
+ *
+ * Function will display each found image on top of each other through an html string output
+ */
+
+function acf_block_example($slug)
+{
+    $path = '/acf-json/thumbnails/';
+    $base_dir = get_theme_file_path($path);
+    $files = scandir($base_dir);
+    $theme_directory = get_stylesheet_directory_uri() . $path;
+    $html = [];
+
+    //
+    // regex matches pattern : pb-row-{slug}.jpg, pb-row-{slug}-01.png, pb-row-{slug}-1.jpg, pb-row-{slug}-99.webp
+    //
+    $re = "/{$slug}(|-[0-9]?[0-9]).(jpg|jpeg|webp|png)/imu";
+    $matches = preg_grep($re, $files);
+
+    foreach ($matches as $match) {
+        $html[] = "<p><img src='{$theme_directory}{$match}' alt='{$slug}' style='width: 100%; height: auto;'></p>";
+    }
+
+    if (count($html) > 0) {
+        return implode("", $html);
+    } else {
+        return __("No preview availaible", "mill3wp");
+    }
+}
+
+/**
+ * ACF block preview
+ *
+ * loads an iframe containing a block-editor block row. The iFrame loads our theme CSS & JS modules
+ *
+ */
+
+function acf_block_preview($content)
+{
+    global $post;
+    $context = Timber\Timber::get_context();
+    $context['is_preview'] = True;
+    $context['post'] = $post;
+    $context['stylesheet'] = Mill3WP\Assets\Asset_File_path('acfPreview', 'css');
+    $context['js'] = Mill3WP\Assets\Asset_File_path('acfPreviewIframe', 'js');
+    $context['content'] = $content;
+
+    $doc = Timber\Timber::compile("base-acf-preview.twig", $context);
+
+?>
+    <iframe srcdoc="<?php echo htmlspecialchars($doc, ENT_QUOTES, 'UTF-8', true) ?>" style="pointer-events: none;" width="100%" frameborder="0" scrolling="no">
+    </iframe>
+<?php
+}
+
+/**
+ * Set stripe animations type image selector in cloned field
+ */
+
+add_filter('acfe/load_field/name=image_selector_field', 'acfe_image_selector_field_sample', 10, 3);
+
+// function acfe_image_selector_field_sample($field)
+// {
+//     if ($field['type'] !== 'acfe_image_selector') return $field;
+
+//     $base_path = '/acf-json/fields-images/';
+
+//     $choices = [
+//         'horizontal' => get_stylesheet_directory_uri() . $base_path . 'stripe-animations-horizontal.jpg',
+//         'horizontal-alternate' => get_stylesheet_directory_uri() . $base_path . 'stripe-animations-horizontal-alternate.jpg',
+//         'inverted-with-pluses' => get_stylesheet_directory_uri() . $base_path . 'stripe-animations-inverted-with-pluses.jpg',
+//         'vertical' => get_stylesheet_directory_uri() . $base_path . 'stripe-animations-vertical.jpg'
+//     ];
+
+//     $field['choices'] = $choices;
+
+//     return $field;
+// }
+
+
 //define('GOOGLE_API_KEY', 'YOUR_API_KEY');
 
 /**
@@ -18,33 +110,34 @@ use Mill3WP\Assets;
  */
 add_filter('acfe/flexible/thumbnail/layout=pb_row_spacer', 'acf_flexible_layout_thumbnail', 10, 3);
 
-function acf_flexible_layout_thumbnail($thumbnail, $field, $layout) {
+function acf_flexible_layout_thumbnail($thumbnail, $field, $layout)
+{
     $filename = $layout['name'];
     $extensions = ['.jpg', '.png', '.gif'];
     $path = '/acf-json/thumbnails/' . $filename;
 
-    foreach($extensions as $extension) {
+    foreach ($extensions as $extension) {
         if (file_exists(get_theme_file_path($path . $extension))) {
             return get_stylesheet_directory_uri() . $path . $extension;
         }
     }
 }
 
-add_filter('acf/settings/show_admin', function() {
+add_filter('acf/settings/show_admin', function () {
     // for development, show ACF admin menu
-    if( defined('THEME_ENV') && THEME_ENV !== 'production' ) return true;
+    if (defined('THEME_ENV') && THEME_ENV !== 'production') return true;
 
     // get current user
     $user = wp_get_current_user();
 
     // if we can't find this user (it should never happen, but just in case), hide ACF admin menu
-    if( !$user ) return false;
+    if (!$user) return false;
 
     // get user email
     $email = $user->user_email;
 
     // if email is not defined, hide ACF admin menu
-    if( !$email ) return false;
+    if (!$email) return false;
 
     // show ACF admin menu if user email is from @mill3.studio
     // otherwise, hide ACF admin menu
@@ -52,20 +145,31 @@ add_filter('acf/settings/show_admin', function() {
 }, 10, 3);
 
 
-
 // Set a custom name for collapsed layouts in ACF Flexible Content field
-add_filter('acf/fields/flexible_content/layout_title/name=YOUR_LAYOUT_NAME', function($title, $field, $layout, $i) {
+// add_filter('acf/fields/flexible_content/layout_title/name=YOUR_LAYOUT_NAME', function ($title, $field, $layout, $i) {
+//     switch ($layout['name']) {
+//         case 'partners_group':
+//             $name = get_sub_field('name');
+//             return "{$name} <em>({$title})</em>";
+//             break;
+//     }
+//     return $title;
+// }, 10, 4);
 
-    switch($layout['name']) {
-        case 'partners_group':
-            $name = get_sub_field('name');
-            return "{$name} <em>({$title})</em>";
-        break;
-    }
 
-    return $title;
-}, 10, 4);
-
+/*
+ * https://www.advancedcustomfields.com/resources/acf-render_field/
+ */
+add_action('acf/render_field/name=post_slug', 'my_acfe_dynamic_render');
+function my_acfe_dynamic_render($field)
+{
+    global $post;
+    $slug = $post->post_name;
+    if (!$slug) return;
+    echo "<input value='{$slug}' readonly style='border: 1px solid #000; border-radius: 2px; padding: 0.5rem; width: 100%;' />";
+    echo "<h4 style='font-weight: 400;'>How to use in your twig template :</h4>";
+    echo "<pre>{{ PageSection('{$slug}) }}</pre>";
+}
 
 // Theme colors
 add_filter('acf/prepare_field/name=theme_color', function ($field) {
@@ -84,9 +188,9 @@ add_filter('acf/prepare_field/name=theme_color', function ($field) {
 });
 
 // Populate select field with Gravity Form entries
-add_filter('acf/prepare_field/name=gravity_form_id', function ($field) {
+function afc_populate_gravity_form_id($field) {
     // if plugin is not activated, do nothing
-    if ( !class_exists('GFAPI') ) return $field;
+    if (!class_exists('GFAPI')) return $field;
 
     $forms = GFAPI::get_forms(true);
     foreach ($forms as $key => $form) {
@@ -94,10 +198,14 @@ add_filter('acf/prepare_field/name=gravity_form_id', function ($field) {
     }
 
     return $field;
-});
+}
+
+add_filter('acf/prepare_field/name=gravity_form_id', 'afc_populate_gravity_form_id');
+add_filter('acf/prepare_field/name=application_gravity_form_id', 'afc_populate_gravity_form_id');
 
 // Populate padding field (pt, pb, pt_lg, pb_lg)
-function acf_populate_padding($field) {
+function acf_populate_padding($field)
+{
 
     $field['choices'] = array(
         "0" => "0px",
@@ -135,7 +243,8 @@ add_filter('acf/prepare_field/name=grid_gap', 'acf_populate_padding');
 add_filter('acf/prepare_field/name=grid_gap_mobile', 'acf_populate_padding');
 
 // Populate margin field (mt, mb, mt_lg, mb_lg)
-function acf_populate_margin($field) {
+function acf_populate_margin($field)
+{
 
     $field['choices'] = array(
         "-200" => "-200px",
@@ -191,7 +300,8 @@ add_filter('acf/prepare_field/name=mb', 'acf_populate_margin');
 add_filter('acf/prepare_field/name=mt_lg', 'acf_populate_margin');
 add_filter('acf/prepare_field/name=mb_lg', 'acf_populate_margin');
 
-if( defined('GOOGLE_API_KEY') ) {
-    add_action('acf/init', function() { acf_update_setting('google_api_key', GOOGLE_API_KEY); });
+if (defined('GOOGLE_API_KEY')) {
+    add_action('acf/init', function () {
+        acf_update_setting('google_api_key', GOOGLE_API_KEY);
+    });
 }
-

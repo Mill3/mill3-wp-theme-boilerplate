@@ -16,6 +16,7 @@ class ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
         'fb4ca2d97fe7ba6af750497425204e70' => __DIR__ . '/..' . '/sentry/sentry/src/functions.php',
+        '32a4c26a4fcb93d787a6a7cafb8c7c9d' => __DIR__ . '/..' . '/palmiak/timber-acf-wp-blocks/timber-acf-wp-blocks.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -100,8 +101,8 @@ class ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -121,8 +122,8 @@ class ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157
         ),
         'Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
-            1 => __DIR__ . '/..' . '/php-http/message/src',
+            0 => __DIR__ . '/..' . '/php-http/message/src',
+            1 => __DIR__ . '/..' . '/php-http/message-factory/src',
         ),
         'Http\\Factory\\Guzzle\\' => 
         array (

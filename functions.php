@@ -102,6 +102,7 @@ $includes = [
     'lib/actions.php',
     'lib/admin-status.php',
     'lib/assets.php',
+    'lib/block-visibility.php',
     'lib/class-walker-nav-menu-edit.php',
     'lib/customizer.php',
     'lib/editor.php',
@@ -119,7 +120,7 @@ $includes = [
     'lib/recaptcha.php',
     'lib/search.php',
     'lib/setup.php',
-    'lib/shortcodes.php',
+    // 'lib/shortcodes.php',
     'lib/svg.php',
     'lib/taxonomies.php',
     'lib/taxonomy-queries.php',
@@ -128,6 +129,7 @@ $includes = [
     'lib/window-messenger.php',
     // custom field type
     'lib/acf-fields/spacer/index.php',
+    'lib/acf-fields/row-title/index.php',
     // model class per post-type
     'lib/models/dummy.php',
     'lib/models/page-section.php',

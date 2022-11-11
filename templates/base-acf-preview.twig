@@ -1,3 +1,11 @@
+{% set post = Post(post) %}
+{% set body_inverted = post.get_field('bg_inverted') or post.post_type == "post" %}
+{% set body_classname = [] %}
+
+{% if body_inverted %}
+  {% set body_classname = body_classname|merge(['--bg-inverted']) %}
+{% endif %}
+
 <!doctype html>
 <html>
 <head>
@@ -8,9 +16,15 @@
   <title>ACF Preview</title>
   <link rel="stylesheet" href="{{ stylesheet }}" type="text/css" media="all">
 </head>
-<body class="{{ body_class }} acf-preview">
-  {% set template = "page-builder/" ~ post.acf_fc_layout ~ ".twig" %}
-  {% include template with {'post': post, 'layout': post.acf_fc_layout, 'is_preview': is_preview } only %}
+<body class="acf-block-preview {{ body_classname|join(" ") }}">
+  <div data-windmill="wrapper">
+    <div
+      data-windmill="container"
+      data-scroll-container
+    >
+      {{ content }}
+    </div>
+  </div>
   <script src="{{ js }}"></script>
 </body>
 </html>

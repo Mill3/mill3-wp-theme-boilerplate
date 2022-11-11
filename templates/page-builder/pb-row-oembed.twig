@@ -1,0 +1,93 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: oEmbed
+  Description: Video embed (youtube/vimeo/etc.)
+  Category: embed
+  Icon: format-video
+  Keywords: video oembed embed video youtube vimeo
+  Mode: edit
+  PostTypes: page post page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "oEmbed" }
+#}
+
+{% set post = fields %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_oembed-' ~ random()) %}
+
+{% set video = post.video %}
+{% set thumbnail = post.thumbnail %}
+{% set video_preview = post.video_preview %}
+{% set video_preview_mobile = post.video_preview_mobile %}
+{% set caption = post.caption %}
+
+{% set hasPreview = thumbnail or video_preview or video_preview_mobile ? true : false %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-oembed {{ classname }}"
+  {% if hasPreview %}
+  data-module="pb-row-oembed"
+  data-pb-row-oembed
+  {% endif %}
+  {{ attributes|join(' ') }}
+  data-scroll
+  data-scroll-offset="100px,0"
+>
+  <div class="pb-row-oembed__container container-fluid">
+    <div class="pb-row-oembed__wrap ml-auto mr-auto">
+      <div class="w-100 box box-widescreen wysiwyg">
+        {% if hasPreview %}
+          <div class="pb-row-oembed__preview position-absolute t-0 l-0 w-100 h-100 overflow-hidden">
+            {% if thumbnail %}
+              {% include 'partial/image.twig' with {
+                'image': thumbnail,
+                'alt': caption,
+                'sizes': ['100vw', null, null, '1110px'],
+                'classname': 'pb-row-oembed__img image-as-background'
+              } only %}
+            {% else %}
+              {% include 'partial/video.twig' with {
+                'src': video_preview|default(video_preview_mobile),
+                'src_mobile': video_preview_mobile|default(video_preview),
+                'is_preview': is_preview,
+                'playOnEnter': true,
+                'pauseOnExit': true,
+                'classname': 'pb-row-oembed__videoPreview video-as-background',
+                'attributes': [
+                  'data-scroll-target="#' ~ udid ~ '"',
+                  'data-scroll-offset="100px,0"',
+                ]
+              } %}
+            {% endif %}
+
+            <button
+              class="pb-row-oembed__button position-absolute t-50 l-50 d-flex align-items-center justify-content-center bg-color-white color-black"
+              aria-label="{{ __('Play video', 'mill3wp') }}"
+            >
+              {{ __('Play video', 'mill3wp') }}
+            </button>
+          </div>
+        {% else %}
+          {{ video|embeded_settings }}
+        {% endif %}
+      </div>
+
+      {% if caption %}
+        <figcaption class="pb-row-oembed__caption">{{ caption }}</figcaption>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if hasPreview %}
+  <script type="text/html">
+    {{ video|embeded_settings({'autoplay': 1}) }}
+  </script>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Accordions
+  Description: Accordions
+  Category: theme
+  Icon: feedback
+  Keywords: accordion
+  Mode: edit
+  PostTypes: page page_section post
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Accordions" }
+#}
+
+{% set post = Post(fields) %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_accordions-' ~ random()) %}
+
+{% set title = post.get_field('title') %}
+{% set accordions = post.get_field('accordions') %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-accordions container-fluid {{ classname }}"
+  data-scroll
+  data-scroll-offset="200px,0"
+  {{ attributes|join(' ') }}
+>
+
+  {% include 'partial/accordions.twig' with {
+    'accordions': accordions,
+    'udid': udid,
+    'classname': 'pb-row-accordions__accordions',
+    'attributes': [
+      'data-scroll-target="#'~ udid ~'"'
+    ]
+  } only %}
+
+</div>
+{% endblock %}

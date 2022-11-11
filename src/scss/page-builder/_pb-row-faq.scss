@@ -1,0 +1,10 @@
+//
+// scss module : PbRowFaq
+//
+
+.pb-row-faq {
+  $self: &;
+  @include inView {
+    &.is-inview { }
+  }
+}

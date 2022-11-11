@@ -1,0 +1,21 @@
+.acf-field-row-title {
+  background-color: #ADB2AD;
+  color: #000;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+}
+
+.acf-field-row-title .acf-label {
+  margin: 0;
+}
+
+.acf-field-row-title .acf-label label {
+  font-size: 1.45em;
+  pointer-events: none;
+  margin-bottom: 0 !important
+}
+
+/* hide field completly when in block-inspector mode */
+.block-editor-block-inspector .acf-field.acf-field-row-title {
+  display: none;
+}

@@ -1,0 +1,16 @@
+{
+    "theme-options": {
+        "page_title": "Theme options",
+        "menu_slug": "theme-options",
+        "menu_title": "Theme options",
+        "capability": "edit_posts",
+        "position": "",
+        "parent_slug": "",
+        "icon_url": "",
+        "redirect": true,
+        "post_id": "options",
+        "autoload": false,
+        "update_button": "Update",
+        "updated_message": "Options Updated"
+    }
+}

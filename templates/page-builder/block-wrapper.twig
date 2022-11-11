@@ -1,0 +1,138 @@
+{% set is_preview = is_preview ?? false %}
+{% set order = fields.order %}
+
+{# create Timber/Post #}
+{% set post = Post(fields) %}
+
+{% set effect = post ? post.get_field('effect')|default(null) : null %}
+{% set pb_row_id = post ? post.get_field('pb_row_id')|default(null) : pb_row_id|default(null) %}
+
+{% set pt = post ? post.get_field('pt')|default(0) : spacer_mobile|default(0) %}
+{% set pb = post ? post.get_field('pb')|default(0) : spacer_mobile|default(0) %}
+{% set pt_lg = post ? post.get_field('pt_lg')|default(0) : spacer|default(0) %}
+{% set pb_lg = post ? post.get_field('pb_lg')|default(0) : spacer|default(0) %}
+
+{% set mt = post ? post.get_field('mt')|default(0) : 0 %}
+{% set mb = post ? post.get_field('mb')|default(0) : 0 %}
+{% set mt_lg = post ? post.get_field('mt_lg')|default(0) : 0 %}
+{% set mb_lg = post ? post.get_field('mb_lg')|default(0) : 0 %}
+
+{% set row_classname = [] %}
+{% set row_styles = ['--zindex:' ~ order] %}
+
+{# create CSS colors variables from ACF stored values #}
+{% for color in ['text-color', 'bg-color'] %}
+  {% set color_value = post.get_field(color) %}
+  {% if color_value %}
+    {% set row_styles = row_styles|merge(['--' ~ color ~ ':' ~ color_value ]) %}
+  {% endif %}
+{% endfor %}
+
+{# paddings #}
+{% set row_paddings = ['pt-' ~ pt, 'pb-' ~ pb, 'pt-lg-' ~ pt_lg, 'pb-lg-' ~ pb_lg] %}
+
+{# apply margins only on frontend #}
+{% if not is_preview %}
+  {% set row_classname = row_classname|merge([
+    'mt-' ~ mt,
+    'mb-' ~ mb,
+    'mt-lg-' ~ mt_lg,
+    'mb-lg-' ~ mb_lg
+  ]) %}
+{% endif %}
+
+{% if post and post.get_field('bg-color') %}
+  {% set row_classname = row_classname|merge(['--has-bg']) %}
+{% endif %}
+
+{% if post and post.get_field('text-color') %}
+  {% set row_classname = row_classname|merge(['--has-text-color']) %}
+{% endif %}
+
+{% if slug %}
+  {% set row_classname = row_classname|merge(['--layout-' ~ slug]) %}
+{% endif %}
+
+{% if first %}
+  {% set row_classname = row_classname|merge(['--first']) %}
+{% endif %}
+
+{% if last %}
+  {% set row_classname = row_classname|merge(['--last']) %}
+{% endif %}
+
+{# ENTIRE MARKUP IS SET HERE #}
+
+{% set row %}
+
+{# create wrapper for reveal effect #}
+{% if effect == 'reveal' %}
+  {% set pb_row_id = pb_row_id|default('pb_row_wrapper-' ~ random()) %}
+
+  {% set row_open_block %}
+    <div
+      id="{{ pb_row_id }}"
+      class="pb-row-wrapper --effect-reveal position-relative {{ row_classname|join(' ') }}"
+      data-scroll-id="{{ pb_row_id }}"
+      data-scroll-section
+      data-module="pb-row-wrapper-reveal"
+      data-pb-row-wrapper-reveal
+      {% if row_styles|length > 0 %}
+      style="{{ row_styles|join(";") }}"
+      {% endif %}
+    >
+      <div class="pb-row-wrapper__reveal {{ row_paddings|join(' ') }}">
+  {% endset %}
+
+  {% set row_close_block %}
+      </div>
+    </div>
+  {% endset %}
+
+{% else %} {# create default wrapper (no effect) #}
+
+  {% set row_open_block %}
+    <div
+      {% if pb_row_id %}id="{{ pb_row_id }}"{% endif %}
+      class="pb-row-wrapper position-relative {{ row_paddings|join(' ') }} {{ row_classname|join(' ') }}"
+      {% if pb_row_id %}data-scroll-id="{{ pb_row_id }}"{% endif %}
+      data-scroll-section
+      data-module-delay
+      {% if row_styles|length > 0 %}
+      style="{{ row_styles|join(";") }}"
+      {% endif %}
+    >
+  {% endset %}
+
+  {% set row_close_block %}
+    </div>
+  {% endset %}
+
+{% endif %}
+
+  {{ row_open_block }}
+
+  {% if is_preview %}
+  <div class="acf-block-preview-wrap">
+  {% endif %}
+
+  {% block row_wrapper %}{% endblock %}
+
+  {% if is_preview %}
+  </div>
+  {% endif %}
+
+{{ row_close_block }}
+
+{% endset %}
+
+{# OUTPUT STARTS HERE #}
+{% if is_preview and not block.data.is_example %}
+  {# in preview mode we can a php function which returns an <iframe> wrapper #}
+  {{ function('acf_block_preview', row) }}
+{% elseif block.data.is_example %}
+  {{ function('acf_block_example', slug) }}
+{% else %}
+  {{ row }}
+{% endif %}
+{# OUTPUT ENDS HERE #}

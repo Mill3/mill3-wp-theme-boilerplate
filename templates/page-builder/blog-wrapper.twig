@@ -1,0 +1,18 @@
+{% set post = Post(fields) %}
+
+{% set row %}
+<section class="blog-row-wrapper container-fluid">
+  {% block blog_row_wrapper %}{% endblock %}
+</section>
+{% endset %}
+
+{# OUTPUT STARTS HERE #}
+{% if is_preview and not block.data.is_example %}
+  {# in preview mode we can a php function which returns an <iframe> wrapper #}
+  {{ function('acf_block_preview', row) }}
+{% elseif block.data.is_example %}
+  {{ function('acf_block_example', slug) }}
+{% else %}
+  {{ row }}
+{% endif %}
+{# OUTPUT ENDS HERE #}

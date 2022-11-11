@@ -1,0 +1,117 @@
+[
+    {
+        "key": "group_635932ce9ce0e",
+        "title": "pb-row-page-section",
+        "fields": [
+            {
+                "key": "field_635932cf84e30",
+                "label": "Page section",
+                "name": "page_section",
+                "aria-label": "",
+                "type": "row-title",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "translations": "copy_once",
+                "acfe_field_group_condition": 0
+            },
+            {
+                "key": "field_635932db84e31",
+                "label": "Page section",
+                "name": "page_section",
+                "aria-label": "",
+                "type": "post_object",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "post_type": [
+                    "page_section"
+                ],
+                "taxonomy": "",
+                "return_format": "object",
+                "multiple": 0,
+                "max": "",
+                "save_custom": 0,
+                "save_post_status": "publish",
+                "acfe_add_post": 0,
+                "acfe_edit_post": 1,
+                "acfe_bidirectional": {
+                    "acfe_bidirectional_enabled": "0"
+                },
+                "translations": "copy_once",
+                "allow_null": 0,
+                "acfe_field_group_condition": 0,
+                "ui": 1,
+                "save_post_type": ""
+            },
+            {
+                "key": "field_63593716f308f",
+                "label": "Effect",
+                "name": "effect",
+                "aria-label": "",
+                "type": "select",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "choices": {
+                    "stacked": "Stacked"
+                },
+                "default_value": false,
+                "return_format": "value",
+                "multiple": 0,
+                "max": "",
+                "prepend": "",
+                "append": "",
+                "translations": "copy_once",
+                "allow_null": 1,
+                "ui": 1,
+                "ajax": 0,
+                "acfe_field_group_condition": 0,
+                "placeholder": "",
+                "allow_custom": 0,
+                "search_placeholder": ""
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "block",
+                    "operator": "==",
+                    "value": "acf\/pb-row-page-section"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "acfe_autosync": [
+            "json"
+        ],
+        "acfe_form": 0,
+        "acfe_display_title": "",
+        "acfe_meta": "",
+        "acfe_note": "",
+        "modified": 1666791264
+    }
+]

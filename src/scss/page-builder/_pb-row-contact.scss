@@ -1,0 +1,10 @@
+//
+// scss module : PbRowContact
+//
+
+.pb-row-contact {
+  $self: &;
+  @include inView {
+    &.is-inview { }
+  }
+}

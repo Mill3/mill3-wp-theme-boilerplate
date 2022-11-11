@@ -1,0 +1,57 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Text Simple
+  Description: Simple text with optional title
+  Category: text
+  Icon: editor-paragraph
+  Keywords: text simple
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Text simple" }
+#}
+
+{% set post = fields %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_text-simple-' ~ random()) %}
+
+{% set title = post.title %}
+{% set text = post.text %}
+{% set buttons = post.buttons %}
+{% set position = post.position|default('right') %}
+{% set width = post.width|default('default') %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-text-simple container-fluid --position-{{ position }} --width-{{ width }} {{ classname }}"
+  {{ attributes|join(' ') }}
+  data-scroll
+  data-scroll-offset="100px,0"
+>
+
+  {% if title %}
+  <header class="pb-row-text-simple__header mb-50">
+    <h2 class="pb-row-text-simple__title ff-heading fz-24 fz-lg-36 lh-none m-0">{{ title }}</h2>
+  </header>
+  {% endif %}
+
+  <aside class="pb-row-text-simple__content">
+    <div class="pb-row-text-simple__text fz-16 fz-xl-18 lh-relaxed lh-xl-chill wysiwyg">
+      {{ text }}
+    </div>
+
+    {% if buttons %}
+      {% include 'partial/links-nav.twig' with {
+        'buttons': buttons,
+        'classname': 'pb-row-text-simple__buttons mt-20 mt-lg-50'
+      } only %}
+    {% endif %}
+  </aside>
+
+</div>
+{% endblock %}

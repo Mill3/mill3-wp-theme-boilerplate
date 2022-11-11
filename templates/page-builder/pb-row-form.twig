@@ -1,0 +1,46 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Form
+  Description: Form
+  Category: widgets
+  Icon: forms
+  Keywords: form
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Form" }
+#}
+
+{% set post = fields %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_form-' ~ random()) %}
+
+{% set title = post.title %}
+{% set text = post.text %}
+{% set gravity_form_id = post.gravity_form_id %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-form container-fluid {{ classname }}"
+  {{ attributes|join(' ') }}
+>
+  {% if title %}
+  <h3 class="pb-row-form__title m-0 p-0">{{ title }}</h3>
+  {% endif %}
+
+  {% if text %}
+  <div class="pb-row-form__text wysiwyg">{{ text }}</div>
+  {% endif %}
+
+  {% if gravity_form_id %}
+  <div class="pb-row-form__form w-100">
+    {{ function('do_shortcode', '[gravityform id="' ~ gravity_form_id ~ '" title="false" description="false" ajax="true"]') }}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

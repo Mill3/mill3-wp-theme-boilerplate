@@ -1,0 +1,34 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Page Title
+  Description: Page Title
+  Category: theme
+  Icon: table-row-before
+  Keywords: page-title header page title
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Page Title" }
+#}
+
+{% set post = Post(fields) %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb-row-page-title-' ~ random()) %}
+
+{% set title = post.get_field('title')|default(null) %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-page-title container-fluid {{ classname }}"
+  {{ attributes|join(' ') }}
+>
+
+  <h1 class="pb-row-page-title__title m-0">{{ title }}</h1>
+
+</div>
+{% endblock %}

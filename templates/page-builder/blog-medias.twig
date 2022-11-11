@@ -1,0 +1,91 @@
+{% extends 'page-builder/blog-wrapper.twig' %}
+{#
+  Title: Blog Medias
+  Description: Medias Gallery
+  Category: media
+  Icon: format-gallery
+  Keywords: medias gallery
+  Mode: edit
+  PostTypes: post
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Blog Medias" }
+#}
+
+{% set post = fields %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('blog-medias-' ~ random()) %}
+
+{% set medias = post.medias %}
+{% set layout = post.layout|default('grid-1') %}
+{% set format = post.format|default('square') %}
+
+{% set classname = classname ~ ' --layout-' ~ layout %}
+
+{% block blog_row_wrapper %}
+{% if medias %}
+<div
+  id="{{ udid }}"
+  class="pb-row blog-medias {{ classname }}"
+  data-scroll
+  data-scroll-offset="100px,0"
+  {{ attributes|join(' ') }}
+>
+
+  <div class="blog-medias__grid d-grid grid-column-md-{{ medias|length }} grid-gap-20">
+    {% for media in medias if media.image %}
+    {% set image = Image(media.image) %}
+    {% set sizes = {
+      'grid-1': ['100vw'],
+      'grid-2': ['50vw'],
+      'grid-3': ['33.3334vw'],
+      'grid-4': ['25vw'],
+      'grid-third': loop.index0 % 2 == 0 ? ['66.666vw'] : ['33.3334vw'],
+      'grid-center': ['100vw', null, '720px']
+    } %}
+    {% set parallax = {
+      'portrait': 0.5,
+      'photography': 0.5,
+      'square': 0.43,
+      'landscape': 0.35,
+      'postal-card': 0.31,
+      'half-square': 0.26,
+      'widescreen': 0.275,
+    } %}
+    <div
+      class="blog-medias__media"
+      data-scroll
+      data-scroll-offset="100px,0"
+    >
+      <figure
+        id="{{ udid ~ '_' ~ loop.index }}"
+        class="blog-medias__box box box-{{ format }} overflow-hidden"
+      >
+        <div
+          class="blog-medias__parallax position-absolute t-0 l-0 r-0 b-0"
+          data-scroll
+          data-scroll-target="#{{ udid ~ '_' ~ loop.index }}"
+          data-scroll-speed="{{ cycle([1, -1], loop.index0) * parallax[format]|default(0.5) }}"
+        >
+          {% include 'partial/image.twig' with {
+            'image': image,
+            'sizes': sizes[layout]|default(null),
+            'classname': 'blog-medias__img image-as-background'
+          } only %}
+        </div>
+
+      </figure>
+      {% if media.credit %}
+        <figcaption class="blog-medias__caption pl-lg-20 mt-10 fz-12 fz-lg-14 d-none d-md-block m-0 p-0">{{ media.credit }}</figcaption>
+        {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endif %}
+{% endblock %}

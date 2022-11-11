@@ -1,0 +1,126 @@
+[
+    {
+        "key": "group_63602b12620b8",
+        "title": "blog-text-simple",
+        "fields": [
+            {
+                "key": "field_63613a44b6b17",
+                "label": "Text Simple",
+                "name": "text_simple",
+                "aria-label": "",
+                "type": "row-title",
+                "instructions": "",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "translations": "copy_once",
+                "acfe_field_group_condition": 0
+            },
+            {
+                "key": "field_63602b12741d3",
+                "label": "Text",
+                "name": "text",
+                "aria-label": "",
+                "type": "wysiwyg",
+                "instructions": "",
+                "required": 1,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "acfe_wysiwyg_height": 300,
+                "acfe_wysiwyg_max_height": "",
+                "acfe_wysiwyg_valid_elements": "",
+                "acfe_wysiwyg_custom_style": "",
+                "acfe_wysiwyg_disable_wp_style": 0,
+                "acfe_wysiwyg_autoresize": 0,
+                "acfe_wysiwyg_disable_resize": 0,
+                "acfe_wysiwyg_remove_path": 0,
+                "acfe_wysiwyg_menubar": 0,
+                "acfe_wysiwyg_transparent": 0,
+                "acfe_wysiwyg_merge_toolbar": 0,
+                "acfe_wysiwyg_custom_toolbar": 0,
+                "translations": "translate",
+                "required_message": "",
+                "tabs": "all",
+                "toolbar": "full",
+                "media_upload": 1,
+                "delay": 0,
+                "acfe_field_group_condition": 0,
+                "acfe_wysiwyg_auto_init": 0,
+                "acfe_wysiwyg_min_height": 300,
+                "acfe_wysiwyg_toolbar_buttons": []
+            },
+            {
+                "key": "field_63602eb38bb3d",
+                "label": "Description",
+                "name": "description",
+                "aria-label": "",
+                "type": "wysiwyg",
+                "instructions": "Do not fill in first blog row.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "default_value": "",
+                "acfe_wysiwyg_height": 300,
+                "acfe_wysiwyg_max_height": "",
+                "acfe_wysiwyg_valid_elements": "",
+                "acfe_wysiwyg_custom_style": "",
+                "acfe_wysiwyg_disable_wp_style": 0,
+                "acfe_wysiwyg_autoresize": 0,
+                "acfe_wysiwyg_disable_resize": 0,
+                "acfe_wysiwyg_remove_path": 0,
+                "acfe_wysiwyg_menubar": 0,
+                "acfe_wysiwyg_transparent": 0,
+                "acfe_wysiwyg_merge_toolbar": 0,
+                "acfe_wysiwyg_custom_toolbar": 0,
+                "translations": "translate",
+                "tabs": "all",
+                "toolbar": "full",
+                "media_upload": 1,
+                "delay": 0,
+                "acfe_field_group_condition": 0,
+                "acfe_wysiwyg_auto_init": 0,
+                "acfe_wysiwyg_min_height": 300,
+                "acfe_wysiwyg_toolbar_buttons": []
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "block",
+                    "operator": "==",
+                    "value": "acf\/blog-text-simple"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": "",
+        "show_in_rest": 0,
+        "acfe_autosync": [
+            "json"
+        ],
+        "acfe_form": 0,
+        "acfe_display_title": "",
+        "acfe_meta": "",
+        "acfe_note": "",
+        "modified": 1667316336
+    }
+]

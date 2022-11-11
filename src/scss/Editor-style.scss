@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 @import "@mill3-packages/system-ui-sass/src/mixins";
-@import "@mill3-packages/system-ui-sass/src/modules/_base-elements";
+// @import "@mill3-packages/system-ui-sass/src/modules/_base-elements";
 @import "@mill3-packages/system-ui-sass/src/modules/_typography";
 @import "@mill3-packages/system-ui-sass/src/modules/_colors";
 @import "~sass-easing";
@@ -10,15 +10,48 @@
 
 @import "mixins/index";
 
-@import "commons/base-elements";
+// @import "commons/base-elements";
 @import "commons/fonts";
-@import "commons/images";
+// @import "commons/images";
 
 body.mce-content-body {
-  background-color: var(--color-white) !important;
-  color: var(--color-black) !important;
-  padding-left: spacer(30) !important;
-  padding-right: spacer(30) !important;
+  --body-text-color: #{color("color-black")};
+  color: var(--body-text-color);
+  padding-left: spacer(10) !important;
+  padding-right: spacer(10) !important;
+  font-family: font-family("body");
+  font-size: font-size("base");
+
+  a {
+    color: currentColor;
+  }
 
   @include wysiwyg;
+}
+
+//
+// Gutenberg editor page title input
+//
+
+.wp-block-post-title {
+  padding-bottom: spacer(40) !important;
+  margin-bottom: spacer(40) !important;
+  border-bottom: 1px solid #000 !important;
+  font-weight: 300;
+}
+
+//
+// Gutenberg each block
+//
+html :where(.wp-block) {
+  max-width: 1440px !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  font-family: font-family("body");
+}
+
+// add some space between each block editor
+.block-editor-block-list__block.wp-block.is-selected {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
 }
