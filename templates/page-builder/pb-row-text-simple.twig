@@ -1,4 +1,19 @@
-{% extends 'page-builder/pb_row_wrapper.twig' %}
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Text Simple
+  Description: Simple text with optional title
+  Category: text
+  Icon: editor-paragraph
+  Keywords: text simple
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Text simple" }
+#}
+
+{% set post = fields %}
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
@@ -13,7 +28,7 @@
 {% block row_wrapper %}
 <div
   id="{{ udid }}"
-  class="pb-row pb-row-text-simple container-fluid --position-{{ position }} --width-{{ width }}  {{ classname }}"
+  class="pb-row pb-row-text-simple container-fluid --position-{{ position }} --width-{{ width }} {{ classname }}"
   {{ attributes|join(' ') }}
   data-scroll
   data-scroll-offset="100px,0"
@@ -21,7 +36,7 @@
 
   {% if title %}
   <header class="pb-row-text-simple__header mb-50">
-    <h2 class="pb-row-text-simple__title ff-heading fz-24 fz-lg-36 fw-400 lh-none m-0">{{ title }}</h2>
+    <h2 class="pb-row-text-simple__title ff-heading fz-24 fz-lg-36 lh-none m-0">{{ title }}</h2>
   </header>
   {% endif %}
 

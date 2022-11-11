@@ -1,0 +1,36 @@
+{% extends 'page-builder/blog-wrapper.twig' %}
+{#
+  Title: Blog Text Simple
+  Description: Simple text with optional title
+  Category: text
+  Icon: editor-paragraph
+  Keywords: text simple
+  Mode: edit
+  PostTypes: post
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Blog Text simple" }
+#}
+
+{% set post = fields %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_text-simple-' ~ random()) %}
+
+{% set text = post.text %}
+
+{% block blog_row_wrapper %}
+  <div
+    class="blog-text-simple {{ classname }}"
+    data-scroll
+    data-scroll-offset="100px,0"
+    id="{{ udid }}"
+    {{ attributes|join(' ') }}
+  >
+    <div class="blog-text-simple__text fz-16 fz-md-18 fz-lg-19 lh-relaxed wysiwyg">
+      {{ text }}
+    </div>
+  </div>
+{% endblock %}

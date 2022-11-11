@@ -1,0 +1,79 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Partners
+  Description: Partners list
+  Category: theme
+  Icon: groups
+  Keywords: partners logo clients
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Partners" }
+#}
+
+{% set post = Post(fields) %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_partners-' ~ random()) %}
+
+{% set title = post.get_field('title') %}
+{% set partners = post.get_field('partners')|default([]) %}
+
+{% block row_wrapper %}
+<section
+  id="{{ udid }}"
+  class="pb-row pb-row-partners d-flex flex-column align-items-center {{ classname }}"
+  {{ attributes|join(' ') }}
+>
+
+ {% include 'partial/text-ticker.twig' with {
+    'text': _self.partners_list(partners),
+    'tagname': 'div',
+    'mode': 'css',
+    'classname': 'pb-row-partners__partnersTicker w-100',
+    'inViewOffset': '-50px, 0',
+    'attributes': [
+      'aria-hidden="true"'
+    ]
+  } only %}
+
+</section>
+{% endblock %}
+
+{% macro partners_list(partners) %}
+  {% for partner in partners %}
+    <div class="pb-row-partners__partner" style="--index: {{ loop.index0 }};">
+      {% if partner.link %}
+        <a
+          href="{{ partner.link }}"
+          title="{{ partner.name }}"
+          target="_blank"
+          class="pb-row-partners__partner__media pb-row-partners__partner__link"
+        >
+          {% include 'partial/image.twig' with {
+            'image': Image(partner.logo),
+            'alt': partner.name,
+            'size': 'large',
+            'sizes': ['170px'],
+            'lazyload': false,
+            'classname': 'pb-row-partners__partner__img w-100 h-100 object-fit-contain'
+          } only %}
+        </a>
+      {% else %}
+        <figure class="pb-row-partners__partner__media">
+          {% include 'partial/image.twig' with {
+            'image': Image(partner.logo),
+            'alt': partner.name,
+            'size': 'large',
+            'sizes': ['170px'],
+            'lazyload': false,
+            'classname': 'pb-row-partners__partner__img w-100 h-100 object-fit-contain'
+          } only %}
+        </figure>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endmacro %}

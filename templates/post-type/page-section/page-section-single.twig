@@ -1,14 +1,8 @@
 {% set classname = classname|default(null) %}
 
-{% set content_rows = post.get_field("page_builder") %}
-
-{# {% set edit_button %}
-  {% include 'post-type/page-section/_edit-admin-button.twig' with { 'post': post } only %}
-{% endset %} #}
-
-{% if content_rows is not empty and post %}
+{% if post.content %}
 <div class="single single-{{ post.post_type }} page-section {{ classname }}" id="page-{{ post.ID }}">
-  {% include 'page-builder/index.twig' with { 'post': post, 'edit_button' : edit_button } only %}
+  {{ post.content }}
 </div>
 {% endif %}
 

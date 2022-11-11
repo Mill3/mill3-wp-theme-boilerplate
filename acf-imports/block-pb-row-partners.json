@@ -104,77 +104,6 @@
                 "acfe_wysiwyg_toolbar_buttons": []
             },
             {
-                "key": "field_63606426e91d7",
-                "label": "Display mode",
-                "name": "display_mode",
-                "aria-label": "",
-                "type": "button_group",
-                "instructions": "On mobile, mode is forced to ticker.",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "33",
-                    "class": "",
-                    "id": ""
-                },
-                "choices": {
-                    "grid": "Grid",
-                    "ticker": "Ticker"
-                },
-                "default_value": "grid",
-                "return_format": "value",
-                "translations": "copy_once",
-                "allow_null": 0,
-                "layout": "horizontal",
-                "acfe_field_group_condition": 0
-            },
-            {
-                "key": "field_635961ac4abf5",
-                "label": "Logos per rows",
-                "name": "columns",
-                "aria-label": "",
-                "type": "range",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "33",
-                    "class": "",
-                    "id": ""
-                },
-                "default_value": 6,
-                "translations": "copy_once",
-                "min": 2,
-                "max": 10,
-                "step": 1,
-                "prepend": "",
-                "append": "",
-                "acfe_field_group_condition": 0
-            },
-            {
-                "key": "field_63595db012a42",
-                "label": "Logos image maximum height",
-                "name": "images_max_height",
-                "aria-label": "",
-                "type": "range",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "34",
-                    "class": "",
-                    "id": ""
-                },
-                "default_value": 25,
-                "translations": "copy_once",
-                "min": 25,
-                "max": 100,
-                "step": 5,
-                "prepend": "",
-                "append": "",
-                "acfe_field_group_condition": 0
-            },
-            {
                 "key": "field_60895fbad7269",
                 "label": "Partners",
                 "name": "partners",
@@ -440,13 +369,12 @@
         "active": true,
         "description": "",
         "show_in_rest": 0,
-        "acfe_autosync": [
-            "json"
-        ],
         "acfe_form": 0,
         "acfe_display_title": "",
         "acfe_meta": "",
         "acfe_note": "",
-        "modified": 1667262243
+        "acfe_autosync": [
+            "json"
+        ]
     }
 ]

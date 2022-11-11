@@ -35,21 +35,21 @@ function setup()
             'slug'  => 'black',
             'color' => '#000000',
         ),
-        // array(
-        //     'name'  => 'Change me',
-        //     'slug'  => 'change-me',
-        //     'color' => '#512520',
-        // ),
-        // array(
-        //     'name'  => 'Red',
-        //     'slug'  => 'red',
-        //     'color' => '#863B32',
-        // ),
-        // array(
-        //     'name'  => 'Orange',
-        //     'slug'  => 'orange',
-        //     'color' => '#E96A35',
-        // )
+        array(
+            'name'  => 'Change me',
+            'slug'  => 'change-me',
+            'color' => '#512520',
+        ),
+        array(
+            'name'  => 'Red',
+            'slug'  => 'red',
+            'color' => '#863B32',
+        ),
+        array(
+            'name'  => 'Orange',
+            'slug'  => 'orange',
+            'color' => '#E96A35',
+        )
     ));
 
     // Enable post thumbnails

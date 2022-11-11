@@ -1,0 +1,62 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Text Columns
+  Description: Text Columns
+  Category: text
+  Icon: columns
+  Keywords: text columns
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Text Columns" }
+#}
+
+{% set post = Post(fields) %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb-row-text-columns-' ~ random()) %}
+
+{% set title = post.get_field('title')|default(null) %}
+{% set columns = post.get_field('columns')|default(null) %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-text-columns container-fluid {{ classname }}"
+  {{ attributes|join(' ') }}
+>
+
+  {% if columns %}
+  <div
+    class="pb-row-text-columns__columns d-grid grid-columns-lg-3"
+    style="--columns: {{ columns|length }}"
+  >
+    {% for column in columns %}
+      {% set title = column.title|default(null) %}
+      {% set text = column.text|default(null) %}
+
+      <aside
+        class="pb-row-text-columns__column {{ columns_classname }}"
+        style="--index: {{ loop.index0 }};"
+      >
+
+        {% if title %}
+          <h4 class='pb-row-text-columns__columnTitle'>{{ title }}</h4>
+        {% endif %}
+
+        {% if text %}
+          <div class="pb-row-text-columns__columnText wysiwyg">
+            {{ text }}
+          </div>
+        {% endif %}
+
+      </aside>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

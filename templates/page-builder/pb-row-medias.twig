@@ -1,4 +1,19 @@
-{% extends is_shortcode ? 'shortcode/pb_wrapper.twig' : 'page-builder/pb_row_wrapper.twig' %}
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Medias
+  Description: Medias Gallery
+  Category: media
+  Icon: format-gallery
+  Keywords: medias gallery
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Medias" }
+#}
+
+{% set post = fields %}
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
@@ -36,7 +51,7 @@
   {% if layout == 'slider' %}
 
   <div class="pb-row-medias__slider swiper-container">
-    <aside 
+    <aside
       class="pb-row-medias__nav container-fluid d-flex align-items-center justify-content-end"
       aria-hidden="true"
     >
@@ -83,14 +98,14 @@
 
   <div class="pb-row-medias__ticker" aria-hidden="true">
     {% set ticker_content %}
-    <ul 
+    <ul
       class="pb-row-medias__ticker__list d-flex align-items-start list-none m-0 p-0"
       style="--item-length: {{ filtered_medias|length }}"
     >
       {% for media in filtered_medias %}
       {% set image = Image(media.image) %}
-      <li 
-        class="mr-{{ grid_gap_mobile }} mr-lg-{{ grid_gap }}" 
+      <li
+        class="mr-{{ grid_gap_mobile }} mr-lg-{{ grid_gap }}"
         style="--index:{{ loop.index0 }}"
       >
         <figure class="d-block w-100 m-0 p-0">
@@ -140,16 +155,16 @@
       'half-square': 0.26,
       'widescreen': 0.275,
     } %}
-    <div 
+    <div
       class="pb-row-medias__media"
       data-scroll
       data-scroll-offset="100px,0"
     >
-      <figure 
+      <figure
         id="{{ udid ~ '_' ~ loop.index }}"
         class="pb-row-medias__box box box-{{ format }} overflow-hidden"
       >
-        <div 
+        <div
           class="pb-row-medias__parallax position-absolute t-0 l-0 r-0 b-0"
           data-scroll
           data-scroll-target="#{{ udid ~ '_' ~ loop.index }}"
@@ -169,7 +184,7 @@
     </div>
     {% endfor %}
   </div>
-  
+
   {% endif %}
 
 </div>

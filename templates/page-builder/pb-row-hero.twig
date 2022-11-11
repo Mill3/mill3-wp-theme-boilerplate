@@ -1,0 +1,38 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Hero
+  Description: Hero header for homepage or landing pages
+  Category: theme
+  Icon: table-row-before
+  Keywords: hero header
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: false
+  Example: { "title": "Hero" }
+#}
+
+{% set post = Post(fields) %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb-row-hero-' ~ random()) %}
+
+{% set title = post.get_field('title') %}
+{% set buttons = post.get_field('buttons') %}
+{% set text = post.get_field('text') %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-hero{{ classname }}"
+  data-scroll
+  data-scroll-offset="100px,0"
+  data-module="pb-row-hero"
+  data-pb-row-hero
+  {{ attributes|join(' ') }}
+>
+
+</div>
+{% endblock %}

@@ -128,7 +128,9 @@
                 "allow_custom": 0,
                 "search_placeholder": "",
                 "prepend": "",
-                "append": ""
+                "append": "",
+                "min": "",
+                "max": ""
             },
             {
                 "key": "field_633daa23e4bf2",

@@ -1,4 +1,19 @@
-{% extends 'page-builder/pb_row_wrapper.twig' %}
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: oEmbed
+  Description: Video embed (youtube/vimeo/etc.)
+  Category: embed
+  Icon: format-video
+  Keywords: video oembed embed video youtube vimeo
+  Mode: edit
+  PostTypes: page post page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "oEmbed" }
+#}
+
+{% set post = fields %}
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
@@ -51,7 +66,7 @@
               } %}
             {% endif %}
 
-            <button 
+            <button
               class="pb-row-oembed__button position-absolute t-50 l-50 d-flex align-items-center justify-content-center bg-color-white color-black"
               aria-label="{{ __('Play video', 'mill3wp') }}"
             >

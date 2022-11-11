@@ -1,0 +1,41 @@
+{#
+  Title: Page section
+  Description: Embed a page-section content in page
+  Category: embed
+  Icon: database
+  Keywords: section
+  Mode: edit
+  PostTypes: page
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Page Section" }
+#}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+
+{% set post = Post(fields) %}
+
+{% set page_section = post.get_field('page_section')|default(null) %}
+{% set effect = post.get_field('effect')|default(null) %}
+{% set edit_button = null %}
+{% set zindex = zindex ?? 1 %}
+
+{# get content rows from page-section #}
+{% set content = page_section.content %}
+
+{# effect stacked #}
+{% if effect == 'stacked' %}
+  {% set classname = classname|split(' ')|merge(['--effect-stacked'])|join(' ') %}
+{% endif %}
+
+{% if page_section and content %}
+<div class="pb-row-page-section {{ classname }}" {{ attributes|join(' ') }}>
+  {% if is_preview %}
+    {{ function('acf_block_preview', content) }}
+  {% else %}
+    {{ content }}
+  {% endif %}
+</div>
+{% endif %}
