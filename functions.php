@@ -241,8 +241,6 @@ class Mill3WP extends Timber\Site
         $twig->addFilter(new \Timber\Twig_Filter('twitter_share', 'filter_twitter_share'));
         $twig->addFilter(new \Timber\Twig_Filter('linkedin_share', 'filter_linkedin_share'));
         $twig->addFilter(new \Timber\Twig_Filter('email_share', 'filter_email_share'));
-        $twig->addFilter(new \Timber\Twig_Filter('line_breaks', 'filter_line_breaks'));
-        $twig->addFilter(new \Timber\Twig_Filter('word_highlights', 'filter_ventriloc_word_highlights'));
 
         $twig->addFunction(
             new \Twig\TwigFunction('get_context', function () {
