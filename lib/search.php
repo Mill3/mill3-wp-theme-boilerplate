@@ -19,17 +19,19 @@ add_filter('pre_get_document_title', function($title) {
 
         if( !empty($search_query) ) return sprintf(__('Search Results for %s', 'mill3wp'), $search_query);
         else return __('Search', 'mill3wp');
+    } else {
+        return $title;
     }
 }, 30);
 
 // enable search results to be filtered by post_type=page
 add_filter('pre_get_posts', function($query) {
     if( $query->is_search && !$query->is_admin ) {
-        
+
         // get post_type from query
         $post_type = $query->get('post_type');
 
-        // if post_type is not set 
+        // if post_type is not set
         if( !$post_type ) {
 
             // get value from $_GET['post_type']
@@ -42,7 +44,7 @@ add_filter('pre_get_posts', function($query) {
             $query->set('post_type', $post_type);
         }
     }
-    
+
     return $query;
 });
 
