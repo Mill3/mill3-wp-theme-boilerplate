@@ -24,6 +24,11 @@
         {% endset %}
       {% endif %}
 
+      {# if link is a #target, use as a scroll-to button #}
+      {% if item.link starts with '#' and item.link != '#' %}
+        {% set link_attr = link_attr|merge(['data-scroll-to="' ~ item.link ~ '"']) %}
+      {% endif %}
+
       {% if 'lang-item' in item.classes %}
         {% set link_attr = link_attr|merge(['lang="'~item.lang~'"', 'hreflang="'~item.lang~'"', 'data-windmill-prevent']) %}
       {% endif %}
@@ -33,7 +38,7 @@
       {% endif %}
 
       <li class="{{ item.classes | join(' ') }}">
-        {% if item.link == '#' %}
+        {% if item.link starts with '#' %}
           <button
             class="{{ item.btn_classes|default('') }}"
             {{ link_attr|join(' ') }}
