@@ -61,6 +61,10 @@
   {% set row_classname = row_classname|merge(['--last']) %}
 {% endif %}
 
+{% if is_preview %}
+  {% set row_classname = row_classname|merge(['--is-preview']) %}
+{% endif %}
+
 {# ENTIRE MARKUP IS SET HERE #}
 
 {% set row %}
