@@ -13,17 +13,17 @@
   Example: { "title": "Text simple" }
 #}
 
-{% set post = fields %}
+{% set post = Post(fields) %}
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb_row_text-simple-' ~ random()) %}
 
-{% set title = post.title %}
-{% set text = post.text %}
-{% set buttons = post.buttons %}
-{% set position = post.position|default('right') %}
-{% set width = post.width|default('default') %}
+{% set title = post.get_field('title') %}
+{% set text = post.get_field('text') %}
+{% set buttons = post.get_field('buttons') %}
+{% set position = post.get_field('position')|default('right') %}
+{% set width = post.get_field('width')|default('default') %}
 
 {% block row_wrapper %}
 <div
