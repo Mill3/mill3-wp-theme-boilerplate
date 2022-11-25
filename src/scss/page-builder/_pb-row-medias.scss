@@ -1,16 +1,6 @@
 .pb-row-medias {
   $self: &;
 
-  &__media {
-    @include inView {
-      opacity: 0.0001;
-
-      &.is-inview {
-        opacity: 0.999;
-        transition: opacity 950ms 150ms linear;
-      }
-    }
-  }
   &__parallax {
     html.has-scroll-smooth & {
       top: -6%;
@@ -67,12 +57,7 @@
   }
 
   // GRID
-  &.--layout-grid-1,
-  &.--layout-grid-2,
-  &.--layout-grid-3,
-  &.--layout-grid-4,
-  &.--layout-grid-third,
-  &.--layout-grid-center {
+  &.--layout-grid {
     #{$self}__grid:not(.--fullwidth) {
       padding-left: 16px;
       padding-right: 16px;
@@ -80,6 +65,23 @@
       @include media-breakpoint-up(lg) {
         padding-left: 40px;
         padding-right: 40px;
+      }
+    }
+    #{$self}__media {
+      @include inView {
+        opacity: 0.0001;
+  
+        &.is-inview {
+          opacity: 0.999;
+          transition: opacity 950ms 150ms linear;
+        }
+      }
+    }
+    #{$self}__box.box-auto {
+      --ratio: 1;
+
+      &::before {
+        padding-top: calc(var(--ratio) * 100%);
       }
     }
   }

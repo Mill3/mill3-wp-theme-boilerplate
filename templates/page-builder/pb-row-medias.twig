@@ -13,21 +13,25 @@
   Example: { "title": "Medias" }
 #}
 
-{% set post = fields %}
+{% set post = Post(fields) %}
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb-row-medias-' ~ random()) %}
 
-{% set medias = post.medias %}
-{% set layout = post.layout|default('slider') %}
-{% set format = post.format|default('square') %}
-{% set ticker_direction = post.ticker_direction|default('left') %}
-{% set grid_gap = post.grid_gap|default(20) %}
-{% set grid_gap_mobile = post.grid_gap_mobile|default(20) %}
-{% set fullwidth = post.fullwidth|default(false) %}
+{% set medias = post.get_field('medias') %}
+{% set layout = post.get_field('layout')|default('slider') %}
+{% set format = post.get_field('format')|default('auto') %}
+{% set ticker_direction = post.get_field('ticker_direction')|default('left') %}
+{% set grid_gap = post.get_field('grid_gap')|default(20) %}
+{% set grid_gap_mobile = post.get_field('grid_gap_mobile')|default(20) %}
+{% set fullwidth = post.get_field('fullwidth')|default(false) %}
 
 {% set classname = classname ~ ' --layout-' ~ layout %}
+
+{% if 'grid' in layout %}
+  {% set classname = classname ~ ' --layout-grid' %}
+{% endif %}
 
 {% if layout == 'slider' %}
   {% set attributes = attributes|merge([
@@ -50,7 +54,7 @@
 >
   {% if layout == 'slider' %}
 
-  <div class="pb-row-medias__slider swiper-container">
+  <div class="pb-row-medias__slider swiper">
     <aside
       class="pb-row-medias__nav container-fluid d-flex align-items-center justify-content-end"
       aria-hidden="true"
@@ -70,18 +74,18 @@
     </aside>
 
     <div class="swiper-wrapper">
-      {% for media in medias if media.image %}
+      {% for media in medias %}
       <div class="pb-row-medias__slide pb-row-medias__media swiper-slide">
         <figure class="pb-row-medias__wrap d-block m-0 p-0">
           <div class="pb-row-medias__box overflow-hidden">
             {% include 'partial/image.twig' with {
-              'image': Image(media.image),
+              'image': media,
               'classname': 'pb-row-medias__img'
             } only %}
           </div>
 
-          {% if media.credit %}
-          <figcaption class="pb-row-medias__caption d-block m-0 p-0">{{ media.credit }}</figcaption>
+          {% if media.caption %}
+          <figcaption class="pb-row-medias__caption d-block m-0 p-0">{{ media.caption }}</figcaption>
           {% endif %}
         </figure>
       </div>
@@ -91,19 +95,14 @@
 
   {% elseif layout == 'ticker' %}
 
-  {% set filtered_medias = [] %}
-  {% for media in medias if media.image %}
-    {% set filtered_medias = filtered_medias|merge([media]) %}
-  {% endfor %}
-
   <div class="pb-row-medias__ticker" aria-hidden="true">
     {% set ticker_content %}
     <ul
       class="pb-row-medias__ticker__list d-flex align-items-start list-none m-0 p-0"
       style="--item-length: {{ filtered_medias|length }}"
     >
-      {% for media in filtered_medias %}
-      {% set image = Image(media.image) %}
+      {% for media in medias %}
+      {% set image = media %}
       <li
         class="mr-{{ grid_gap_mobile }} mr-lg-{{ grid_gap }}"
         style="--index:{{ loop.index0 }}"
@@ -114,8 +113,8 @@
             'classname': 'pb-row-medias__img img-fluid'
           } only %}
 
-          {% if media.credit %}
-          <figcaption class="pb-row-medias__caption d-block m-0 mt-10 p-0">{{ media.credit }}</figcaption>
+          {% if media.caption %}
+          <figcaption class="pb-row-medias__caption d-block m-0 mt-10 p-0">{{ media.caption }}</figcaption>
           {% endif %}
         </figure>
       </li>
@@ -136,8 +135,8 @@
   {% else %}
 
   <div class="pb-row-medias__grid d-grid grid-gap-{{ grid_gap_mobile }} grid-gap-lg-{{ grid_gap }} {% if fullwidth %}--fullwidth{% endif %}">
-    {% for media in medias if media.image %}
-    {% set image = Image(media.image) %}
+    {% for media in medias %}
+    {% set image = media %}
     {% set sizes = {
       'grid-1': ['100vw'],
       'grid-2': ['50vw'],
@@ -163,6 +162,7 @@
       <figure
         id="{{ udid ~ '_' ~ loop.index }}"
         class="pb-row-medias__box box box-{{ format }} overflow-hidden"
+        {% if format == 'auto'%}style="--ratio: {{ image.aspect }}"{% endif %}
       >
         <div
           class="pb-row-medias__parallax position-absolute t-0 l-0 r-0 b-0"
@@ -177,8 +177,8 @@
           } only %}
         </div>
 
-        {% if media.credit %}
-        <figcaption class="pb-row-medias__caption d-block m-0 p-0">{{ media.credit }}</figcaption>
+        {% if media.caption %}
+        <figcaption class="pb-row-medias__caption d-block m-0 p-0">{{ media.caption }}</figcaption>
         {% endif %}
       </figure>
     </div>
