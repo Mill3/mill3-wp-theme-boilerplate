@@ -13,13 +13,13 @@
   Example: { "title": "Blog Text simple" }
 #}
 
-{% set post = fields %}
+{% set post = Post(fields) %}
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb_row_text-simple-' ~ random()) %}
 
-{% set text = post.text %}
+{% set text = post.get_field('text') %}
 
 {% block blog_row_wrapper %}
   <div

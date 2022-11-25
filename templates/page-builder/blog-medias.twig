@@ -13,15 +13,15 @@
   Example: { "title": "Blog Medias" }
 #}
 
-{% set post = fields %}
+{% set post = Post(fields) %}
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('blog-medias-' ~ random()) %}
 
-{% set medias = post.medias %}
-{% set layout = post.layout|default('grid-1') %}
-{% set format = post.format|default('square') %}
+{% set medias = post.get_field('medias') %}
+{% set layout = post.get_field('layout')|default('grid-1') %}
+{% set format = post.get_field('format')|default('auto') %}
 
 {% set classname = classname ~ ' --layout-' ~ layout %}
 
@@ -35,9 +35,9 @@
   {{ attributes|join(' ') }}
 >
 
-  <div class="blog-medias__grid d-grid grid-column-md-{{ medias|length }} grid-gap-20">
-    {% for media in medias if media.image %}
-    {% set image = Image(media.image) %}
+  <div class="blog-medias__grid d-grid">
+    {% for media in medias %}
+    {% set image = media %}
     {% set sizes = {
       'grid-1': ['100vw'],
       'grid-2': ['50vw'],
@@ -78,9 +78,10 @@
         </div>
 
       </figure>
-      {% if media.credit %}
-        <figcaption class="blog-medias__caption pl-lg-20 mt-10 fz-12 fz-lg-14 d-none d-md-block m-0 p-0">{{ media.credit }}</figcaption>
-        {% endif %}
+
+      {% if media.caption %}
+        <figcaption class="blog-medias__caption pl-lg-20 mt-10 fz-12 fz-lg-14 d-none d-md-block m-0 p-0">{{ media.caption }}</figcaption>
+      {% endif %}
     </div>
     {% endfor %}
   </div>

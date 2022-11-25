@@ -20,8 +20,7 @@
 {% set udid = udid|default('pb_row_testimonials-' ~ random()) %}
 
 {% set title = post.get_field('title')|default(null) %}
-
-{% set testimonials = post.testimonials|default([]) %}
+{% set testimonials = post.get_field('testimonials')|default([]) %}
 
 {% block row_wrapper %}
 <section

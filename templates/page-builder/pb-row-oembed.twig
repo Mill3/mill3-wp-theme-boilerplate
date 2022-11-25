@@ -13,17 +13,17 @@
   Example: { "title": "oEmbed" }
 #}
 
-{% set post = fields %}
+{% set post = Post(fields) %}
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb_row_oembed-' ~ random()) %}
 
-{% set video = post.video %}
-{% set thumbnail = post.thumbnail %}
-{% set video_preview = post.video_preview %}
-{% set video_preview_mobile = post.video_preview_mobile %}
-{% set caption = post.caption %}
+{% set video = post.get_field('video') %}
+{% set thumbnail = post.get_field('thumbnail') %}
+{% set video_preview = post.get_field('video_preview') %}
+{% set video_preview_mobile = post.get_field('video_preview_mobile') %}
+{% set caption = post.get_field('caption') %}
 
 {% set hasPreview = thumbnail or video_preview or video_preview_mobile ? true : false %}
 

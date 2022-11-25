@@ -13,14 +13,14 @@
   Example: { "title": "Blockquote" }
 #}
 
-{% set post = fields %}
+{% set post = Post(fields) %}
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb_row_blockquote-' ~ random()) %}
 
-{% set text = post.text %}
-{% set credit = post.credit %}
+{% set text = post.get_field('text') %}
+{% set credit = post.get_field('credit') %}
 
 {% block row_wrapper %}
 <div

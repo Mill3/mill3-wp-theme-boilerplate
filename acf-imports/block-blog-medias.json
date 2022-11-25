@@ -1,6 +1,6 @@
 {
-  "key": "group_633da5223ef7a",
-  "title": "pb-row-medias",
+  "key": "group_633da5223ef7b",
+  "title": "blog-medias",
   "fields": [
       {
           "key": "field_6351a37b8a6c5",
@@ -101,8 +101,6 @@
           "aria-label": "",
           "acfe_permissions": "",
           "choices": {
-              "slider": "Slider",
-              "ticker": "Ticker",
               "grid-1": "1 column grid",
               "grid-2": "2 columns grid",
               "grid-3": "3 columns grid",
@@ -131,50 +129,7 @@
           "type": "select",
           "instructions": "",
           "required": 0,
-          "conditional_logic": [
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-1"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-2"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-3"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-4"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-third"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-center"
-                  }
-              ]
-          ],
+          "conditional_logic": 0,
           "wrapper": {
               "width": "50",
               "class": "",
@@ -198,249 +153,6 @@
           "ui": 0,
           "ajax": 0,
           "placeholder": ""
-      },
-      {
-          "key": "field_61420c1e2342b",
-          "label": "Ticker direction",
-          "name": "ticker_direction",
-          "type": "button_group",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": [
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "ticker"
-                  }
-              ]
-          ],
-          "wrapper": {
-              "width": "50",
-              "class": "",
-              "id": ""
-          },
-          "aria-label": "",
-          "acfe_permissions": "",
-          "choices": {
-              "left": "Left",
-              "right": "Right"
-          },
-          "allow_null": 0,
-          "default_value": "left",
-          "layout": "horizontal",
-          "return_format": "value",
-          "acfe_settings": "",
-          "acfe_validate": ""
-      },
-      {
-          "key": "field_60412450e9ca4",
-          "label": "Grid gap",
-          "name": "grid_gap",
-          "type": "spacer",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": [
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-1"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-2"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-3"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-4"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-third"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-center"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "ticker"
-                  }
-              ]
-          ],
-          "wrapper": {
-              "width": "50",
-              "class": "",
-              "id": ""
-          },
-          "aria-label": "",
-          "acfe_permissions": "",
-          "choices": [],
-          "default_value": 0,
-          "return_format": "value",
-          "acfe_settings": "",
-          "acfe_validate": ""
-      },
-      {
-          "key": "field_614204e7e2cbb",
-          "label": "Grid gap (mobile)",
-          "name": "grid_gap_mobile",
-          "type": "spacer",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": [
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-1"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-2"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-3"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-4"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-third"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-center"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "ticker"
-                  }
-              ]
-          ],
-          "wrapper": {
-              "width": "50",
-              "class": "",
-              "id": ""
-          },
-          "aria-label": "",
-          "acfe_permissions": "",
-          "choices": [],
-          "default_value": 0,
-          "return_format": "value",
-          "acfe_settings": "",
-          "acfe_validate": ""
-      },
-      {
-          "key": "field_60412528e9ca6",
-          "label": "Fullwidth",
-          "name": "fullwidth",
-          "type": "true_false",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": [
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-1"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-2"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-3"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-4"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-third"
-                  }
-              ],
-              [
-                  {
-                      "field": "field_601d52cd75214",
-                      "operator": "==",
-                      "value": "grid-center"
-                  }
-              ]
-          ],
-          "wrapper": {
-              "width": "50",
-              "class": "",
-              "id": ""
-          },
-          "aria-label": "",
-          "acfe_permissions": "",
-          "message": "",
-          "default_value": 0,
-          "ui": 1,
-          "ui_on_text": "",
-          "ui_off_text": "",
-          "acfe_settings": "",
-          "acfe_validate": "",
-          "style": ""
       },
       {
           "key": "field_633da9b2228f6",
@@ -592,7 +304,7 @@
           {
               "param": "block",
               "operator": "==",
-              "value": "acf\/pb-row-medias"
+              "value": "acf\/block-blog-medias"
           }
       ]
   ],
