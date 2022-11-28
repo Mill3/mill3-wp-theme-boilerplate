@@ -40,6 +40,7 @@
   </header>
   {% endif %}
 
+  {% if text or buttons %}
   <aside class="pb-row-text-simple__content">
     <div class="pb-row-text-simple__text fz-16 fz-xl-18 lh-relaxed lh-xl-chill wysiwyg">
       {{ text }}
@@ -52,6 +53,7 @@
       } only %}
     {% endif %}
   </aside>
+  {% endif %}
 
 </div>
 {% endblock %}

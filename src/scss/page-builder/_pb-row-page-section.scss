@@ -13,3 +13,13 @@
     }
   }
 }
+
+.single-page_section.--effect-stacked {
+  position: relative;
+
+  & > .pb-row-wrapper {
+    position: sticky;
+    top: 0;
+    left: 0;
+  }
+}

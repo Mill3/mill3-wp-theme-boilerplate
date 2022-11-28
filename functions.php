@@ -272,6 +272,15 @@ class Mill3WP extends Timber\Site
             )
         );
 
+        $twig->addFunction(
+            new Timber\Twig_Function(
+                'MILL3_Fake_Post',
+                function ($fields) {
+                    return new MILL3FakePost($fields);
+                }
+            )
+        );
+
         // polylang functions
         if (function_exists('pll_current_language')) {
             $twig->addFunction(new Timber\Twig_Function('pll__', 'pll__'));

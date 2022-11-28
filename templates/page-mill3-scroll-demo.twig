@@ -63,12 +63,17 @@
         </div>
       </section>
 
-      {% include 'page-builder/pb_row_page_section.twig' with {
-        'post': {
+      {{ PageSection('stacked-sections-demo', '--effect-stacked') }}
+
+      {#
+      {% include 'page-builder/pb-row-page-section.twig' with {
+        'fields': MILL3_Fake_Post({
           'page_section': Post(259),
           'effect': 'stacked',
-        }
+        }),
+        'slug': 'pb-row-page-section'
       } only %}
+      #}
 
       <section class="mill3-scroll-demo__sticky pt-60 pt-lg-120 pb-60 pb-lg-120">
         <div class="container-fluid d-grid grid-column-md-2 grid-gap-60">
@@ -111,8 +116,8 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus lectus, scelerisque eget ultrices non, consectetur quis justo. Etiam dapibus justo in maximus gravida. Sed et quam eu libero congue accumsan. Sed bibendum metus a consectetur gravida. Praesent aliquam pulvinar libero, ut pellentesque massa tincidunt nec. Vestibulum eget imperdiet neque. Quisque euismod massa ut ullamcorper ullamcorper. Suspendisse potenti. Duis nisl ligula, sagittis sed consequat a, luctus et sapien. Aenean mollis convallis egestas. Vestibulum sed ornare felis, ut porttitor massa. Donec porttitor tempus urna. Suspendisse sed lorem bibendum, ornare mi eu, vestibulum mi. Vestibulum in massa sed augue finibus molestie.</p>
       {% endset %}
 
-      {% include 'page-builder/pb_row_text_simple.twig' with {
-        'post': {
+      {% include 'page-builder/pb-row-text-simple.twig' with {
+        'fields': MILL3_Fake_Post({
           'title': 'Reveal Panel',
           'text': text,
           'position': 'left',
@@ -122,8 +127,8 @@
           'pb_lg': 100,
           'effect': 'reveal',
           'bg-color': 'yellow',
-        },
-        'layout': 'pb_row_text_simple'
+        }),
+        'slug': 'pb-row-text-simple'
       } only %}
 
       <section id="delays" class="mill3-scroll-demo__delay pt-60 pt-lg-120 pb-60 pb-lg-120">
