@@ -48,7 +48,7 @@ function filter_twitter_share($url, $title = NULL, $hashtags = NULL, $via_user =
     return 'https://twitter.com/intent/tweet?' . implode('&', $attrs);
 }
 
-function filter_linked_share($url) {
+function filter_linkedin_share($url) {
     return 'https://www.linkedin.com/sharing/share-offsite/?url=' . urlencode($url);
 }
 
