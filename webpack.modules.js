@@ -37,7 +37,7 @@ export const webpackModules = (DEV = false) => {
       },
       {
         test: /\.(svg)$/,
-        type: 'asset/source'
+        type: 'asset/inline'
       },
       {
         test: /.*\.(gif|png|jpe?g)$/i,
