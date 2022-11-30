@@ -35,6 +35,7 @@
                     "id": ""
                 },
                 "default_value": "",
+                "translations": "sync",
                 "maxlength": "",
                 "placeholder": "",
                 "prepend": "",

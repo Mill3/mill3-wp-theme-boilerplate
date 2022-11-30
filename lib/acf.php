@@ -187,6 +187,47 @@ add_filter('acf/prepare_field/name=theme_color', function ($field) {
     return $field;
 });
 
+
+// sync GTM across all languages
+if( function_exists('pll_the_languages') ){
+    add_filter('acf/save_post', function($post_id) {
+        $screen = get_current_screen();
+
+        // if we save theme_options
+        if( strpos($screen->id, 'theme_options') != true ) return;
+
+        $fields = get_fields($post_id);
+        $value = $fields['gtm_code'];
+
+        // if value is empty, stop here
+        if( empty($value) ) return;
+
+        $namespace          = 'options';
+        $languages          = pll_the_languages(array('hide_if_empty' => false, 'hide_current' => false, 'raw' => true));
+        $currentLanguage    = pll_current_language('slug');
+        $defaultLanguage    = pll_default_language('slug');
+
+        foreach($languages as $slug => $language) {
+            if( $slug === $currentLanguage ) continue;
+
+            $optionPageID = $slug === $defaultLanguage ? $namespace : sprintf('%s_%s', $namespace, str_replace('-', '_', $language['locale']));
+
+            
+            // there is a bug in ACF that always return 'options' in current language even if you specifically set post_id to a translation of your chosing
+            // this filter self-destruct after being executed once
+            // it return a non-modified value
+            add_filter('acf/pre_load_post_id', function($value, $post_id) {
+                remove_filter( current_filter(), __FUNCTION__ );
+                return $post_id;
+            }, 10, 2);
+
+            // update translated field
+            update_field('gtm_code', $value, $optionPageID);
+        }
+    }, 20);
+}
+
+
 // Populate select field with Gravity Form entries
 function afc_populate_gravity_form_id($field) {
     // if plugin is not activated, do nothing
