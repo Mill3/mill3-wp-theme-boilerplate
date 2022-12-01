@@ -4,6 +4,10 @@ import ResizeOrientation, { MAX_PRIORITY } from '@utils/resize';
 import Viewport from '@utils/viewport';
 
 
+const DEFAULT_LEVEL = 0.1;
+const LEVELS = [0, DEFAULT_LEVEL, 0.5];
+const STORAGE = 'grid-view--level';
+
 const BREAKPOINTS = {
   0: {
     columns: 4,
@@ -46,19 +50,27 @@ class GridViewer {
     this.button.style.backgroundColor = 'rgba(0, 0, 255, 0.5)';
 
     this._breakpoint = null;
-    this._opacity = 0;
+    this._level = localStorage.getItem(STORAGE) || DEFAULT_LEVEL;
+    this._level = parseFloat(this._level);
+
+    if( !LEVELS.includes(this._level) ) this._level = DEFAULT_LEVEL;
 
     this._onResize = this._onResize.bind(this);
     this._onClick = this._onClick.bind(this);
+    
+    this.init();
+  }
 
+  init() {
+    this.grid.style.opacity = this._level;
 
     this.el.appendChild(this.grid);
     this.el.appendChild(this.button);
+
     body.appendChild(this.el);
 
     this._bindEvents();
     this._onResize();
-    this._onClick();
   }
 
   _bindEvents() {
@@ -96,18 +108,12 @@ class GridViewer {
       event.stopImmediatePropagation();
     }
 
-    switch(this._opacity) {
-      case 0: this._opacity = 0.1;
-      break;
+    const currentIndex = LEVELS.indexOf(this._level);
+    const nextIndex = currentIndex >= LEVELS.length - 1 ? 0 : currentIndex + 1;
+    this._level = LEVELS[nextIndex];
 
-      case 0.1: this._opacity = 0.5;
-      break;
-
-      case 0.5: this._opacity = 0;
-      break;
-    }
-
-    this.grid.style.opacity = this._opacity;
+    this.grid.style.opacity = this._level;
+    localStorage.setItem(STORAGE, this._level);
   }
 }
 
