@@ -172,11 +172,11 @@ class Scroll {
   _bindEvents() {
     on(window, 'scroll', this._onScroll);
 
-    if( !mobile ) {
+    //if( !mobile ) {
       // copied from https://github.com/ayamflow/virtual-scroll
       window.addEventListener('wheel', this._onWheel, {passive: false});
       window.addEventListener('mousewheel', this._onMouseWheel, {passive: true});
-    }
+    //}
   }
   _unbindEvents() {
     off(window, 'scroll', this._onScroll);
