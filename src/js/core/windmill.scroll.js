@@ -122,10 +122,14 @@ export class WindmillScroll {
 
   _onSiteScrollStart() {
     this.scroll?.start();
+    this.minimum?.start();
+
     html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
   }
   _onSiteScrollStop(hideScrollbar = false) {
     this.scroll?.stop();
+    this.minimum?.stop();
+    
     if( hideScrollbar ) html.classList.add(SCROLLBAR_HIDDEN_CLASSNAME);
   }
   _onSiteScrollUpdate() {

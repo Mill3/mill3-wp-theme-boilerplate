@@ -16,7 +16,7 @@ class ScrollMinimum {
     EMITTER.on("SiteScroll.scroll", this._onScroll);
   }
   stop() {
-    EMITTER.on("SiteScroll.scroll", this._onScroll);
+    EMITTER.off("SiteScroll.scroll", this._onScroll);
   }
   reset() {
     this._hasScrolledAboveThreshold = false;
