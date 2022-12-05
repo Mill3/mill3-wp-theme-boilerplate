@@ -338,8 +338,8 @@ const createSCSS = (destination_base, name, module_slug) => {
     module_slug: module_slug
   };
 
-  // we name or twig using underscore _ for seperating words
-  const filename_base = PascalCaseToSlug(name, "_");
+  // we name or twig using hyphen - for seperating words
+  const filename_base = PascalCaseToSlug(name, "-");
 
   ejs.renderFile(template, data, {}, function (err, str) {
     // str => Rendered HTML string

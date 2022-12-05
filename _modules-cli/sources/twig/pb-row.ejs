@@ -1,5 +1,18 @@
 {# template: <%= module_slug %> #}
-{% extends 'page-builder/pb_row_wrapper.twig' %}
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: <%= ModuleName %>
+  Description: <%= ModuleName %>
+  Category: theme
+  Icon: default
+  Keywords: row
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "<%= ModuleName %>" }
+#}
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
