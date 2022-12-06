@@ -120,6 +120,12 @@ $includes = [
     'lib/recaptcha.php',
     'lib/search.php',
     'lib/setup.php',
+    // twig
+    'lib/twig/extra-timber-filters.php',
+    'lib/twig/file-filters.php',
+    'lib/twig/sharing-filters.php',
+    'lib/twig/title-highlights.php',
+    'lib/twig/title-replacements.php',
     // 'lib/shortcodes.php',
     'lib/svg.php',
     'lib/taxonomies.php',
@@ -234,13 +240,13 @@ class Mill3WP extends Timber\Site
     public function add_to_twig($twig)
     {
         $twig->addExtension(new \Twig_Extension_StringLoader());
+        $twig->addExtension(new Mill3\Twig\Twig_File_Filters());
+        $twig->addExtension(new Mill3\Twig\Twig_Sharing_Filters());
+        $twig->addExtension(new Mill3\Twig\Twig_Title_Highlights());
+        $twig->addExtension(new Mill3\Twig\Twig_Title_Replacements());
         $twig->addFilter(new \Timber\Twig_Filter('slugify', 'filter_slugify'));
         $twig->addFilter(new \Timber\Twig_Filter('embeded_settings', 'filter_embeded_settings'));
         $twig->addFilter(new \Timber\Twig_Filter('lcfirst', 'lcfirst'));
-        $twig->addFilter(new \Timber\Twig_Filter('facebook_share', 'filter_facebook_share'));
-        $twig->addFilter(new \Timber\Twig_Filter('twitter_share', 'filter_twitter_share'));
-        $twig->addFilter(new \Timber\Twig_Filter('linkedin_share', 'filter_linkedin_share'));
-        $twig->addFilter(new \Timber\Twig_Filter('email_share', 'filter_email_share'));
 
         $twig->addFunction(
             new \Twig\TwigFunction('get_context', function () {
