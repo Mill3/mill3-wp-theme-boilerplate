@@ -26,7 +26,7 @@ export const PATHS = {
 const config = {
   mode: process.env.NODE_ENV,
   devtool: DEV ? "eval" : "source-map",
-  optimization: webpackOptimization(),
+  optimization: webpackOptimization(DEV),
 
   //
   // This allow loose imports from any file discarding its relative location to the import :
