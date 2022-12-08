@@ -1,9 +1,22 @@
 {% set post = Post(post) %}
+
 {% set body_inverted = post.get_field('bg_inverted') or post.post_type == "post" %}
+{% set body_bg_color = post.get_field('bg-color') %}
+{% set body_text_color = post.get_field('text-color') %}
+
 {% set body_classname = [] %}
+{% set body_styles = [] %}
 
 {% if body_inverted %}
   {% set body_classname = body_classname|merge(['--bg-inverted']) %}
+{% endif %}
+
+{% if body_bg_color %}
+  {% set body_styles = body_styles|merge(['--body-bg-color:' ~ body_bg_color]) %}
+{% endif %}
+
+{% if body_text_color %}
+  {% set body_styles = body_styles|merge(['--body-text-color:' ~ body_text_color]) %}
 {% endif %}
 
 <!doctype html>
@@ -16,7 +29,7 @@
   <title>ACF Preview</title>
   <link rel="stylesheet" href="{{ stylesheet }}" type="text/css" media="all">
 </head>
-<body class="acf-block-preview {{ body_classname|join(" ") }}">
+<body class="acf-block-preview {{ body_classname|join(" ") }}" {% if body_styles %}style="{{ body_styles|join(';') }}"{% endif %}>
   <div data-windmill="wrapper">
     <div
       data-windmill="container"
