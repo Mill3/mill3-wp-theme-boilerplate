@@ -14,7 +14,7 @@ add_filter(
     function ($crumbs, $class) {
 
         // do nothing with taxonomies
-        if( is_tax() || is_category() ) return $crumbs;
+        if( is_tax() || is_tag() || is_category() ) return $crumbs;
 
         // try to get post_type from archive route
         if (is_archive()) {
