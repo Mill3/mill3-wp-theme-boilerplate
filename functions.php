@@ -106,7 +106,6 @@ $includes = [
     'lib/class-walker-nav-menu-edit.php',
     'lib/customizer.php',
     'lib/editor.php',
-    'lib/extra-timber-filters.php',
     'lib/filters.php',
     'lib/gravity-form.php',
     'lib/gutenberg.php',
