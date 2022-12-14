@@ -84,6 +84,8 @@ class ArticleQueries extends PostQueries\Theme_PostQueries
 
         // if we have less post then requested, find more posts
         if(count($posts) < $limit) {
+            // append to this exclude list all previous $posts
+            $exclude = array_merge($exclude, wp_list_pluck($posts, 'ID', null));
             $difference_limit = $limit - count($posts);
             $query = new self($difference_limit);
             $query->set_exclude($exclude);
@@ -111,6 +113,12 @@ function add_to_twig($twig)
                 return new \Mill3WP\PostQueries\Article\ArticlePost($post);
             }
         )
+    );
+
+    $twig->addFunction(
+        new \Twig\TwigFunction('GetRecentArticles', function ($limit = -1, $exclude = []) {
+            return (new \Mill3WP\PostQueries\Article\ArticleQueries($limit, 'Timber', $exclude))->get_recent_posts();
+        })
     );
 
     return $twig;
