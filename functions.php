@@ -175,7 +175,7 @@ class Mill3WP extends Timber\Site
      */
     public function link() {
         if( function_exists('pll_current_language') ) {
-            return home_url();
+            return home_url() . "/";
         } else {
             return $this->url;
         }
