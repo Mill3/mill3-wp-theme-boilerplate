@@ -33,10 +33,10 @@
   title="{{ aria_label|default(title) }}"
   {{ attributes|join(" ") }}
 >
-  <span class="btn__bg" aria-hidden="true" data-ignore-css-empty></span>
+  <span class="btn__bg" aria-hidden="true"></span>
   <span class="btn__label" aria-hidden="true">{{ title }}</span>
 
   {% if icon %}
-  <span class="btn__icon" aria-hidden="true" data-ignore-css-empty>{{ source('src/svg/' ~ icon ~ '.svg') }}</span>
+  <span class="btn__icon" aria-hidden="true">{{ source('src/svg/' ~ icon ~ '.svg') }}</span>
   {% endif %}
 </a>
