@@ -23,7 +23,7 @@
   {% set classname = classname|split(' ')|merge(['--' ~ style])|join(' ')%}
 {% endif %}
 
-{% if variation %}
+{% if style and variation %}
   {% set classname = classname|split(' ')|merge(variation|split(' ')|map(v => '--' ~ style ~ '-' ~ v))|join(' ')%}
 {% endif %}
 
