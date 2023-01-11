@@ -9,11 +9,12 @@ import { getTranslate } from "@utils/transform";
 import Viewport from "@utils/viewport";
 import smoothScrollToPolyfill from "@vendors/smooth-scroll-polyfill";
 
+const WINDOWS = (navigator?.userAgentData?.platform || navigator?.platform || 'unknown').includes('Win');
 const DEFAULT_OPTIONS = {
   lerp: 0.1,
   threshold: 0.5,
-  firefoxMultiplier: 50,
-  mouseMultiplier: (navigator?.userAgentData?.platform || navigator?.platform || 'unknown').includes('Win') ? 1 : 0.4,
+  firefoxMultiplier: WINDOWS ? 1 : 4.5,
+  mouseMultiplier: WINDOWS ? 1 : 0.4,
 };
 
 
@@ -218,7 +219,7 @@ class Scroll {
 
     // for our purpose deltamode = 1 means user is on a wheel mouse, not touch pad
     // real meaning: https://developer.mozilla.org/en-US/docs/Web/API/WheelEvent#Delta_modes
-    if (this._data.isFirefox && event.deltaMode === 1) {
+    if (this._data.isFirefox/* && event.deltaMode === 1*/) {
       this._mousewheel.deltaX *= this._options.firefoxMultiplier;
       this._mousewheel.deltaY *= this._options.firefoxMultiplier;
     }
