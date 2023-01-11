@@ -5,7 +5,7 @@ import ResizeOrientation from "@utils/resize";
 import Wheel from "@utils/wheel";
 
 const FRICTION = 0.9;
-const VELOCITY = 0.08;
+const VELOCITY = 1;
 
 const MODE_CSS = 'css';
 const MODE_JS = 'js';
@@ -13,6 +13,8 @@ const MODE_SCROLL = 'scroll';
 
 const DIRECTION_LEFT = -1;
 const DIRECTION_RIGHT = 1;
+const DIRECTION_TOP = -1;
+const DIRECTION_BOTTOM = 1;
 const DIRECTION_BOTH = 0;
 
 class TextTicker {
@@ -24,12 +26,16 @@ class TextTicker {
 
     this._mode = this._getMode();
     this._direction = this._getDirection();
-    this._velocity = { target: VELOCITY * this._direction, current: VELOCITY * this._direction };
-    this._progress = 0;
+    this._directionAxis = this._getDirectionAxis();
+    this._speed = this._getSpeed();
+    this._velocity = { target: this._speed * this._direction, current: this._speed * this._direction };
+    this._position = 0;
+    this._maximum = 0;
     this._raf = null;
     this._wheel = null;
     this._ro = null;
     this._inView = false;
+    this._paused = false;
 
     this._onScroll = this._onScroll.bind(this);
     this._onRaf = this._onRaf.bind(this);
@@ -37,6 +43,8 @@ class TextTicker {
     this._onScrollStop = this._onScrollStop.bind(this);
     this._onScrollCall = this._onScrollCall.bind(this);
     this._onResize = this._onResize.bind(this);
+    this._onResume = this._onResume.bind(this);
+    this._onPause = this._onPause.bind(this);
 
     this.init();
   }
@@ -69,8 +77,11 @@ class TextTicker {
 
     this._mode = null;
     this._direction = null;
+    this._directionAxis = null;
+    this._speed = null;
     this._velocity = null;
-    this._progress = null;
+    this._position = null;
+    this._maximum = null;
     this._raf = null;
     this._wheel = null;
     this._ro = null;
@@ -91,6 +102,8 @@ class TextTicker {
       this.emitter?.on("SiteScroll.start", this._onScrollStart);
       this.emitter?.on("SiteScroll.stop", this._onScrollStop);
       this.emitter?.on("SiteScroll.text-ticker", this._onScrollCall);
+      this.emitter?.on("TextTicker.pause", this._onPause);
+      this.emitter?.on("TextTicker.resume", this._onResume);
       this._raf = requestAnimationFrame(this._onRaf);
     }
   }
@@ -99,6 +112,8 @@ class TextTicker {
       this.emitter?.off("SiteScroll.start", this._onScrollStart);
       this.emitter?.off("SiteScroll.stop", this._onScrollStop);
       this.emitter?.off("SiteScroll.text-ticker", this._onScrollCall);
+      this.emitter?.off("TextTicker.pause", this._onPause);
+      this.emitter?.off("TextTicker.resume", this._onResume);
     }
 
     ResizeOrientation.remove(this._onResize);
@@ -108,8 +123,20 @@ class TextTicker {
     this._raf = null;
   }
 
+  // method for pausing ticker emitted from another module
+  _onPause(el) {
+    if(el !== this.el) return;
+    this._paused = true;
+  }
+
+  // method for resuming ticker emitted from another module
+  _onResume(el) {
+    if(el !== this.el) return;
+    this._paused = false;
+  }
+
   _onScroll(delta) {
-    this._velocity.target = delta * 0.005;
+    this._velocity.target = delta * this._speed * 0.05;
 
     // apply directional restriction on velocity
     if( this._direction !== DIRECTION_BOTH ) this._velocity.target = Math.abs(this._velocity.target) * this._direction;
@@ -120,27 +147,34 @@ class TextTicker {
 
     this._raf = requestAnimationFrame(this._onRaf);
 
+    // stop here when not inView or paused
+    if(!this._inView || this._paused) return;
+
     // apply friction
     this._velocity.target *= FRICTION;
 
     // set minimal velocity based on is current direction (only for JS mode)
     if( this._mode === MODE_JS ) {
-      if (this._velocity.target > 0) this._velocity.target = Math.max(VELOCITY, this._velocity.target);
-      else this._velocity.target = Math.min(VELOCITY * -1, this._velocity.target);
+      if (this._velocity.target > 0) this._velocity.target = Math.max(VELOCITY * this._speed, this._velocity.target);
+      else this._velocity.target = Math.min(VELOCITY * this._speed * -1, this._velocity.target);
     }
 
     // lerp velocity
     this._velocity.current = lerp(this._velocity.current, this._velocity.target, 0.2);
 
-    // update progression
-    this._progress += this._velocity.current;
+    // update position
+    this._position += this._velocity.current;
 
-    // limits to [-100, 0]
-    if (this._progress < -100) this._progress = this._progress + 100;
-    else if (this._progress > 0) this._progress = this._progress - 100;
+    // limits to [maximum, 0]
+    if( this._position < this._maximum ) this._position -= this._maximum;
+    else if( this._position > 0 ) this._position += this._maximum;
+    
+    let translateValue = null;
+    if (this._directionAxis === 'x') translateValue = `translate3d(${this._position}px, 0, 0)`;
+    else if (this._directionAxis === 'y') translateValue = `translate3d(0, ${this._position}px, 0)`;
 
     // apply transformations if inView
-    if( this._inView ) this.texts.forEach(text => (text.style.transform = `translate3d(${this._progress}%, 0, 0)`));
+    if( this._inView ) this.texts.forEach(text => text.style.transform = translateValue);
   }
   _onScrollStart() {
     this._wheel?.on();
@@ -164,9 +198,14 @@ class TextTicker {
     const textRect = rect(this.template);
 
     // if one of the two elements rect is null, do nothing
-    if( elRect.width < 1 || textRect.width < 1 ) return;
+    if( this._directionAxis === 'y' ) {
+      if( elRect.height < 1 || textRect.height < 1 ) return;
+    } else {
+      if( elRect.width < 1 || textRect.width < 1 ) return;
+    }
 
-    const quantity = Math.ceil(elRect.width / textRect.width) + 1;
+    this._maximum = textRect[this._directionAxis === 'y' ? 'height' : 'width'] * -1;
+    const quantity = Math.ceil(this._directionAxis === 'y' ? elRect.height / textRect.height : elRect.width / textRect.width) + 1;
 
     while( this.texts.length < quantity ) {
       const copy = this.template.cloneNode(true);
@@ -182,6 +221,12 @@ class TextTicker {
     if( this.el.classList.contains('--direction-left') ) return DIRECTION_LEFT;
     else if( this.el.classList.contains('--direction-both') ) return DIRECTION_BOTH;
     else if( this.el.classList.contains('--direction-right') ) return DIRECTION_RIGHT;
+    else if( this.el.classList.contains('--direction-top') ) return DIRECTION_TOP;
+    else if( this.el.classList.contains('--direction-bottom') ) return DIRECTION_BOTTOM;
+  }
+  _getDirectionAxis() {
+    if( this.el.classList.contains('--direction-left') || this.el.classList.contains('--direction-right') ) return 'x';
+    else if( this.el.classList.contains('--direction-top') || this.el.classList.contains('--direction-bottom') ) return 'y';
   }
   _getMode() {
     if( mobile ) return MODE_CSS;
@@ -191,6 +236,9 @@ class TextTicker {
       case MODE_SCROLL: return MODE_SCROLL;
       default: return MODE_JS;
     }
+  }
+  _getSpeed() {
+    return Math.abs( parseFloat(this.el.getAttribute('data-text-ticker-speed')) ?? 1 );
   }
 }
 
