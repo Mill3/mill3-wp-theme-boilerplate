@@ -46,6 +46,7 @@
     "ejs": "^3.1.7",
     "eslint": "^7.17.0",
     "eslint-plugin-import": "^2.22.1",
+    "fast-sass-loader": "^2.0.1",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.1.0",
     "husky": "^3.0.9",

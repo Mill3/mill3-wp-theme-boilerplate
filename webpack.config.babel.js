@@ -27,6 +27,10 @@ const config = {
   mode: process.env.NODE_ENV,
   devtool: DEV ? "eval" : "source-map",
   optimization: webpackOptimization(DEV),
+  cache: {
+    type: 'filesystem',
+    cacheDirectory: path.resolve(__dirname, '.webpack_cache'),
+  },
 
   //
   // This allow loose imports from any file discarding its relative location to the import :
