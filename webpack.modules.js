@@ -85,8 +85,7 @@ export const webpackModules = (DEV = false) => {
           {
             loader: `sass-loader`,
             options: {
-              // Prefer `node-sass`
-              implementation: require.resolve("node-sass"),
+              implementation: require.resolve("sass"),
               sourceMap: false
             }
           },

@@ -1,3 +1,5 @@
+@use '../mixins/animations';
+
 @keyframes tickerText {
   from {
     transform: translateX(0%);
@@ -19,7 +21,7 @@
       animation-iteration-count: infinite;
     }
 
-    @include inView {
+    @include animations.inView {
       .text-ticker__text {
         animation-play-state: paused;
       }

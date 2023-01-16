@@ -1,7 +1,10 @@
+@use '../mixins/animations';
+@import "~sass-easing";
+
 .pb-row-accordions {
   $self: &;
 
-  &__title, 
+  &__title,
   &__text,
   &__accordions {
     width: 100%;
@@ -63,7 +66,7 @@
   }
 
   // IN-VIEW ANIMATIONS
-  @include inView {
+  @include animations.inView {
     #{$self}__title,
     #{$self}__text {
       opacity: 0.0001;

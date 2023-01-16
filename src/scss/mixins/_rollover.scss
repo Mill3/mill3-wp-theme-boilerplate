@@ -1,3 +1,5 @@
+@import "~sass-easing";
+
 @mixin underlineDrawing($height: 1px, $bottom: 0) {
   @include underlineDrawingBase($height, $bottom);
 

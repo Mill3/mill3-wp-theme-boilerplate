@@ -128,7 +128,7 @@ const theme = {
     loose: "2"
   },
   "grid-breakpoints": {
-    xs: "0px",
+    xs: "0",
     sm: "576px",
     md: "768px",
     lg: "1024px",
