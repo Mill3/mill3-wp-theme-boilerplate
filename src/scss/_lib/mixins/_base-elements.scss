@@ -22,22 +22,22 @@
   }
 
   h2 {
-    font-size: typography.heading("h2");
+    font-size: typography.heading(h2);
   }
 
   h3 {
-    font-size: typography.heading("h3");
+    font-size: typography.heading(h3);
   }
 
   h4 {
-    font-size: typography.heading("h4");
+    font-size: typography.heading(h4);
   }
 
   h5 {
-    font-size: typography.heading("h5");
+    font-size: typography.heading(h5);
   }
 
   h6 {
-    font-size: typography.heading("h6");
+    font-size: typography.heading(h6);
   }
 }

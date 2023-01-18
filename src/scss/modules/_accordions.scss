@@ -73,7 +73,7 @@
     }
   }
 
-  @include animations.inView {
+  @include inView {
     --delay: 0ms;
 
     #{$self}__btn,

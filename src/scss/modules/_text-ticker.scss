@@ -22,7 +22,7 @@
       animation-iteration-count: infinite;
     }
 
-    @include animations.inView {
+    @include inView {
       .text-ticker__text {
         animation-play-state: paused;
       }

@@ -71,7 +71,7 @@
       }
     }
     #{$self}__media {
-      @include animations.inView {
+      @include inView {
         opacity: 0.0001;
 
         &.is-inview {

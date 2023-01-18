@@ -59,10 +59,10 @@ const config = {
     ...(!DEV
       ? {
         style: path.join(PATHS.scss, `App.scss`),
-        // "editor-style": path.join(PATHS.scss, `Editor-style.scss`),
+        "editor-style": path.join(PATHS.scss, `Editor-style.scss`),
         // "admin-shortcodes": path.join(PATHS.src, `js/admin/shortcodes.js`),
-        // acfPreview: path.join(PATHS.scss, `ACF-preview.scss`),
-        // acfPreviewIframe: path.resolve(SRC_PATH, `js/ACF-Preview.js`)
+        acfPreview: path.join(PATHS.scss, `ACF-preview.scss`),
+        acfPreviewIframe: path.resolve(SRC_PATH, `js/ACF-Preview.js`)
       } : {}
     )
   },
@@ -72,6 +72,10 @@ const config = {
     filename: DEV ? `js/[name].bundle.js` : `js/[name].[chunkhash].bundle.js`,
     chunkFilename: `js/[name].[chunkhash].bundle.js`,
     publicPath: DEV ? `http://localhost:${SERVER_PORT}/` : PATHS.public
+  },
+
+  stats: {
+    loggingDebug: DEV ? ['sass-loader'] : [],
   },
 
   ...webpackDevServer(DEV),
