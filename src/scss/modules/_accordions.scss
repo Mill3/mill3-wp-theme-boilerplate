@@ -1,6 +1,6 @@
-@use "../mixins/mq";
-@use "../mixins/animations";
-@use "@sass_vars/easings";
+@use "@mill3-sass-vars/easings";
+@use '@mill3-sass-mixins/mq';
+@use "@mixins/animations";
 
 .accordions {
   $self: &;

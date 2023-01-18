@@ -46,9 +46,10 @@ const config = {
       "@ui": path.resolve(SRC_PATH, `js/ui/`),
       "@utils": path.resolve(SRC_PATH, `js/utils/`),
       "@vendors": path.resolve(SRC_PATH, `js/vendors/`),
-      "@sass_lib": path.resolve(SRC_PATH, `scss/_lib/`),
-      "@sass_mixins": path.resolve(SRC_PATH, `scss/_lib/mixins/`),
-      "@sass_vars": path.resolve(SRC_PATH, `scss/_lib/vars/`),
+      "@mill3-sass": path.resolve(SRC_PATH, `scss/_lib/`),
+      "@mill3-sass-mixins": path.resolve(SRC_PATH, `scss/_lib/mixins/`),
+      "@mill3-sass-vars": path.resolve(SRC_PATH, `scss/_lib/vars/`),
+      "@mixins": path.resolve(SRC_PATH, `scss/mixins/`),
     }
   },
 

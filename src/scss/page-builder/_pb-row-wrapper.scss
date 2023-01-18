@@ -1,5 +1,5 @@
-@use "@sass_mixins/breakpoints";
-@use "@sass_mixins/spacers";
+@use "@mill3-sass-mixins/breakpoints";
+@use "@mill3-sass-mixins/spacers";
 
 .pb-row-wrapper {
   $self: &;

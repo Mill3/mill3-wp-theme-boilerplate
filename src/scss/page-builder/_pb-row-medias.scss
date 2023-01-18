@@ -1,5 +1,5 @@
-@use "@sass_mixins/breakpoints";
-@use '../mixins/animations';
+@use "@mill3-sass-mixins/breakpoints";
+@use "@mixins/animations";
 
 .pb-row-medias {
   $self: &;

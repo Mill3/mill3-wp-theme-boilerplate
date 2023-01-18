@@ -1,6 +1,6 @@
-@use "@sass_mixins/breakpoints";
-@use "@sass_vars/easings";
-@use '../mixins/animations';
+@use "@mill3-sass-mixins/breakpoints";
+@use "@mill3-sass-vars/easings";
+@use "@mixins/animations";
 
 .pb-row-accordions {
   $self: &;
