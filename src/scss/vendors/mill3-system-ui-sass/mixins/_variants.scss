@@ -13,7 +13,7 @@ $spacer_breakpoints: "md";
 ) {
   // Loop over each breakpoint
   @each $breakpoint in $spacer_breakpoints {
-    @include media-breakpoint-up($breakpoint) {
+    @include breakpoints.media-breakpoint-up($breakpoint) {
       $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
       // Loop over each values in map and ignore "auto" value

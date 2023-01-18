@@ -1,5 +1,6 @@
+@use "@sass_mixins/breakpoints";
+@use "@sass_vars/easings";
 @use '../mixins/animations';
-@import "~sass-easing";
 
 .pb-row-accordions {
   $self: &;
@@ -29,7 +30,7 @@
 
   // WIDTH
   &.--width-small {
-    @include media-breakpoint-up(md) {
+    @include breakpoints.media-breakpoint-up(md) {
       #{$self}__title,
       #{$self}__text,
       #{$self}__accordions {
@@ -38,7 +39,7 @@
     }
   }
   &.--width-medium {
-    @include media-breakpoint-up(md) {
+    @include breakpoints.media-breakpoint-up(md) {
       #{$self}__title,
       #{$self}__text,
       #{$self}__accordions {
@@ -47,7 +48,7 @@
     }
   }
   &.--width-default {
-    @include media-breakpoint-up(md) {
+    @include breakpoints.media-breakpoint-up(md) {
       #{$self}__title,
       #{$self}__text,
       #{$self}__accordions {
@@ -56,7 +57,7 @@
     }
   }
   &.--width-large {
-    @include media-breakpoint-up(lg) {
+    @include breakpoints.media-breakpoint-up(lg) {
       #{$self}__title,
       #{$self}__text,
       #{$self}__accordions {
@@ -81,7 +82,7 @@
       #{$self}__text {
         opacity: 0.999;
         transform: translate3d(0, 0px, 0);
-        transition: opacity 450ms linear, transform 650ms $easeOutCubic;
+        transition: opacity 450ms linear, transform 650ms easings.$easeOutCubic;
       }
     }
   }

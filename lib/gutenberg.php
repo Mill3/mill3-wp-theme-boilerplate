@@ -31,9 +31,19 @@ add_filter( 'timber/acf-gutenberg-blocks-templates', function () {
 // This filter inject in each block context the current block order using a $GLOBAL variable.
 // Also calculating if block is first rendered and bool sent to context.
 $block_order = 0;
+$block_first = true;
 add_filter( 'timber/acf-gutenberg-blocks-data', function( $context ) {
-    $GLOBALS['block_order'] = $GLOBALS['block_order'] + 1;
-    $context['fields']['first'] = $GLOBALS['block_order'] === 1;
+    $zindex_below = $context['fields']['zindex_below'] ?? false;
+    if($zindex_below) {
+        $GLOBALS['block_order'] = $GLOBALS['block_order'] - 1;
+    } else {
+        $GLOBALS['block_order'] = $GLOBALS['block_order'] + 1;
+    }
+    $context['fields']['first'] = $GLOBALS['block_first'];
     $context['fields']['order'] = $GLOBALS['block_order'];
+
+    // then set block_first to false from now on if is true
+    if($GLOBALS['block_first']) $GLOBALS['block_first'] = false;
+
     return $context;
 } );

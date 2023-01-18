@@ -1,0 +1,8 @@
+/// all-css-variables
+@mixin css-variables($colors) {
+  :root {
+    @each $key, $value in $colors {
+      --#{$key}: #{$value};
+    }
+  }
+}

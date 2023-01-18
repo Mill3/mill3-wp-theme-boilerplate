@@ -1,0 +1,32 @@
+@use "sass:string";
+@use "sass:math";
+@use "sass:meta";
+
+/// Remove the unit of a length
+/// @param {Number} $number - Number to remove unit from
+/// @return {Number} - Unitless number
+
+@function strip($value) {
+  @if meta.type-of($value) != "number" {
+      @error "Invalid `#{meta.type-of($value)}` type. Choose a number type instead.";
+  } @else if meta.type-of($value) == "number" and not math.is-unitless($value) {
+      @return math.div($value, ($value * 0 + 1));
+  }
+
+  @return $value;
+}
+
+///
+@function vw($value) {
+  @return #{strip($value)}vw;
+}
+
+///
+@function vh($value) {
+  @return #{strip($value)}vh;
+}
+
+///
+@function px($value) {
+  @return #{strip($value)}px;
+}

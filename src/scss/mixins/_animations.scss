@@ -13,8 +13,8 @@
 }
 
 @mixin inView() {
-  //html.has-scroll-init &[data-scroll] {
   @content;
+  //html.has-scroll-init &[data-scroll] {
   //}
 }
 

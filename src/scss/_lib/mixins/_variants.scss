@@ -1,0 +1,74 @@
+@use "sass:string";
+@use "../vars/breakpoints" as vars;
+@use "../mixins/breakpoints";
+@use "./units";
+
+/// generate-variants
+@mixin generate-variants(
+  $property,
+  $values,
+  $classname: $property,
+  $unit: "",
+  $important: false
+) {
+  // Loop over each breakpoint
+  @each $breakpoint in map-keys(vars.$grid-breakpoints) {
+    @include breakpoints.media-breakpoint-up($breakpoint) {
+      $infix: breakpoints.breakpoint-infix($breakpoint, vars.$grid-breakpoints);
+
+      // Loop over each values in map
+      @each $key, $value in $values {
+        @if type-of($property) != "string" {
+          .#{$classname}#{$infix}-#{$key} {
+            @each $prop in $property {
+              #{$prop}: set-unit($key, $value, $unit, $important);
+            }
+          }
+        } @else {
+          .#{$classname}#{$infix}-#{$key} {
+            #{$property}: set-unit($key, $value, $unit, $important);
+          }
+        }
+      }
+    }
+  }
+}
+
+/// set-unit
+@function set-unit($key, $value, $unit, $important) {
+  // Assign $key to value if empty
+  // this is for theme value using array instead of objects
+  @if $value == null {
+    $value: $key;
+  }
+
+  // append the unit to value unless its set to `auto`
+  @if $value != "auto" {
+    $value_unit: "";
+
+    // get value unit if is a number
+    @if type-of($value) == "number" {
+      $value_unit: unit($value);
+    }
+
+    // if value is in vw, use our custom vw function
+    @if $unit == "vw" or $value_unit == "vw" {
+      $value: units.vw($value);
+    }
+    // if value is in vh, use our custom vh function
+    @else if $unit == "vh" or $value_unit == "vh" {
+      $value: units.vh($value);
+    }
+    // otherwise, use argument unit
+    @else {
+      $value: #{$value}#{$unit};
+    }
+  }
+
+  // append !important flag
+  @if $important {
+    $value: $value string.unquote("!important");
+  }
+
+  @return $value;
+}

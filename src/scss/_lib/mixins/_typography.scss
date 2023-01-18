@@ -1,0 +1,116 @@
+@use "sass:math";
+@use "sass:string";
+@use "../vars/breakpoints" as grid-breakpoints;
+@use "../vars/typography" as typography;
+@use "./breakpoints" as breakpoints;
+@use "./units";
+
+@function font-size($key) {
+  $value: map-get(typography.$font-size, $key);
+
+  @if not $value {
+    @error "font-size `#{$key}` not found in $font-size";
+  } @else {
+    $unit: "";
+
+    // get value unit if is a number
+    @if type-of($value) == "number" {
+      $unit: unit($value);
+    }
+
+    // if $unit is empty, force value unit to px
+    @if string.length($unit) == 0 {
+      $value: units.px($value);
+    }
+
+    // if value is in vw, use our custom vw function
+    @if $unit == "vw" {
+      $value: units.vw($value);
+    }
+
+    // if value is in vh, use our custom vh function
+    @else if $unit == "vh" {
+      $value: units.vh($value);
+    }
+  }
+
+  @return $value;
+}
+
+@function font-family($key) {
+  $value: map-get(typography.$font-family, $key);
+
+  @if not $value {
+    @error "font-family `#{$key}` not found in $font-family";
+  }
+
+  @return string.unquote($value);
+}
+
+@function line-height($key) {
+  $value: map-get(typography.$line-height, $key);
+
+  @if not $value {
+    @error "line-height `#{$key}` not found in $line-height";
+  }
+
+  @return $value;
+}
+
+@function heading($key) {
+  $value: map-get(typography.$heading, $key);
+
+  @if not $value {
+    @error "headings-font-size `#{$key}` not found in $heading";
+  } @else {
+    $unit: "";
+
+    // get value unit if is a number
+    @if type-of($value) == "number" {
+      $unit: unit($value);
+    }
+
+    // if $unit is empty, force value's unit to px
+    @if string.length($unit) == 0 {
+      $value: units.px($value);
+    }
+
+    // if value is in vw, use our custom vw function
+    @if $unit == "vw" {
+      $value: units.vw($value);
+    }
+
+    // if value is in vh, use our custom vh function
+    @else if $unit == "vh" {
+      $value: units.vh($value);
+    }
+  }
+
+  @return $value;
+}
+
+/// generate-fluid-font-size
+@mixin generate-fluid-font-size($values, $classname: "ffz") {
+  // Loop over each breakpoint
+  @each $breakpoint in grid-breakpoints.$ffz_breakpoints {
+    @include breakpoints.media-breakpoint-up($breakpoint) {
+      $infix: breakpoints.breakpoint-infix($breakpoint, grid-breakpoints.$grid-breakpoints);
+
+      // Loop over each values in map
+      @each $key, $value in $values {
+        .#{$classname}#{$infix}-#{$key} {
+          @if $breakpoint == "xs" {
+            font-size: units.vw(math.div(units.strip($value), grid-breakpoints.$FIGMA_MOBILE_WIDTH) * 100);
+          }
+          @else if $breakpoint == "md" {
+            font-size: units.vw(math.div(units.strip($value), grid-breakpoints.$FIGMA_TABLET_WIDTH) * 100);
+          }
+          @else if $breakpoint == "lg" {
+            $vw: units.vw(math.div(units.strip($value), grid-breakpoints.$FIGMA_DESKTOP_WIDTH) * 100);
+            font-size: min($vw, $value);
+          }
+        }
+      }
+    }
+  }
+}

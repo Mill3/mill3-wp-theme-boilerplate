@@ -1,20 +1,16 @@
 @charset "utf-8";
 
 // NPM packages
-@import "~@mill3-packages/system-ui-sass/src/system-ui";
-// @import "~sass-easing";
+// @import "~@mill3-packages/system-ui-sass/src/system-ui";
 // @import "~swiper/css/";
 // @import "~swiper/css/pagination";
+// @import "~sass-easing";
 
 // custom addons for @mill3-system-ui-sass for this project, keep commented unless needed
 // @import "vendors/mill3-system-ui-sass/index";
 
-// variables
-// @import "vars/index";
-
-// mixins
-@import "mixins/index";
+@import "@sass_lib";
 
 /*** THEME SPECIFICS ***/
 
-@import "vars/index", "vendors/index", "commons/index", "modules/index", "page-builder/index", "post-type/index", "taxonomy/index", "layouts/index", "ui/index";
+@import "cssvars", "vendors", "commons", "ui", "modules", "page-builder", "layouts", "post-type", "taxonomy";

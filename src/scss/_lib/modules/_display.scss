@@ -1,0 +1,22 @@
+@use "../mixins/variants";
+@use "../vars/display" as vars;
+
+///
+/// @group display
+///
+
+/// Display classes, block, flex, inline, etc
+///
+/// Check [theme.js](https://github.com/Mill3/mill3-packages/blob/master/packages/system-ui-sass/theme.js) for available values.
+///
+/// @see {mixin} generate-variants
+///
+/// @name .d-[value]
+///
+/// @example
+/// <span class="d-none d-md-flex"></span>
+
+// note: keep this line below for SassDoc
+// .d-[size] { ... }
+
+@include variants.generate-variants("display", vars.$display, "d");

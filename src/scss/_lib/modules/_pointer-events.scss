@@ -1,0 +1,4 @@
+@use "../mixins/variants";
+@use "../vars/pointer-events" as vars;
+
+@include variants.generate-variants("pointer-events", vars.$pointer-events);

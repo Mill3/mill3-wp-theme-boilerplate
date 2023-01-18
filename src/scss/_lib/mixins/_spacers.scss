@@ -1,0 +1,37 @@
+@use "sass:string";
+@use "../vars/spacers" as vars;
+@use "./units";
+
+/// color-css-variables
+
+@function spacer($key) {
+  $value: map-get(vars.$spacers, $key);
+
+  @if not $value {
+    @error "spacer `#{$key}` not found in $spacers";
+  } @else {
+    $unit: "";
+
+    // get value unit if is a number
+    @if type-of($value) == "number" {
+      $unit: unit($value);
+    }
+
+    // if $unit is empty, force value unit to px
+    @if string.length($unit) == 0 {
+      $value: units.px($value);
+    }
+
+    // if value is in vw, use our custom vw function
+    @if $unit == "vw" {
+      $value: units.vw($value);
+    }
+
+    // if value is in vh, use our custom vh function
+    @else if $unit == "vh" {
+      $value: units.vh($value);
+    }
+  }
+
+  @return $value;
+}

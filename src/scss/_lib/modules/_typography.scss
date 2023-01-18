@@ -1,0 +1,13 @@
+@use "../mixins/variants";
+@use "../mixins/typography";
+@use "../vars/typography" as vars;
+
+@include variants.generate-variants("font-family", vars.$font-family, "ff");
+@include variants.generate-variants("font-weight", vars.$font-weight, "fw");
+@include variants.generate-variants("text-align", vars.$text-align, "ta");
+@include variants.generate-variants("font-size", vars.$font-size, "fz");
+@include variants.generate-variants("font-style", vars.$font-style, "fs");
+@include variants.generate-variants("line-height", vars.$line-height, "lh");
+@include variants.generate-variants("text-transform", vars.$text-transform, "tt");
+@include variants.generate-variants("text-decoration", vars.$text-decoration, "td");
+@include typography.generate-fluid-font-size(vars.$font-size, "ffz");

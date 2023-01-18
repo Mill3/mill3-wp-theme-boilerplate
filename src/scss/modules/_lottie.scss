@@ -1,3 +1,5 @@
+@use "@sass_mixins/breakpoints";
+
 .lottie {
   --ratio: 1;
   --ratio-mobile: 1;
@@ -5,7 +7,7 @@
   &::before {
     padding-top: calc(var(--ratio-mobile) * 100%);
 
-    @include media-breakpoint-up(lg) {
+    @include breakpoints.media-breakpoint-up(lg) {
       padding-top: calc(var(--ratio) * 100%);
     }
   }

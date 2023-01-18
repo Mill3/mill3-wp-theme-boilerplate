@@ -89,10 +89,10 @@ export const webpackModules = (DEV = false) => {
               sourceMap: false
             }
           },
-          {
-            loader: "sass-json-loader",
-            options: { path: PATHS["sass_theme"] }
-          }
+          // {
+          //   loader: "sass-json-loader",
+          //   options: { path: PATHS["sass_theme"] }
+          // }
         ]
       }
     ]

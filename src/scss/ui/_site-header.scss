@@ -1,4 +1,5 @@
-@import "~sass-easing";
+@use "@sass_vars/easings";
+@use "@sass_mixins/breakpoints";
 
 .site-header {
   $self: &;
@@ -11,7 +12,7 @@
   &__nav,
   &__burger {
     transform: translate3d(0, 0px, 0);
-    transition: transform 350ms $easeOutQuad;
+    transition: transform 350ms easings.$easeOutQuad;
   }
 
   &__nav {
@@ -27,7 +28,7 @@
     height: 12px;
 
     > span {
-      transition: transform 650ms $easeInOutCubic;
+      transition: transform 650ms easings.$easeInOutCubic;
 
       &::before {
         content: '';
@@ -35,7 +36,7 @@
         width: 100%;
         height: 1px;
         background: currentColor;
-        transition: transform 450ms $easeInOutCubic;
+        transition: transform 450ms easings.$easeInOutCubic;
       }
 
       &:nth-child(2) {
@@ -103,7 +104,7 @@
     &__burger {
       transform: translate3d(0, -4px, 0);
 
-      @include media-breakpoint-up(lg) {
+      @include breakpoints.media-breakpoint-up(lg) {
         transform: translate3d(0, -10px, 0);
       }
     }

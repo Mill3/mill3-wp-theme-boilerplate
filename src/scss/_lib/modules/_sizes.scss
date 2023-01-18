@@ -1,0 +1,18 @@
+@use "../mixins/variants";
+@use "../vars/sizes" as vars;
+
+// widths
+@include variants.generate-variants("width", vars.$sizes, "w", "%");
+@include variants.generate-variants("width", vars.$sizes, "vw", "vw");
+// @include variants.generate-variants("min-width", vars.$sizes, "min-w", "%");
+// @include variants.generate-variants("max-width", vars.$sizes, "max-w", "%");
+@include variants.generate-variants("min-width", vars.$sizes, "min-vw", "vw");
+@include variants.generate-variants("max-width", vars.$sizes, "max-vw", "vw");
+
+// heights
+@include variants.generate-variants("height", vars.$sizes, "h", "%");
+@include variants.generate-variants("height", vars.$sizes, "vh", "vh");
+// @include variants.generate-variants("min-height", vars.$sizes, "min-h", "%");
+// @include variants.generate-variants("max-height", vars.$sizes, "max-h", "%");
+@include variants.generate-variants("min-height", vars.$sizes, "min-vh", "vh");
+@include variants.generate-variants("max-height", vars.$sizes, "max-vh", "vh");

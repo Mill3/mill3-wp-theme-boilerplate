@@ -1,0 +1,15 @@
+$grid-breakpoints: (
+  xs: 0,
+  // sm: "576px",
+  md: 768px,
+  lg: 1024px,
+  xl: 1200px,
+  xxl: 1441px,
+  xxxl: 1800px
+);
+
+$FIGMA_MOBILE_WIDTH: 375px;
+$FIGMA_TABLET_WIDTH: 820px;
+$FIGMA_DESKTOP_WIDTH: 1440px;
+
+$ffz_breakpoints: "xs", "md", "lg";

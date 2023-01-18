@@ -1,3 +1,5 @@
+@use "@sass_mixins/breakpoints";
+
 .sharing {
   $self: &;
 
@@ -6,7 +8,7 @@
       &:not(:first-child) {
         margin-left: 10px;
 
-        @include media-breakpoint-up(lg) {
+        @include breakpoints.media-breakpoint-up(lg) {
           margin-left: 0;
           margin-top: 10px;
         }
