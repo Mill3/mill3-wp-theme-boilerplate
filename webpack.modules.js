@@ -15,7 +15,6 @@ export const webpackModules = (DEV = false) => {
       {
         test: /\.json$/,
         type: 'json'
-        //loader: `json-loader`
       },
       {
         test: /\.txt$/,
@@ -26,13 +25,6 @@ export const webpackModules = (DEV = false) => {
         type: 'asset/resource',
         generator: {
           filename: 'fonts/font-[hash][ext][query]'
-        }
-      },
-      {
-        test: /\.(mp4|webm|wav|mp3)(\?v=[0-9]\.[0-9]\.[0-9])?(\?[0-9a-zA-Z]*)?$/,
-        loader: `file-loader`,
-        options: {
-          name: `medias/[hash].[ext]`
         }
       },
       {
