@@ -183,7 +183,7 @@ class Scroll {
     off(window, 'scroll', this._onScroll);
 
     window.removeEventListener('wheel', this._onWheel);
-    window.addEventListener('mousewheel', this._onMouseWheel);
+    window.removeEventListener('mousewheel', this._onMouseWheel);
   }
   _notify() {
     EMITTER.emit('SiteScroll.scroll', {
