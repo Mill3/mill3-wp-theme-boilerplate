@@ -82,6 +82,8 @@
 // .grid-gap-[size] { ... }
 
 @include variants.generate-variants("grid-gap", spacers.$spacers);
+// @include variants.generate-variants("row-gap", spacers.$spacers, 'row-gap');
+// @include variants.generate-variants("column-gap", spacers.$spacers, 'column-gap');
 
 
 /// Set grid template rows

@@ -8,6 +8,7 @@ node_modules
 .vscode
 dist/
 .webpack_cache
+sass_vars.json
 
 # OS files
 .tm_properties

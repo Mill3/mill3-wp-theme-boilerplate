@@ -1,0 +1,22 @@
+@keyframes move {
+  to {
+    transform: translateX(calc(500px - 2em - 40px));
+  }
+}
+
+.translate-box {
+  background-color: var(--gray-200);
+  padding: 1em;
+  max-width: 500px;
+  display: flex;
+  > span {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-primary);
+    animation-name: move;
+    animation-fill-mode: both;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+  }
+}
