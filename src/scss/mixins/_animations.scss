@@ -12,11 +12,11 @@
   @return #{strip-unit($frames / 30)}s;
 }
 
-// moved to _lib/mixins/-globals.scss
+// moved to _lib/mixins/_globals.scss
 // @mixin inView() {
 //   @content;
-//   //html.has-scroll-init &[data-scroll] {
-//   //}
+//   html.has-scroll-init &[data-scroll] {
+// }
 // }
 
 

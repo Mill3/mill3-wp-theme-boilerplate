@@ -1,90 +1,109 @@
 // import sassVars from 'get-sass-vars';
+import React from "react";
 import "../index.scss";
 import vars from "../sass_vars.json";
+import Wrapper from "./components/wrapper";
 
 export default {
-  title: 'Basic',
+  title: "Basic"
 };
 
-const d = Object.values(vars.$display).map(
-  display => {
-    let classname = `d-${display}`;
-    let content = `
-      <div>block 1</div>
-      <div>block 2</div>
-      <div>block 3</div>
-      <div>block 4</div>
-    `;
+const DisplayElements = ({ displayClassName }) => {
+  return Object.values([1, 2, 3, 4]).map((key) => (
+    <div key={key} className={`p-10 bg-gray-300 ${displayClassName}`}>
+      block-{key}
+    </div>
+  ));
+};
 
-    switch(display) {
+export const Display = () => {
+  return Object.values(vars.$display).map((display, key) => {
+    let containerClassname = [];
+    let itemsClassname = [`d-${display}`];
+
+    switch (display) {
       case "inline":
-        classname = "d-block";
-        content = `
-          <div class="d-inline bg-gray-200">block 1</div>
-          <div class="d-inline bg-gray-300">block 2</div>
-          <div class="d-inline bg-gray-200">block 3</div>
-          <div class="d-inline bg-gray-400">block 4</div>
-        `;
-      break;
+        itemsClassname.push("mr-10");
+        break;
+      case "inline-block":
+        containerClassname.push("d-block");
+        itemsClassname.push("mr-10");
+        break;
+      case "block":
+        containerClassname.push("d-grid grid-gap-10");
+        break;
       case "flex":
-        content = `
-          <div class="w-50 p-10 bg-gray-200">block 1</div>
-          <div class="w-50 p-10 bg-gray-400">block 2</div>
-        `;
-      break;
+        containerClassname.push("d-flex grid-gap-10");
+        itemsClassname[0] = "d-block";
+        break;
+      case "inline-flex":
+        containerClassname.push("d-flex grid-gap-10");
+        break;
       case "grid":
-        classname += " grid-column-4 grid-gap-10";
-        content = `
-          <div class="p-10 bg-gray-200">block 1</div>
-          <div class="p-10 bg-gray-300">block 2</div>
-          <div class="p-10 bg-gray-400">block 3</div>
-          <div class="p-10 bg-gray-500">block 4</div>
-        `;
-      break;
-
-      case "inline-block": return;
-      case "inline-flex": return;
-      case "inline-grid": return;
+        containerClassname.push("d-grid grid-gap-10 grid-column-4");
+        break;
+      case "inline-grid":
+        itemsClassname.push("mr-10");
+        break;
+      default:
+        break;
     }
 
-    const output = `<div class="d-block m-0 mb-40 p-20 bg-gray-100">
-      <pre class="mb-20">.d-${display}</pre>
-      <div class="${classname} p-20" style="border: 1px solid var(--gray-400);">
-        ${content}
-      </div>
-    </div>`;
+    return (
+      <Wrapper key={key}>
+        <pre>.d-{display}</pre>
+        <div className={containerClassname.join(" ")}>
+          <DisplayElements displayClassName={itemsClassname.join(" ")} />
+        </div>
+      </Wrapper>
+    );
+  });
+};
 
-    return output;
-  }
-);
+export const Visibilities = () => {
+  return (
+    <>
+      <Wrapper title="Show an element">
+        <pre>.visibility-visible</pre>
+      </Wrapper>
+      <Wrapper title="Hide an element">
+        <pre>.visibility-hidden</pre>
+      </Wrapper>
+    </>
+  );
+};
 
-d.push(`<p class="m-0 pl-40 pr-40 pt-10 pb-10 bg-gray-700 color-white"><em>.inline-block</em>, <em>.inline-flex</em> and <em>.inline-grid</em> are also available.</p>`);
-
-
-const visibilities = [];
-      visibilities.push(`<div><pre>.visibility-visible</pre> Show element</div>`);
-      visibilities.push(`<div><pre>.visibility-hidden</pre> Hide element</div>`);
-
-const pointers = [];
-      pointers.push(`<div><pre>.pointer-events-all</pre> Enable all pointer-events for this element</div>`);
-      pointers.push(`<div><pre>.pointer-events-none</pre> Disable all pointer-events for this element, and his children. If a child of his has .pointer-events-all, it will received pointer-events.</div>`);
-
+export const Pointers = () => {
+  return (
+    <>
+      <Wrapper title="Enable all pointer-events for this element">
+        <pre>.pointer-events-all</pre>
+      </Wrapper>
+      <Wrapper
+        title="Disable all pointer-events for this element"
+        note="Children inherit the property. If a child element has .pointer-events-all, it will cast pointer-events."
+      >
+        <pre>.pointer-events-none</pre>
+      </Wrapper>
+    </>
+  );
+};
 
 const overflows = [];
-      overflows.push(`<div><pre>.overflow-auto</pre></div>`);
-      overflows.push(`<div><pre>.overflow-hidden</pre></div>`);
-      overflows.push(`<div><pre>.overflow-visible</pre></div>`);
-      overflows.push(`<div><pre>.overflow-scroll</pre></div>`);
+overflows.push(`<div><pre>.overflow-auto</pre></div>`);
+overflows.push(`<div><pre>.overflow-hidden</pre></div>`);
+overflows.push(`<div><pre>.overflow-visible</pre></div>`);
+overflows.push(`<div><pre>.overflow-scroll</pre></div>`);
 
 const positions = [];
-      positions.push(`<div><pre>.position-static</pre></div>`);
-      positions.push(`<div><pre>.position-fixed</pre></div>`);
-      positions.push(`<div><pre>.position-relative</pre></div>`);
-      positions.push(`<div><pre>.position-absolute</pre></div>`);
-      positions.push(`<div><pre>.position-sticky</pre></div>`);
+positions.push(`<div><pre>.position-static</pre></div>`);
+positions.push(`<div><pre>.position-fixed</pre></div>`);
+positions.push(`<div><pre>.position-relative</pre></div>`);
+positions.push(`<div><pre>.position-absolute</pre></div>`);
+positions.push(`<div><pre>.position-sticky</pre></div>`);
 
 const lists = [];
-      lists.push(`
+lists.push(`
       <pre class="fw-700 m-0 mb-20">.list-none</pre>
 
       <p class="m-0 mb-20 p-0">Remove list bullet/numbers at the beginning of each &lt;li&gt;</p>
@@ -101,10 +120,10 @@ const z = `
   <p class="m-0 p-0">Supported values: ${Object.values(vars["$z-index"]).join(", ")}</p>
 `;
 
-export const display = () => d.join("");
-export const list = () => lists.join("");
-export const overflow = () => overflows.join("");
-export const pointerEvents = () => pointers.join("");
-export const position = () => positions.join("");
-export const visiblity = () => visibilities.join("");
-export const zIndex = () => z;
+// export const display = () => d.join("");
+// export const list = () => lists.join("");
+// export const overflow = () => overflows.join("");
+// export const pointerEvents = () => pointers.join("");
+// export const position = () => positions.join("");
+// export const visiblity = () => visibilities.join("");
+// export const zIndex = () => z;
