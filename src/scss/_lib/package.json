@@ -8,8 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "node sass_vars_to_json.mjs && start-storybook -p 6006",
+    "build-storybook": "node sass_vars_to_json.mjs && build-storybook",
+    "build": "export NODE_ENV=production && node build.js"
   },
   "keywords": [],
   "author": "",
