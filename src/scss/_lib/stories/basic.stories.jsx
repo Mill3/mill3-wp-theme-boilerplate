@@ -1,4 +1,3 @@
-// import sassVars from 'get-sass-vars';
 import React from "react";
 import "../index.scss";
 import vars from "../sass_vars.json";
