@@ -3,6 +3,7 @@ import "../../index.scss";
 import "./style.scss";
 import vars from "../../sass_vars.json";
 import Wrapper from "../components/wrapper";
+import CodeBlock from "../components/codeblock";
 
 export default {
   title: "Easings"
@@ -14,11 +15,9 @@ const Box = ({ type, easing }) => {
       <div className="translate-box">
         <span style={{ animationTimingFunction: easing }}></span>
       </div>
-      <pre
-        style={{ whiteSpace: 'pre-line', display: 'block' }}
-        className="p-20"
-        dangerouslySetInnerHTML={{__html: `@use "@mill3-sass-vars/easings";
-        .my-element { transition: transform 650ms easings.${type}; }`}}
+      <CodeBlock
+        source={`@use "@mill3-sass-vars/easings";
+        .my-element { transition: transform 650ms easings.${type}; }`}
       />
     </Wrapper>
   );

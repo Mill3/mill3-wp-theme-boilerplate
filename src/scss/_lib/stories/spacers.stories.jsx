@@ -2,12 +2,17 @@ import React from "react";
 import "../index.scss";
 import vars from "../sass_vars.json";
 import Wrapper from "./components/wrapper";
+import CodeBlock from "./components/codeblock";
 
 export default {
   title: "Spacers"
 };
 
-const Spacer = ({ direction = '', value }) => <pre className={`d-block p-10 m${direction}-${value}`}>.m{direction}-{value}</pre>;
+const Spacer = ({ direction = "", value }) => (
+  <pre className={`d-block p-10 m${direction}-${value}`}>
+    .m{direction}-{value}
+  </pre>
+);
 
 export const Margin = () => {
   return (
@@ -57,4 +62,11 @@ export const MarginRight = () => {
       })}
     </Wrapper>
   );
+};
+
+export const SpacerSassFunction = () => {
+  return <Wrapper title="Usage :">
+    <CodeBlock source={`@use "@mill3-sass-mixins/spacers";
+        .my-element { margin-top: spacers.spacer(20); }`} />
+  </Wrapper>;
 };
