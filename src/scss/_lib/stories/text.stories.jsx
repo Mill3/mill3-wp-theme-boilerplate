@@ -12,10 +12,10 @@ export const Headings = () => {
   return (
     <Wrapper title="Headings default">
       {
-        Object.values([1, 2, 3, 4, 5, 6]).map((key) => {
+        [1, 2, 3, 4, 5, 6].map((key) => {
           const Tag = `h${key}`
           return (
-            <Tag>H{key} default styling</Tag>
+            <Tag key={key}>H{key} default styling</Tag>
           )
         })
       }

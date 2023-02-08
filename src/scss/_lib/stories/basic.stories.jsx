@@ -9,7 +9,7 @@ export default {
 };
 
 const DisplayElements = ({ displayClassName }) => {
-  return Object.values([1, 2, 3, 4]).map((key) => (
+  return [1, 2, 3, 4].map((key) => (
     <div key={key} className={`p-10 bg-gray-300 ${displayClassName}`}>
       block-{key}
     </div>
