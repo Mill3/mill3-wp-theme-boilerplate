@@ -1,8 +1,8 @@
 {
   "name": "mill3-sass",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": "",
-  "main": "build.js",
+  "main": "index.js",
   "directories": {
     "test": "tests"
   },
@@ -27,6 +27,8 @@
     "@storybook/react": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
     "babel-loader": "^8.3.0",
+    "chalk": "^5.2.0",
+    "get-sass-vars": "^3.4.0",
     "postcss": "^8.4.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
