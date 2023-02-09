@@ -59,20 +59,35 @@ export const Display = () => {
   });
 };
 
-export const Visibilities = () => {
+export const List = () => {
   return (
     <>
-      <Wrapper title="Show an element">
-        <pre>.visibility-visible</pre>
-      </Wrapper>
-      <Wrapper title="Hide an element">
-        <pre>.visibility-hidden</pre>
+      <Wrapper title="Remove list bullet/numbers at the beginning of each <li>">
+        <pre>.list-none</pre>
+        <ul class="list-none p-0 m-0">
+          <li>Item 1</li>
+          <li>Item 2</li>
+          <li>Item 3</li>
+          <li>Item 4</li>
+        </ul>
       </Wrapper>
     </>
   );
 };
 
-export const Pointers = () => {
+export const Overflow = () => {
+  return (
+    <>
+      <Wrapper>
+        {Object.values(vars.$overflow).map((key) => {
+          return <div><pre>.overflow-{key}</pre></div>
+        })}
+      </Wrapper>
+    </>
+  );
+};
+
+export const PointerEvents = () => {
   return (
     <>
       <Wrapper title="Enable all pointer-events for this element">
@@ -88,43 +103,37 @@ export const Pointers = () => {
   );
 };
 
-// TODO :
+export const Position = () => {
+  return (
+    <>
+      <Wrapper>
+        {Object.values(vars.$position).map((key) => {
+          return <div><pre>.position-{key}</pre></div>
+        })}
+      </Wrapper>
+    </>
+  );
+};
 
-const overflows = [];
-overflows.push(`<div><pre>.overflow-auto</pre></div>`);
-overflows.push(`<div><pre>.overflow-hidden</pre></div>`);
-overflows.push(`<div><pre>.overflow-visible</pre></div>`);
-overflows.push(`<div><pre>.overflow-scroll</pre></div>`);
+export const Visibilities = () => {
+  return (
+    <>
+      <Wrapper title="Show an element">
+        <pre>.visibility-visible</pre>
+      </Wrapper>
+      <Wrapper title="Hide an element">
+        <pre>.visibility-hidden</pre>
+      </Wrapper>
+    </>
+  );
+};
 
-const positions = [];
-positions.push(`<div><pre>.position-static</pre></div>`);
-positions.push(`<div><pre>.position-fixed</pre></div>`);
-positions.push(`<div><pre>.position-relative</pre></div>`);
-positions.push(`<div><pre>.position-absolute</pre></div>`);
-positions.push(`<div><pre>.position-sticky</pre></div>`);
-
-const lists = [];
-lists.push(`
-      <pre class="fw-700 m-0 mb-20">.list-none</pre>
-
-      <p class="m-0 mb-20 p-0">Remove list bullet/numbers at the beginning of each &lt;li&gt;</p>
-
-      <ul class="list-none bg-gray-200 p-10">
-        <li>item 1</li>
-        <li>item 2</li>
-        <li>item 3</li>
-        <li>item 4</li>
-      </ul>`);
-
-const z = `
-  <pre class="fw-700 m-0 mb-20">.z-$value</pre>
-  <p class="m-0 p-0">Supported values: ${Object.values(vars["$z-index"]).join(", ")}</p>
-`;
-
-// export const display = () => d.join("");
-// export const list = () => lists.join("");
-// export const overflow = () => overflows.join("");
-// export const pointerEvents = () => pointers.join("");
-// export const position = () => positions.join("");
-// export const visiblity = () => visibilities.join("");
-// export const zIndex = () => z;
+export const ZIndex = () => {
+  return (
+    <>
+      <Wrapper note="Supported values: 0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000">
+        <pre>.z-$value</pre>
+      </Wrapper>
+    </>
+  );
+};
