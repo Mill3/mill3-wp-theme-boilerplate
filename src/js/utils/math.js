@@ -18,9 +18,7 @@ export const cover = (width, height, ratio) => {
 /**
  * Calculate hypothenuse of a triangle
  */
-export const hypothenuse = (x1, y1, x2, y2) => {
-  return Math.hypot(Math.abs(x2 - x1), Math.abs(y2 - y1));
-};
+export const hypothenuse = (x1, y1, x2, y2) => Math.hypot(Math.abs(x2 - x1), Math.abs(y2 - y1));
 
 /**
  * Calculate length of c in a triangle using Pythagore formula
@@ -33,10 +31,15 @@ export const pythagore = (a, b) => Math.sqrt(a * a + b * b);
  * Example :
  * degreeToRad(45) returns 0.7853981633974483;
  */
-export const degreeToRad = (d) => {
- const pi = Math.PI;
- return d * (pi/180);
-};
+export const degreeToRad = d => d * (Math.PI/180);
+
+/**
+ * radToDegree(radian);
+ * Example :
+ * radToDegree(0.7853981633974483) returns 45;
+ */
+export const radToDegree = radians => radians * 180 / Math.PI;
+
 
 /**
  * lerp(start, end, multiplier);
@@ -56,6 +59,7 @@ export default {
   hypothenuse,
   pythagore,
   degreeToRad,
+  radToDegree,
   lerp,
   limit
 };

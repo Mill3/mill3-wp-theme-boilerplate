@@ -16,20 +16,27 @@ export const inViewport = (el) => {
   return top < Viewport.height && bottom > 0;
 }
 
+//-------------------------------------------------------------------------//
 // increment --module-delay css variable to each [data-module-delay] in viewport
+// you can modify increment value for next element with [data-module-delay-increment="milliseconds"]
+// 
+// example:
+// <div data-scroll data-module-delay data-module-delay-increment="850">
+//   <h1>Hello World</h1>
+// </div>
+//-------------------------------------------------------------------------//
 export const moduleDelays = (incrementDelay = 100, baseDelay = 0) => {
-  let index = 0;
+  let delay = baseDelay;
 
   [ ...$$(`[data-module-delay]`) ].forEach(el => {
-    const target = el.classList.contains('pb-row-wrapper') ? el.firstElementChild : el;
-    const isInViewport = inViewport(target);
+    const isInViewport = inViewport(el);
 
+    // set in-view status & delay
     el.setAttribute('data-module-delay', isInViewport);
+    if( isInViewport ) el.style.setProperty("--module-delay", `${delay}ms`);
 
-    if( isInViewport ) {
-      el.style.setProperty("--module-delay", `${index * incrementDelay + baseDelay}ms`);
-      index++;
-    }
+    // increment delay for next item
+    delay += el.hasAttribute('data-module-delay-increment') && isInViewport ? parseInt(el.dataset.moduleDelayIncrement) : incrementDelay;
   });
 }
 

@@ -183,7 +183,7 @@ class Scroll {
     off(window, 'scroll', this._onScroll);
 
     window.removeEventListener('wheel', this._onWheel);
-    window.addEventListener('mousewheel', this._onMouseWheel);
+    window.removeEventListener('mousewheel', this._onMouseWheel);
   }
   _notify() {
     EMITTER.emit('SiteScroll.scroll', {
@@ -271,7 +271,9 @@ class Scroll {
     const distance = y - this._data.scroll;
 
     // if scroll hasn't changed, stop here
-    if( Math.abs(distance) === 0 ) return;
+    // we give a small error margin (0.05px) because when we lerp mousewheel, y as a lot of decimals
+    // unfortunately, window.scrollY as a maximum of 1 decimal, which result in a false scroll direction change calculation
+    if( Math.abs(distance) <= 0.05 ) return;
     
     // if distance is positive, we are scrolling down
     // otherwise, we are scrolling up
