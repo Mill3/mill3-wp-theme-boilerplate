@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import { $$, html, body, rect } from "@utils/dom";
+import { radToDegree } from "@utils/math";
 import Viewport from "@utils/viewport";
 
 export const SELECTOR = "img[data-webgl]";
@@ -11,10 +12,8 @@ class ScrollWebGL {
     this.scroll = scroll;
     this.images = null;
 
-    const fov = (180 * (2 * Math.atan(Viewport.height / 2 / PERSPECTIVE))) / Math.PI; // see fov image for a picture breakdown of this fov setting.
-
-    this.camera = new THREE.PerspectiveCamera( fov, Viewport.width / Viewport.height, 1, 1000 );
-    this.camera.position.set(0, 0, PERSPECTIVE); // set the camera position on the z axis.
+    this.camera = new THREE.PerspectiveCamera( getCameraFOV(), getCameraAspect(), 1, 1000 );
+    this.camera.position.set(0, 0, PERSPECTIVE);
 
     this.scene = new THREE.Scene();
 
@@ -52,18 +51,15 @@ class ScrollWebGL {
   resize() {
     this.images?.forEach(img => img.resize(this.scroll.y));
 
-    this.camera.aspect = Viewport.width / Viewport.height; // readjust the aspect ratio.
-    this.camera.updateProjectionMatrix(); // Used to recalulate projectin dimensions.
+    this.camera.fov = getCameraFOV(); // readjust fov.
+    this.camera.aspect = getCameraAspect(); // readjust aspect ratio.
+    this.camera.updateProjectionMatrix(); // Used to recalulate projection dimensions.
+
+    //console.log('viewport', `${Viewport.width}x${Viewport.height}`, 'fov', this.camera.fov, 'aspect', this.camera.aspect);
 
     this.renderer.setSize( Viewport.width, Viewport.height );
   }
-  reset() {
-
-  }
-  cleanup() {
-    // check for webgl images and remove data-scroll attributes
-    [ ...$$(SELECTOR) ].forEach(img => img.removeAttribute('data-scroll'));
-  }
+  reset() {}
 }
 
 
@@ -81,9 +77,8 @@ class GLImage {
   }
 
   init() {
-    this.updateBounds();
-    this.updateSize();
-    this.updateOffset();
+    // remove data-scroll attributes
+    this.el.removeAttribute('data-scroll');
 
     this.geometry = new THREE.PlaneGeometry(1, 1, 100, 100);
     this.texture  = new THREE.TextureLoader().load(this.el.src);
@@ -97,19 +92,45 @@ class GLImage {
       },
       transparent: false,
       wireframe: false,
-      side: THREE.DoubleSide,
+      //side: THREE.DoubleSide,
+      side: THREE.FrontSide,
     });
 
     this.mesh = new THREE.Mesh( this.geometry, this.material );
+
+    this.updateBounds();
+    this.updateSize();
+    this.updateOffset();
     this.render();
 
     this.scene.add(this.mesh);
   }
   render(y = 0, velocity = 0) {
-    this.mesh.position.set(this.offset.x, this.offset.y + y, 0);
-		this.mesh.scale.set(this.sizes.x, this.sizes.y, 1);
+    const position = this.offset.y + y;
+    //const half_height = this.sizes.y / 2;
+    //const hvh = Viewport.height / 2;
+    //const safezone = 100; // safety area around image (in pixels)
 
-    this.material.uniforms.uOffset.value.set(0.0, velocity);
+    //const magic_number = 5.10273973; // viewport: 1920 x 890 (including vertical scrollbar)
+    //const magic_number = 4.93333333; // viewport: 1536 x 712 (including vertical scrollbar) (80% of 1920x890)
+
+    //const magic_number = 3.06818182; // viewport: 1455 x 890 (including vertical scrollbar)
+    //const magic_number = 4.64; // viewport: 1455 x 700 (including vertical scrollbar)
+    //const magic_number = 12.74509804; // viewport: 1920 x 700 (including vertical scrollbar)
+
+    //const top = (hvh - half_height) * magic_number + safezone;
+    //const bottom = (hvh * -1 + half_height) * magic_number - safezone;
+    //const isInView = position > bottom && position < top;
+
+    //console.log(position, isInView);
+    //console.log(hvh, this.sizes.y, position, isInView);
+
+    //this.mesh.visible = isInView;
+
+    //if( isInView ) {
+      this.mesh.position.set(this.offset.x, position, 0);
+      this.material.uniforms.uOffset.value.set(0.0, velocity);
+    //}
   }
   resize(y = 0) {
     this.updateBounds(y);
@@ -127,7 +148,9 @@ class GLImage {
   }
   updateSize(){
     const { width, height } = rect(this.el);
+
     this.sizes.set(width, height);
+		this.mesh.scale.set(this.sizes.x, this.sizes.y, 1);
   }
   updateOffset() {
     const { width, height, top, left } = this.bcr;
@@ -136,6 +159,14 @@ class GLImage {
 }
 
 
+// utilities
+const getCameraFOV = () => {
+  // see fov image for a picture breakdown of this fov setting.
+  return radToDegree(2 * Math.atan(Viewport.height / 2 / PERSPECTIVE));
+};
+const getCameraAspect = () => {
+  return Viewport.width / Viewport.height;
+};
 
 
 const vertexShader = `

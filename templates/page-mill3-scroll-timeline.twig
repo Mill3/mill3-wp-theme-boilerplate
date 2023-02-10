@@ -7,14 +7,12 @@
 
 {% block head %}
 <style type="text/css">
-  html,
-  body {
-    --body-text-color: #5e5754 !important;
-    --body-bg-color: #080808 !important;
-  }
+  body { background: #080808 !important; }
   canvas {
     z-index: -1;
   }
+
+  .mill3-scroll-timeline { color: #5e5754; }
 
   .header {
     padding-left: 50%;
@@ -60,7 +58,7 @@
     transform-origin: top center;
   }
 
-  html.has-scroll-webgl .item__media {
+  html.has-scroll-webgl .item__img[data-webgl] {
     visibility: hidden;
   }
 
@@ -95,11 +93,20 @@
   </header>
 
   <div class="content d-flex flex-column">
-
+    
     {% set titles = [
-      'Cast a spell', 'Corruption', 'All their lives', 'You\'ll burn in hell',
-      'What we become', 'Take a bow', 'You bring death', 'You must pay',
-      'Feed the hex', 'Beg for their lives', 'For all your sins', 'Beholden'
+      'Cast a spell', 
+      'Corruption', 
+      'All their lives', 
+      'You\'ll burn in hell',
+      'What we become', 
+      'Take a bow', 
+      'You bring death', 
+      'You must pay',
+      'Feed the hex', 
+      'Beg for their lives', 
+      'For all your sins', 
+      'Beholden'
     ] %}
 
     {% for title in titles %}
@@ -151,7 +158,7 @@
           data-scroll-call="timeline"
           data-scroll-target="#item-{{ loop.index }} .item__media"
           data-timeline="{{ {scaleX: 1.2, scaleY: 2.4, opacity: 0}|json_encode|escape('html_attr') }}"
-          data-webgl
+          {% if loop.index0 == 1 %}data-webgl{% endif %}
         >
       </div>
     </figure>

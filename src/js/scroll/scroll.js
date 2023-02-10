@@ -72,7 +72,7 @@ class Scroll {
     this._data.isMouseWheeling = Math.abs(this._data.scroll - this._data.targetScroll) > this._options.threshold;
 
     // if target reached, velocity should be 0
-    if( !this._data.isMouseWheeling ) this._data.lastScroll = this._data.scroll;    
+    if( !this._data.isMouseWheeling ) this._data.lastScroll = this._data.scroll;
 
     // smooth scroll to new position
     window.scrollTo({ top: this._data.lastScroll, behavior: 'auto' });
@@ -303,7 +303,7 @@ class Scroll {
   get direction() { return this._data.direction; }
   get limit() { return this._data.max; }
   get progress() { return this._data.scroll / this._data.max; }
-  get velocity() { return this._data.scroll - this._data.lastScroll; }
+  get velocity() { return this._data.targetScroll - this._data.lastScroll; }
   get y() { return this._data.scroll; }
 }
 

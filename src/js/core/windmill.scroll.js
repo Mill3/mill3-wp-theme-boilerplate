@@ -51,7 +51,6 @@ export class WindmillScroll {
   */
   install(windmill) {
     windmill.on('init', this._onInit, this);
-    windmill.on('loaded', this._onLoaded, this);
     windmill.on('ready', this._onPageReady, this);
     windmill.on('enter', this._onPageReady, this);
     windmill.on('exiting', this._onPageExit, this);
@@ -66,9 +65,6 @@ export class WindmillScroll {
     this.timeline = new ScrollTimeline(this.scroll);
     this.to = new ScrollTo(this.scroll);
     //if( !mobile ) this.webgl = new ScrollWebGL(this.scroll);
-  }
-  _onLoaded() {
-    this.webgl?.cleanup();
   }
   _onRAF() {
     if( !this._started ) {
