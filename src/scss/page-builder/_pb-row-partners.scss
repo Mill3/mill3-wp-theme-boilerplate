@@ -1,3 +1,5 @@
+@use "@mill3-sass-mixins/breakpoints";
+
 .pb-row-partners {
   $self: &;
 
@@ -11,7 +13,7 @@
     height: 150px;
     white-space: normal;
 
-    @include media-breakpoint-up(lg) {
+    @include breakpoints.media-breakpoint-up(lg) {
       height: 250px;
     }
 
@@ -29,7 +31,7 @@
     width: 150px;
     border-right: 1px solid currentColor;
 
-    @include media-breakpoint-up(lg) {
+    @include breakpoints.media-breakpoint-up(lg) {
       flex: 0 0 275px;
       width: 275px;
     }
@@ -42,7 +44,7 @@
       height: 100%;
       padding: 20px;
 
-      @include media-breakpoint-up(lg) {
+      @include breakpoints.media-breakpoint-up(lg) {
         padding: 40px;
       }
     }
@@ -50,7 +52,7 @@
       max-width: 90px;
       max-height: 60px;
 
-      @include media-breakpoint-up(lg) {
+      @include breakpoints.media-breakpoint-up(lg) {
         max-width: 170px;
         max-height: 115px;
       }

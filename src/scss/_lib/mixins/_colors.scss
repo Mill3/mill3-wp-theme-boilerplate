@@ -1,0 +1,49 @@
+@use "sass:color";
+@use "sass:math";
+@use "../vars/colors" as vars;
+
+/// color-css-variables
+@mixin color-css-variables($colors: vars.$colors) {
+  :root {
+    @each $key, $value in $colors {
+      --#{$key}: #{$value};
+    }
+  }
+}
+
+/// color-classes
+@mixin color-classes($colors: vars.$colors) {
+  @each $color, $value in $colors {
+    .#{$color} {
+      color: var(--#{$color});
+    }
+    .bg-#{$color} {
+      background-color: var(--#{$color});
+    }
+  }
+}
+
+@mixin text-contrast($n) {
+  $color-brightness: math.round(
+    (color.red($n) * 299) + (color.green($n) * 587) + math.div(color.blue($n) * 114, 1000)
+  );
+  $light-color: math.round(
+    (color.red(#ffffff) * 299) + (color.green(#ffffff) * 587) + math.div((color.blue(#ffffff) * 114), 1000)
+  );
+
+  @if math.abs($color-brightness) < math.div($light-color, 2) {
+    color: color.adjust($n, $lightness: 80%);
+  } @else {
+    color: color.adjust($n, $lightness: -50%);
+  }
+}
+
+@function color($key) {
+  $color: map-get(vars.$colors, $key);
+
+  @if not $color {
+    @error "Color `#{$key}` not found in colors";
+  }
+
+  @return var(--#{$key});
+}

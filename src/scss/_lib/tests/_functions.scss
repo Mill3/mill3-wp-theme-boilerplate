@@ -1,0 +1,30 @@
+@use "../mixins/typography";
+@use "../mixins/colors";
+@use "../mixins/spacers";
+@use "../mixins/animation";
+@use "../mixins/breakpoints";
+@use "../mixins/units";
+@use "../mixins/variants";
+
+@debug typography.font-size(12);
+@debug typography.font-family(body);
+@debug typography.line-height(base);
+@debug typography.heading(h1);
+@debug colors.color(gray-600);
+@debug spacers.spacer(10);
+@debug animation.duration(100s);
+@debug breakpoints.breakpoint-next(md);
+@debug breakpoints.breakpoint-min(lg);
+@debug breakpoints.breakpoint-max(xl);
+@debug breakpoints.breakpoint-infix(xs);
+@debug units.strip(10px);
+@debug units.vw(10px);
+@debug units.vw(10);
+@debug units.vh(10px);
+@debug units.vh(10);
+@debug units.px(10);
+@debug units.px(10px);
+@debug variants.set-unit(10, 10, 'vw', false);
+@debug variants.set-unit(10, 100, '%', true);
+
+@debug "Functions tests passed!";

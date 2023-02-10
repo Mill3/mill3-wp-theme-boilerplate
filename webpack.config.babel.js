@@ -27,6 +27,10 @@ const config = {
   mode: process.env.NODE_ENV,
   devtool: DEV ? "eval" : "source-map",
   optimization: webpackOptimization(DEV),
+  cache: {
+    type: 'filesystem',
+    cacheDirectory: path.resolve(__dirname, '.webpack_cache'),
+  },
 
   //
   // This allow loose imports from any file discarding its relative location to the import :
@@ -42,6 +46,10 @@ const config = {
       "@ui": path.resolve(SRC_PATH, `js/ui/`),
       "@utils": path.resolve(SRC_PATH, `js/utils/`),
       "@vendors": path.resolve(SRC_PATH, `js/vendors/`),
+      "@mill3-sass": path.resolve(SRC_PATH, `scss/_lib/`),
+      "@mill3-sass-mixins": path.resolve(SRC_PATH, `scss/_lib/mixins/`),
+      "@mill3-sass-vars": path.resolve(SRC_PATH, `scss/_lib/vars/`),
+      "@mixins": path.resolve(SRC_PATH, `scss/mixins/`),
     }
   },
 
@@ -64,6 +72,10 @@ const config = {
     filename: DEV ? `js/[name].bundle.js` : `js/[name].[chunkhash].bundle.js`,
     chunkFilename: `js/[name].[chunkhash].bundle.js`,
     publicPath: DEV ? `http://localhost:${SERVER_PORT}/` : PATHS.public
+  },
+
+  stats: {
+    loggingDebug: DEV ? ['sass-loader'] : [],
   },
 
   ...webpackDevServer(DEV),

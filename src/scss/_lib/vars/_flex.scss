@@ -1,0 +1,42 @@
+
+$flex-direction: "column", "column-reverse", "row", "row-reverse";
+
+$flex-wrap: "nowrap", "wrap", "wrap-reverse";
+
+$justify-content:(
+  center: "center",
+  end: "flex-end",
+  start: "flex-start",
+  between: "space-between",
+  around: "space-around",
+  evenly: "space-evenly",
+  stretch: "stretch"
+);
+
+$align-items: (
+  baseline: "baseline",
+  end: "flex-end",
+  start: "flex-start",
+  center: "center",
+  stretch: "stretch"
+);
+
+$align-content: (
+  baseline: "baseline",
+  end: "flex-end",
+  start: "flex-start",
+  center: "center",
+  stretch: "stretch"
+);
+
+$align-self: (
+  baseline: "baseline",
+  end: "flex-end",
+  start: "flex-start",
+  center: "center",
+  stretch: "stretch"
+);
+
+$flex-grow: 0,1,2,3,4,5;
+$flex-shrink: 0,1,2,3,4,5;
+$order: 0,1,2,3,4,5;

@@ -1,0 +1,41 @@
+@use "../mixins/variants";
+@use "../mixins/breakpoints";
+@use "../mixins/boxes";
+@use "../mixins/typography";
+@use "../mixins/base-elements";
+
+$test-values: auto, none, inherit;
+$test-font-sizes: (
+  14: 14px
+);
+
+.test-breakpoint-down {
+  @include breakpoints.media-breakpoint-down(md) {
+    display: block;
+  }
+}
+
+.test-breakpoint-up {
+  @include breakpoints.media-breakpoint-down(md) {
+    display: block;
+  }
+}
+
+.test-breakpoint-between {
+  @include breakpoints.media-breakpoint-between(md, xl) {
+    display: block;
+  }
+}
+
+.test-breakpoint-only {
+  @include breakpoints.media-breakpoint-only(md) {
+    display: block;
+  }
+}
+
+@include base-elements.base-elements();
+@include boxes.generate-boxes();
+@include variants.generate-variants("width", $test-values, "test-values");
+@include typography.generate-fluid-font-size($test-font-sizes, "test-ffz");
+
+@debug "Mixins tests passed!";

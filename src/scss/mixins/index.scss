@@ -1,7 +1,4 @@
-@import "acf";
-@import "animations";
-@import "math";
-@import "mq";
-@import "rollover";
-@import "vw";
-@import "wysiwyg";
+@forward "animations" as animations-*;
+@forward "acf"  as rollover-*;
+@forward "wysiwyg"  as wysiwyg-*;
+

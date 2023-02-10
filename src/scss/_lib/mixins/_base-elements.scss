@@ -1,0 +1,43 @@
+@use "./typography";
+
+///
+/// Output base element rules, Headings, P, list
+///
+@mixin base-elements() {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    font-family: typography.font-family(heading);
+    font-size: typography.font-size(base);
+    line-height: typography.line-height(base);
+  }
+
+  h1 {
+    font-size: typography.heading(h1);
+  }
+
+  h2 {
+    font-size: typography.heading(h2);
+  }
+
+  h3 {
+    font-size: typography.heading(h3);
+  }
+
+  h4 {
+    font-size: typography.heading(h4);
+  }
+
+  h5 {
+    font-size: typography.heading(h5);
+  }
+
+  h6 {
+    font-size: typography.heading(h6);
+  }
+}

@@ -1,0 +1,4 @@
+@use "../mixins/cssvars";
+@use "../vars/colors" as vars;
+
+@include cssvars.css-variables(vars.$colors);

@@ -1,40 +1,14 @@
-@charset "utf-8";
+// 1. we need some mixins loaded globally
+@import "@mill3-sass/mixins/globals";
 
-// NPM packages
-@import "~@mill3-packages/system-ui-sass/src/system-ui.scss";
-@import "vendors/mill3-system-ui-sass/index";
-@import "~sass-easing";
-@import "~swiper/css/";
-@import "~swiper/css/pagination";
-
-// variables
-@import "vars/index";
-
-// vendors
-@import "vendors/index";
-
-/*** THEME SPECIFICS ***/
-
-// mixins
-@import "mixins/index";
-
-// commons
-@import "commons/index";
-
-// modules
-@import "modules/index";
-
-// page builder
-@import "page-builder/index";
-
-// content types
-@import "post-type/index";
-
-// taxonomies
-@import "taxonomy/index";
-
-// layouts
-@import "layouts/index";
-
-// UI
-@import "ui/index";
+// 2. then import all sass files at once
+@import "@mill3-sass",
+  "cssvars",
+  "vendors",
+  "commons",
+  "ui",
+  "modules",
+  "page-builder",
+  "layouts",
+  "post-type",
+  "taxonomy";

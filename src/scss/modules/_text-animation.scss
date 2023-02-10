@@ -1,21 +1,23 @@
+@use "@mill3-sass-vars/easings";
+
 // ***************** //
 // SLIDE IN BY WORDS
 // ***************** //
-// 
+//
 // Description: Each letters slide from bottom to top individually, staggered by word index.
-// 
+//
 // How to use
-//  - Required: 
+//  - Required:
 //    - Add [data-text-animation="slidein-by-words"], [data-scroll] and [data-splitting] attributes to your text element.
-//  - Optional: 
+//  - Optional:
 //    - Add [data-scroll-target="#MY_TARGET"] and [data-scroll-offset] attributes to control when in-view will be triggered.
 //
 // Important notice
 //  - In order to work correctly, --line-height css variable must match the line-height of your element.
-//  - Example: 
+//  - Example:
 //      ** html **
 //      <h1 class="ff-heading fz-24 ff-lg-36 lh-relaxed m-0">My title</h1>
-// 
+//
 //      ** css **
 //      h1 {
 //        --line-height: 1.5;
@@ -35,13 +37,13 @@
 //          --stagger: 250ms;
 //       }
 //    }
-// 
+//
 [data-text-animation="slidein-by-words"] {
   --line-height: 1;
   --duration: 800ms;
   --delay: 0ms;
   --stagger: 150ms;
-  --easing: #{$easeOutCubic};
+  --easing: #{easings.$easeOutCubic};
 
   // element must be flex or inline-flex to work with line-height < 1.
   // if element don't have any display defined, set to display: flex.

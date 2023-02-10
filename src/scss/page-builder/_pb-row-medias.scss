@@ -1,3 +1,6 @@
+@use "@mill3-sass-mixins/breakpoints";
+@use "@mixins/animations";
+
 .pb-row-medias {
   $self: &;
 
@@ -15,7 +18,7 @@
   }
 
   &__nav {
-    @include media-breakpoint-up(lg) {
+    @include breakpoints.media-breakpoint-up(lg) {
       padding-left: 40px;
       padding-right: 40px;
     }
@@ -33,7 +36,7 @@
     #{$self}__img {
       height: 265px;
 
-      @include media-breakpoint-up(lg) {
+      @include breakpoints.media-breakpoint-up(lg) {
         height: 448px;
       }
     }
@@ -50,7 +53,7 @@
       height: auto;
       max-height: 265px;
 
-      @include media-breakpoint-up(lg) {
+      @include breakpoints.media-breakpoint-up(lg) {
         max-height: 448px;
       }
     }
@@ -62,7 +65,7 @@
       padding-left: 16px;
       padding-right: 16px;
 
-      @include media-breakpoint-up(lg) {
+      @include breakpoints.media-breakpoint-up(lg) {
         padding-left: 40px;
         padding-right: 40px;
       }
@@ -70,7 +73,7 @@
     #{$self}__media {
       @include inView {
         opacity: 0.0001;
-  
+
         &.is-inview {
           opacity: 0.999;
           transition: opacity 950ms 150ms linear;
@@ -117,7 +120,7 @@
   // GRID CENTER
   &.--layout-grid-center {
     #{$self}__grid {
-      @include media-breakpoint-up(md) {
+      @include breakpoints.media-breakpoint-up(md) {
         margin-left: auto;
         margin-right: auto;
         width: 720px;

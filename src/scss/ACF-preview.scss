@@ -1,22 +1,6 @@
 @charset "utf-8";
 
-// NPM packages
-@import "@mill3-packages/system-ui-sass/src/system-ui";
-@import "vendors/mill3-system-ui-sass/index";
-@import "~sass-easing";
-@import "~swiper/css/";
-@import "~swiper/css/pagination";
-
-// variables
-@import "vars/index";
-
-// vendors
-@import "vendors/index";
-
-/*** THEME SPECIFICS ***/
-
-// mixins
-@import "mixins/index";
+@import "@mill3-sass";
 
 // override acfPreview mixin because we want this code in our ACF previews
 @mixin acfPreview() {
@@ -36,20 +20,14 @@ body {
   overflow: hidden;
 }
 
-// commons
-@import "commons/index";
-
-// modules
-@import "modules/index";
-
-// page builder
-@import "page-builder/index";
-
-// content types
-@import "post-type/index";
-
-// taxonomies
-@import "taxonomy/index";
-
+@import "cssvars",
+  "vendors",
+  "commons",
+  "ui",
+  "modules",
+  "page-builder",
+  "layouts",
+  "post-type",
+  "taxonomy";
 
 

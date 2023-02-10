@@ -1,3 +1,5 @@
+@use '@mill3-sass-mixins/mq';
+
 // reset <button> elements
 
 button {
@@ -32,7 +34,7 @@ button {
     //&:not([class*="position-"]) { position: relative; }
 
     // rollover
-    @include hoverDevice {
+    @include mq.hoverDevice {
       &:not(.pointer-events-none) {
         // styling only applied for button who can received hover events
 
@@ -55,7 +57,7 @@ button {
     //&:not([class*="position-"]) { position: relative; }
 
     // rollover
-    @include hoverDevice {
+    @include mq.hoverDevice {
       &:not(.pointer-events-none) {
         // styling only applied for button who can received hover events
 

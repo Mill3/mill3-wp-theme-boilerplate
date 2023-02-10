@@ -1,32 +1,29 @@
 @charset "utf-8";
 
-@import "@mill3-packages/system-ui-sass/src/mixins";
-// @import "@mill3-packages/system-ui-sass/src/modules/_base-elements";
-@import "@mill3-packages/system-ui-sass/src/modules/_typography";
-@import "@mill3-packages/system-ui-sass/src/modules/_colors";
-@import "~sass-easing";
+@use "@mill3-sass-mixins/spacers";
+@use "@mill3-sass-mixins/colors";
+@use "@mill3-sass-mixins/typography";
+@use "@mixins/wysiwyg";
 
-/*** THEME SPECIFICS ***/
+@import "@mill3-sass/classes_generators/_base-elements";
+@import "@mill3-sass/classes_generators/_typography";
+@import "@mill3-sass/classes_generators/_colors";
 
-@import "mixins/index";
-
-// @import "commons/base-elements";
 @import "commons/fonts";
-// @import "commons/images";
 
 body.mce-content-body {
-  --body-text-color: #{color("color-black")};
+  --body-text-color: #{colors.color(color-black)};
   color: var(--body-text-color);
-  padding-left: spacer(10) !important;
-  padding-right: spacer(10) !important;
-  font-family: font-family("body");
-  font-size: font-size("base");
+  padding-left: spacers.spacer(10) !important;
+  padding-right: spacers.spacer(10) !important;
+  font-family: typography.font-family(body);
+  font-size: typography.font-size(base);
 
   a {
     color: currentColor;
   }
 
-  @include wysiwyg;
+  @include wysiwyg.wysiwyg;
 }
 
 //
@@ -34,8 +31,8 @@ body.mce-content-body {
 //
 
 .wp-block-post-title {
-  padding-bottom: spacer(40) !important;
-  margin-bottom: spacer(40) !important;
+  padding-bottom: spacers.spacer(40) !important;
+  margin-bottom: spacers.spacer(40) !important;
   border-bottom: 1px solid #000 !important;
   font-weight: 300;
 }
@@ -47,7 +44,7 @@ html :where(.wp-block) {
   max-width: 1440px !important;
   margin-top: 10px !important;
   margin-bottom: 10px !important;
-  font-family: font-family("body");
+  font-family: typography.font-family(body);
 }
 
 // add some space between each block editor

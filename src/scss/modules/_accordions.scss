@@ -1,3 +1,7 @@
+@use "@mill3-sass-vars/easings";
+@use '@mill3-sass-mixins/mq';
+@use "@mixins/animations";
+
 .accordions {
   $self: &;
 
@@ -19,7 +23,7 @@
     }
   }
   &__btn {
-    @include hoverDevice {
+    @include mq.hoverDevice {
       &:hover {
         #{$self}__arrowDown svg {
           transform: translate3d(0, 4px, 0);
@@ -32,10 +36,10 @@
 
     &[aria-expanded="true"] {
       #{$self}__arrowDown {
-        animation: AccordionArrowDownLeave 350ms $easeInQuad both;
+        animation: AccordionArrowDownLeave 350ms easings.$easeInQuad both;
       }
       #{$self}__arrowUp {
-        animation: AccordionArrowUpEnter 450ms 300ms $easeOutCubic both;
+        animation: AccordionArrowUpEnter 450ms 300ms easings.$easeOutCubic both;
       }
     }
   }
@@ -48,14 +52,14 @@
 
     svg {
       transform: translate3d(0, 0px, 0);
-      transition: transform 350ms $easeOutQuad;
+      transition: transform 350ms easings.$easeOutQuad;
     }
   }
   &__arrowDown {
-    animation: AccordionArrowDownEnter 450ms 300ms $easeOutCubic both;
+    animation: AccordionArrowDownEnter 450ms 300ms easings.$easeOutCubic both;
   }
   &__arrowUp {
-    animation: AccordionArrowUpLeave 350ms $easeInQuad both;
+    animation: AccordionArrowUpLeave 350ms easings.$easeInQuad both;
   }
   &__content {
     animation: AccordionContentOpen 650ms 25ms linear both;
@@ -77,7 +81,7 @@
       opacity: 0.0001;
       transform: translate3d(0, 40px, 0);
     }
-    #{$self}__accordion:after, 
+    #{$self}__accordion:after,
     #{$self}__accordion:first-child::before {
       transform: scaleX(0);
     }
@@ -86,7 +90,7 @@
       #{$self}__arrow {
         opacity: 0.999;
         transform: translate3d(0, 0px, 0);
-        transition: opacity 450ms linear, transform 650ms $easeOutCubic;
+        transition: opacity 450ms linear, transform 650ms easings.$easeOutCubic;
       }
       #{$self}__btn {
         transition-delay: calc((var(--index) * 150ms) + var(--delay) + 300ms);
@@ -94,10 +98,10 @@
       #{$self}__arrow {
         transition-delay: calc((var(--index) * 150ms) + var(--delay) + 450ms);
       }
-      #{$self}__accordion::after, 
+      #{$self}__accordion::after,
       #{$self}__accordion:first-child::before  {
         transform: scaleX(0.9999);
-        transition: transform 750ms $easeOutCubic;
+        transition: transform 750ms easings.$easeOutCubic;
         transition-delay: calc((var(--index) * 150ms) + var(--delay) + 150ms);
       }
 

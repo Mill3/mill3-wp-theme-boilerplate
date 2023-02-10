@@ -4,3 +4,7 @@
     @content;
   }
 }
+
+@mixin inView() {
+  @content;
+}

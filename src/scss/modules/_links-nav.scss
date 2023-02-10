@@ -1,8 +1,10 @@
+@use "@mill3-sass-mixins/breakpoints";
+
 .links-nav {
   $self: &;
 
   // LAYOUT MOBILE
-  @include media-breakpoint-down(sm) {
+  @include breakpoints.media-breakpoint-down(xs) {
     &.--layout-mobile-horizontal {
       flex-direction: row;
       align-items: center;
@@ -19,7 +21,7 @@
   }
 
   // LAYOUT
-  @include media-breakpoint-up(md) {
+  @include breakpoints.media-breakpoint-up(md) {
     &.--layout-horizontal {
       flex-direction: row;
       align-items: center;

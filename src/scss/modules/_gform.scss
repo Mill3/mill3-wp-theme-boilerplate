@@ -1,3 +1,5 @@
+@use "@mill3-sass-mixins/breakpoints";
+
 /**
  * Minimal styling for Gravity Form
  * Intend to use as-is in every project
@@ -41,20 +43,20 @@
       grid-column-gap: 24px;
       grid-row-gap: 40px;
 
-      @include media-breakpoint-up(lg) {
+      @include breakpoints.media-breakpoint-up(lg) {
         grid-template-columns: repeat(12, 1fr);
       }
     }
     .gfield {
-      @include media-breakpoint-up(lg) {
+      @include breakpoints.media-breakpoint-up(lg) {
         grid-column-end: span 12;
       }
 
       &.gfield--width-half {
-        @include media-breakpoint-down(md) {
+        @include breakpoints.media-breakpoint-down(md) {
           grid-column: 1 / -1;
         }
-        @include media-breakpoint-up(lg) {
+        @include breakpoints.media-breakpoint-up(lg) {
           grid-column-end: span 6;
         }
       }
@@ -125,17 +127,17 @@
 
     // field widths available in GF 2.5.x
     &.gfield--width-half {
-      @include media-breakpoint-up(md) {
+      @include breakpoints.media-breakpoint-up(md) {
         width: calc(50% - (var(--fields-grid-gap) / 2));
       }
     }
     &.gfield--width-third {
-      @include media-breakpoint-up(lg) {
+      @include breakpoints.media-breakpoint-up(lg) {
         width: calc(33% - calc(var(--fields-grid-gap) / 1.65));
       }
     }
     &.gfield--width-quarter {
-      @include media-breakpoint-up(xl) {
+      @include breakpoints.media-breakpoint-up(xl) {
         width: calc(25% - calc(var(--fields-grid-gap) / 1.33333333333));
       }
     }
@@ -159,7 +161,7 @@
 
       // this must be skinned to your project's need
       //.gfield_label {}
-      
+
       .ginput_container {
         position: absolute;
         top: 0;
@@ -173,7 +175,7 @@
           width: 0;
           height: 0;
         }
-        
+
         .ginput_preview {
           display: none;
         }

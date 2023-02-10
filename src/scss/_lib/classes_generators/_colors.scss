@@ -1,0 +1,28 @@
+@use "../mixins/colors";
+@use "../vars/colors" as vars;
+
+///
+/// @group colors
+///
+
+/// Color classes for changing color or background-color of an element, native CSS variables are also available, check both examples below.
+///
+/// Check [theme.js](https://github.com/Mill3/mill3-packages/blob/master/packages/system-ui-sass/theme.js) for available values.
+///
+/// @see {mixin} color-classes
+///
+/// @name .color-[value], .bg-color-[value]
+///
+/// @example
+/// <span class="bg-color-red"><span class="color-gray-200"></span></span>
+///
+/// @example
+/// .my-custom-selector {
+///   box-shadow: var(--color-red);
+/// }
+
+// note: keep this line below for SassDoc
+// .color-[value] { ... }
+
+@include colors.color-classes(vars.$colors);
+

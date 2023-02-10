@@ -1,3 +1,6 @@
+@use "@mixins/animations";
+
+
 @keyframes tickerText {
   from {
     transform: translateX(0%);

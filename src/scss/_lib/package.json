@@ -1,0 +1,39 @@
+{
+  "name": "mill3-sass",
+  "version": "0.2.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "export NODE_ENV=production && node build.js",
+    "storybook": "node sass_vars_to_json.mjs && start-storybook -p 6006",
+    "build-storybook": "node sass_vars_to_json.mjs && build-storybook",
+    "build": "export NODE_ENV=production && node build.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@storybook/addon-actions": "^6.5.16",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/addon-interactions": "^6.5.16",
+    "@storybook/addon-links": "^6.5.16",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/builder-webpack4": "^6.5.16",
+    "@storybook/manager-webpack4": "^6.5.16",
+    "@storybook/react": "^6.5.16",
+    "@storybook/testing-library": "^0.0.13",
+    "babel-loader": "^8.3.0",
+    "chalk": "^4.1.2",
+    "get-sass-vars": "^3.4.0",
+    "postcss": "^8.4.21",
+    "postcss-preset-env": "^8.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "sass": "^1.58.0",
+    "storybook-addon-sass-postcss": "^0.1.3"
+  }
+}
