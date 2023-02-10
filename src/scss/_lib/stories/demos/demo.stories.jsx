@@ -1,9 +1,8 @@
 import React from "react";
-import "../index.scss";
-import "../../commons/_images.scss";
-import vars from "../sass_vars.json";
-import Wrapper from "./components/wrapper";
-// console.log('vars:', vars)
+import "../../index.scss";
+import "../../../commons/_images.scss";
+import vars from "../../sass_vars.json";
+import Wrapper from "../components/wrapper";
 
 const Component = (props) => {
   // console.log('props:', props)
@@ -22,8 +21,22 @@ const Component = (props) => {
   );
 };
 
+export const ComponentDemo = (props) => {
+  return <Component {...props} />;
+};
+
+ComponentDemo.args = {
+  fontSize: Object.keys(vars['$font-size'])[4],
+  fontWeight: Object.values(vars['$font-weight'])[0],
+  padding: 20,
+  marginTop: 0,
+  marginBottom: 0,
+  color: 'color-primary',
+  backgroundColor: 'gray-300'
+};
+
 export default {
-  title: "Demo component",
+  title: "Component Interactive demo",
   component: Component,
   argTypes: {
     fontSize: {
@@ -55,18 +68,4 @@ export default {
       control: { type: "select" }
     }
   }
-};
-
-export const ComponentDemo = (props) => {
-  return <Component {...props} />;
-};
-
-ComponentDemo.args = {
-  fontSize: Object.keys(vars['$font-size'])[4],
-  fontWeight: Object.values(vars['$font-weight'])[0],
-  padding: 20,
-  marginTop: 0,
-  marginBottom: 0,
-  color: 'color-primary',
-  backgroundColor: 'gray-300'
 };

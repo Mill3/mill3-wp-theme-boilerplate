@@ -36,7 +36,7 @@ export const GridColumns = () => {
       </div>
     </Wrapper>
   );
-})} 
+})}
 
 export const GridGap = () => {
   return Object.keys(vars.$spacers).map((key) => {
@@ -51,7 +51,7 @@ export const GridGap = () => {
       </div>
     </Wrapper>
   );
-})} 
+})}
 
 export const GridColumnStart = () => {
   return (
@@ -80,7 +80,7 @@ export const GridColumnStart = () => {
     }
     </>
   );
-} 
+}
 
 export const GridColumnEnd = () => {
   return (
@@ -109,7 +109,7 @@ export const GridColumnEnd = () => {
     }
     </>
   );
-} 
+}
 
 export const GridColumnFull = () => {
 
@@ -122,7 +122,7 @@ export const GridColumnFull = () => {
       </div>
     </Wrapper>
   );
-} 
+}
 
 export const GridRows = () => {
   return Object.values(rowsArray).map((key) => {
@@ -142,7 +142,7 @@ export const GridRows = () => {
       </div>
     </Wrapper>
   );
-})} 
+})}
 
 export const GridRowStart = () => {
   return (
@@ -152,7 +152,7 @@ export const GridRowStart = () => {
         <div className={`d-grid grid-column-${vars['$grid-columns']} grid-row-${vars['$grid-rows']} grid-gap-10`}>
           {Object.values(rowsArray).map((key) => {
             return (
-               <div class={`p-10 bg-gray-300 col-start-${key} row-start-${key}`}>row-start-{key}</div> 
+               <div class={`p-10 bg-gray-300 col-start-${key} row-start-${key}`}>row-start-{key}</div>
             );
           })
         }
@@ -163,7 +163,7 @@ export const GridRowStart = () => {
         <div className={`d-grid grid-column-${vars['$grid-columns']} grid-row-${vars['$grid-rows']} grid-gap-10`}>
           {Object.values(rowsArray).map((key) => {
             return (
-               <div class={`p-10 bg-gray-300 col-start-${key} row-end-limit row-start-span-${key}`}>row-start-span-{key}</div> 
+               <div class={`p-10 bg-gray-300 col-start-${key} row-end-limit row-start-span-${key}`}>row-start-span-{key}</div>
             );
           })
         }
@@ -171,7 +171,7 @@ export const GridRowStart = () => {
     </Wrapper>
     </>
   );
-} 
+}
 
 export const GridRowEnd = () => {
   return (
@@ -181,7 +181,7 @@ export const GridRowEnd = () => {
         <div className={`d-grid grid-column-${vars['$grid-columns']} grid-row-${vars['$grid-rows']} grid-gap-10`}>
           {Object.values(rowsArray).map((key) => {
             return (
-               <div class={`p-10 bg-gray-300 col-start-${key} row-end-${key}`}>row-end-{key}</div> 
+               <div class={`p-10 bg-gray-300 col-start-${key} row-end-${key}`}>row-end-{key}</div>
             );
           })
         }
@@ -192,7 +192,7 @@ export const GridRowEnd = () => {
         <div className={`d-grid grid-column-${vars['$grid-columns']} grid-row-${vars['$grid-rows']} grid-gap-10`}>
           {Object.values(rowsArray).map((key) => {
             return (
-               <div class={`p-10 bg-gray-300 col-start-${key} row-end-span-${key}`}>row-end-span-{key}</div> 
+               <div class={`p-10 bg-gray-300 col-start-${key} row-end-span-${key}`}>row-end-span-{key}</div>
             );
           })
         }
@@ -200,7 +200,7 @@ export const GridRowEnd = () => {
     </Wrapper>
     </>
   );
-} 
+}
 
 export const GridRowFull = () => {
 
@@ -213,7 +213,7 @@ export const GridRowFull = () => {
       </div>
     </Wrapper>
   );
-} 
+}
 
 export const JustifySelf = () => {
   return Object.keys(vars['$align-self']).map((key) => {
@@ -242,3 +242,9 @@ export const Order = () => {
     </>
   );
 };
+
+export const ComponentDemo = () => {
+  return (
+    <Wrapper>demo component</Wrapper>
+  )
+}
