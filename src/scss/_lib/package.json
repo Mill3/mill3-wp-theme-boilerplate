@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "export NODE_ENV=production && node build.js",
     "storybook": "node sass_vars_to_json.mjs && start-storybook -p 6006",
     "build-storybook": "node sass_vars_to_json.mjs && build-storybook",
     "build": "export NODE_ENV=production && node build.js"
@@ -27,7 +27,7 @@
     "@storybook/react": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
     "babel-loader": "^8.3.0",
-    "chalk": "^5.2.0",
+    "chalk": "^4.1.2",
     "get-sass-vars": "^3.4.0",
     "postcss": "^8.4.21",
     "postcss-preset-env": "^8.0.1",
