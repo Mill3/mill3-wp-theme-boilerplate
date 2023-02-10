@@ -1,6 +1,6 @@
 // Media query when user's device use mouse
 @mixin hoverDevice() {
-  @media (any-hover: hover) {
+  @media (hover: hover) {
     @content;
   }
 }

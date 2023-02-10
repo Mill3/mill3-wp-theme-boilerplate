@@ -5,8 +5,10 @@ export const mobile =
 
 
 export const touch_device = window.matchMedia('(hover: none)').matches;
+export const hover_device = window.matchMedia('(hover: hover)').matches;
 
 export default {
   mobile,
-  touch_device
+  touch_device,
+  hover_device
 };
