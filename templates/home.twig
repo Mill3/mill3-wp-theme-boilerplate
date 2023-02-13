@@ -27,11 +27,11 @@
   {% set posts = get_posts(1) %}
   {% set search = search('hello') %}
 
-  <pre class="bg-gray-100 fz-12 overflow-hidden p-10">
+  <pre class="bg-gray-100 fz-12 overflow-clip p-10">
     {{ dump(posts) }}
   </pre>
 
-  <pre class="bg-gray-100 fz-12 overflow-hidden p-10">
+  <pre class="bg-gray-100 fz-12 overflow-clip p-10">
     {{ dump(search) }}
   </pre>
 

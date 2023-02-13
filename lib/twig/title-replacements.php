@@ -123,7 +123,6 @@ class Twig_Title_Replacements extends AbstractExtension {
             if($is_svg) {
                 // attach SvgPathLength JS module to attributes
                 $this->set_attribute("data-module='svg-path-length'");
-                $this->set_attribute("data-svg-path-length");
                 $image_system_path = Timber\URLHelper::url_to_file_system($image['url']);
                 $img_tag = file_get_contents($image_system_path);
             } else {
@@ -146,7 +145,6 @@ class Twig_Title_Replacements extends AbstractExtension {
             $img_tag = file_get_contents($image_system_path);
             // attach SvgPathLength JS module to attributes
             $this->set_attribute("data-module='svg-path-length'");
-            $this->set_attribute("data-svg-path-length");
 
             // set icon value as classname
             $this->set_classname("--{$icon}");

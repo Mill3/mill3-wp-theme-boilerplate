@@ -1,5 +1,16 @@
-import SiteHeader from "./SiteHeader";
+import { $ } from "@utils/dom";
 
-export const instance = new SiteHeader();
+class SiteHeader {
+  constructor(el, emitter) {
+    this.el = el;
+    this.emitter = emitter;
+  }
 
-export default { instance };
+  init() {}
+  destroy() {
+    this.el = null;
+    this.emitter = null;
+  }
+}
+
+export default SiteHeader;

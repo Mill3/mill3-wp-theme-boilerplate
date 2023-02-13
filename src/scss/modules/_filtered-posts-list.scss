@@ -1,4 +1,4 @@
-[data-filtered-posts-list] {
+[data-module*="filtered-posts-list"] {
 
   [data-filtered-posts-list-pagination] {
     &:empty { display: none !important; }
