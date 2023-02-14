@@ -29,8 +29,8 @@
           .#{$classname}#{$infix}-#{$key} {
             //
             // if $value is stored in SASS list, iterate each item using the same $property
-            // example : $overflow: 'hidden': 'hidden', 'clip': ("hidden", "clip")
-            // will output to : .overflow-clip { overflow: hidden; overflow: clip; }
+            // Example : $overflow: 'hidden': 'hidden', 'clip': ("hidden", "clip")
+            // Output to : .overflow-hidden { overflow: hidden };.overflow-clip { overflow: hidden; overflow: clip; }
             //
             @if type-of($value) == "list" {
               @each $k, $v in $value {

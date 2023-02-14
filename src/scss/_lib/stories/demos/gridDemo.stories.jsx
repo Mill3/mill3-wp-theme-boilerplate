@@ -90,7 +90,7 @@ export default {
       control: { type: "range", min: 0, max: vars["$grid-rows"], step: 1 }
     },
     gridColumnStart: {
-      control: { type: "range", min: 0, max: vars["$grid-columns"] + 1, step: 1 }
+      control: { type: "range", min: 0, max: vars["$grid-columns"], step: 1 }
     },
     gridColumnStartSpan: {
       control: { type: "range", min: 0, max: vars["$grid-columns"], step: 1 }
