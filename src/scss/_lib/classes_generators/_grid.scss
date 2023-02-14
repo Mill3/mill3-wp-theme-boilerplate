@@ -48,11 +48,14 @@
         grid-column-start: span #{$i};
       }
 
-      .col-end#{$infix}-#{$i} {
-        grid-column-end: #{$i};
-      }
       .col-end-span#{$infix}-#{$i} {
         grid-column-end: span #{$i};
+      }
+    }
+
+    @for $i from 1 through grid.$grid-columns + 1 {
+      .col-end#{$infix}-#{$i} {
+        grid-column-end: #{$i};
       }
     }
 
@@ -119,11 +122,14 @@
         grid-row-start: span #{$i};
       }
 
-      .row-end#{$infix}-#{$i} {
-        grid-row-end: #{$i};
-      }
       .row-end-span#{$infix}-#{$i} {
         grid-row-end: span #{$i};
+      }
+    }
+
+    @for $i from 1 through grid.$grid-rows + 1 {
+      .row-end#{$infix}-#{$i} {
+        grid-row-end: #{$i};
       }
     }
 

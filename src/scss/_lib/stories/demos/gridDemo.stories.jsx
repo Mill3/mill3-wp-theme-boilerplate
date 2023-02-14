@@ -13,15 +13,35 @@ const GridBlockPlaceholder = ({ borderColor = "gray-500", backgroundColor, opaci
   return <span style={style} className={`d-block`}></span>;
 };
 
-const GridBlock = ({ color = "primary", gridColumnStart, gridColumnStartSpan, gridRowStart, gridRowStartSpan }) => {
-  let classnames = [`col-start-${gridColumnStart}`, `row-start-${gridRowStart}`];
+const GridBlock = ({
+  color = "primary",
+  gridColumnStart,
+  gridColumnEnd,
+  gridColumnStartSpan,
+  gridColumnFull,
+  gridRowStart,
+  gridRowEnd,
+  gridRowStartSpan,
+  gridRowFull,
+  justifySelf
+}) => {
+  let classnames = [];
 
-  if (gridColumnStartSpan > 1) classnames.push(`col-start-span-${gridColumnStartSpan}`);
-  if (gridRowStartSpan > 1) classnames.push(`row-start-span-${gridRowStartSpan}`);
+  if (gridColumnStart > 0) classnames.push(`col-start-${gridColumnStart}`);
+  if (gridColumnEnd > 0) classnames.push(`col-end-${gridColumnEnd}`);
+  if (gridColumnStartSpan > 0) classnames.push(`col-start-span-${gridColumnStartSpan}`);
+  if (gridColumnFull > 0) classnames.push(`col-full`);
+  if (gridRowStart > 0) classnames.push(`row-start-${gridRowStart}`);
+  if (gridRowEnd > 0) classnames.push(`row-end-${gridRowEnd}`);
+  if (gridRowStartSpan > 0) classnames.push(`row-start-span-${gridRowStartSpan}`);
+  if (gridRowFull) classnames.push(`row-full`);
+  if (justifySelf) classnames.push(`justify-self-${justifySelf}`);
 
   return (
     <span
-      className={`fz-12 p-10 d-flex w-100 justify-content-center align-items-center bg-color-${color} ${classnames.join(" ")}`}
+      className={`fz-12 p-10 d-inline-flex justify-content-center align-items-center bg-color-${color} ${classnames.join(
+        " "
+      )}`}
     >
       {classnames.join(" ")}
     </span>
@@ -34,7 +54,7 @@ const Component = (props) => {
   let classnames = [`d-grid`, `grid-column-${gridColumn}`, `grid-row-${gridRow}`, `grid-gap-${gridGap}`];
 
   const mainGridStyle = {
-    aspectRatio: "3/1"
+    aspectRatio: "1/0.8"
   };
 
   // create range for total box to inject in overlay grid
@@ -46,7 +66,7 @@ const Component = (props) => {
         {/* main grid with single block in it */}
         <div style={mainGridStyle} className={`${classnames.join(" ")}`}>
           <GridBlock {...props} />
-          <GridBlockPlaceholder backgroundColor={"color-secondary"} opacity={1} />
+          {/* <GridBlockPlaceholder backgroundColor={"color-secondary"} opacity={1} /> */}
         </div>
         {/* overlay grid */}
         <div className={`${classnames.join(" ")} position-absolute t-0 l-0 w-100 h-100 z-1000 pointer-events-none`}>
@@ -64,22 +84,37 @@ export default {
   component: GridDemo,
   argTypes: {
     gridColumn: {
-      control: { type: "range", min: 1, max: vars["$grid-columns"], step: 1 }
+      control: { type: "range", min: 0, max: vars["$grid-columns"], step: 1 }
     },
     gridRow: {
-      control: { type: "range", min: 1, max: vars["$grid-rows"], step: 1 }
+      control: { type: "range", min: 0, max: vars["$grid-rows"], step: 1 }
     },
     gridColumnStart: {
-      control: { type: "range", min: 1, max: vars["$grid-columns"], step: 1 }
+      control: { type: "range", min: 0, max: vars["$grid-columns"] + 1, step: 1 }
     },
     gridColumnStartSpan: {
-      control: { type: "range", min: 1, max: vars["$grid-columns"], step: 1 }
+      control: { type: "range", min: 0, max: vars["$grid-columns"], step: 1 }
+    },
+    gridColumnEnd: {
+      control: { type: "range", min: 0, max: vars["$grid-columns"] + 1, step: 1 }
+    },
+    gridColumnFull: {
+      control: { type: "boolean", default: false }
     },
     gridRowStart: {
-      control: { type: "range", min: 1, max: vars["$grid-rows"], step: 1 }
+      control: { type: "range", min: 0, max: vars["$grid-rows"] + 1, step: 1 }
     },
     gridRowStartSpan: {
-      control: { type: "range", min: 1, max: vars["$grid-rows"], step: 1 }
+      control: { type: "range", min: 0, max: vars["$grid-rows"], step: 1 }
+    },
+    gridRowEnd: {
+      control: { type: "range", min: 0, max: vars["$grid-rows"] + 1, step: 1 }
+    },
+    gridRowFull: {
+      control: { type: "boolean", default: false }
+    },
+    justifySelf: {
+      control: { type: "select", options: Object.keys(vars['$align-self']), default: null }
     },
     gridGap: {
       options: Object.keys(vars.$spacers),
@@ -95,9 +130,13 @@ export const GridDemo = (props) => {
 GridDemo.args = {
   gridColumn: vars["$grid-columns"],
   gridRow: vars["$grid-rows"],
-  gridColumnStart: 1,
+  gridColumnStart: 0,
+  gridColumnEnd: 0,
   gridColumnStartSpan: 0,
-  gridRowStart: 1,
+  gridColumnFull: false,
+  gridRowStart: 0,
+  gridRowEnd: 0,
   gridRowStartSpan: 0,
+  gridRowFull: false,
   gridGap: 10
 };

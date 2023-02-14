@@ -1,1 +1,10 @@
-$overflow: "auto", "hidden", "visible", "scroll";
+// $clip: ("clip", "hidden");
+// $overflow: "auto", "hidden", "visible", "scroll", $clip;
+
+$overflow: (
+  auto: "auto",
+  hidden: "hidden",
+  visible: "visible",
+  scroll: "scroll",
+  clip: ("hidden", "clip")
+);

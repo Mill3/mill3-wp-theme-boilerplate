@@ -80,7 +80,8 @@ export const Overflow = () => {
     <>
       <Wrapper>
         {Object.values(vars.$overflow).map((key) => {
-          return <div><pre>.overflow-{key}</pre></div>
+          const keyName = typeof key === 'object' ? key[key.length-1] : key
+          return <div><pre>.overflow-{keyName}</pre></div>
         })}
       </Wrapper>
     </>

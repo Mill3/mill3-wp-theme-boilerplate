@@ -11,6 +11,7 @@
   $unit: "",
   $important: false
 ) {
+
   // Loop over each breakpoint
   @each $breakpoint in map-keys(vars.$grid-breakpoints) {
     @include breakpoints.media-breakpoint-up($breakpoint) {
@@ -26,7 +27,18 @@
           }
         } @else {
           .#{$classname}#{$infix}-#{$key} {
-            #{$property}: set-unit($key, $value, $unit, $important);
+            //
+            // if $value is stored in SASS list, iterate each item using the same $property
+            // example : $overflow: 'hidden': 'hidden', 'clip': ("hidden", "clip")
+            // will output to : .overflow-clip { overflow: hidden; overflow: clip; }
+            //
+            @if type-of($value) == "list" {
+              @each $k, $v in $value {
+                #{$property}: set-unit($k, $v, $unit, $important);
+              }
+            } @else {
+              #{$property}: set-unit($key, $value, $unit, $important);
+            }
           }
         }
       }
