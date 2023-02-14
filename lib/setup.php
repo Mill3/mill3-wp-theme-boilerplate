@@ -106,6 +106,13 @@ function assets()
             null
         );
         wp_enqueue_script(
+            'mill3wp/js-sentry',
+            Assets\Asset_File_path('sentry', 'js'),
+            [],
+            null,
+            false
+        );
+        wp_enqueue_script(
             'mill3wp/js',
             Assets\Asset_File_path('app', 'js'),
             [],

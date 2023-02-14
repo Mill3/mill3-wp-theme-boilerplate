@@ -62,7 +62,7 @@ class App {
     //windmill.use( new WindmillDomController({ modules: Modules, ui: UI }) );
     windmill.use( new WindmillScroll() );
     windmill.use( new WindmillSplitting() );
-    
+
 
     // if you use Windmill's Async mode, please do this:
     //   - uncomment windmill's css from /scss/commons/index.scss

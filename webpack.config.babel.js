@@ -62,7 +62,8 @@ const config = {
         "editor-style": path.join(PATHS.scss, `Editor-style.scss`),
         // "admin-shortcodes": path.join(PATHS.src, `js/admin/shortcodes.js`),
         acfPreview: path.join(PATHS.scss, `ACF-preview.scss`),
-        acfPreviewIframe: path.resolve(SRC_PATH, `js/ACF-Preview.js`)
+        acfPreviewIframe: path.resolve(SRC_PATH, `js/ACF-Preview.js`),
+        sentry: path.resolve(SRC_PATH, `js/Sentry.js`)
       } : {}
     )
   },

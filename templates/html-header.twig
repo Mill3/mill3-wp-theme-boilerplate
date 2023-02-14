@@ -5,11 +5,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="ahrefs-site-verification" content="b3803d3e535d4234a31383131e38f454755069fd82239a50bbb931b2f628671e">
+    {# INJECT SENTRY META IN PRODUCTION ONLY #}
+    {% if THEME_ENV == "production" and SENTRY_DSN_JS %}
+    <meta name="sentry-dsn-js" value="{{ SENTRY_DSN_JS }}" data-env="{{ THEME_ENV }}" />
+    {% endif %}
     <link rel="author" href="{{ site.theme.link }}/humans.txt" />
     <link rel="pingback" href="{{ site.pingback_url }}" />
     {{function('wp_head')}}
 
-    <meta name="ahrefs-site-verification" content="b3803d3e535d4234a31383131e38f454755069fd82239a50bbb931b2f628671e">
 
     {% if options.gtm_code and THEME_ENV == "production" %}
     <!-- Google Tag Manager -->
@@ -21,26 +25,6 @@
     <!-- End Google Tag Manager -->
     {% endif %}
 
-    {# INJECT SENTRY JS IN PRODUCTION ONLY #}
-    {% if THEME_ENV == "production" and SENTRY_DSN_JS %}
-    <script
-      src="https://browser.sentry-cdn.com/6.19.1/bundle.tracing.min.js"
-      integrity="sha384-hthbsqa5mLHmR+ZUw29J9qGt8SdDRD7AVpG02i/NAsu5cv9G9I9D9IhEtSVyoPv2"
-      crossorigin="anonymous"
-    ></script>
-
-    <script>
-      Sentry.init({
-        dsn: "{{ SENTRY_DSN_JS }}",
-        integrations: [new Sentry.BrowserTracing()],
-        environment: "{{ SENTRY_ENV ? SENTRY_ENV : 'production' }}",
-
-        // We recommend adjusting this value in production, or using tracesSampler
-        // for finer control
-        tracesSampleRate: 1.0,
-      });
-    </script>
-    {% endif %}
 
     {# SAMPLE meta for Content-Security-Policy (SCP) #}
     {# {% if THEME_ENV == "production" %} #}
