@@ -7,11 +7,11 @@ import "@core/hello";
 import windmill from "@core/windmill";
 import WindmillScripts from "@core/windmill.scripts";
 import WindmillScroll from "@core/windmill.scroll";
+import WindmillSplitting from "@core/windmill.splitting";
 import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 //import WindmillDomController from "@core/windmill.dom-controller";
 import MobileViewportUnit from "@core/mobile-vh";
 import scrollbarWidth from "@core/scrollbar-width";
-import splitting from "@core/splitting";
 import { chrome, edge, firefox, safari, ios, iphone, ipad, android } from "@utils/browser";
 import { html, body } from "@utils/dom";
 import { mobile } from "@utils/mobile";
@@ -59,18 +59,22 @@ class App {
     // install Windmill's plugins
     windmill.use( new WindmillScripts() );
     windmill.use( new WindmillWebpackChunks() );
-    //windmill.use( new WindmillDomController([ ...Object.values(Modules), ...Object.values(UI) ]) );
+    //windmill.use( new WindmillDomController({ modules: Modules, ui: UI }) );
     windmill.use( new WindmillScroll() );
+    windmill.use( new WindmillSplitting() );
+    
 
-    // run Splitting.js after images are loaded & before enter transition
-    windmill.on('loaded', splitting);
-    windmill.on('entering', splitting);
-
-    // init windmill
+    // if you use Windmill's Async mode, please do this:
+    //   - uncomment windmill's css from /scss/commons/index.scss
+    //   - use SiteAsyncTransition.js instead of SiteTransition.js
+    //   - remove {% include 'site-transition.twig' %} from templates/base.twig
+    //   - comment "site-transition" from scss/ui/index.scss
+    //   - preferably use WindmillDomController plugin over WindmillWebpackChunks because it enable lower waiting before running page transition
     windmill.init({
       debug: process.env.NODE_ENV === "development",
+      async: false,
       prevent: (url, el) => {
-        // if admin-bar is shown, prevent all barba
+        // if admin-bar is shown, prevent all windmill page transition
         if ( body.classList.contains('admin-bar') ) return true;
 
         if (

@@ -110,7 +110,7 @@
   }
 
   // SMOOTH SCROLL ONLY: reveal effect
-  html.has-scroll-smooth &[data-pb-row-wrapper-reveal] {
+  html.has-scroll-smooth &[data-module*="pb-row-wrapper-reveal"] {
     overflow: hidden;
     overflow: clip;
   }

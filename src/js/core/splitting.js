@@ -1,6 +1,6 @@
 import Splitting from "splitting";
 
-import { $$ } from "@utils/dom";
+import { $$, body } from "@utils/dom";
 
 
 const splitByWordsForMaskAnimation = (el, options, ctx) => {
@@ -19,7 +19,7 @@ Splitting.add({
 });
 
 
-export default () => {
+export default (el = body) => {
   [ ...$$('[data-splitting]') ].forEach(el => {
     const splittingMethod = el.dataset.splitting || "wordsMask";
 

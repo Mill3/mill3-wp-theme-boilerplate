@@ -1,0 +1,22 @@
+[data-windmill="wrapper"] {
+  position: relative;
+}
+
+[data-windmill="container"] {
+  background-color: var(--body-bg-color);
+  
+  &:not(:last-child) {
+    position: absolute;
+    top: calc(var(--scroll-y) * -1);
+    left: 0;
+    transform-origin: 50% var(--scroll-y);
+    width: 100%;
+  }
+
+  &[aria-hidden="true"] {
+    &,
+    * {
+      pointer-events: none !important;
+    }
+  }
+}

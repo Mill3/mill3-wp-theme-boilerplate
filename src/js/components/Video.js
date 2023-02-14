@@ -49,9 +49,9 @@ class Video {
     if (this._playPromise) return;
 
     // start playback and clear promise when done
-    this._playPromise = this.el?.play().finally(() => {
-      this._playPromise = null;
-    });
+    this._playPromise = this.el?.play();
+    this._playPromise.finally(() => { this._playPromise = null; });
+    this._playPromise.catch(() => { this._action = null; });
   }
   pause() {
     // if video element does not exist, skip here

@@ -33,6 +33,7 @@ export class WindmillScroll {
     this.to = null;
     this.webgl = null;
 
+    this._async = false;
     this._raf = null;
     this._started = false;
     this._lastTime = null;
@@ -50,11 +51,22 @@ export class WindmillScroll {
   * Plugin installation.
   */
   install(windmill) {
+    this._async = windmill.async;
+
     windmill.on('init', this._onInit, this);
     windmill.on('ready', this._onPageReady, this);
-    windmill.on('enter', this._onPageReady, this);
     windmill.on('exiting', this._onPageExit, this);
-    windmill.on('entering', this._onPageRemoved, this);
+
+    if( this._async ) {
+      windmill.on('entering', this._resetScrollModules, this);
+      windmill.on('enter', this._onAsyncPageEnter, this);
+      windmill.on('entered', this._onAsyncPageEntered, this);
+      windmill.on('done', this._onAsyncPageDone, this);
+    } else {
+      windmill.on('exiting', this._stopModules, this);
+      windmill.on('entering', this._resetScrollModules, this);
+      windmill.on('enter', this._onSyncPageEnter, this);
+    }
   }
 
   _onInit() {
@@ -104,16 +116,42 @@ export class WindmillScroll {
     this._onRAF();
   }
   _onPageExit() {
+    this._unbindEvents( !this._async );
+  }
+
+  _onAsyncPageEnter({ next }) {
     this._unbindEvents();
     this._stopModules();
+
+    html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
+
+    this.scroll?.init();
+    this.intersection?.init(next.container);
+    this.webgl?.init();
   }
-  _onPageRemoved() {
-    this.scroll?.reset();
-    this.intersection?.reset();
-    this.minimum?.reset();
-    this.timeline?.reset();
-    this.webgl?.reset();
-    this.webgl?.cleanup();
+  _onAsyncPageEntered() {
+    this._lastTime = null;
+
+    this._startModules();
+    this._bindEvents();
+    this._onRAF();
+  }
+  _onAsyncPageDone() {
+    this.scroll?.resize();
+    this.intersection?.resize();
+    this.webgl?.resize();
+  }
+
+  _onSyncPageEnter({ next }) {
+    this._lastTime = null;
+
+    this.scroll?.init();
+    this.intersection?.init(next.container);
+    this.webgl?.init();
+
+    this._startModules();
+    this._bindEvents();
+    this._onRAF();
   }
 
   _onSiteScrollStart() {
@@ -152,7 +190,7 @@ export class WindmillScroll {
     EMITTER.on('SiteScroll.scrollTo', this._onSiteScrollTo);
     EMITTER.on('SiteScroll.scrollUp', this._onSiteScrollUp);
   }
-  _unbindEvents() {
+  _unbindEvents(stopRAF = true) {
     ResizeOrientation.remove(this._onResize);
 
     EMITTER.off('SiteScroll.start', this._onSiteScrollStart);
@@ -161,8 +199,10 @@ export class WindmillScroll {
     EMITTER.off('SiteScroll.scrollTo', this._onSiteScrollTo);
     EMITTER.off('SiteScroll.scrollUp', this._onSiteScrollUp);
 
-    if( this._raf ) cancelAnimationFrame(this._raf);
-    this._raf = null;
+    if( stopRAF ) {
+      if( this._raf ) cancelAnimationFrame(this._raf);
+      this._raf = null;
+    }
   }
 
   _startModules() {
@@ -189,6 +229,14 @@ export class WindmillScroll {
     this.webgl?.stop();
     
     this._started = false;
+  }
+  _resetScrollModules() {
+    this.scroll?.reset();
+    this.intersection?.reset();
+    this.minimum?.reset();
+    this.timeline?.reset();
+    this.webgl?.reset();
+    this.webgl?.cleanup();
   }
 }
 

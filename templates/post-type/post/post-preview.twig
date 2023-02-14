@@ -9,7 +9,7 @@
 <article class="post-preview {{ classname }}">
 
   {% if thumbnail %}
-    <a href="{{ link }}" title="{{ title }}" class="post-preview__imgBox d-block w-100 td-none overflow-hidden">
+    <a href="{{ link }}" title="{{ title }}" class="post-preview__imgBox d-block w-100 td-none overflow-clip">
       {% include 'partial/image.twig' with {'image': thumbnail, 'alt': title, 'classname': 'post-preview__img img-fluid'} only %}
     </a>
   {% endif %}

@@ -37,7 +37,7 @@ class SiteTransition {
       anime({
         targets: this.el,
         opacity: [1, 0],
-        duration: 150,
+        duration: 250,
         easing: "linear",
         complete: () => {
           this.el.classList.add("visibility-hidden", "pointer-events-none");

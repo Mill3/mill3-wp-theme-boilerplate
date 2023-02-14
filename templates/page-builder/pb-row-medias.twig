@@ -35,8 +35,7 @@
 
 {% if layout == 'slider' %}
   {% set attributes = attributes|merge([
-    'data-module="pb-row-medias"',
-    'data-pb-row-medias'
+    'data-module="pb-row-medias"'
   ]) %}
 {% endif %}
 
@@ -78,7 +77,7 @@
       {% for media in medias %}
       <div class="pb-row-medias__slide pb-row-medias__media swiper-slide">
         <figure class="pb-row-medias__wrap d-block m-0 p-0">
-          <div class="pb-row-medias__box overflow-hidden">
+          <div class="pb-row-medias__box overflow-clip">
             {% include 'partial/image.twig' with {
               'image': media,
               'classname': 'pb-row-medias__img'
@@ -137,7 +136,7 @@
 
   <div class="pb-row-medias__grid d-grid grid-gap-{{ grid_gap_mobile }} grid-gap-lg-{{ grid_gap }} {% if fullwidth %}--fullwidth{% endif %}">
     {% for media in medias %}
-    {% set image = media %}
+    {% set image = Mill3Image(media) %}
     {% set sizes = {
       'grid-1': ['100vw'],
       'grid-2': ['50vw'],
@@ -162,8 +161,8 @@
     >
       <figure
         id="{{ udid ~ '_' ~ loop.index }}"
-        class="pb-row-medias__box box box-{{ format }} overflow-hidden"
-        {% if format == 'auto'%}style="--ratio: {{ image.aspect }}"{% endif %}
+        class="pb-row-medias__box box box-{{ format }} overflow-clip"
+        {% if format == 'auto'%}style="--ratio: {{ 1 / image.aspect }}"{% endif %}
       >
         <div
           class="pb-row-medias__parallax position-absolute t-0 l-0 r-0 b-0"

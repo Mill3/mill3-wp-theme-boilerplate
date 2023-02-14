@@ -33,7 +33,6 @@
   class="pb-row pb-row-oembed {{ classname }}"
   {% if hasPreview %}
   data-module="pb-row-oembed"
-  data-pb-row-oembed
   {% endif %}
   {{ attributes|join(' ') }}
   data-scroll
@@ -44,7 +43,7 @@
     <div class="pb-row-oembed__wrap ml-auto mr-auto">
       <div class="w-100 box box-widescreen wysiwyg">
         {% if hasPreview %}
-          <div class="pb-row-oembed__preview position-absolute t-0 l-0 w-100 h-100 overflow-hidden">
+          <div class="pb-row-oembed__preview position-absolute t-0 l-0 w-100 h-100 overflow-clip">
             {% if thumbnail %}
               {% include 'partial/image.twig' with {
                 'image': thumbnail,
