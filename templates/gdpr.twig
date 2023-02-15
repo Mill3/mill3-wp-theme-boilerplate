@@ -1,0 +1,95 @@
+{# 
+ # IMPORTANT THINGS TO DO IF YOU USE THIS TEMPLATE IN YOUR PROJECT.
+ #
+ # 1. uncomment gdpr.scss in /scss/ui/index.scss
+ # 2. uncomment import "@core/gdpr"; in js/App.js
+ # 3. uncomment import GDPR from "./gdpr"; in js/ui/index.dom-controller.js (only if you use windmill.dom-controller)
+ # 4. uncomment {% include 'gdpr.twig' %} from templates/base.twig 
+ # 5. gdpr.twig MUST be outside [data-windmill="wrapper"]
+ #
+ #
+ # If you want to open GDPR panel from another button in website, do this in your module.
+ # --------
+ # import EMITTER from "@core/emitter";
+ # EMITTER.emit('GDPR.open');
+ # --------
+ #}
+<div 
+  id="gdpr" 
+  class="gdpr position-fixed t-0 l-0 w-100 vh-100 overflow-clip pointer-events-none"
+  data-ui="gdpr"
+  aria-hidden="{{ gdpr_consent_status == 'pending' ? 'false' : 'true' }}"
+>
+  <div class="gdpr__container d-flex flex-nowrap overflow-clip bg-color-white color-black">
+
+    <div class="gdpr__homeWrap gdpr__wrap" aria-hidden="false">
+      <p class="gdpr__title m-0 mb-20">{{ __('Cookies give you a personalised experience', 'mill3wp') }}</p>
+      <p class="gdpr__text m-0 mb-20">{{ __('We use cookies and similar technologies to help personalise content, tailor and measure ads, and provide a better experience. By clicking OK or turning an option on in Cookie Preferences, you agree to this, as outlined in our privacy policy page. To change preferences or withdraw consent, please update your Cookie Preferences.', 'mill3wp') }}</p>
+
+      {% include 'partial/button.twig' with {
+        'title': __('Personalise your experience', 'mill3wp'),
+        'style': 'link',
+        'classname': 'gdpr__moreBtn mb-20'
+      } only %}
+
+      <div class="gdpr__buttons d-flex align-items-center">
+        {% include 'partial/button.twig' with {
+          'title': __('Allow all', 'mill3wp'),
+          'style': 'cta',
+          'classname': 'gdpr__acceptBtn'
+        } only %}
+
+        {% include 'partial/button.twig' with {
+          'title': __('Close & reject', 'mill3wp'),
+          'style': 'link',
+          'classname': 'gdpr__rejectBtn'
+        } only %}
+      </div>
+    </div>
+
+    <div class="gdpr__optionsWrap gdpr__wrap" aria-hidden="true">
+      {% include 'partial/button.twig' with {
+        'title': __('Back', 'mill3wp'),
+        'style': 'link',
+        'classname': 'gdpr__backBtn mb-20'
+      } only %}
+
+      <div class="d-flex flex-column grid-gap-30 mb-30">
+        {{ _self.option('consent_analytics', 
+            gdpr_consent_analytics == 'granted' ? true : false,
+            __('Accept analytical cookies ?', 'mill3wp'),
+            __('We are using Google Analytics, Facebook Pixel, fermentum odio nec arcu. Phasellus blandit leo ut odio. Aliquam eu nunc. Vestibulum turpis sem, aliquet eget, lobortis pellentesque, rutrum eu, nisl.', 'mill3wp')
+        ) }}
+
+        {{ _self.option('consent_ads',  
+            gdpr_consent_ads == 'granted' ? true : false,
+            __('Accept marketing cookies ?', 'mill3wp'),
+            __('We are using Google Analytics, Facebook Pixel, fermentum odio nec arcu. Phasellus blandit leo ut odio. Aliquam eu nunc. Vestibulum turpis sem, aliquet eget, lobortis pellentesque, rutrum eu, nisl.', 'mill3wp')
+        ) }}
+      </div>
+
+      <div class="d-flex justify-content-between align-items-baseline">
+        {% include 'partial/button.twig' with {
+          'title': __('Save & close', 'mill3wp'),
+          'style': 'cta',
+          'classname': 'gdpr__saveCloseBtn'
+        } only %}
+
+        <p class="gdpr__userId m-0 ml-10" aria-hidden="{{ gdpr_consent_user_id ? 'false' : 'true' }}">{{ __('Your User ID: %s', 'mill3wp')|format(gdpr_consent_user_id|default('%s')) }}</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% macro option(name, checked = true, label, text) %}
+  <div class="gdpr__option">
+    <label class="gdpr__input d-flex align-items-center position-relative">
+      <input type="checkbox" class="position-absolute t-0 l-0 visibility-hidden pointer-events-none" {% if checked %}checked{% endif %} name="{{ name }}" value="granted">
+
+      <span class="gdpr__input__toggle" aria-hidden="true"></span>
+      <span class="gdpr__input__text">{{ label }}</span>
+    </label>
+    <p class="gdpr__option__text m-0">{{ text }}</p>
+  </div>
+{% endmacro %}

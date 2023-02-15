@@ -1,0 +1,96 @@
+.gdpr {
+  $self: &;
+
+  &__container {
+    //width: 380px;
+  }
+  &__wrap {
+    flex: 0 0 100%;
+    pointer-events: all;
+    transform: translateX(0%);
+    transition: transform 450ms $easeOutCubic;
+
+    &[aria-hidden="true"] {
+      pointer-events: none;
+    }
+  }
+  &__input {
+    // when input is checked, set toggle 
+    > input:checked + #{$self}__input__toggle {
+      background-color: color(color-black);
+
+      &::before {
+        animation: gdprInputChecked 250ms 0ms $easeOutExpo both;
+      }
+    }
+
+    &__toggle {
+      cursor: pointer;
+      display: block;
+      width: 36px;
+      height: 20px;
+      background-color: color(gray-200);
+      border-radius: 200px;
+      padding: 2px;
+      transition: background-color 250ms linear;
+
+      &::before {
+        content: '';
+        display: block;
+        width: 16px;
+        height: 16px;
+        background-color: color(color-white);
+        border-radius: 200px;
+        animation: gdprInputUnchecked 250ms 0ms $easeOutExpo both;
+      }
+    }
+  }
+  &__userId {
+    &[aria-hidden="true"] { display: none; }
+  }
+
+
+  &.--js-more-options {
+    #{$self}__wrap {
+      transform: translateX(-100%);
+    }
+  }
+  &[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+@keyframes gdprInputUnchecked {
+  0% {
+    background-color: color(color-primary);
+    transform: translateX(16px);
+    width: 16px;
+  }
+  70% {
+    background-color: color(color-primary);
+    transform: translateX(0px);
+    width: 32px;
+  }
+  100% {
+    background-color: color(color-white);
+    transform: translateX(0px);
+    width: 16px;
+  }
+}
+@keyframes gdprInputChecked {
+  0% {
+    background-color: color(color-white);
+    transform: translateX(0px);
+    width: 16px;
+  }
+  70% {
+    background-color: color(color-white);
+    transform: translateX(0px);
+    width: 32px;
+  }
+  100% {
+    background-color: color(color-primary);
+    transform: translateX(16px);
+    width: 16px;
+  }
+}

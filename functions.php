@@ -107,6 +107,7 @@ $includes = [
     'lib/customizer.php',
     'lib/editor.php',
     'lib/filters.php',
+    'lib/gdpr.php',
     'lib/gravity-form.php',
     'lib/gutenberg.php',
     'lib/menu.php',

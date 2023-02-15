@@ -4,6 +4,7 @@
 import domready from "domready";
 
 import "@core/hello";
+//import "@core/gdpr";
 import windmill from "@core/windmill";
 import WindmillScripts from "@core/windmill.scripts";
 import WindmillScroll from "@core/windmill.scroll";

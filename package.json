@@ -73,6 +73,7 @@
     "domready": "1.0.8",
     "eventemitter2": "6.4.9",
     "intl-messageformat": "10.2.5",
+    "js-cookie": "^3.0.1",
     "load-google-maps-api": "2.0.2",
     "lottie-web": "^5.10.1",
     "sass-easing": "1.0.3",
