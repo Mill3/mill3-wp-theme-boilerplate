@@ -66,7 +66,7 @@ const Component = (props) => {
         {/* main grid with single block in it */}
         <div style={mainGridStyle} className={`${classnames.join(" ")}`}>
           <GridBlock {...props} />
-          {/* <GridBlockPlaceholder backgroundColor={"color-secondary"} opacity={1} /> */}
+          <GridBlockPlaceholder backgroundColor={"color-secondary"} opacity={1} />
         </div>
         {/* overlay grid */}
         <div className={`${classnames.join(" ")} position-absolute t-0 l-0 w-100 h-100 z-1000 pointer-events-none`}>
