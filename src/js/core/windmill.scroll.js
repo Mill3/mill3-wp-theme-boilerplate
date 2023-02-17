@@ -6,9 +6,9 @@ import ScrollIntersection from "@scroll/scroll-intersection";
 import ScrollMinimum from "@scroll/scroll-minimum";
 import ScrollTimeline from "@scroll/scroll-timeline";
 import ScrollTo from "@scroll/scroll-to";
-import ScrollWebGL from "@scroll/scroll-webgl";
+//import ScrollWebGL from "@scroll/scroll-webgl";
 import { html } from "@utils/dom";
-import { mobile } from "@utils/mobile";
+//import { mobile } from "@utils/mobile";
 import ResizeOrientation, { MILL3_SCROLL_PRIORITY } from "@utils/resize";
 
 /**
@@ -76,7 +76,7 @@ export class WindmillScroll {
     this.minimum = new ScrollMinimum(this.scroll);
     this.timeline = new ScrollTimeline(this.scroll);
     this.to = new ScrollTo(this.scroll);
-    if( !mobile ) this.webgl = new ScrollWebGL(this.scroll);
+    //if( !mobile ) this.webgl = new ScrollWebGL(this.scroll);
   }
   _onRAF() {
     if( !this._started ) {
