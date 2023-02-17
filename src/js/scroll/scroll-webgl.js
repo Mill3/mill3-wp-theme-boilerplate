@@ -51,11 +51,8 @@ class ScrollWebGL {
     const magic_number = this.camera.fov * this.camera.aspect * 0.039116933943734396;
 
     this.images?.forEach(img => {
-      //if( this.frustum.intersectsObject(img.box) ) {
-        //img.visible = true;
-        img.render(this.scroll.y, velocity, magic_number);
-      //}
-      //else img.visible = false;
+      img.render(this.scroll.y, velocity, magic_number);
+      img.visible = this.frustum.intersectsObject(img.box);
     });
     this.renderer.render( this.scene, this.camera );
   }
