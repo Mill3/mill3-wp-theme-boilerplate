@@ -12,7 +12,8 @@ class ScrollWebGL {
     this.scroll = scroll;
     this.images = null;
 
-    this.camera = new THREE.PerspectiveCamera( getCameraFOV(), getCameraAspect(), 1, 1000 );
+    this.camera = new THREE.OrthographicCamera( Viewport.width * -0.5, Viewport.width * 0.5, Viewport.height * 0.5, Viewport.height * -0.5, 1, PERSPECTIVE );
+    //this.camera = new THREE.PerspectiveCamera( getCameraFOV(), getCameraAspect(), 1, 1000 );
     this.camera.position.set(0, 0, PERSPECTIVE);
 
     this.scene = new THREE.Scene();
@@ -22,13 +23,15 @@ class ScrollWebGL {
     this.renderer.setSize( Viewport.width, Viewport.height );
     this.renderer.outputEncoding = THREE.sRGBEncoding;
 
+    this.frustum = new THREE.Frustum();
+
     this.renderer.domElement.classList.add('position-fixed', 't-0', 'l-0', 'w-100', 'h-100', 'pointer-events-none');
     body.prepend( this.renderer.domElement );
     html.classList.add('has-scroll-webgl');
   }
 
-  init() {
-    this.images = [ ...$$(SELECTOR) ].map(img => new GLImage(img, this.scene));
+  init($target = body) {
+    this.images = [ ...$$(SELECTOR, $target) ].map(img => new GLImage(img, this.scene));
     this.resize();
   }
   start() {
@@ -44,19 +47,26 @@ class ScrollWebGL {
     if( !this._started ) return;
 
     const velocity = this.scroll.velocity * 0.00008;
+    //const magic_number = this.camera.fov * this.camera.aspect * 0.039116933943734396;
+    const magic_number = this.camera.fov * this.camera.aspect * 0.039116933943734396;
 
-    this.images?.forEach(img => img.render(this.scroll.y, velocity));
+    this.images?.forEach(img => {
+      //if( this.frustum.intersectsObject(img.box) ) {
+        //img.visible = true;
+        img.render(this.scroll.y, velocity, magic_number);
+      //}
+      //else img.visible = false;
+    });
     this.renderer.render( this.scene, this.camera );
   }
   resize() {
+    //this.camera.fov = getCameraFOV(); // readjust fov.
+    //this.camera.aspect = getCameraAspect(); // readjust aspect ratio.
+    //this.camera.updateProjectionMatrix(); // Used to recalulate projection dimensions.
+
+    //this.frustum.setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse));
+
     this.images?.forEach(img => img.resize(this.scroll.y));
-
-    this.camera.fov = getCameraFOV(); // readjust fov.
-    this.camera.aspect = getCameraAspect(); // readjust aspect ratio.
-    this.camera.updateProjectionMatrix(); // Used to recalulate projection dimensions.
-
-    //console.log('viewport', `${Viewport.width}x${Viewport.height}`, 'fov', this.camera.fov, 'aspect', this.camera.aspect);
-
     this.renderer.setSize( Viewport.width, Viewport.height );
   }
   reset() {}
@@ -69,9 +79,10 @@ class GLImage {
     this.el = el;
     this.scene = scene;
     
-    this.bcr = { width: 0, height: 0, top: 0, left: 0 };
-    this.offset = new THREE.Vector2(0, 0); // Positions of mesh on screen. Will be updated below.
-    this.sizes = new THREE.Vector2(0, 0); //Size of mesh on screen. Will be updated below.
+    this._bcr = { width: 0, height: 0, top: 0, left: 0 };
+    this._offset = new THREE.Vector2(0, 0); // Positions of mesh on screen. Will be updated below.
+    this._sizes = new THREE.Vector2(0, 0); //Size of mesh on screen. Will be updated below.
+    this._visible = true;
 
     this.init();
   }
@@ -97,16 +108,13 @@ class GLImage {
     });
 
     this.mesh = new THREE.Mesh( this.geometry, this.material );
-
-    this.updateBounds();
-    this.updateSize();
-    this.updateOffset();
-    this.render();
+    this.mesh.visible = this._visible;
 
     this.scene.add(this.mesh);
   }
-  render(y = 0, velocity = 0) {
-    const position = this.offset.y + y;
+  render(y = 0, velocity = 0, magic_number = 1) {
+    const position = this._offset.y + y;
+
     //const half_height = this.sizes.y / 2;
     //const hvh = Viewport.height / 2;
     //const safezone = 100; // safety area around image (in pixels)
@@ -122,39 +130,42 @@ class GLImage {
     //const bottom = (hvh * -1 + half_height) * magic_number - safezone;
     //const isInView = position > bottom && position < top;
 
-    //console.log(position, isInView);
+    //console.log(position, isInView, magic_number);
     //console.log(hvh, this.sizes.y, position, isInView);
 
     //this.mesh.visible = isInView;
 
     //if( isInView ) {
-      this.mesh.position.set(this.offset.x, position, 0);
+      this.mesh.position.set(this._offset.x, position, 0);
       this.material.uniforms.uOffset.value.set(0.0, velocity);
     //}
   }
   resize(y = 0) {
-    this.updateBounds(y);
-    this.updateSize();
-    this.updateOffset();
-  }
-
-  updateBounds(y = 0) {
     const { width, height, top, left } = rect(this.el);
 
-    this.bcr.width = width;
-    this.bcr.height = height;
-    this.bcr.left = left;
-    this.bcr.top = top + y;
-  }
-  updateSize(){
-    const { width, height } = rect(this.el);
+    // update boundaries
+    this._bcr.width = width;
+    this._bcr.height = height;
+    this._bcr.left = left;
+    this._bcr.top = top + y;
 
-    this.sizes.set(width, height);
-		this.mesh.scale.set(this.sizes.x, this.sizes.y, 1);
+    // update size
+    this._sizes.set(width, height);
+		this.mesh.scale.set(this._sizes.x, this._sizes.y, 1);
+
+    // update offset
+    this._offset.set(this._bcr.left - Viewport.width / 2 + this._bcr.width / 2, -this._bcr.top + Viewport.height / 2 - this._bcr.height / 2);
   }
-  updateOffset() {
-    const { width, height, top, left } = this.bcr;
-    this.offset.set(left - Viewport.width / 2 + width / 2, -top + Viewport.height / 2 - height / 2);
+
+  // getter - setter
+  get box() { return this.mesh; }
+
+  get visible() { return this._visible; }
+  set visible(value) {
+    if( this._visible === value ) return;
+    this._visible = value;
+
+    this.mesh.visible = value;
   }
 }
 

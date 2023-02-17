@@ -6,9 +6,9 @@ import ScrollIntersection from "@scroll/scroll-intersection";
 import ScrollMinimum from "@scroll/scroll-minimum";
 import ScrollTimeline from "@scroll/scroll-timeline";
 import ScrollTo from "@scroll/scroll-to";
-//import ScrollWebGL from "@scroll/scroll-webgl";
+import ScrollWebGL from "@scroll/scroll-webgl";
 import { html } from "@utils/dom";
-//import { mobile } from "@utils/mobile";
+import { mobile } from "@utils/mobile";
 import ResizeOrientation, { MILL3_SCROLL_PRIORITY } from "@utils/resize";
 
 /**
@@ -76,7 +76,7 @@ export class WindmillScroll {
     this.minimum = new ScrollMinimum(this.scroll);
     this.timeline = new ScrollTimeline(this.scroll);
     this.to = new ScrollTo(this.scroll);
-    //if( !mobile ) this.webgl = new ScrollWebGL(this.scroll);
+    if( !mobile ) this.webgl = new ScrollWebGL(this.scroll);
   }
   _onRAF() {
     if( !this._started ) {
@@ -100,16 +100,16 @@ export class WindmillScroll {
     if( !this._started ) return;
 
     this.scroll?.resize();
-    this.intersection?.resize();
     this.webgl?.resize();
+    this.intersection?.resize();
   }
 
   _onPageReady() {
     this._lastTime = null;
 
     this.scroll?.init();
-    this.intersection?.init();
     this.webgl?.init();
+    this.intersection?.init();
 
     this._startModules();
     this._bindEvents();
@@ -126,8 +126,8 @@ export class WindmillScroll {
     html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
 
     this.scroll?.init();
+    this.webgl?.init(next.container);
     this.intersection?.init(next.container);
-    this.webgl?.init();
   }
   _onAsyncPageEntered() {
     this._lastTime = null;
@@ -138,16 +138,16 @@ export class WindmillScroll {
   }
   _onAsyncPageDone() {
     this.scroll?.resize();
-    this.intersection?.resize();
     this.webgl?.resize();
+    this.intersection?.resize();
   }
 
   _onSyncPageEnter({ next }) {
     this._lastTime = null;
 
     this.scroll?.init();
+    this.webgl?.init(next.container);
     this.intersection?.init(next.container);
-    this.webgl?.init();
 
     this._startModules();
     this._bindEvents();
@@ -236,7 +236,6 @@ export class WindmillScroll {
     this.minimum?.reset();
     this.timeline?.reset();
     this.webgl?.reset();
-    this.webgl?.cleanup();
   }
 }
 

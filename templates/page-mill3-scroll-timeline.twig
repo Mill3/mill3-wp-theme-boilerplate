@@ -158,7 +158,8 @@
           data-scroll-call="timeline"
           data-scroll-target="#item-{{ loop.index }} .item__media"
           data-timeline="{{ {scaleX: 1.2, scaleY: 2.4, opacity: 0}|json_encode|escape('html_attr') }}"
-          {% if loop.index0 == 1 %}data-webgl{% endif %}
+          data-webgl
+          {#{% if loop.index0 == 1 %}data-webgl{% endif %}#}
         >
       </div>
     </figure>
