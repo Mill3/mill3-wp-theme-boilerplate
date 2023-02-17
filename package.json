@@ -69,7 +69,6 @@
     "@sentry/browser": "^7.37.2",
     "@vimeo/player": "2.18.0",
     "animejs": "3.2.1",
-    "clipboard-copy": "4.0.1",
     "domready": "1.0.8",
     "eventemitter2": "6.4.9",
     "intl-messageformat": "10.2.5",

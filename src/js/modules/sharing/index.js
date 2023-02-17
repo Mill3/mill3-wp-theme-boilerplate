@@ -1,5 +1,3 @@
-import copy from "clipboard-copy";
-
 import { $ } from "@utils/dom";
 import { on, off } from "@utils/listener";
 
@@ -54,7 +52,7 @@ class Sharing {
     // if promise exist, it means copying is in progress
     if( this._copyPromise ) return;
 
-    this._copyPromise = copy(this.copyBtn.dataset.sharingCopyUrl)
+    this._copyPromise = navigator.clipboard.writeText(this.copyBtn.dataset.sharingCopyUrl)
       .then(this._onCopySuccess)
       .catch(this._onCopyError);
   }
