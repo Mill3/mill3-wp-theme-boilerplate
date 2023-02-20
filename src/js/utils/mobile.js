@@ -4,8 +4,8 @@ export const mobile =
   (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
 
-export const touch_device = window.matchMedia('(hover: none)').matches;
-export const hover_device = window.matchMedia('(hover: hover)').matches;
+export const touch_device = window.matchMedia ? window.matchMedia('(hover: none)').matches : false;
+export const hover_device = window.matchMedia ? window.matchMedia('(hover: hover)').matches : true;
 
 export default {
   mobile,
