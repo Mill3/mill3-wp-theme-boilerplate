@@ -32,7 +32,7 @@ class GDPR {
     const hasChanged = consent_analytics !== this._consent_analytics || consent_ads !== this._consent_ads ? true : false;
 
     this._consent_analytics = consent_analytics;
-    this._consent_ads = consent_ads; 
+    this._consent_ads = consent_ads;
     this._consent_status = CONSENT_CLOSED;
 
     Cookies.set('consent_analytics', this._consent_analytics);
@@ -50,12 +50,12 @@ class GDPR {
         this._consent_user_id = this._createUserID();
         Cookies.set('consent_user_id', this._consent_user_id);
       }
-      
+
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-        event: 'consent_submit', 
+        event: 'consent_submit',
         user_id: this._consent_user_id,
-        consent_accept,
+        consent_accept: consent_accept,
       });
     }
   }

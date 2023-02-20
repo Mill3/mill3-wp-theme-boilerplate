@@ -26,7 +26,6 @@ const GridBlock = ({
   justifySelf
 }) => {
   let classnames = [];
-
   if (gridColumnStart > 0) classnames.push(`col-start-${gridColumnStart}`);
   if (gridColumnEnd > 0) classnames.push(`col-end-${gridColumnEnd}`);
   if (gridColumnStartSpan > 0) classnames.push(`col-start-span-${gridColumnStartSpan}`);
@@ -114,7 +113,7 @@ export default {
       control: { type: "boolean", default: false }
     },
     justifySelf: {
-      control: { type: "select", options: Object.keys(vars['$align-self']), default: null }
+      control: { type: "select", options: Object.keys(vars["$align-self"]), default: null }
     },
     gridGap: {
       options: Object.keys(vars.$spacers),

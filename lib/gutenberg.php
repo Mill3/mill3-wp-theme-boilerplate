@@ -28,6 +28,26 @@ add_filter( 'timber/acf-gutenberg-blocks-templates', function () {
 });
 
 
+//
+// Add to Gutenberg's sidebar resizable handling capacity
+//
+function mill3_gutenberg_resizable_sidebar() {
+    global $pagenow;
+    if($pagenow != 'post.php' ) return;
+
+    wp_enqueue_script(
+        'mill3-gutenberg-sidebar-js',
+        get_stylesheet_directory_uri() . '/src/js/admin/gutenberg-sidebar.js',
+        ['jquery-ui-resizable'],
+        filemtime( get_stylesheet_directory() . '/src/js/admin/gutenberg-sidebar.js' ),
+        true
+    );
+    wp_enqueue_style( 'mill3-gutenberg-sidebar-jsstyle', get_stylesheet_directory_uri() . '/src/js/admin/gutenberg-sidebar.css');
+}
+
+add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\mill3_gutenberg_resizable_sidebar');
+
+
 // This filter inject in each block context the current block order using a $GLOBAL variable.
 // Also calculating if block is first rendered and bool sent to context.
 $block_order = 0;
