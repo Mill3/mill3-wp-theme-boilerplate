@@ -21,37 +21,37 @@ class Theme_PostQueries
      *
      * @var array
      */
-    public static $post_type = 'post';
+    public $post_type = 'post';
 
     /**
      * set limit in query
      *
      * @var integer
      */
-    public static $limit;
+    public $limit;
 
     /**
      * set exclude for query
      *
      * @var array
      */
-    public static $exclude;
+    public $exclude;
 
     /**
      * set query engine for query
      *
      * @var string
      */
-    public static $query_engine;
+    public $query_engine;
 
     /**
      * main constructor
      */
     public function __construct($limit = -1, $query_engine = 'Timber', $exclude = [])
     {
-        self::$limit = $limit ?? $this->post_per_page();
-        self::$query_engine = $query_engine;
-        self::$exclude = $this->build_exclude_list($exclude);
+        $this->limit = $limit ?? $this->post_per_page();
+        $this->query_engine = $query_engine;
+        $this->exclude = $this->build_exclude_list($exclude);
     }
 
     /**
@@ -65,9 +65,9 @@ class Theme_PostQueries
         $this->set_post_type($post_type);
 
         $args = [
-            'post_type' => self::$post_type,
-            'posts_per_page' => self::$limit,
-            'post__not_in' => self::$exclude,
+            'post_type' => $this->post_type,
+            'posts_per_page' => $this->limit,
+            'post__not_in' => $this->exclude,
         ];
 
         return $this->run_query($args);
@@ -85,9 +85,9 @@ class Theme_PostQueries
 
         $args = [
             's' => $s,
-            'post_type' => self::$post_type,
-            'posts_per_page' => self::$limit,
-            'post__not_in' => self::$exclude,
+            'post_type' => $this->post_type,
+            'posts_per_page' => $this->limit,
+            'post__not_in' => $this->exclude,
         ];
 
         return $this->run_query($args);
@@ -105,7 +105,7 @@ class Theme_PostQueries
         $args = [
             'post_type' => $post_type,
             'post__not_in' => $sticky,
-            'posts_per_page' => self::$limit,
+            'posts_per_page' => $this->limit,
         ];
 
         return $this->run_query($args);
@@ -145,57 +145,57 @@ class Theme_PostQueries
      */
     public function run_query($args = [], $timber_post_class = null)
     {
-        if (self::$query_engine == 'Timber') {
+        if ($this->query_engine == 'Timber') {
             return Timber::get_posts($args, $timber_post_class);
         }
 
-        if (self::$query_engine == 'WP_Query') {
+        if ($this->query_engine == 'WP_Query') {
             return new \WP_Query($args);
         }
     }
 
     /**
-     * change static $post_type
+     * change $post_type
      *
      * @param string $post_type
      * @return void
      */
     public function set_post_type($post_type)
     {
-        self::$post_type = $post_type;
+        $this->post_type = $post_type;
     }
 
     /**
-     * change static $limit
+     * change $limit
      *
      * @param integer $limit
      * @return void
      */
     public function set_limit($limit)
     {
-        self::$limit = $limit;
+        $this->limit = $limit;
     }
 
     /**
-     * change static $exclude
+     * change $exclude
      *
      * @param array $exclude
      * @return void
      */
     public function set_exclude($exclude)
     {
-        self::$exclude = $exclude;
+        $this->exclude = $exclude;
     }
 
     /**
-     * change static $query_engine
+     * change $query_engine
      *
      * @param string $query_engine
      * @return void
      */
     public function set_query_engine($query_engine)
     {
-        self::$query_engine = $query_engine;
+        $this->query_engine = $query_engine;
     }
 }
 

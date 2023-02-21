@@ -1,8 +1,9 @@
 {% extends "base.twig" %}
 
+{% set post = Article(post) %}
 {% set title = post.title %}
 {% set thumbnail = post.thumbnail %}
-{% set previousPosts = post.previous_posts(2) %}
+{% set previous_posts = post.previous_posts(2) %}
 
 {% block content %}
 
@@ -20,12 +21,12 @@
     </div>
   </header>
 
-  {% if previousPosts %}
+  {% if previous_posts %}
   <footer class="post-single__footer container-fluid pt-50">
     <ol>
-      {% for previousPost in previousPosts %}
+      {% for previous_post in previous_posts %}
       <li>
-        {% include 'post-type/post/post-preview.twig' with {'post': previousPost} only %}
+        {% include 'post-type/post/post-preview.twig' with {'post': previous_post} only %}
       </li>
       {% endfor %}
     </ol>

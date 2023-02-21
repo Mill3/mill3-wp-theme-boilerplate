@@ -26,13 +26,21 @@
 
   {% set posts = get_posts(1) %}
   {% set search = search('hello') %}
+  {% set recent_posts = GetRecentArticles() %}
 
   <pre class="bg-gray-100 fz-12 overflow-clip p-10">
+    <h3>get_posts()</h3>
     {{ dump(posts) }}
   </pre>
 
   <pre class="bg-gray-100 fz-12 overflow-clip p-10">
+    <h3>search()</h3>
     {{ dump(search) }}
+  </pre>
+
+  <pre class="bg-gray-100 fz-12 overflow-clip p-10">
+    <h3>recent_posts()</h3>
+    {{ dump(recent_posts) }}
   </pre>
 
 </div>

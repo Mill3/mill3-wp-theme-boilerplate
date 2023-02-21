@@ -28,7 +28,7 @@ class DummyPost extends Timber\Post
      *
      * @var class
      */
-    public static $query;
+    public $query;
 
     /**
      * extended class constructor, send to parent constructor the $post object
@@ -38,7 +38,7 @@ class DummyPost extends Timber\Post
     public function __construct($post)
     {
         parent::__construct($post);
-        self::$query = new DummyQueries();
+        $this->query = new DummyQueries();
     }
 
     /**
@@ -58,9 +58,9 @@ class DummyPost extends Timber\Post
      * @return array
      */
     public function random_dummies($limit) {
-        self::$query->set_limit($limit);
-        self::$query->set_exclude([$this->id]);
-        return self::$query->random();
+        $this->query->set_limit($limit);
+        $this->query->set_exclude([$this->id]);
+        return $this->query->random();
     }
 
 
@@ -124,16 +124,17 @@ class DummyRequests
 class DummyQueries extends PostQueries\Theme_PostQueries
 {
 
-    public static $post_type = "dummy";
+    // set parent extended class $post_type
+    public $post_type = "dummy";
 
     public function all()
     {
         $args = [
-            'post_type' => self::$post_type,
+            'post_type' => $this->post_type,
             'order' => 'ASC',
             'post_status' => 'publish',
-            'posts_per_page' => parent::$limit,
-            'post__not_in' => parent::$exclude,
+            'posts_per_page' => $this->limit,
+            'post__not_in' => $this->exclude,
         ];
 
         return self::run_query($args, 'Mill3WP\PostQueries\Dummy\DummyPost');
@@ -142,11 +143,11 @@ class DummyQueries extends PostQueries\Theme_PostQueries
     public function random()
     {
         $args = array(
-            'post_type' => self::$post_type,
-            'post__not_in' => self::$exclude,
+            'post_type' => $this->post_type,
+            'post__not_in' => $this->exclude,
             'order' => 'ASC',
             'orderby' => 'rand',
-            'posts_per_page' => self::$limit,
+            'posts_per_page' => $this->limit,
         );
 
         return self::run_query($args, 'Mill3WP\PostQueries\Dummy\DummyPost');

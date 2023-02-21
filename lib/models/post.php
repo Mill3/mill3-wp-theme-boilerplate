@@ -25,7 +25,7 @@ class ArticlePost extends Timber\Post
      *
      * @var class
      */
-    public static $query;
+    public $query;
 
     /**
      * extended class constructor, send to parent constructor the $post object
@@ -35,7 +35,7 @@ class ArticlePost extends Timber\Post
     public function __construct($post)
     {
         parent::__construct($post);
-        self::$query = new ArticleQueries();
+        $this->query = new ArticleQueries();
     }
 
     /**
@@ -43,11 +43,11 @@ class ArticlePost extends Timber\Post
      *
      * @return string
      */
-    public function previous_posts($limit = -1)
+    public function previous_posts($limit = 2)
     {
-        self::$query->set_limit($limit);
-        self::$query->set_exclude([$this->id]);
-        return self::$query->get_previous_posts($this->post_date);
+        $this->query->set_limit($limit);
+        $this->query->set_exclude([$this->id]);
+        return $this->query->get_previous_posts($this->post_date);
     }
 
 }
@@ -60,17 +60,18 @@ class ArticlePost extends Timber\Post
  */
 class ArticleQueries extends PostQueries\Theme_PostQueries
 {
-    public static $post_type = "post";
+    // set parent extended class $post_type
+    public $post_type = "post";
 
     public function get_previous_posts($date)
     {
-        $limit = self::$limit;
-        $exclude = self::$exclude;
+        $limit = $this->limit;
+        $exclude = $this->exclude;
 
         $args = array(
-            'post_type' => self::$post_type,
-            'posts_per_page' => self::$limit,
-            'post__not_in' => self::$exclude,
+            'post_type' => $this->post_type,
+            'posts_per_page' => $this->limit,
+            'post__not_in' => $this->exclude,
             'date_query' => array(
                 array(
                     'before'    => $date,
@@ -86,7 +87,7 @@ class ArticleQueries extends PostQueries\Theme_PostQueries
         if(count($posts) < $limit) {
             // append to this exclude list all previous $posts
             $exclude = array_merge($exclude, wp_list_pluck($posts, 'ID', null));
-            $difference_limit = $limit - count($posts);
+            $difference_limit =  $limit - count($posts);
             $query = new self($difference_limit);
             $query->set_exclude($exclude);
             $posts = array_merge($posts, $query->get_posts());
