@@ -2,7 +2,7 @@
 
 /**
  * This file is part of Mill3WP boilerplate theme.
- * 2020 (c) Mill3 Studio
+ * 2023 (c) Mill3 Studio
  *
  * @version 0.0.1
  *

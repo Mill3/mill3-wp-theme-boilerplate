@@ -1,9 +1,9 @@
 <?php
 
 /**
- * This file is part of TDP WP theme.
- * 2020 (c) Mill3 Studio
- * @version 0.0.1
+ * This file is part of Mill3WP boilerplate theme.
+ * 2023 (c) Mill3 Studio
+ * @version 0.2.0
  *
  * @since 0.0.1
  *

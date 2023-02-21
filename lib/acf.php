@@ -2,7 +2,7 @@
 
 /**
  * This file is part of Mill3WP theme.
- * 2020 (c) Mill3 Studio
+ * 2023 (c) Mill3 Studio
  * @version 0.0.1
  *
  * @since 0.0.1
@@ -212,7 +212,7 @@ if( function_exists('pll_the_languages') ){
 
             $optionPageID = $slug === $defaultLanguage ? $namespace : sprintf('%s_%s', $namespace, str_replace('-', '_', $language['locale']));
 
-            
+
             // there is a bug in ACF that always return 'options' in current language even if you specifically set post_id to a translation of your chosing
             // this filter self-destruct after being executed once
             // it return a non-modified value
@@ -345,7 +345,7 @@ add_filter('acf/prepare_field/name=mb_lg', 'acf_populate_margin');
 /*
  * This Class is useful if you want to inject a pb-row from another Twig template.
  * example:
- 
+
  {% include 'page-builder/pb-row-text-simple.twig' with {
     'fields': MILL3_Fake_Post({
         'title': 'My Title',
