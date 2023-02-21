@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Mill3WP boilerplaye theme.
+ * This file is part of Mill3WP boilerplate theme.
  * 2020 (c) Mill3 Studio
  *
  * @version 0.0.1
