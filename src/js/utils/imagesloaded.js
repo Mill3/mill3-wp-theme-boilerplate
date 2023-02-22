@@ -129,6 +129,10 @@ class ImagesLoaded extends EventEmitter2 {
     this.emit(this.hasAnyBroken ? 'fail' : 'done', this);
     this.emit('always', this);
   }
+
+
+  // getter - setter
+  get percentage() { return this.progressedCount / this.images.length; }
 }
 
 
