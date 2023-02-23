@@ -5,6 +5,10 @@ import { limit } from "@utils/math";
 import ResizeOrientation from "@utils/resize";
 import Viewport from "@utils/viewport";
 
+const DEFAULT_OPTIONS = {
+  skipFrames: false,
+};
+
 class ScrollingImagesSequence {
   constructor(el, emitter) {
     this.el = el;
@@ -20,11 +24,18 @@ class ScrollingImagesSequence {
       fps: 30,
       canvas: this.canvas,
     });
+
+    let options = {};
     
+    // parse dataset as JSON
+    if( el.hasAttribute('data-scrolling-images-sequence') && el.dataset.scrollingImagesSequence) {
+      options = JSON.parse(el.dataset.scrollingImagesSequence);
+    }
+    
+    this._options = { ...DEFAULT_OPTIONS, ...options };
     this._inView = false;
     this._intersections = null;
     this._raf = null;
-    this._skipFrames = el.hasAttribute('data-scrolling-images-sequence') ? el.dataset.scrollingImagesSequence === "true" : true;
     this._targetFrame = this.imagesSequence.start;
 
     this._onResize = this._onResize.bind(this);
@@ -52,10 +63,10 @@ class ScrollingImagesSequence {
     this.img = null;
     this.imagesSequence = null;
 
+    this._options = null;
     this._inView = null;
     this._intersections = null;
     this._raf = null;
-    this._skipFrames = null;
     this._targetFrame = null;
 
     this._onResize = null;
@@ -85,7 +96,7 @@ class ScrollingImagesSequence {
     this._inView = direction === INVIEW_ENTER;
 
     // if we accept to skip frames when scrolling very fast, stop here
-    if( this._skipFrames ) return;
+    if( this._options.skipFrames ) return;
 
     // toggle RAF
     if( this._inView ) {
@@ -106,7 +117,7 @@ class ScrollingImagesSequence {
     const progress = 1 - distance / height;
 
     this._targetFrame = Math.round(start + length * progress);
-    if( this._skipFrames ) this.imagesSequence.currentFrame = this._targetFrame;
+    if( this._options.skipFrames ) this.imagesSequence.currentFrame = this._targetFrame;
   }
   _onRAF() {
     // if currentFrame is not equal to targetFrame, update currentFrame

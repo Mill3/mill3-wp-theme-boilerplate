@@ -25,6 +25,7 @@
     data-scroll-repeat="true"
     data-scroll-target=".mill3-images-sequence"
     data-module="scrolling-images-sequence"
+    data-scrolling-images-sequence="{{ {skipFrames: false}|json_encode|escape('html_attr') }}"
   >
     <div class="mill3-images-sequence__box position-relative">
       <canvas class="mill3-images-sequence__canvas position-absolute t-0 l-0 w-100 h-100"></canvas>
