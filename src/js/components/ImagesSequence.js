@@ -20,7 +20,7 @@
  *  canvas: document.getElementById('canvas'),
  * });
  * 
- * instance.once('completed', () => instance.play());
+ * instance.once('complete', () => instance.play());
  * instance.load();
  * 
  ***********
