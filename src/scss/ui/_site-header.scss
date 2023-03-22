@@ -51,7 +51,7 @@
     html.--js-site-nav-opened & {
       > span {
         &:first-child {
-          transform: translateY(6px) rotate(135deg);
+          transform: translateY(5.5px) rotate(135deg);
           transition-delay: 250ms;
         }
         &:nth-child(2) {
@@ -61,7 +61,7 @@
           }
         }
         &:last-child {
-          transform: translateY(-6px) rotate(225deg);
+          transform: translateY(-5.5px) rotate(225deg);
           transition-delay: 250ms;
         }
       }

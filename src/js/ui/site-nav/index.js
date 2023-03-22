@@ -112,6 +112,8 @@ class SiteNav {
     // update site-scroll & site-nav close
     this.emitter.emit('SiteScroll.update');
     this.emitter.emit("SiteNav.close");
+
+    this._onCloseCompleted();
   }
   toggle() {
     // regular SiteNav toggle handling
