@@ -19,18 +19,18 @@ export class WindmillScripts {
     this._source;
     this._windmill;
   }
-  
+
   /**
   * Plugin installation.
   */
   install(windmill) {
     this._parser = new DOMParser();
     this._windmill = windmill;
-    
+
     windmill.on('fetched', this._onFetched, this);
     windmill.on('done', this._onDone, this);
   }
-  
+
   /**
   * Add scripts (external source or inlined) to document <head>.
   */
@@ -39,13 +39,13 @@ export class WindmillScripts {
     if (!js || js.length === 0) {
       return Promise.resolve();
     }
-    
+
     const head = document.querySelector("head");
-    
+
     // Collect all scripts in document
     const currentScripts = this._getScripts(document).map((script) => this._getScriptNamespace(script));
     const newScripts = [];
-    
+
     // for each script found in head
     js.forEach((script) => {
       // if this script is already in head, do nothing
@@ -54,29 +54,29 @@ export class WindmillScripts {
       }
       // create new script tag
       const tag = document.createElement("script");
-      
+
       // copy all attributes from script
       this._copyAttributes(tag, script);
-      
+
       // if script has inlined text, copy it
       if (script.text) {
         tag.appendChild(document.createTextNode(script.text));
       }
-      
+
       // push script
       newScripts.push(tag);
     });
-    
+
     // synchronously load each script
     if (newScripts.length > 0) {
       return newScripts.reduce((promise, script) => {
         return promise.then(() => (script.text ? this._inlineScript(script, head) : this._loadScript(script, head)));
       }, Promise.resolve());
     }
-    
+
     return Promise.resolve();
   }
-  
+
   /**
   * Run inlined scripts.
   * Will log error if script has no inlined code.
@@ -86,17 +86,17 @@ export class WindmillScripts {
     if (!js || js.length === 0) {
       return Promise.resolve();
     }
-    
+
     const newScripts = [];
-    
+
     // for each scripts
     js.forEach((script) => {
       // create new script tag
       const tag = document.createElement("script");
-      
+
       // copy all attributes from script
       this._copyAttributes(tag, script);
-      
+
       // if script has inlined text, copy it
       if (script.text) {
         tag.appendChild(document.createTextNode(script.text));
@@ -104,22 +104,22 @@ export class WindmillScripts {
         if( this._windmill.debug === true ) console.warn(`Unable to execute this script because it does not contains inlined code.`, script);
         return;
       }
-      
+
       // enqueue script
       newScripts.push({ script: tag, target: script.parentNode });
-      
+
       // remove script from DOM to avoid pollution
       script.parentNode.removeChild(script);
     });
-    
+
     // return true;
-    
+
     // synchronously run each script
     return newScripts.reduce((promise, { script, target }) => {
       return promise.then(() => this._inlineScript(script, target));
     }, Promise.resolve());
   }
-  
+
   /**
   * Get all <head> + <body> script from a HTML source
   */
@@ -128,8 +128,8 @@ export class WindmillScripts {
     const body = source.querySelector("body");
     return [...head.querySelectorAll(selector), ...body.querySelectorAll(selector)];
   }
-  
-  
+
+
   /**
   * Load external script and append it to document.
   */
@@ -137,11 +137,11 @@ export class WindmillScripts {
     return new Promise((resolve, reject) => {
       script.onload = resolve;
       script.onerror = reject;
-      
+
       target.appendChild(script);
     });
   }
-  
+
   /**
   * Append script to document and execute it.
   */
@@ -156,14 +156,14 @@ export class WindmillScripts {
       resolve();
     });
   }
-  
+
   /**
   * Get script namespace (kind of UDID).
   */
   _getScriptNamespace(script) {
     return script.src ? script.src : script.text;
   }
-  
+
   /**
   * Copy all attributes from source to target element.
   */
@@ -175,32 +175,32 @@ export class WindmillScripts {
       }
     }
   }
-  
+
   /**
   * `fetched` event.
   */
   _onFetched({ next }) {
     // parse html return from Windmill
     this._source = this._parser.parseFromString(next.html, "text/html");
-    
+
     // Find head & body scripts in source
     const js = this._getScripts(this._source);
-    
+
     // Inject new external scripts
     return this.add(js);
   }
-  
+
   /**
   * `done` event.
   */
   _onDone() {
     // skip if source is not available
     if( !this._source ) return;
-    
+
     // Find inlined scripts in source and eval() any text values as JS scripts
     // This is for useful for WP plugins like Gravity Forms who inject inline scripts
     const js = this._getScripts(this._source, INLINE_SCRIPTS_SELECTOR);
-    
+
     // Run inlined scripts
     return this.run(js);
   }
