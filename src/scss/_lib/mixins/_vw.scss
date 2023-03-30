@@ -1,3 +1,6 @@
+@use "sass:math";
+@use "./units";
+
 @function vw-spacer($key, $viewport: 375) {
   $value: map-get($spacers, $key);
 
@@ -5,10 +8,10 @@
     @error "spacer `#{$key}` not found in `#{$spacers}`";
   } @else {
     $value: strip-unit($value);
-    $value: $value / $viewport * 100;
+    $value: math.div($value, $viewport) * 100;
   }
 
-  @return vw($value);
+  @return units.vw($value);
 }
 
 @function vw-spacer-md($key) {
@@ -20,13 +23,13 @@
 }
 
 @function vw-value($value) {
-  @return vw($value / 375 * 100);
+  @return units.vw(math.div($value, 375) * 100);
 }
 
 @function vw-md($value) {
-  @return vw($value / 768 * 100);
+  @return units.vw(math.div($value, 768) * 100);
 }
 
 @function vw-lg($value) {
-  @return vw($value / 1440px * 100);
+  @return units.vw(math.div($value, 1440) * 100);
 }

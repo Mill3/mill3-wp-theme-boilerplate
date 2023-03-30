@@ -127,13 +127,7 @@ class ScrollTimeline {
     // do nothing for "exit" events
     if (direction !== INVIEW_ENTER) return;
 
-    const { el } = obj;
-
-    // set timeline ID if not exists
-    if( !el.hasAttribute('data-timeline-id') ) el.setAttribute('data-timeline-id', this.items.size);
-
-    // read timeline ID
-    const id = el.dataset.timelineId;
+    const { id, el } = obj;
 
     // if this timeline already exists, update top/bottom in timeline and stop here
     if ( this.items.has(id) ) {

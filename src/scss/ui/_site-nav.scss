@@ -1,7 +1,7 @@
 .site-nav {
   $self: &;
 
-  height: calc(var(--lvh) * 100);
+  height: calc(var(--vh) * 100);
 
   &__scroller {
     overflow-y: auto;
@@ -10,5 +10,13 @@
   &[aria-hidden="true"] {
     pointer-events: none;
     visibility: hidden;
+
+    #{$self}__scroller {
+      overflow-y: hidden;
+    }
+  }
+
+  &__wrap {
+    min-height: calc((var(--vh) * 100) + 1px);
   }
 }

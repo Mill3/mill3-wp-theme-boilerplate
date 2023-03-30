@@ -30,6 +30,11 @@ use Twig\TwigFilter;
 class Twig_Title_Highlights extends AbstractExtension {
 
     /**
+     * Constants
+     */
+    const CLASSNAME_BASE = 'title-highlight';
+
+    /**
      * array holder for attributes
      *
      * @var array
@@ -41,7 +46,7 @@ class Twig_Title_Highlights extends AbstractExtension {
      *
      * @var array
      */
-    private $classnames = ['title-highlight'];
+    private $classnames = [self::CLASSNAME_BASE];
 
     /**
      * array holder for styles
@@ -81,18 +86,12 @@ class Twig_Title_Highlights extends AbstractExtension {
             $output = null;
             $word = $highlight['text'];
             $type = $highlight['type'];
-            $color = $highlight['color'];
-            $border_radius = $highlight['border_radius'];
-            $marker_size = $highlight['marker_size'];
 
             // set classnames
             if ($type) $this->set_classname("--{$type}");
-            if ($marker_size) $this->set_classname("--marker-{$marker_size}");
 
             // set styles
             $this->set_style("--highlight-index: {$key}");
-            if($color) $this->set_style("--color: {$color}");
-            if($border_radius) $this->set_style("--border-radius: {$border_radius}px");
 
             // get markup for word
             $output = $this->markup_wrapper($word);
@@ -105,6 +104,9 @@ class Twig_Title_Highlights extends AbstractExtension {
 
             $text = preg_replace($re, $udid, $text, 1);
             array_push($replacements, array('udid' => $udid, 'output' => $output));
+
+            // reset class on loop run
+            $this->reset();
         }
 
         // replace UDIDs by their output
@@ -156,7 +158,19 @@ class Twig_Title_Highlights extends AbstractExtension {
         $classnames = join(" ", $this->classnames);
         $styles = join(";", $this->styles);
         $attributes = join(" ", $this->attributes);
-        return "<span class='{$classnames}' style='{$styles}' $attributes><span class='title-highlight__word'>{$content}</span></span>";
+        
+        return "<span class='title-highlight__word {$classnames}' style='{$styles}' $attributes>{$content}</span>";
+    }
+
+    /**
+     * reset class objects
+     *
+     * @return void
+     */
+    private function reset() {
+        $this->attributes = [];
+        $this->classnames = [self::CLASSNAME_BASE];
+        $this->styles = [];
     }
 
 

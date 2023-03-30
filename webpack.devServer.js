@@ -18,6 +18,7 @@ export const webpackDevServer = (DEV = false) => {
               overlay: true,
               progress: true,
             },
+            allowedHosts: 'all',
             headers: {
               "Access-Control-Allow-Origin": `*`
             }

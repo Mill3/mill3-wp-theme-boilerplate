@@ -102,6 +102,7 @@ $includes = [
     'lib/actions.php',
     'lib/admin-status.php',
     'lib/assets.php',
+    'lib/avatar.php',
     'lib/block-visibility.php',
     'lib/class-walker-nav-menu-edit.php',
     'lib/customizer.php',

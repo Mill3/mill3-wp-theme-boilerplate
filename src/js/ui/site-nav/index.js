@@ -1,3 +1,4 @@
+import { STATE } from "@core/state";
 import { $, $$, html } from "@utils/dom";
 import { on, off } from "@utils/listener";
 
@@ -58,7 +59,7 @@ class SiteNav {
     this._opened = true;
 
     // dispatch to state current status
-    this.state.dispatch("SITE_NAV", this._opened);
+    STATE.dispatch("SITE_NAV", this._opened);
 
     // save scrollY
     this._scrollY = window.scrollY;
@@ -88,7 +89,7 @@ class SiteNav {
     this._opened = false;
 
     // dispatch to state current status
-    this.state.dispatch("SITE_NAV", this._opened);
+    STATE.dispatch("SITE_NAV", this._opened);
 
     // inform triggers that SiteNav is closed
     this.triggers.forEach(btn => {
@@ -111,6 +112,8 @@ class SiteNav {
     // update site-scroll & site-nav close
     this.emitter.emit('SiteScroll.update');
     this.emitter.emit("SiteNav.close");
+
+    this._onCloseCompleted();
   }
   toggle() {
     // regular SiteNav toggle handling

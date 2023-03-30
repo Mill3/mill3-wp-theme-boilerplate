@@ -30,7 +30,7 @@
 <a
   href="{{ link }}"
   class="btn {{ classname }}"
-  title="{{ aria_label|default(title) }}"
+  {% if aria_label %}title="{{ aria_label }}"{% endif %}
   {{ attributes|join(" ") }}
 >
   <span class="btn__bg" aria-hidden="true"></span>
