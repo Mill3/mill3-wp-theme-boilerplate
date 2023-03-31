@@ -19,6 +19,8 @@ class Video {
   }
 
   init() {
+    this._bindEvents();
+    
     if (this._bp) this._bp.run();
     else if( this._src ) this._onBreakpointChange();
   }
