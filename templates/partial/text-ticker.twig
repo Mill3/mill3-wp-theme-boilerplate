@@ -23,6 +23,8 @@
   {% set classname = classname|split(' ')|merge(['flex-row', 'align-items-center'])|join(' ') %}
 {% endif %}
 
+{% set attributes = attributes|merge(['style="--speed: ' ~ speed ~ '"']) %}
+
 <div
   class="text-ticker d-flex flex-nowrap overflow-clip --direction-{{ direction }} {{ classname }}"
   {% if playInView %}
@@ -33,7 +35,6 @@
   {% endif %}
   data-module="text-ticker"
   data-text-ticker="{{ mode }}"
-  data-text-ticker-speed="{{ speed }}"
   {{ attributes|join(' ') }}
 >
   <{{tagname}} 

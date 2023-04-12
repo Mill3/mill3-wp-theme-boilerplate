@@ -11,13 +11,15 @@
 }
 
 .text-ticker {
+  --speed: 1;
+
   white-space: nowrap;
 
   // ANIMATION MODE
   &.--mode-css {
     .text-ticker__text {
       animation-name: tickerText;
-      animation-duration: 15s;
+      animation-duration: calc(15s / var(--speed));
       animation-timing-function: linear;
       animation-iteration-count: infinite;
     }

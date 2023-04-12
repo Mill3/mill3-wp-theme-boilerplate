@@ -102,7 +102,7 @@ class TextTicker {
       this.emitter?.on("SiteScroll.text-ticker", this._onScrollCall);
       this.emitter?.on("TextTicker.pause", this._onPause);
       this.emitter?.on("TextTicker.resume", this._onResume);
-      
+
       this._raf = requestAnimationFrame(this._onRaf);
     }
   }
@@ -168,7 +168,7 @@ class TextTicker {
     // limits to [maximum, 0]
     if( this._position < this._maximum ) this._position -= this._maximum;
     else if( this._position > 0 ) this._position += this._maximum;
-    
+
     let translateValue = null;
     if (this._directionAxis === 'x') translateValue = `translate3d(${this._position}px, 0, 0)`;
     else if (this._directionAxis === 'y') translateValue = `translate3d(0, ${this._position}px, 0)`;
@@ -205,6 +205,8 @@ class TextTicker {
     }
 
     this._maximum = textRect[this._directionAxis === 'y' ? 'height' : 'width'] * -1;
+    this._speed = this._getSpeed();
+
     const quantity = Math.ceil(this._directionAxis === 'y' ? elRect.height / textRect.height : elRect.width / textRect.width) + 1;
 
     while( this.texts.length < quantity ) {
@@ -238,7 +240,7 @@ class TextTicker {
     }
   }
   _getSpeed() {
-    return Math.abs( parseFloat(this.el.getAttribute('data-text-ticker-speed')) ?? 1 );
+    return Math.abs( parseFloat( getComputedStyle(this.el).getPropertyValue('--speed')) ?? 1 );
   }
 }
 
