@@ -13,7 +13,7 @@ const WINDOWS = (navigator?.userAgentData?.platform || navigator?.platform || 'u
 const DEFAULT_OPTIONS = {
   lerp: 0.1,
   threshold: 0.5,
-  firefoxMultiplier: WINDOWS ? 1 : 4.5,
+  firefoxMultiplier: WINDOWS ? 1 : 2.25,
   mouseMultiplier: WINDOWS ? 1 : 0.4,
 };
 
@@ -94,7 +94,7 @@ class Scroll {
     options = { ...SCROLL_TO_OPTIONS, ...options };
 
     // An offset to apply on top of given `target` or `sourceElem`'s target
-    let offset = parseInt(options.offset) || 0; 
+    let offset = parseInt(options.offset) || 0;
 
     // function called when scrollTo completes (note that it won't wait for lerp to stabilize)
     const callback = options.callback ? options.callback : false;
@@ -105,7 +105,7 @@ class Scroll {
       else if (target === 'bottom') target = this._data.max;
       else {
         target = $(target);
-        
+
         // If the query fails, stop here
         if (!target) return;
       }
@@ -130,10 +130,10 @@ class Scroll {
         offset: parseInt(offset),
         callback,
       };
-    } 
+    }
     // otherwise, remove scrollTo saved callback
     else this._data.scrollTo = null;
-    
+
     // set mouse wheeling to false
     this._data.isMouseWheeling = false;
 
@@ -157,8 +157,8 @@ class Scroll {
     this._unbindEvents();
   }
   reset() {
-    this._data.scroll = 
-    this._data.targetScroll = 
+    this._data.scroll =
+    this._data.targetScroll =
     this._data.lastScroll = window.scrollY;
 
     this._data.direction = null;
@@ -239,7 +239,7 @@ class Scroll {
   _handleMouseWheel(event) {
     this._mousewheel.x += this._mousewheel.deltaX;
     this._mousewheel.y += this._mousewheel.deltaY;
-    
+
     if( event.ctrlKey ) return;
 
     // if not started, prevent default and stop here
@@ -274,7 +274,7 @@ class Scroll {
     // we give a small error margin (0.05px) because when we lerp mousewheel, y as a lot of decimals
     // unfortunately, window.scrollY as a maximum of 1 decimal, which result in a false scroll direction change calculation
     if( Math.abs(distance) <= 0.05 ) return;
-    
+
     // if distance is positive, we are scrolling down
     // otherwise, we are scrolling up
     const direction = distance >= 0 ? DIRECTION_DOWN : DIRECTION_UP;
@@ -283,7 +283,7 @@ class Scroll {
     if( direction !== this._data.direction ) {
       const oldDirection = this._data.direction;
       this._data.direction = direction;
-      
+
       EMITTER.emit('SiteScroll.direction', direction, oldDirection);
     }
   }

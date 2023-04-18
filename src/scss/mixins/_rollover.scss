@@ -1,4 +1,5 @@
-@import "~sass-easing";
+@use "@mill3-sass-mixins/mq";
+@use "@mill3-sass-vars/easings";
 
 @mixin underlineDrawing($height: 1px, $bottom: 0) {
   @include underlineDrawingBase($height, $bottom);
@@ -12,8 +13,8 @@
 @mixin underlineDrawingBase($height: 1px, $bottom: 0) {
   text-decoration: none;
   // only on device with :hover state
-  @include hoverDevice {
-    transition: background-size 0.5s $easeOutCubic 0s;
+  @include mq.hoverDevice {
+    transition: background-size 0.5s easings.$easeOutCubic 0s;
     background-image: linear-gradient(transparent calc(100% - #{$height}), currentColor $height);
     background-repeat: no-repeat;
     background-size: 0% calc(100% - #{$height + $bottom});
@@ -22,7 +23,7 @@
 
 @mixin underlineDrawingHover($height: 1px, $bottom: 0) {
   // only on device with :hover state
-  @include hoverDevice {
+  @include mq.hoverDevice {
     background-size: 100% calc(100% - #{$height + $bottom});
   }
 }
@@ -31,7 +32,7 @@
   $bottom: 0em;
   $height: 0.07em;
 
-  @include hoverDevice {
+  @include mq.hoverDevice {
     background-image: linear-gradient(transparent calc(100% - #{$height}), currentColor #{$height});
     background-repeat: no-repeat;
     background-size: 100% calc(100% - #{$height + $bottom});
