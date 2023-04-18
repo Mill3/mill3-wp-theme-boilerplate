@@ -1,9 +1,28 @@
+@use '@mill3-sass-mixins/mq';
+@use "@mill3-sass-mixins/breakpoints";
+@use "@mill3-sass-vars/easings";
+@use "@mill3-sass-mixins/typography";
+@use "@mixins/rollover";
+
 //
 // scss module : <%= ModuleName %>
 //
 
 .<%= module_slug %> {
   $self: &;
+
+  @include breakpoints.media-breakpoint-up(lg) {
+    margin: 0;
+    transition: transform 250ms easings.$easeInQuad;
+  }
+
+  a {
+    @include mq.hoverDevice {
+      text-decoration: underline;
+      @include rollover.linkRollover;
+    }
+  }
+
   @include inView {
     &.is-inview { }
   }
