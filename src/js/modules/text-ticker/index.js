@@ -1,4 +1,5 @@
-import { $, rect } from "@utils/dom";
+import { $, $$, rect } from "@utils/dom";
+import ImagesLoaded from "@utils/imagesloaded";
 import { lerp } from "@utils/math";
 import { mobile } from "@utils/mobile";
 import ResizeOrientation from "@utils/resize";
@@ -22,6 +23,7 @@ class TextTicker {
     this.el = el;
     this.emitter = emitter;
     this.template = $(".text-ticker__text", this.el);
+    this.images = [ ...$$('img', this.template) ];
     this.texts = [this.template];
 
     this._mode = this._getMode();
@@ -36,6 +38,7 @@ class TextTicker {
     this._ro = null;
     this._inView = false;
     this._paused = false;
+    this._imagesLoader = null;
 
     this._onScroll = this._onScroll.bind(this);
     this._onRaf = this._onRaf.bind(this);
@@ -63,12 +66,18 @@ class TextTicker {
       this.el.classList.add('--mode-css');
     }
 
+    // if ticker contains images, force size recalculation when images are loaded
+    if(this.images && this.images.length > 0) this._imagesLoader = new ImagesLoaded(this.images, this._onResize);
+
     this._bindEvents();
   }
   destroy() {
+    if( this._imagesLoader ) this._imagesLoader.destroy();
+
     this.el = null;
     this.emitter = null;
     this.template = null;
+    this.images = null;
     this.texts = null;
 
     this._mode = null;
@@ -82,6 +91,7 @@ class TextTicker {
     this._wheel = null;
     this._ro = null;
     this._inView = null;
+    this._imagesLoader = null;
 
     this._onScroll = null;
     this._onRaf = null;
