@@ -23,7 +23,7 @@ class SiteLoader {
         easing: "linear",
         complete: () => {
           // remove from DOM when completed
-          this.el.parentNode.removeChild(this.el);
+          if( this.el ) this.el.remove();
 
           // add class on body when transition is ready
           body.classList.add("--js-ready");
