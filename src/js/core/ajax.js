@@ -17,6 +17,8 @@ class AJAX {
 
   send(method = "get", action, data = {}) {
     const formData = new FormData();
+    const options = { method };
+    let url = MILL3WP.admin_ajax;
 
     // set action on formdata
     formData.append('action', action);
@@ -28,9 +30,16 @@ class AJAX {
 
     // Combine options and body unless method is GET.
     // Reason : Fetch API won't accept body param in GET mode
-    let options = { method, ...(method !== "get" ? { body: formData } : {}) };
+    if( method !== "get" ) options.body = formData;
 
-    return fetch(MILL3WP.admin_ajax, options)
+    // Append formData to URL params
+    if( method === "get" ) {
+      const params = [];
+      for(const [key, value] of formData.entries()) params.push(`${key}=${encodeURIComponent(value)}`);
+      url += `?${params.join('&')}`;
+    }
+
+    return fetch(url, options)
       .then((response) => response.json())
       .then((json) => {
         return json;
