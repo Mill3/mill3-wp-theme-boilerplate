@@ -203,7 +203,7 @@ const DEFAULT_OPTIONS = {
   preloadImages: true,
   prevent: () => false,
   runningClassname: 'windmill-is-running',
-  scrollRestoration: true,
+  scrollRestoration: false,
   timeout: 5000,
   transitions: [],
   wrapper: '[data-windmill="wrapper"]',
@@ -248,7 +248,7 @@ class Windmill {
     if( !$(this._options.container) && this._options.debug === true ) throw new Error('[windmill] Can\'t find container.');
     
     // enable scroll restoration
-    if (this._options.scrollRestoration === true && "scrollRestoration" in history) history.scrollRestoration = "manual";
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     
     // find first transition with "ready" method
     this._transition = this._options.transitions.find(transition => isFunction(transition.ready));
