@@ -658,6 +658,7 @@ class Windmill {
   // getter - setter
   get async() { return this._options.async }
   get debug() { return this._options.debug }
+  get wrapper() { return this._options.wrapper }
 }
 
 // loop through parent until we find <a> with href

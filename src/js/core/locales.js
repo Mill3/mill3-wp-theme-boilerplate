@@ -11,7 +11,7 @@ const MESSAGES = {
   }
 };
 
-export const getCurrentlocale = () => (typeof window.LOCALE !== "undefined" ? window.LOCALE : defaultLocale);
+export const getCurrentlocale = () => (typeof MILL3WP.locale !== "undefined" ? MILL3WP.locale : defaultLocale);
 
 export const getMessage = ID => {
   const locale = getCurrentlocale();

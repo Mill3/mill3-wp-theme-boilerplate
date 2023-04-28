@@ -24,16 +24,6 @@ add_filter( 'gform_ajax_spinner_url', __NAMESPACE__ . '\\spinner_url', 10, 2 );
 */
 
 
-// output basic GForm JS, this is necessary for windmill.scripts to work propertly
-function output_hooks_javascript($head)
-{
-    \GFCommon::output_hooks_javascript();
-    return $head;
-}
-
-add_action('wp_head', __NAMESPACE__ . '\\output_hooks_javascript');
-
-
 // https://docs.gravityforms.com/gform_submit_button/
 function form_submit_button( $button, $form ) {
     if( $form['button']['type'] !== 'text' ) return $button;
@@ -95,6 +85,7 @@ add_filter('gform_field_content', __NAMESPACE__ . '\\form_replace_file_upload', 
  * Check if a pb_row_form.twig is part of this page
  * If so, include gf scripts in wp_head
  */
+/*
 function enqueue_gf_scripts() {
     global $post;
 
@@ -117,6 +108,7 @@ function enqueue_gf_scripts() {
 }
 
 // add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue_gf_scripts', 100);
+*/
 
 
 /* Remove jquery.placeholder.js polyfill, because it's 2020 */
@@ -142,3 +134,7 @@ add_filter( 'gform_enable_legacy_markup', '__return_false' );
 // Disabling Automatic Scrolling On All Forms
 // https://docs.gravityforms.com/disable-automatic-scroll-form-confirmation/
 add_filter( 'gform_confirmation_anchor', '__return_false' );
+
+// output basic GForm JS, this is necessary for windmill.scripts to work propertly
+add_filter( 'gform_force_hooks_js_output', '__return_true' );
+

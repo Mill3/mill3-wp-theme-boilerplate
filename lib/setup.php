@@ -123,9 +123,11 @@ function assets()
 
     // inject global Wordpress variables to Javascript
     $wp_endpoints = array(
-      'admin_ajax' => admin_url('admin-ajax.php'),
-      //'rest-api' => get_rest_url(null, 'wp/v2/'),
-      //'nonce' => wp_create_nonce('tdp_nonce'),
+        'locale' => function_exists('pll_current_language') ? pll_current_language() : get_locale(),
+        'current_site' => get_site_url(),
+        'admin_ajax' => admin_url('admin-ajax.php'),
+        //'rest-api' => get_rest_url(null, 'wp/v2/'),
+        //'nonce' => wp_create_nonce('tdp_nonce'),
     );
 
     wp_add_inline_script(WEBPACK_DEV_SERVER === true ? 'mill3wp/webpack' : 'mill3wp/js', 'window.MILL3WP = '.json_encode($wp_endpoints).';', 'before');
