@@ -61,12 +61,13 @@ export class WindmillScroll {
       windmill.on('entering', this._resetScrollModules, this);
       windmill.on('enter', this._onAsyncPageEnter, this);
       windmill.on('entered', this._onAsyncPageEntered, this);
-      windmill.on('done', this._onAsyncPageDone, this);
     } else {
       windmill.on('exiting', this._stopModules, this);
       windmill.on('entering', this._resetScrollModules, this);
       windmill.on('enter', this._onSyncPageEnter, this);
     }
+
+    windmill.on('done', this._onPageDone, this);
   }
 
   _onInit() {
@@ -100,16 +101,16 @@ export class WindmillScroll {
     if( !this._started ) return;
 
     this.scroll?.resize();
-    this.webgl?.resize();
     this.intersection?.resize();
+    this.webgl?.resize();
   }
 
   _onPageReady() {
     this._lastTime = null;
 
     this.scroll?.init();
-    this.webgl?.init();
     this.intersection?.init();
+    this.webgl?.init();
 
     this._startModules();
     this._bindEvents();
@@ -117,6 +118,11 @@ export class WindmillScroll {
   }
   _onPageExit() {
     this._unbindEvents( !this._async );
+  }
+  _onPageDone() {
+    this.scroll?.resize();
+    this.intersection?.resize();
+    this.webgl?.resize();
   }
 
   _onAsyncPageEnter({ next }) {
@@ -126,8 +132,8 @@ export class WindmillScroll {
     html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
 
     this.scroll?.init();
-    this.webgl?.init(next.container);
     this.intersection?.init(next.container);
+    this.webgl?.init();
   }
   _onAsyncPageEntered() {
     this._lastTime = null;
@@ -136,18 +142,13 @@ export class WindmillScroll {
     this._bindEvents();
     this._onRAF();
   }
-  _onAsyncPageDone() {
-    this.scroll?.resize();
-    this.webgl?.resize();
-    this.intersection?.resize();
-  }
 
   _onSyncPageEnter({ next }) {
     this._lastTime = null;
 
     this.scroll?.init();
-    this.webgl?.init(next.container);
     this.intersection?.init(next.container);
+    this.webgl?.init();
 
     this._startModules();
     this._bindEvents();
@@ -236,6 +237,7 @@ export class WindmillScroll {
     this.minimum?.reset();
     this.timeline?.reset();
     this.webgl?.reset();
+    this.webgl?.cleanup();
   }
 }
 
