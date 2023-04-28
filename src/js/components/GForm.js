@@ -2,6 +2,7 @@
 import EventEmitter2 from "eventemitter2";
 
 import { $, $$ } from "@utils/dom";
+import { getFormId } from "@utils/gform";
 import { on, off } from "@utils/listener";
 
 const CLASSNAME = "--filled";
@@ -13,12 +14,14 @@ class GForm extends EventEmitter2 {
     super();
 
     this.el = el;
-    this.id = parseInt(this.el.id.replace("gform_wrapper_", ""));
+    this.form = null;
+    this.id = null;
     this.postTitle = '';
 
     this._onRender = this._onRender.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
     this._onResize = this._onResize.bind(this);
+    this._onConditionalLogic = this._onConditionalLogic.bind(this);
 
     this.reset();
     this.init();
@@ -26,10 +29,11 @@ class GForm extends EventEmitter2 {
 
   init() {
     jQuery(document).on("gform_post_render", this._onRender);
+    gform.addAction("gform_post_conditional_logic_field_action", this._onConditionalLogic);
   }
-
   destroy() {
     jQuery(document).off("gform_post_render", this._onRender);
+    gform.removeAction("gform_post_conditional_logic_field_action", this._onConditionalLogic);
 
     if (this.fields) {
       this.fields.forEach((field) => {
@@ -49,6 +53,7 @@ class GForm extends EventEmitter2 {
     this._onRender = null;
     this._onSubmit = null;
     this._onResize = null;
+    this._onConditionalLogic = null;
   }
 
   reset() {
@@ -61,16 +66,13 @@ class GForm extends EventEmitter2 {
     }
 
     this.form = $("form", this.el);
+    this.id = getFormId(this.form);
     this.body = $(".gform_body", this.el);
     this.submit = $(SUBMIT_SELECTOR, this.el);
     this.fields = [...$$(".gfield", this.body)].map((field) => new GFormField(field));
 
-    // add viewport detection on main element
-    //this.el.setAttribute('data-scroll', '1');
-
     if (this.submit) on(this.submit, "click", this._onSubmit);
   }
-
   updatePostTitle(postTitle = '') {
     this.fields.forEach(field => {
       const input = field.input;
@@ -79,20 +81,27 @@ class GForm extends EventEmitter2 {
   }
 
   _onRender(event, formId) {
+    // if event is not for this form, stop here
     if (formId !== this.id) return;
 
     this.el.classList.remove(SUBMITING_CLASSNAME);
 
     this.reset();
     this.emit("resize");
-
-    //window.dispatchEvent(new Event("resize"));
   }
   _onSubmit() {
     if( this.el ) this.el.classList.add(SUBMITING_CLASSNAME);
   }
   _onResize() {
     this.emit("resize");
+  }
+  _onConditionalLogic(formId, action, targetId) {
+    // if event is not for this form, stop here
+    if( formId !== this.id || action !== 'hide' ) return;
+
+    // refresh field related to this event
+    const field = this.fields.find(field => field.id === targetId);
+    if( field ) field.refresh();
   }
 }
 
@@ -113,6 +122,7 @@ class GFormField extends EventEmitter2 {
     this.parentContainer = this.inputContainer.parentElement;
     this.input = this._getInput();
     this.type = this._getType();
+    this.id = '#' + this.el.id;
 
     this._onInputFocus = this._onInputFocus.bind(this);
     this._onInputBlur = this._onInputBlur.bind(this);
@@ -145,11 +155,22 @@ class GFormField extends EventEmitter2 {
     this.el = null;
     this.label = null;
     this.inputContainer = null;
+    this.parentContainer = null;
     this.input = null;
+    this.type = null;
+    this.id = null;
 
     this._onInputFocus = null;
     this._onInputBlur = null;
     this._onInputResize = null;
+  }
+  refresh() {
+    if( !this.input ) return;
+
+    const value = this.input.value.trim();
+
+    if (value) this._onInputFocus();
+    else this._onInputBlur();
   }
 
   _onInputFocus() {
@@ -301,7 +322,9 @@ class GFieldFileUpload extends GFieldInput {
   init() {
     this.outputEl = $('.gform_fileupload_rules', this.el.parentElement);
 
-    this._defaultOuputHTML = this.outputEl.innerHTML;
+    this._defaultOuputHTML = this.outputEl ? this.outputEl.innerHTML : null;
+    this._value = '';
+
     this._onInput = this._onInput.bind(this);
 
     super.init();
@@ -310,6 +333,8 @@ class GFieldFileUpload extends GFieldInput {
     this.outputEl = null;
 
     this._defaultOuputHTML = null;
+    this._value = null;
+
     this._onInput = null;
 
     super.destroy();
@@ -334,10 +359,19 @@ class GFieldFileUpload extends GFieldInput {
     const { files } = this.el;
     if( files && files.length > 0 ) output = [ ...files ].map(file => file.name).join('<br />');
 
+    // update value
+    this._value = output === this._defaultOuputHTML ? '' : output;
+
     // update output message
     this.outputEl.classList[ output === this._defaultOuputHTML ? 'remove' : 'add' ]('--filled');
     this.outputEl.innerHTML = output;
+
+    // trigger event
+    this.emit(this._value.trim() ? "focus" : "blur", this);
   }
+
+  // getter
+  get value() { return this._value; }
 }
 
 class GFieldPostTitle extends EventEmitter2 {
