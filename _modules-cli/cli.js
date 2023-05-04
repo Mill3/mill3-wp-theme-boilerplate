@@ -161,39 +161,11 @@ const cli = () => {
 
 const createJSModule = (destination_base, type, name, module_slug) => {
   const template_index = path.join(__dirname, "sources/js", type, `index.ejs`);
-  const template_factory = path.join(__dirname, "sources/js", type, `factory.ejs`);
-  const template_module = path.join(__dirname, "sources/js", type, `ModuleTemplate.ejs`);
 
   const data = {
     ModuleName: name,
     module_slug: module_slug
   };
-
-  ejs.renderFile(template_module, data, {}, function (err, str) {
-    if (err) {
-      console.error(err);
-    }
-    const outputFile = path.join(destination_base, module_slug, `${name}.js`);
-
-    // check if file exist or exit
-    checkOverwrite(outputFile);
-
-    // write file
-    writeFile(outputFile, str);
-  });
-
-  ejs.renderFile(template_factory, data, {}, function (err, str) {
-    if (err) {
-      console.error(err);
-    }
-    const outputFile = path.join(destination_base, module_slug, `factory.js`);
-
-    // check if file exist or exit
-    checkOverwrite(outputFile);
-
-    // write file
-    writeFile(outputFile, str);
-  });
 
   ejs.renderFile(template_index, data, {}, function (err, str) {
     if (err) {
@@ -207,6 +179,7 @@ const createJSModule = (destination_base, type, name, module_slug) => {
     // write file
     writeFile(outputFile, str);
   });
+
 };
 
 /**
@@ -221,7 +194,6 @@ const createJSModule = (destination_base, type, name, module_slug) => {
 
 const createJSUi = (destination_base, type, name, module_slug) => {
   const template_index = path.join(__dirname, "sources/js", type, `index.ejs`);
-  const template_ui = path.join(__dirname, "sources/js", type, `UITemplate.ejs`);
 
   const data = {
     ModuleName: name,
@@ -233,19 +205,6 @@ const createJSUi = (destination_base, type, name, module_slug) => {
       console.error(err);
     }
     const outputFile = path.join(destination_base, module_slug, `index.js`);
-
-    // check if file exist or exit
-    checkOverwrite(outputFile);
-
-    // write file
-    writeFile(outputFile, str);
-  });
-
-  ejs.renderFile(template_ui, data, {}, function (err, str) {
-    if (err) {
-      console.error(err);
-    }
-    const outputFile = path.join(destination_base, module_slug, `${name}.js`);
 
     // check if file exist or exit
     checkOverwrite(outputFile);

@@ -1,6 +1,38 @@
+import { $ } from "@utils/dom";
+import { on, off } from "@utils/listener";
 
-import Factory from "./factory";
+class <%= ModuleName %> {
+  constructor(el, emitter) {
+    this.el = el;
+    this.emitter = emitter;
 
-export const instance = new Factory();
+    this._clickHandle = this._clickHandle.bind(this);
 
-export default { instance };
+    this.init();
+  }
+
+  init() {
+    this._bindEvents();
+  }
+  destroy() {
+    this._unbindEvents();
+
+    this.el = null;
+    this.emitter = null;
+  }
+
+  start() {}
+  stop() {}
+
+  _bindEvents() {
+    on(this.el, "click", this._clickHandle);
+  }
+  _unbindEvents() {
+    off(this.el, "click", this._clickHandle);
+  }
+
+  _clickHandle(event) {}
+
+}
+
+export default <%= ModuleName %>;
