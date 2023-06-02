@@ -6,6 +6,7 @@ import windmill from "@core/windmill";
 import WindmillScripts from "@core/windmill.scripts";
 import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 
+import ACF from '@utils/acf';
 import { body } from '@utils/dom';
 import { limit } from '@utils/math';
 import { once } from '@utils/listener';
@@ -21,6 +22,7 @@ domready(() => {
 
   resize();
 
+  ACF.is_preview = true;
   ResizeOrientation.add(resize);
   once(window, 'load', resize);
   parent.addEventListener('resize', resize, false);
