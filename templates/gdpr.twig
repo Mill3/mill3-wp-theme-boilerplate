@@ -1,10 +1,10 @@
-{# 
+{#
  # IMPORTANT THINGS TO DO IF YOU USE THIS TEMPLATE IN YOUR PROJECT.
  #
  # 1. uncomment gdpr.scss in /scss/ui/index.scss
  # 2. uncomment import "@core/gdpr"; in js/App.js
  # 3. uncomment import GDPR from "./gdpr"; in js/ui/index.dom-controller.js (only if you use windmill.dom-controller)
- # 4. uncomment {% include 'gdpr.twig' %} from templates/base.twig 
+ # 4. uncomment {% include 'gdpr.twig' %} from templates/base.twig
  # 5. gdpr.twig MUST be outside [data-windmill="wrapper"]
  #
  #
@@ -14,73 +14,128 @@
  # EMITTER.emit('GDPR.open');
  # --------
  #}
-<div 
-  id="gdpr" 
-  class="gdpr position-fixed t-0 l-0 w-100 vh-100 overflow-clip pointer-events-none"
-  data-ui="gdpr"
-  aria-hidden="{{ gdpr_consent_status == 'pending' ? 'false' : 'true' }}"
->
-  <div class="gdpr__container d-flex flex-nowrap overflow-clip bg-color-white color-black">
 
-    <div class="gdpr__homeWrap gdpr__wrap" aria-hidden="false">
-      <p class="gdpr__title m-0 mb-20">{{ __('Cookies give you a personalised experience', 'mill3wp') }}</p>
-      <p class="gdpr__text m-0 mb-20">{{ __('We use cookies and similar technologies to help personalise content, tailor and measure ads, and provide a better experience. By clicking OK or turning an option on in Cookie Preferences, you agree to this, as outlined in our privacy policy page. To change preferences or withdraw consent, please update your Cookie Preferences.', 'mill3wp') }}</p>
+{% set gdpr = options.gdpr %}
 
-      {% include 'partial/button.twig' with {
-        'title': __('Personalise your experience', 'mill3wp'),
-        'style': 'link',
-        'classname': 'gdpr__moreBtn mb-20'
-      } only %}
+{% set gdpr = options.gdpr %}
 
-      <div class="gdpr__buttons d-flex align-items-center">
-        {% include 'partial/button.twig' with {
-          'title': __('Allow all', 'mill3wp'),
-          'style': 'cta',
-          'classname': 'gdpr__acceptBtn'
-        } only %}
+{% if gdpr.active %}
+  {% set gdpr_title = gdpr.title %}
+  {% set gdpr_text_intro = gdpr.text_intro %}
+  {% set gdpr_consent_analytics = gdpr.consent_analytics %}
+  {% set gdpr_consent_analytics_title = gdpr.consent_analytics_title|default("Accept analytical cookies ?") %}
+  {% set gdpr_consent_analytics_text = gdpr.consent_analytics_text|default("") %}
+  {% set gdpr_consent_ads = gdpr.consent_ads %}
+  {% set gdpr_consent_ads_title = gdpr.consent_ads_title|default("Accept marketing cookies ?") %}
+  {% set gdpr_consent_ads_text = gdpr.consent_ads_text|default("") %}
+  <div
+    id="gdpr"
+    class="gdpr position-fixed t-0 l-0 z-7000 w-100 vh-100 d-flex align-items-end justify-content-end overflow-hidden pointer-events-none"
+    data-ui="gdpr"
+    aria-hidden="true"
+  >
+    <div class="gdpr__container w-100 d-flex flex-nowrap align-items-end align-items-start overflow-hidden">
 
-        {% include 'partial/button.twig' with {
-          'title': __('Close & reject', 'mill3wp'),
-          'style': 'link',
-          'classname': 'gdpr__rejectBtn'
-        } only %}
+      <div class="gdpr__wrap gdpr__homeWrap d-flex flex-column" aria-hidden="false">
+
+        <div class="gdpr__header d-flex justify-content-between align-items-start mb-30">
+          {# <svg width="14" height="31" viewBox="0 0 14 31" fill="none" xmlns="http://www.w3.org/2000/svg" class="gdpr__icon">
+            <path d="M5.00567 15.7621C4.72822 15.624 4.39297 15.4858 4.39297 15.0829C4.39297 14.6799 4.72822 14.5532 5.00567 14.4151C8.34663 13.0449 10.6587 11.8245 12.1037 9.5448C13.3985 7.50689 13.9997 4.61696 13.9997 0H7.75706C8.03451 4.21399 7.653 7.32267 6.52008 9.5448C5.28312 11.9972 3.13287 13.3903 0 14.0581V16.1191C3.13287 16.7869 5.28312 18.18 6.52008 20.6324C7.67612 22.8545 8.03451 25.9517 7.75706 30.1772H13.9997C13.9997 25.5718 13.3985 22.6703 12.1037 20.6324C10.6356 18.3527 8.32351 17.1323 5.00567 15.7621Z" fill="currentColor"/>
+          </svg> #}
+          {% include 'partial/button.twig' with {
+            'title': __('Close & deny', 'mill3wp'),
+            'style': 'link',
+            'classname': 'gdpr__rejectBtn fz-14 lh-none fw-300'
+          } only %}
+        </div>
+
+        {% if gdpr_title %}
+        <p class="gdpr__title flex-grow-0 fz-16 fz-md-base fw-300 lh-xs m-0">{{ gdpr_title }}</p>
+        {% endif %}
+
+        {% if gdpr_text_intro %}
+        <div class="gdpr__accordion flex-grow-0 mb-30">
+
+          <button
+            class="gdpr__accordion__btn position-relative d-flex fz-12 fz-md-14 fw-400 align-items-center justify-content-between w-100"
+            aria-label="read more"
+            aria-controls="gdpr-text-intro"
+            aria-expanded="false"
+          >
+            {{ __('Read more', 'mill3wp') }}
+            <nav class="gdpr__accordion__arrows position-relative">
+              {# <span class="gdpr__accordion__arrow" aria-hidden="true">{{ source('src/svg/chevron-down.svg') }}</span> #}
+            </nav>
+          </button>
+
+          <div
+            id="gdpr-text-intro"
+            class="gdpr__accordion__panel w-100 pt-10"
+            aria-hidden="true"
+          >
+            <p class="gdpr__text fz-12 fz-md-14 lh-relaxed m-0">{{ gdpr_text_intro }}</p>
+          </div>
+
+        </div>
+        {% endif %}
+
+        <div class="gdpr__buttons flex-grow-0 d-flex grid-gap-20 justify-content-between align-items-center">
+          {% include 'partial/button.twig' with {
+            'title': __('Personalise', 'mill3wp'),
+            'style': 'link',
+            'variation': '',
+            'classname': 'gdpr__moreBtn fz-12 fz-md-14 lh-none fw-300'
+          } only %}
+          {% include 'partial/button.twig' with {
+            'title': __('Allow all', 'mill3wp'),
+            'style': 'cta',
+            'variation': '',
+            'classname': 'gdpr__acceptBtn'
+          } only %}
+        </div>
       </div>
+
+      <div class="gdpr__wrap gdpr__optionsWrap d-flex grid-gap-20 grid-gap-md-30 flex-column justify-content-start" aria-hidden="true">
+
+        <div class="flex-grow-1">
+          {% include 'partial/button.twig' with {
+            'title': __('Back', 'mill3wp'),
+            'style': 'link',
+            'variation': '',
+            'classname': 'gdpr__backBtn fz-12 fz-md-14 lh-none fw-300'
+          } only %}
+        </div>
+
+        <div class="flex-grow-0 d-flex flex-column grid-gap-10 grid-gap-md-30">
+          {% if gdpr_consent_analytics %}
+            {{ _self.option('consent_analytics',
+                true,
+                gdpr_consent_analytics_title,
+                gdpr_consent_analytics_text
+            ) }}
+          {% endif %}
+          {% if gdpr_consent_ads %}
+            {{ _self.option('consent_ads',
+                true,
+                gdpr_consent_ads_title,
+                gdpr_consent_ads_text
+            ) }}
+          {% endif %}
+        </div>
+
+        <div class="flex-grow-0 d-flex flex-column align-items-start grid-gap-10">
+          {% include 'partial/button.twig' with {
+            'title': __('Save & close', 'mill3wp'),
+            'style': 'cta',
+            'classname': 'gdpr__saveCloseBtn'
+          } only %}
+          <p class="gdpr__userId fz-12 m-0" aria-hidden="true">{{ __('Your User ID: %s', 'mill3wp')|default('%s') }}</p>
+        </div>
+      </div>
+
     </div>
-
-    <div class="gdpr__optionsWrap gdpr__wrap" aria-hidden="true">
-      {% include 'partial/button.twig' with {
-        'title': __('Back', 'mill3wp'),
-        'style': 'link',
-        'classname': 'gdpr__backBtn mb-20'
-      } only %}
-
-      <div class="d-flex flex-column grid-gap-30 mb-30">
-        {{ _self.option('consent_analytics', 
-            gdpr_consent_analytics == 'granted' ? true : false,
-            __('Accept analytical cookies ?', 'mill3wp'),
-            __('We are using Google Analytics, Facebook Pixel, fermentum odio nec arcu. Phasellus blandit leo ut odio. Aliquam eu nunc. Vestibulum turpis sem, aliquet eget, lobortis pellentesque, rutrum eu, nisl.', 'mill3wp')
-        ) }}
-
-        {{ _self.option('consent_ads',  
-            gdpr_consent_ads == 'granted' ? true : false,
-            __('Accept marketing cookies ?', 'mill3wp'),
-            __('We are using Google Analytics, Facebook Pixel, fermentum odio nec arcu. Phasellus blandit leo ut odio. Aliquam eu nunc. Vestibulum turpis sem, aliquet eget, lobortis pellentesque, rutrum eu, nisl.', 'mill3wp')
-        ) }}
-      </div>
-
-      <div class="d-flex justify-content-between align-items-baseline">
-        {% include 'partial/button.twig' with {
-          'title': __('Save & close', 'mill3wp'),
-          'style': 'cta',
-          'classname': 'gdpr__saveCloseBtn'
-        } only %}
-
-        <p class="gdpr__userId m-0 ml-10" aria-hidden="{{ gdpr_consent_user_id ? 'false' : 'true' }}">{{ __('Your User ID: %s', 'mill3wp')|format(gdpr_consent_user_id|default('%s')) }}</p>
-      </div>
-    </div>
-
   </div>
-</div>
+{% endif %}
 
 {% macro option(name, checked = true, label, text) %}
   <div class="gdpr__option">
@@ -88,8 +143,8 @@
       <input type="checkbox" class="position-absolute t-0 l-0 visibility-hidden pointer-events-none" {% if checked %}checked{% endif %} name="{{ name }}" value="granted">
 
       <span class="gdpr__input__toggle" aria-hidden="true"></span>
-      <span class="gdpr__input__text">{{ label }}</span>
+      <span class="gdpr__input__text fz-16 fz-md-base lh-relaxed fw-300">{{ label }}</span>
     </label>
-    <p class="gdpr__option__text m-0">{{ text }}</p>
+    <p class="gdpr__option__text fz-12 fz-md-14 m-0">{{ text }}</p>
   </div>
 {% endmacro %}

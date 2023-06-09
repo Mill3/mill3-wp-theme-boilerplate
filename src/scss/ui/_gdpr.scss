@@ -1,26 +1,135 @@
+@use "@mill3-sass-vars/easings";
+@use "@mill3-sass-mixins/breakpoints";
+
 .gdpr {
   $self: &;
+  // various params
+  --container-height: auto;
+  --width: 100%;
+  --inner-y-padding: 10px;
+  --inner-x-padding: 10px;
+  --border-radius: 8px;
+  --padding: 0;
+
+  // colors
+  --gdpr-color: currentColor;
+  --gdpr-background-color: var(--color-white);
+  --gdpr-wrap-background-color: var(--color-white);
+  --gdpr-title-color: var(--color-black);
+  --gdpr-accent-color: var(--gray-800);
+  --gdpr-input-background-color: var(--gray-500);
+  --gdpr-input-bullet-color: var(--gray-200);
+  --gdpr-input-checked-background-color: var(--gray-800);
+  --gdpr-input-checked-bullet-color: var(--color-white);
+
+
+  @include breakpoints.media-breakpoint-up(md) {
+    --inner-y-padding: 30px;
+    --inner-x-padding: 30px;
+    --width: 450px;
+    --padding: 20px;
+  }
+
+  // main container padding
+  padding: var(--padding);
 
   &__container {
-    //width: 380px;
+    max-width: var(--width);
+    // height: var(--container-height);
+    color: var(--gdpr-color);
+    background-color: var(--gdpr-background-color);
+    @include breakpoints.media-breakpoint-down(xs) {
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
+    }
+    @include breakpoints.media-breakpoint-up(md) {
+      border-radius: var(--border-radius);
+      box-shadow: 0px 4px 100px 8px rgba(204, 219, 250, 0.4);
+    }
   }
+
+  // each step has a wrap (intro + options checkbox)
   &__wrap {
     flex: 0 0 100%;
+    max-width: var(--width);
+    padding: var(--inner-y-padding) var(--inner-x-padding);
     pointer-events: all;
-    transform: translateX(0%);
-    transition: transform 450ms $easeOutCubic;
+
+    @include breakpoints.media-breakpoint-down(xs) {
+      background-color: var(--gdpr-wrap-background-color);
+    }
 
     &[aria-hidden="true"] {
       pointer-events: none;
     }
+
   }
+
+  &__icon {
+    max-width: 10px;
+    @include breakpoints.media-breakpoint-up(md) {
+      max-width: 15px;
+    }
+  }
+
+  &__title {
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--gdpr-accent-color);
+    color: var(--gdpr-title-color);
+  }
+
+  &__accordion {
+    &__btn {
+      &[aria-expanded="true"] {
+        #{$self}__accordion__arrows {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    &__panel {
+      display: none;
+      &[aria-hidden="false"] {
+        display: block;
+      }
+    }
+  }
+
+  &__text {
+    @include breakpoints.media-breakpoint-up(md) {
+      line-height: 1.35714286;
+      max-width: 320px;
+    }
+  }
+
+  &__moreBtn {
+    line-height: 1.3333;
+  }
+
+  &__backBtn {
+    line-height: 1.3333;
+  }
+
+  &__option {
+    &__text {
+      line-height: 1.35714286;
+      margin-top: 10px;
+    }
+  }
+
   &__input {
-    // when input is checked, set toggle 
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--gdpr-accent-color-light);
+
+    // when input is checked, set toggle
     > input:checked + #{$self}__input__toggle {
-      background-color: color(color-black);
+      background-color: var(--gdpr-input-checked-background-color);
 
       &::before {
-        animation: gdprInputChecked 250ms 0ms $easeOutExpo both;
+        animation: gdprInputChecked 250ms 0ms easings.$easeOutExpo both;
+        &::before {
+          background-color: var(--gdpr-input-checked-bullet-color);
+        }
       }
     }
 
@@ -29,7 +138,7 @@
       display: block;
       width: 36px;
       height: 20px;
-      background-color: color(gray-200);
+      background-color: var(--gdpr-input-background-color);
       border-radius: 200px;
       padding: 2px;
       transition: background-color 250ms linear;
@@ -39,57 +148,64 @@
         display: block;
         width: 16px;
         height: 16px;
-        background-color: color(color-white);
+        background-color: var(--gdpr-input-bullet-color);
         border-radius: 200px;
-        animation: gdprInputUnchecked 250ms 0ms $easeOutExpo both;
+        animation: gdprInputUnchecked 250ms 0ms easings.$easeOutExpo both;
+      }
+    }
+    &__text {
+      margin-left: 12px;
+      cursor: pointer;
+      color: var(--gdpr-title-color);
+      @include breakpoints.media-breakpoint-up(md) {
+        line-height: 1.33333333;
       }
     }
   }
+
   &__userId {
+    @include breakpoints.media-breakpoint-down(xs) {
+      font-size: 11px;
+    }
     &[aria-hidden="true"] { display: none; }
   }
 
-
-  &.--js-more-options {
-    #{$self}__wrap {
-      transform: translateX(-100%);
-    }
-  }
   &[aria-hidden="true"] {
     display: none;
   }
+
 }
 
 @keyframes gdprInputUnchecked {
   0% {
-    background-color: color(color-primary);
+    background-color: var(--gdpr-input-checked-bullet-color);
     transform: translateX(16px);
     width: 16px;
   }
   70% {
-    background-color: color(color-primary);
+    background-color: var(--gdpr-input-checked-bullet-color);
     transform: translateX(0px);
     width: 32px;
   }
   100% {
-    background-color: color(color-white);
+    background-color: var(--gdpr-input-bullet-color);
     transform: translateX(0px);
     width: 16px;
   }
 }
 @keyframes gdprInputChecked {
   0% {
-    background-color: color(color-white);
+    background-color: var(--gdpr-input-bullet-color);
     transform: translateX(0px);
     width: 16px;
   }
   70% {
-    background-color: color(color-white);
+    background-color: var(--gdpr-input-bullet-color);
     transform: translateX(0px);
     width: 32px;
   }
   100% {
-    background-color: color(color-primary);
+    background-color: var(--gdpr-input-checked-bullet-color);
     transform: translateX(16px);
     width: 16px;
   }
