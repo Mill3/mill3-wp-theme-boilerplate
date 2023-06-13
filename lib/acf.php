@@ -278,6 +278,8 @@ function acf_populate_padding($field)
 
 add_filter('acf/prepare_field/name=pt', 'acf_populate_padding');
 add_filter('acf/prepare_field/name=pb', 'acf_populate_padding');
+add_filter('acf/prepare_field/name=pt_md', 'acf_populate_padding');
+add_filter('acf/prepare_field/name=pb_md', 'acf_populate_padding');
 add_filter('acf/prepare_field/name=pt_lg', 'acf_populate_padding');
 add_filter('acf/prepare_field/name=pb_lg', 'acf_populate_padding');
 add_filter('acf/prepare_field/name=grid_gap', 'acf_populate_padding');
@@ -338,6 +340,8 @@ function acf_populate_margin($field)
 
 add_filter('acf/prepare_field/name=mt', 'acf_populate_margin');
 add_filter('acf/prepare_field/name=mb', 'acf_populate_margin');
+add_filter('acf/prepare_field/name=mt_md', 'acf_populate_margin');
+add_filter('acf/prepare_field/name=mb_md', 'acf_populate_margin');
 add_filter('acf/prepare_field/name=mt_lg', 'acf_populate_margin');
 add_filter('acf/prepare_field/name=mb_lg', 'acf_populate_margin');
 

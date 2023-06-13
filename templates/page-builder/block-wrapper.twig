@@ -6,38 +6,75 @@
 
 {% set effect = post ? post.get_field('effect')|default(null) : null %}
 {% set pb_row_id = post ? post.get_field('pb_row_id')|default(null) : pb_row_id|default(null) %}
+{% set activate_md_breakpoint = post ? post.get_field('activate_md_breakpoint')|default(false) : false %}
 
+{# xs padding #}
 {% set pt = post ? post.get_field('pt')|default(0) : spacer_mobile|default(0) %}
 {% set pb = post ? post.get_field('pb')|default(0) : spacer_mobile|default(0) %}
+
+{# md padding: defaults values to smallest breakpoint #}
+{% set pt_md = pt %}
+{% set pb_md = pb %}
+
+{# ... or set md_breakpoint when activated #}
+{% if activate_md_breakpoint == true %}
+  {% set pt_md = post ? post.get_field('pt_md')|default(0) : spacer_md|default(0) %}
+  {% set pb_md = post ? post.get_field('pb_md')|default(0) : spacer_md|default(0) %}
+{% endif %}
+
+{# lg padding #}
 {% set pt_lg = post ? post.get_field('pt_lg')|default(0) : spacer|default(0) %}
 {% set pb_lg = post ? post.get_field('pb_lg')|default(0) : spacer|default(0) %}
 
+{# xs margin #}
 {% set mt = post ? post.get_field('mt')|default(0) : 0 %}
 {% set mb = post ? post.get_field('mb')|default(0) : 0 %}
+
+{# md margin: defaults values to smallest breakpoint #}
+{% set mt_md = mt %}
+{% set mb_md = mb %}
+
+{# ... or set md_breakpoint when activated #}
+{% if activate_md_breakpoint == true %}
+  {% set mt_md = post ? post.get_field('mt_md')|default(0) : 0 %}
+  {% set mb_md = post ? post.get_field('mb_md')|default(0) : 0 %}
+{% endif %}
+
+{# lg margin #}
 {% set mt_lg = post ? post.get_field('mt_lg')|default(0) : 0 %}
 {% set mb_lg = post ? post.get_field('mb_lg')|default(0) : 0 %}
+
+{# set lg breakpoint infix to XL when md breakpoints are activated #}
+{% if activate_md_breakpoint == true %}
+  {% set lg_breakpoint_infix = "xl" %}
+{% else %}
+  {% set lg_breakpoint_infix = "lg" %}
+{% endif %}
 
 {% set row_classname = [] %}
 {% set row_styles = ['--zindex:' ~ order] %}
 
 {# create CSS colors variables from ACF stored values #}
-{% for color in ['text-color', 'bg-color'] %}
+{% for color in ['text-color', 'bg-color', 'accent-color', 'dark-bg-color', 'button-text-color', 'button-bg-hover-color'] %}
   {% set color_value = post.get_field(color) %}
   {% if color_value %}
     {% set row_styles = row_styles|merge(['--' ~ color ~ ':' ~ color_value ]) %}
+    {% set row_classname = row_classname|merge(['--has-' ~ color ]) %}
   {% endif %}
 {% endfor %}
 
 {# paddings #}
-{% set row_paddings = ['pt-' ~ pt, 'pb-' ~ pb, 'pt-lg-' ~ pt_lg, 'pb-lg-' ~ pb_lg] %}
+{% set row_paddings = ['pt-' ~ pt, 'pb-' ~ pb, 'pt-md-' ~ pt_md, 'pb-md-' ~ pb_md, 'pt-' ~ lg_breakpoint_infix ~'-' ~ pt_lg, 'pb-' ~ lg_breakpoint_infix ~'-' ~ pb_lg] %}
 
 {# apply margins only on frontend #}
 {% if not is_preview %}
   {% set row_classname = row_classname|merge([
     'mt-' ~ mt,
     'mb-' ~ mb,
-    'mt-lg-' ~ mt_lg,
-    'mb-lg-' ~ mb_lg
+    'mt-md-' ~ mt_md,
+    'mb-md-' ~ mb_md,
+    'mt-' ~ lg_breakpoint_infix ~'-' ~ mt_lg,
+    'mb-' ~ lg_breakpoint_infix ~'-' ~ mb_lg
   ]) %}
 {% endif %}
 
