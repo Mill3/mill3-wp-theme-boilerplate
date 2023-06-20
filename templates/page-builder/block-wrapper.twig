@@ -56,7 +56,7 @@
 {% set row_styles = ['--zindex:' ~ order] %}
 
 {# create CSS colors variables from ACF stored values #}
-{% for color in ['text-color', 'bg-color', 'accent-color', 'dark-bg-color', 'button-text-color', 'button-bg-hover-color'] %}
+{% for color in ['text-color', 'bg-color'] %}
   {% set color_value = post.get_field(color) %}
   {% if color_value %}
     {% set row_styles = row_styles|merge(['--' ~ color ~ ':' ~ color_value ]) %}
