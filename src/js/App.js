@@ -22,13 +22,6 @@ import transitions from "@transitions";
 //import Modules from '@modules/index.dom-controller';
 //import UI from '@ui/index.dom-controller'
 
-// import main styles in dev mode only
-if (process.env.NODE_ENV === "development") {
-  import("../scss/App.scss");
-  import("./GridViewer");
-  //import("../scss/debug/index.scss");
-}
-
 /*
  * Main app
  */
@@ -95,5 +88,13 @@ class App {
 }
 
 domready(() => {
-  setTimeout(() => new App(), process.env.NODE_ENV === "development" ? 500 : 0);
+  // import main styles in dev mode only
+  if (process.env.NODE_ENV === "development") {
+    import("../scss/App.scss").then(() => {
+      setTimeout(() => {
+        new App();
+        import("./GridViewer");
+      }, 500);
+    });
+  } else new App();
 });
