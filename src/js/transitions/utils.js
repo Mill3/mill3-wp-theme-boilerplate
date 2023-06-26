@@ -35,8 +35,11 @@ export const moduleDelays = (incrementDelay = 100, baseDelay = 0) => {
     el.setAttribute('data-module-delay', isInViewport);
     if( isInViewport ) el.style.setProperty("--module-delay", `${delay}ms`);
 
+    // if item is not in viewport, go to next
+    if( !isInViewport ) return;
+
     // increment delay for next item
-    delay += el.hasAttribute('data-module-delay-increment') && isInViewport ? parseInt(el.dataset.moduleDelayIncrement) : incrementDelay;
+    delay += el.hasAttribute('data-module-delay-increment') ? parseInt(el.dataset.moduleDelayIncrement) : incrementDelay;
   });
 }
 
