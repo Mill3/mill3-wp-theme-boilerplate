@@ -62,7 +62,7 @@ class Drag extends EventEmitter2 {
   }
 
   destroy() {
-    this.off();
+    this.stop();
 
     this.el = null;
     this.options = null;
