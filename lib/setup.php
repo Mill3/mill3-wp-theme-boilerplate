@@ -143,6 +143,9 @@ add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 // Remove wp-embed.min.js
 add_action('wp_footer', function(){ wp_deregister_script( 'wp-embed' ); });
 
+// Remove classic-themes.css
+add_action('wp_enqueue_scripts', function(){ wp_dequeue_style( 'classic-theme-styles' ); }, 20 );
+
 /*
  * Modify TinyMCE editor to remove H1.
  */
