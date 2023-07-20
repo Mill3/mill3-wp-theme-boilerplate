@@ -69,7 +69,7 @@ class GForm extends EventEmitter2 {
     this.id = parseInt( getFormId(this.form) );
     this.body = $(".gform_body", this.el);
     this.submit = $(SUBMIT_SELECTOR, this.el);
-    this.fields = [...$$(".gfield", this.body)].map((field) => new GFormField(field));
+    this.fields = [...$$(".gfield:not(.gsection)", this.body)].map((field) => new GFormField(field));
 
     if (this.submit) on(this.submit, "click", this._onSubmit);
   }
