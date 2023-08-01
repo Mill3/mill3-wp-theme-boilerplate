@@ -20,31 +20,31 @@ class SiteVideo {
     this._handleKeyDown = this._handleKeyDown.bind(this);
     this._playBnd = this.play.bind(this);
     this._stopBnd = this.stop.bind(this);
-  }
 
-  init() {
+    // bind events from constructor
     this._bindEvents();
   }
-  destroy() {
-    this._unbindEvents();
-    this.stop();
 
-    this.el = null;
-    this.emitter = null;    
-    this.bg = null;
-    this.container = null;
-    this.video = null;
-    this.closeBtn = null;
+  // destroy() {
+  //   this._unbindEvents();
+  //   this.stop();
 
-    this._opened = false;
-    this._playing = false;
+  //   this.el = null;
+  //   this.emitter = null;
+  //   this.bg = null;
+  //   this.container = null;
+  //   this.video = null;
+  //   this.closeBtn = null;
 
-    this._onPlayReady = null;
-    this._onStopComplete = null;
-    this._handleKeyDown = null;
-    this._playBnd = null;
-    this._stopBnd = null;
-  }
+  //   this._opened = false;
+  //   this._playing = false;
+
+  //   this._onPlayReady = null;
+  //   this._onStopComplete = null;
+  //   this._handleKeyDown = null;
+  //   this._playBnd = null;
+  //   this._stopBnd = null;
+  // }
 
   play(url) {
     // if already opened, replace <video> src and reload playback
