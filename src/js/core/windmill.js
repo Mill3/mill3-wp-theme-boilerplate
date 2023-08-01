@@ -429,7 +429,7 @@ class Windmill {
       // fetch URL
       this._fetched = false;
       
-      fetch(url)
+      fetch(url, {headers: {'X-WINDMILL': 'yes'}})
         .then(response => {
           // cancel timeout
           if( this._timeout ) clearTimeout(this._timeout);
