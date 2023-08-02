@@ -238,6 +238,8 @@ export class WindmillScroll {
     this.timeline?.reset();
     this.webgl?.reset();
     this.webgl?.cleanup();
+
+    html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
   }
 }
 
