@@ -55,7 +55,8 @@ export class WindmillScroll {
 
     windmill.on('init', this._onInit, this);
     windmill.on('ready', this._onPageReady, this);
-    windmill.on('exiting', this._onPageExit, this);
+    windmill.on('exiting', this._onPageExiting, this);
+    windmill.on('exit', this._onPageExit, this);
 
     if( this._async ) {
       windmill.on('entering', this._resetScrollModules, this);
@@ -116,8 +117,11 @@ export class WindmillScroll {
     this._bindEvents();
     this._onRAF();
   }
-  _onPageExit() {
+  _onPageExiting() {
     this._unbindEvents( !this._async );
+  }
+  _onPageExit() {
+    this.intersection?.exit();
   }
   _onPageDone() {
     this.scroll?.resize();
@@ -238,8 +242,6 @@ export class WindmillScroll {
     this.timeline?.reset();
     this.webgl?.reset();
     this.webgl?.cleanup();
-
-    html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
   }
 }
 

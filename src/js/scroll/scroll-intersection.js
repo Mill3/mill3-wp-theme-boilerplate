@@ -130,7 +130,7 @@
 */
 
 import EMITTER from "@core/emitter";
-import { INVIEW_CLASSNAME, INVIEW_ENTER, INVIEW_EXIT } from "@scroll/constants";
+import { OUTVIEW_CLASSNAME, INVIEW_CLASSNAME, INVIEW_ENTER, INVIEW_EXIT } from "@scroll/constants";
 import { getCall, getDelay, getOffset, getPosition, getProgress, getRepeat, getSpeed, getTarget } from "@scroll/utils";
 import { $$, body, rect } from "@utils/dom";
 import { lerp, limit } from "@utils/math";
@@ -193,6 +193,14 @@ class ScrollIntersection {
     
     this._started = false;
     this._delta = 1;
+  }
+  exit() {
+    // if there is no elements, stop here
+    if( this._elements.size === 0 ) return;
+    
+    this._elements.forEach(element => {
+      if( element.inView ) element.el.classList.add(OUTVIEW_CLASSNAME);
+    });
   }
   
   _addElements($target = body) {

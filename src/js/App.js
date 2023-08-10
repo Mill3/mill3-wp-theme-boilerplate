@@ -45,7 +45,11 @@ class App {
     if( android() ) html.classList.add('android');
 
     // set scrollbar width in css variables
-    html.style.setProperty('--scrollbar-width', `${scrollbarWidth()}px`);
+    const updateScrollbarWidth = () => { html.style.setProperty('--scrollbar-width', `${scrollbarWidth()}px`); }
+    updateScrollbarWidth();
+
+    // update scrollbar width for each page
+    windmill.on('entering', updateScrollbarWidth);
 
     // if mobile, create mobile vh fix
     if( mobile ) MobileViewportUnit.init();
