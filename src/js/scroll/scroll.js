@@ -86,6 +86,7 @@ class Scroll {
   resize() {
     this._data.isMouseWheeling = false;
 
+    this._stopScrollTo();
     this._calcScrollHeight();
     this._updateDirection();
     this._updateScroll();
@@ -127,7 +128,7 @@ class Scroll {
     else offset += target;
 
     // stop previous duration based scrollTo
-    if( this._data.scrollTo ) anime.remove(this._data.scrollTo);
+    this._stopScrollTo();
 
     // if a callback as been provided, save offset and callback for scroll event
     if( callback ) {
@@ -136,12 +137,11 @@ class Scroll {
         callback,
       };
     }
-    // otherwise, remove scrollTo saved callback
-    else this._data.scrollTo = null;
 
     // set mouse wheeling to false
     this._data.isMouseWheeling = false;
 
+    // get scrollTo duration
     const duration = options.duration ? options.duration : false;
 
     // trigger scrollTo
@@ -177,14 +177,13 @@ class Scroll {
     this._unbindEvents();
   }
   reset() {
-    if( this._data.scrollTo ) anime.remove(this._data.scrollTo);
+    this._stopScrollTo();
 
     this._data.scroll =
     this._data.targetScroll =
     this._data.lastScroll = window.scrollY;
 
     this._data.direction = null;
-    this._data.scrollTo = null;
     this._data.isMouseWheeling = false;
 
     this._mousewheel.x = this._mousewheel.y =
@@ -230,8 +229,7 @@ class Scroll {
       // if offset as been reached, run callback & destroy saved scrollTo's offset
       if( this._data.scrollTo.offset === this._data.scroll >> 0 ) {
         this._data.scrollTo.callback();
-        anime.remove(this._data.scrollTo);
-        this._data.scrollTo = null;
+        this._stopScrollTo();
       }
     }
   }
@@ -278,8 +276,7 @@ class Scroll {
     event.preventDefault();
 
     // interrupt scrollTo
-    if( this._data.scrollTo ) anime.remove(this._data.scrollTo);
-    this._data.scrollTo = null;
+    this._stopScrollTo();
 
     // set targetScroll
     this._data.isMouseWheeling = true;
@@ -320,6 +317,10 @@ class Scroll {
       this._data.targetScroll =
       this._data.lastScroll = this._data.scroll;
     }
+  }
+  _stopScrollTo() {
+    if( this._data.scrollTo ) anime.remove(this._data.scrollTo);
+    this._data.scrollTo = null;
   }
 
 
