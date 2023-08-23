@@ -1,3 +1,5 @@
 .site-transition {
   $self: &;
+
+  height: calc(var(--vh) * 100);
 }

@@ -4,6 +4,8 @@
 .site-header {
   $self: &;
 
+  height: calc(var(--vh) * 100);
+
   &__wrap {
     transition: opacity 350ms linear, color 0ms 350ms linear;
   }
