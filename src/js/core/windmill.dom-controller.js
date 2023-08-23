@@ -2,7 +2,7 @@
 * @core/windmill.dom-controller
 * <br><br>
 * ## Windmill DOM Controller.
-* 
+*
 * Handles UI and Modules classes init/destroy/start/stop via Windmill hooks
 *
 * Example :
@@ -42,7 +42,7 @@ export class WindmillDomController {
     this._trashed = [];
     this._classes = classes;
   }
-  
+
   /**
   * Plugin installation.
   */
@@ -71,35 +71,35 @@ export class WindmillDomController {
     // windmill completed his page transition
     windmill.on('done', this._startModules, this);
   }
-  
+
   _createInstances({ next }) {
     const container = next.container || body;
-    
+
     [ container, ...$$(MODULES_SELECTOR, container), ...$$(UI_SELECTOR, container) ].forEach((el) => {
       // get data and module or ui chunk type
       // element should be : <div data-module="my-module"> or <div data-ui="my-ui-js-thing">
       const { module, ui } = el.dataset;
-      
+
       // element can cast 1 or multiple chunk, each seperated by a coma
       if (module) {
         module.split(",").forEach(m => {
           const klass = this._validateClass( PascalCase(m), 'modules' );
-          
+
           // if this class does'nt exists, stop here
           if( !klass ) return;
-          
+
           // add module
           this._modules.push({el, instance: new klass(el, EMITTER) });
         });
       }
-      
+
       if (ui) {
         ui.split(",").forEach(m => {
           const klass = this._validateClass( PascalCase(m), 'ui' );
-          
+
           // if this class does'nt exists, stop here
           if( !klass ) return;
-          
+
           // add ui
           this._uis.push({el, instance: new klass(el, EMITTER) });
         });
@@ -108,37 +108,37 @@ export class WindmillDomController {
   }
   _collectInstancesInOldPage({ current }) {
     const { container } = current;
-    
+
     const trashInstances = (data, index, array) => {
       // if element is not part of old page [data-windmill="container"], it doesn't need to be destroyed
       if( !container.contains(data.el) && container !== data.el ) return;
-      
+
       // put instance in trash and remove from array
       this._trashed.push(data.instance);
       array.splice(index, 1);
     };
-    
+
     for(let i = this._modules.length - 1; i>=0; i--) trashInstances(this._modules[i], i, this._modules);
     for(let i = this._uis.length - 1; i>=0; i--) trashInstances(this._uis[i], i, this._uis);
   }
   _resetState() { STATE.dispatch("RESET"); }
-  
-  
-  
-  
-  
+
+
+
+
+
   _initModules() {
     [ ...this._modules, ...this._uis ].forEach(({ instance }) => {
       if( isFunction(instance.init) ) instance.init();
     });
   }
   _destroyModules() {
-    this._trashed.forEach(instance => {
+    this._trashed.forEach(({ instance }) => {
       if( isFunction(instance.destroy) ) instance.destroy();
     });
-    
+
     this._trashed.splice(0);
-  }  
+  }
   _startModules() {
     [ ...this._modules, ...this._uis ].forEach(({ instance }) => {
       if( isFunction(instance.start) ) instance.start();
@@ -149,10 +149,10 @@ export class WindmillDomController {
       if( isFunction(instance.stop) ) instance.stop();
     });
   }
-  
-  
-  
-  
+
+
+
+
   /**
   * Validate if class exists in registry
   */

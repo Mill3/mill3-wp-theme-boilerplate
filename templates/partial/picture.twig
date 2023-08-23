@@ -25,7 +25,7 @@
   The first src is the default value for browser not supporting the feature.
 #}
 {% if srcs is iterable and not (srcs is empty) %}
-  {% set breakpoints = [0, 576, 768, 992, 1200, 1441, 1800]|reverse %}
+  {% set breakpoints = [0, 576, 768, 1024, 1200, 1441, 1800]|reverse %}
 
   {# save default src #}
   {% set src = srcs[0] %}

@@ -24,7 +24,7 @@ add_filter( 'should_load_remote_block_patterns', '__return_false' );
 add_filter( 'wp_lazy_loading_enabled', '__return_false' );
 
 add_filter( 'timber/acf-gutenberg-blocks-templates', function () {
-    return ['/templates/page-builder/'];
+    return ['/templates/page-builder'];
 });
 
 

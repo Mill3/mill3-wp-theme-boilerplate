@@ -20,7 +20,7 @@ Splitting.add({
 
 
 export default (el = body) => {
-  [ ...$$('[data-splitting]') ].forEach(el => {
+  [ ...$$('[data-splitting]', el) ].forEach(el => {
     const splittingMethod = el.dataset.splitting || "wordsMask";
 
     Splitting({

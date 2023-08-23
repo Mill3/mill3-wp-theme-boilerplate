@@ -1,3 +1,5 @@
+import anime from "animejs";
+
 import EMITTER from "@core/emitter";
 import { DIRECTION_DOWN, DIRECTION_UP, SCROLL_TO_OPTIONS } from "@scroll/constants";
 import { firefox } from "@utils/browser";
@@ -84,6 +86,7 @@ class Scroll {
   resize() {
     this._data.isMouseWheeling = false;
 
+    this._stopScrollTo();
     this._calcScrollHeight();
     this._updateDirection();
     this._updateScroll();
@@ -124,6 +127,9 @@ class Scroll {
     if (typeof target !== 'number') offset += rect(target).top - getTranslate(target).y + this._data.scroll;
     else offset += target;
 
+    // stop previous duration based scrollTo
+    this._stopScrollTo();
+
     // if a callback as been provided, save offset and callback for scroll event
     if( callback ) {
       this._data.scrollTo = {
@@ -131,17 +137,31 @@ class Scroll {
         callback,
       };
     }
-    // otherwise, remove scrollTo saved callback
-    else this._data.scrollTo = null;
 
     // set mouse wheeling to false
     this._data.isMouseWheeling = false;
 
+    // get scrollTo duration
+    const duration = options.duration ? options.duration : false;
+
     // trigger scrollTo
-    window.scrollTo({
-      top: offset,
-      behavior: options.smooth === true ? 'smooth' : 'auto'
-  });
+    if( duration ) {
+      if( !this._data.scrollTo ) this._data.scrollTo = {};
+      this._data.scrollTo.y = this._data.scroll;
+
+      anime({
+        targets: this._data.scrollTo,
+        y: offset,
+        duration: duration,
+        easing: options.easing,
+        update: () => { window.scrollTo({ top: this._data.scrollTo.y, behavior: 'auto' }); }
+      });
+    } else {
+      window.scrollTo({
+        top: offset,
+        behavior: options.smooth === true ? 'smooth' : 'auto'
+      });
+    }
   }
   start() {
     if( this._data.started ) return;
@@ -157,12 +177,13 @@ class Scroll {
     this._unbindEvents();
   }
   reset() {
+    this._stopScrollTo();
+
     this._data.scroll =
     this._data.targetScroll =
     this._data.lastScroll = window.scrollY;
 
     this._data.direction = null;
-    this._data.scrollTo = null;
     this._data.isMouseWheeling = false;
 
     this._mousewheel.x = this._mousewheel.y =
@@ -208,7 +229,7 @@ class Scroll {
       // if offset as been reached, run callback & destroy saved scrollTo's offset
       if( this._data.scrollTo.offset === this._data.scroll >> 0 ) {
         this._data.scrollTo.callback();
-        this._data.scrollTo = null;
+        this._stopScrollTo();
       }
     }
   }
@@ -255,7 +276,7 @@ class Scroll {
     event.preventDefault();
 
     // interrupt scrollTo
-    this._data.scrollTo = null;
+    this._stopScrollTo();
 
     // set targetScroll
     this._data.isMouseWheeling = true;
@@ -296,6 +317,10 @@ class Scroll {
       this._data.targetScroll =
       this._data.lastScroll = this._data.scroll;
     }
+  }
+  _stopScrollTo() {
+    if( this._data.scrollTo ) anime.remove(this._data.scrollTo);
+    this._data.scrollTo = null;
   }
 
 

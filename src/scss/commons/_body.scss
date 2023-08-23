@@ -19,6 +19,9 @@ body {
 
   color: var(--body-text-color);
   background-color: var(--body-bg-color);
+
+  // used by js/utils/drag.js
+  &.--js-disable-text-select { user-select: none; }
 }
 
 html.--js-scrollbar-hidden {

@@ -4,16 +4,16 @@
   [
     max-width: 575px,
     min-width: 576px and max-width: 767px,
-    min-width: 768px and max-width: 991px,
-    min-width: 992px and max-width: 1199px,
+    min-width: 768px and max-width: 1023px,
+    min-width: 1024px and max-width: 1199px,
     min-width: 1200px and max-width: 1400px,
     min-width: 1401px and max-width: 1799px,
     min-width: 1800px
   ]
 
   Real life scenario:
-  You want your image to be fullbleed until viewport < 992.
-  Then, your image is 50vw from 992px to 1800px.
+  You want your image to be fullbleed until viewport < 1024.
+  Then, your image is 50vw from 1024px to 1800px.
   Finally, when viewport >= 1800px, image stay at 1800px.
 
   code: [ '100vw', '100vw', '100vw', '50vw', '50vw', '50vw', '1800px' ]
@@ -44,7 +44,7 @@
 
   {# transform sizes array into an attribute compatible string #}
   {% if sizes and sizes is iterable %}
-    {% set breakpoints = [0, 576, 768, 992, 1200, 1441, 1800] %}
+    {% set breakpoints = [0, 576, 768, 1024, 1200, 1441, 1800] %}
     {% set sizes_attr = [] %}
     {% set lastDefinedSize = { 'size': null, 'min': null, 'max': null } %}
 
