@@ -3,10 +3,11 @@
 
 @include variants.generate-variants("flex-direction", vars.$flex-direction, "flex");
 @include variants.generate-variants("justify-content", vars.$justify-content, "justify-content");
+@include variants.generate-variants("justify-items", vars.$justify-content, "justify-items");
+@include variants.generate-variants("align-content", vars.$align-content, "align-content");
 @include variants.generate-variants("align-items", vars.$align-items, "align-items");
 @include variants.generate-variants("align-self", vars.$align-self, "align-self");
 @include variants.generate-variants("justify-self", vars.$align-self, "justify-self");
-@include variants.generate-variants("align-content", vars.$align-content, "align-content");
 @include variants.generate-variants("flex-wrap", vars.$flex-wrap, "flex", "", true);
 @include variants.generate-variants("flex-grow", vars.$flex-grow, "flex-grow");
 @include variants.generate-variants("flex-shrink", vars.$flex-shrink, "flex-shrink");
