@@ -71,13 +71,11 @@
 
 
 @keyframes linkRedraw {
-  $bottom: 0em;
-  $height: 0.07em;
 
   from {
-    background-size: 0% calc(100% - #{$height + $bottom});
+    background-size: 0% calc(100% - var(--bottom));
   }
   to {
-    background-size: 100% calc(100% - #{$height + $bottom});
+    background-size: 100% calc(100% - var(--bottom));
   }
 }

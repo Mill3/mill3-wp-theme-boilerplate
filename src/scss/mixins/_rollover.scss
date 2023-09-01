@@ -6,38 +6,42 @@
 
   &:hover,
   &:active {
-    @include underlineDrawingHover($height, $bottom);
+    @include underlineDrawingHover();
   }
 }
 
-@mixin underlineDrawingBase($height: 1px, $bottom: 0) {
+@mixin underlineDrawingBase($height: 1px, $bottom: 0px) {
+  --bottom: #{$bottom};
+  --height: #{$height};
+
   text-decoration: none;
   // only on device with :hover state
   @include mq.hoverDevice {
     transition: background-size 0.5s easings.$easeOutCubic 0s;
-    background-image: linear-gradient(transparent calc(100% - #{$height}), currentColor $height);
+    background-image: linear-gradient(transparent calc(100% - var(--height)), currentColor var(--height));
     background-repeat: no-repeat;
-    background-size: 0% calc(100% - #{$height + $bottom});
+    background-size: 0% calc(100% - var(--bottom));
   }
 }
 
-@mixin underlineDrawingHover($height: 1px, $bottom: 0) {
+@mixin underlineDrawingHover() {
   // only on device with :hover state
   @include mq.hoverDevice {
-    background-size: 100% calc(100% - #{$height + $bottom});
+    background-size: 100% calc(100% - var(--bottom));
   }
 }
 
-@mixin linkRollover($rollover: true) {
-  $bottom: 0em;
-  $height: 0.07em;
+@mixin linkRollover($rollover: true, $bottom: 0px, $height: 1px) {
+  --bottom: #{$bottom};
+  --height: #{$height};
+
+  background-image: linear-gradient(transparent calc(100% - var(--height)), currentColor var(--height));
+  background-repeat: no-repeat;
+  background-size: 100% calc(100% - var(--bottom));
+  background-position: top right;
+  text-decoration: none;
 
   @include mq.hoverDevice {
-    background-image: linear-gradient(transparent calc(100% - #{$height}), currentColor #{$height});
-    background-repeat: no-repeat;
-    background-size: 100% calc(100% - #{$height + $bottom});
-    text-decoration: none;
-
     @if $rollover {
       &:hover,
       &:focus,
