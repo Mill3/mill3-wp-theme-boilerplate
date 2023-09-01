@@ -13,6 +13,13 @@ $justify-content:(
   stretch: "stretch"
 );
 
+$justify-items:(
+  center: "center",
+  end: "end",
+  start: "start",
+  stretch: "stretch"
+);
+
 $align-items: (
   baseline: "baseline",
   end: "flex-end",
