@@ -51,7 +51,7 @@ add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\mill3_gutenberg_resizable
 // This filter inject in each block context the current block order using a $GLOBAL variable.
 // Also calculating if block is first rendered and bool sent to context.
 $block_order = 0;
-$block_first = true;
+$block_first = $block_first = is_admin() ? false : true;
 add_filter( 'timber/acf-gutenberg-blocks-data', function( $context ) {
     $zindex_below = $context['fields']['zindex_below'] ?? false;
     if($zindex_below) {
