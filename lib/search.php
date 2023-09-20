@@ -13,14 +13,12 @@ add_action('init', function() {
 
 
 // modify document title for search
-add_filter('pre_get_document_title', function($title) {
+add_filter('pre_get_document_title', function() {
     if ( is_search() ) {
         $search_query = get_search_query();
 
         if( !empty($search_query) ) return sprintf(__('Search Results for %s', 'mill3wp'), $search_query);
         else return __('Search', 'mill3wp');
-    } else {
-        return $title;
     }
 }, 30);
 
