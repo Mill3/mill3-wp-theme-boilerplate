@@ -130,6 +130,12 @@ class Scroll {
     // stop previous duration based scrollTo
     this._stopScrollTo();
 
+    // if scroll position is already at target, prevent scrollTo
+    if( offset === this._data.scroll) {
+      if( callback ) callback();
+      return;
+    }
+
     // if a callback as been provided, save offset and callback for scroll event
     if( callback ) {
       this._data.scrollTo = {
