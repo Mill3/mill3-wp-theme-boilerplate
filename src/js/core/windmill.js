@@ -222,7 +222,7 @@ const PREVENT_CUSTOM = 9;
 class Windmill {
   constructor() {
     this._cache = new Map();
-    this._data = {current: {url: null, container: null, html: null}, next: {url: null, container: null, html: null}};
+    this._data = {current: {url: null, container: null, html: null}, next: {url: null, container: null, html: null, trigger: null}};
     this._fetched = false;
     this._fetchPromise = null;
     this._listeners = new Map();
@@ -344,7 +344,7 @@ class Windmill {
     history.pushState({ scrollY: window.scrollY }, '', url);
     
     // perform transition
-    this._run(url);
+    this._run(url, el);
   }
   
   // push URL to history without triggering page transition
@@ -404,9 +404,10 @@ class Windmill {
     // if all tests passes, perform page transition
     return false;
   }
-  _run(url) {
+  _run(url, trigger = null) {
     // update data
     this._data.next.url = url;
+    this._data.next.trigger = trigger;
     
     // update running status to prevent performing two transitions simultaneously
     this._running = true;
@@ -560,7 +561,7 @@ class Windmill {
     this._data.current.container = this._data.next.container;
     this._data.current.html = this._data.next.html;
     
-    this._data.next = { url: null, container: null, html: null };
+    this._data.next = { url: null, container: null, html: null, trigger: null };
   }
   
   

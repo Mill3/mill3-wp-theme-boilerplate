@@ -50,7 +50,6 @@
 
     {% for s in sizes %}
       {% set breakpoint = breakpoints[loop.index0] %}
-      {% set mqRequired = false %}
 
       {% if s is not null %}
         {# if we get a size for the first time, save it for later #}
