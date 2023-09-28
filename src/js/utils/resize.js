@@ -28,9 +28,9 @@ import { limit } from "./math";
 import Throttle from "./throttle";
 
 
-export const MIN_PRIORITY = -999;
+export const AFTER_SCROLL_UPDATE = -999;
 export const MILL3_SCROLL_PRIORITY = -450;
-export const MAX_PRIORITY = 999;
+export const BEFORE_SCROLL_UPDATE = 999;
 
 class ResizeOrientation {
   constructor() {
@@ -55,8 +55,8 @@ class ResizeOrientation {
     // if callback is already registered, stop here
     if( this._exists(callback) ) return;
 
-    // limit priority between MIN_PRIORITY and MAX_PRIORITY
-    priority = limit(MIN_PRIORITY, MAX_PRIORITY, priority);
+    // limit priority between AFTER_SCROLL_UPDATE and BEFORE_SCROLL_UPDATE
+    priority = limit(AFTER_SCROLL_UPDATE, BEFORE_SCROLL_UPDATE, priority);
 
     // add callback to the list of listeners
     this._listeners.push({ callback, priority });

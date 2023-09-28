@@ -1,5 +1,5 @@
 import { $, rect } from "@utils/dom";
-import ResizeOrientation, { MAX_PRIORITY, MIN_PRIORITY } from "@utils/resize";
+import ResizeOrientation, { BEFORE_SCROLL_UPDATE, AFTER_SCROLL_UPDATE } from "@utils/resize";
 import Viewport from '@utils/viewport';
 
 class PbRowWrapperReveal {
@@ -46,8 +46,8 @@ class PbRowWrapperReveal {
     this.emitter.on('SiteScroll.after-update', this._onScrollAfterUpdate);
     this.emitter.on('SiteScroll.scroll', this._updatePosition);
 
-    ResizeOrientation.add(this._onScrollBeforeUpdate, MAX_PRIORITY);
-    ResizeOrientation.add(this._onScrollAfterUpdate, MIN_PRIORITY);
+    ResizeOrientation.add(this._onScrollBeforeUpdate, BEFORE_SCROLL_UPDATE);
+    ResizeOrientation.add(this._onScrollAfterUpdate, AFTER_SCROLL_UPDATE);
   }
   _unbindEvents() {
     this.emitter.off('SiteScroll.init', this._onScrollInit);
@@ -55,8 +55,8 @@ class PbRowWrapperReveal {
     this.emitter.off('SiteScroll.after-update', this._onScrollAfterUpdate);
     this.emitter.off('SiteScroll.scroll', this._updatePosition);
 
-    ResizeOrientation.remove(this._onScrollBeforeUpdate, MAX_PRIORITY);
-    ResizeOrientation.remove(this._onScrollAfterUpdate, MIN_PRIORITY);
+    ResizeOrientation.remove(this._onScrollBeforeUpdate, BEFORE_SCROLL_UPDATE);
+    ResizeOrientation.remove(this._onScrollAfterUpdate, AFTER_SCROLL_UPDATE);
   }
 
   _calculateLimits() {
