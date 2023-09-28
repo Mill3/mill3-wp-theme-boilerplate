@@ -78,8 +78,7 @@ class RAF {
 
     // remove callback from list of listeners
     const index = this._listeners.findIndex(listener => listener.callback === callback);
-    const item = this._listeners.splice(index, 1)[0];
-          item.destroy();
+    this._listeners.splice(index, 1)[0];
 
     // if running AND listeners are empty, stop RAF immediately
     if( this._running && this._listeners && this._listeners.length === 0 ) this._stopRAF();
