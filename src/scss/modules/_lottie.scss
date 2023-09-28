@@ -4,12 +4,10 @@
   --ratio: 1;
   --ratio-mobile: 1;
 
-  &::before {
-    padding-top: calc(var(--ratio-mobile) * 100%);
+  aspect-ratio: var(--ratio-mobile);
 
-    @include breakpoints.media-breakpoint-up(lg) {
-      padding-top: calc(var(--ratio) * 100%);
-    }
+  @include breakpoints.media-breakpoint-up(lg) {
+    aspect-ratio: var(--ratio);
   }
 
   canvas, svg {
@@ -17,5 +15,4 @@
     top: 0;
     left: 0;
   }
-
 }

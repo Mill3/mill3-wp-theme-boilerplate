@@ -82,10 +82,7 @@
     }
     #{$self}__box.box-auto {
       --ratio: 1;
-
-      &::before {
-        padding-top: calc(var(--ratio) * 100%);
-      }
+      aspect-ratio: var(--ratio);
     }
   }
 

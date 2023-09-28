@@ -1,9 +1,8 @@
 {% set classname = classname|default(null) %}
 {% set attributes = attributes|default([]) %}
 
-{% set loading = loading|default('external') %}
-
 {# prepare JSON data #}
+{% set loading = loading|default('external') %}
 {% set path = loading == 'external' ? lottie.url : null %}
 {% set animationData = loading == 'inline' ? source(Image(lottie).file_loc, ignore_missing = true) : null %}
 
@@ -23,8 +22,8 @@
 {% set width_mobile = width_mobile|default(320) %}
 {% set height_mobile = height_mobile|default(320) %}
 
-{% set ratio = height / width %}
-{% set ratio_mobile = height_mobile / width_mobile %}
+{% set ratio = width / height %}
+{% set ratio_mobile = width_mobile / height_mobile %}
 
 {% set lottie_options = {
   'autoplay': autoplay,
@@ -39,7 +38,7 @@
 
 {% if path or animationData %}
 <div
-  class="lottie box {{ classname }}"
+  class="lottie {{ classname }} position-relative"
   data-module="lottie"
   data-lottie="{{ lottie_options|json_encode|escape('html_attr') }}"
   data-scroll

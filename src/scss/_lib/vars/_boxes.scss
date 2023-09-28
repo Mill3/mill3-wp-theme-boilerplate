@@ -1,12 +1,14 @@
+@use "sass:math";
+
 $boxes: (
-  narrow: 38%,
-  superscope: 45%,
-  half-square: 50%,
-  widescreen: 56.25%,
-  postal-card: 66.666666667%,
-  landscape: 75%,
-  wide-angle: 87.5%,
-  square: 100%,
-  portrait: 133%,
-  photography: 150%
+  narrow: math.div(50, 19), // 38%,
+  superscope: math.div(20, 9), // 45%,
+  half-square: math.div(2, 1), // 50%,
+  widescreen: math.div(16, 9), // 56.25%
+  postal-card: math.div(3, 2), // 66.666666667%,
+  landscape: math.div(4, 3), // 75%,
+  wide-angle: math.div(8, 7), // 87.5%,
+  square: 1,
+  portrait: math.div(3, 4), // 133%,
+  photography: math.div(2, 3), // 150%
 );

@@ -5,43 +5,14 @@
 
 /// generate-boxes
 @mixin generate-boxes() {
-  $selectors: ();
-
-  // box basis
-  @each $breakpoint in map-keys(grid-breakpoints.$grid-breakpoints) {
-    @include breakpoints.media-breakpoint-up($breakpoint) {
-      $infix: breakpoints.breakpoint-infix($breakpoint, grid-breakpoints.$grid-breakpoints);
-
-      .box#{$infix} {
-        display: block;
-        position: relative;
-
-        &:before {
-          content: "";
-          display: block;
-        }
-
-        > .box-content {
-          display: block;
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 2;
-        }
-      }
-    }
-  }
-
   // Loop over each breakpoint
   @each $breakpoint in map-keys(grid-breakpoints.$grid-breakpoints) {
     @include breakpoints.media-breakpoint-up($breakpoint) {
       $infix: breakpoints.breakpoint-infix($breakpoint, grid-breakpoints.$grid-breakpoints);
 
       @each $key, $value in vars.$boxes {
-        .box#{$infix}-#{$key}:before {
-          padding-top: $value;
+        .box#{$infix}-#{$key} {
+          aspect-ratio: $value;
         }
       }
     }

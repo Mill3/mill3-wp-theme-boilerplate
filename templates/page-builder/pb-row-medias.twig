@@ -161,8 +161,8 @@
     >
       <figure
         id="{{ udid ~ '_' ~ loop.index }}"
-        class="pb-row-medias__box box box-{{ format }} overflow-clip"
-        {% if format == 'auto'%}style="--ratio: {{ 1 / image.aspect }}"{% endif %}
+        class="pb-row-medias__box box-{{ format }} position-relative overflow-clip"
+        {% if format == 'auto'%}style="--ratio: {{ image.aspect }}"{% endif %}
       >
         <div
           class="pb-row-medias__parallax position-absolute t-0 l-0 r-0 b-0"

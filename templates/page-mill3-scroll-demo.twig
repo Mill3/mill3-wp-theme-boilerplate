@@ -36,25 +36,25 @@
 
 
           <div class="d-grid grid-column-4 grid-gap-10">
-            <div class="box box-square" data-scroll style="background: pink;">
+            <div class="box-square position-relative" data-scroll style="background: pink;">
               <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
                 Normal speed
               </div>
             </div>
 
-            <div class="box box-square" data-scroll data-scroll-speed="1" style="background: red;">
+            <div class="box-square position-relative" data-scroll data-scroll-speed="1" style="background: red;">
               <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
                 Speed 1
               </div>
             </div>
 
-            <div class="box box-square" data-scroll data-scroll-speed="2" style="background: yellow;">
+            <div class="box-square position-relative" data-scroll data-scroll-speed="2" style="background: yellow;">
               <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
                 Speed 2
               </div>
             </div>
 
-            <div class="box box-square" data-scroll data-scroll-speed="4" style="background: papayawhip;">
+            <div class="box-square position-relative" data-scroll data-scroll-speed="4" style="background: papayawhip;">
               <div class="position-absolute t-0 l-0 w-100 h-100 d-flex align-items-center justify-content-center">
                 Speed 4
               </div>
@@ -70,6 +70,30 @@
           'mode': 'js',
           'direction': 'both',
         } only %}
+      </section>
+
+      <section class="mill3-scroll-demo__boxes container-fluid pt-60 pt-lg-120 pb-60 pb-lg-120 bg-gray-200">
+        <h2
+          class="lh-none m-0 mb-60 p-0"
+          data-scroll
+          data-scroll-repeat="true"
+          data-splitting
+          data-text-animation="slidein-by-words"
+          style="--line-height: 1;"
+        >Boxes</h2>
+        
+        <div class="d-grid grid-column-5 align-items-start grid-gap-10 grid-gap-md-10 grid-gap-xl-20 fz-18">
+          <div class="box-narrow d-flex align-items-center justify-content-center bg-color-primary">box-arrow</div>
+          <div class="box-superscope d-flex align-items-center justify-content-center bg-color-primary">box-uperscope</div>
+          <div class="box-half-square d-flex align-items-center justify-content-center bg-color-primary">box-half-square</div>
+          <div class="box-widescreen d-flex align-items-center justify-content-center bg-color-primary">box-widescreen</div>
+          <div class="box-postal-card d-flex align-items-center justify-content-center bg-color-primary">box-postal-card</div>
+          <div class="box-landscape d-flex align-items-center justify-content-center bg-color-primary">box-landscape</div>
+          <div class="box-wide-angle d-flex align-items-center justify-content-center bg-color-primary">box-wide-angle</div>
+          <div class="box-square d-flex align-items-center justify-content-center bg-color-primary">box-square</div>
+          <div class="box-portrait d-flex align-items-center justify-content-center bg-color-primary">box-portrait</div>
+          <div class="box-photography d-flex align-items-center justify-content-center bg-color-primary">box-photography</div>
+        </div>
       </section>
 
       {{ PageSection('stacked-sections-demo', '--effect-stacked') }}
@@ -194,7 +218,7 @@
           >Scroll Timeline</h2>
         </div>
 
-        <div class="box box-widescreen overflow-clip bg-color-black">
+        <div class="box-widescreen position-relative overflow-clip bg-color-black">
             {% include 'partial/image.twig' with {
               'image': post.thumbnail,
               'classname': 'image-as-background',
