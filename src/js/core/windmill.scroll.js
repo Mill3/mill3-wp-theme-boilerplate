@@ -1,5 +1,5 @@
 import EMITTER from "@core/emitter";
-import { FPS, SCROLLBAR_HIDDEN_CLASSNAME, SCROLL_TO_OPTIONS } from "@scroll/constants";
+import { SCROLLBAR_HIDDEN_CLASSNAME, SCROLL_TO_OPTIONS } from "@scroll/constants";
 import Scroll from "@scroll/scroll";
 import ScrollDirection from "@scroll/scroll-direction";
 import ScrollIntersection from "@scroll/scroll-intersection";
@@ -9,6 +9,7 @@ import ScrollTo from "@scroll/scroll-to";
 //import ScrollWebGL from "@scroll/scroll-webgl";
 import { html } from "@utils/dom";
 //import { mobile } from "@utils/mobile";
+import RAF, { WINDMILL_SCROLL } from "@utils/raf";
 import ResizeOrientation, { MILL3_SCROLL_PRIORITY } from "@utils/resize";
 
 /**
@@ -34,9 +35,7 @@ export class WindmillScroll {
     this.webgl = null;
 
     this._async = false;
-    this._raf = null;
     this._started = false;
-    this._lastTime = null;
 
     this._onRAF = this._onRAF.bind(this);
     this._onResize = this._onResize.bind(this);
@@ -48,10 +47,11 @@ export class WindmillScroll {
   }
 
   /**
-  * Plugin installation.
-  */
+   * Plugin installation.
+   */
   install(windmill) {
     this._async = windmill.async;
+    this._raf = RAF.add(this._onRAF, WINDMILL_SCROLL, true);
 
     windmill.on('init', this._onInit, this);
     windmill.on('ready', this._onPageReady, this);
@@ -80,23 +80,16 @@ export class WindmillScroll {
     this.to = new ScrollTo(this.scroll);
     //if( !mobile ) this.webgl = new ScrollWebGL(this.scroll);
   }
-  _onRAF() {
+  _onRAF(delta) {
     if( !this._started ) {
-      this._raf = null;
+      this._raf(false);
       return;
     }
-
-    const time = performance.now();
-    const delta = this._lastTime ? Math.min(Math.ceil((time - this._lastTime) / FPS * 10) / 10, 1) : 1;
-
-    this._lastTime = time;
 
     this.scroll.raf(delta);
     this.intersection?.raf(delta);
     this.timeline?.raf();
     this.webgl?.raf(delta);
-
-    this._raf = requestAnimationFrame(this._onRAF);
   }
   _onResize() {
     if( !this._started ) return;
@@ -107,15 +100,13 @@ export class WindmillScroll {
   }
 
   _onPageReady() {
-    this._lastTime = null;
-
     this.scroll?.init();
     this.intersection?.init();
     this.webgl?.init();
 
     this._startModules();
     this._bindEvents();
-    this._onRAF();
+    this._raf(true);
   }
   _onPageExiting() {
     this._unbindEvents( !this._async );
@@ -140,23 +131,19 @@ export class WindmillScroll {
     this.webgl?.init();
   }
   _onAsyncPageEntered() {
-    this._lastTime = null;
-
     this._startModules();
     this._bindEvents();
-    this._onRAF();
+    this._raf(true);
   }
 
   _onSyncPageEnter({ next }) {
-    this._lastTime = null;
-
     this.scroll?.init();
     this.intersection?.init(next.container);
     this.webgl?.init();
 
     this._startModules();
     this._bindEvents();
-    this._onRAF();
+    this._raf(true);
   }
 
   _onSiteScrollStart() {
@@ -204,10 +191,7 @@ export class WindmillScroll {
     EMITTER.off('SiteScroll.scrollTo', this._onSiteScrollTo);
     EMITTER.off('SiteScroll.scrollUp', this._onSiteScrollUp);
 
-    if( stopRAF ) {
-      if( this._raf ) cancelAnimationFrame(this._raf);
-      this._raf = null;
-    }
+    if( stopRAF ) this._raf(false);
   }
 
   _startModules() {

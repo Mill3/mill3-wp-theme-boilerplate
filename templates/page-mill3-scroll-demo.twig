@@ -63,6 +63,15 @@
         </div>
       </section>
 
+      <section class="mill3-scroll-demo__ticker pt-60 pt-lg-120 pb-60 pb-lg-120 fz-48 bg-color-white">
+        {% include 'partial/text-ticker.twig' with {
+          'text': 'Hello, i\'m a text ticker.&nbsp;',
+          'tagname': 'div',
+          'mode': 'js',
+          'direction': 'both',
+        } only %}
+      </section>
+
       {{ PageSection('stacked-sections-demo', '--effect-stacked') }}
 
       {#

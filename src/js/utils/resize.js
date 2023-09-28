@@ -24,7 +24,6 @@ ResizeOrientation.remove(callback);
 */
 
 import { on, off } from "./listener";
-import { limit } from "./math";
 import Throttle from "./throttle";
 
 
@@ -54,9 +53,6 @@ class ResizeOrientation {
   add(callback, priority = 0) {
     // if callback is already registered, stop here
     if( this._exists(callback) ) return;
-
-    // limit priority between AFTER_SCROLL_UPDATE and BEFORE_SCROLL_UPDATE
-    priority = limit(AFTER_SCROLL_UPDATE, BEFORE_SCROLL_UPDATE, priority);
 
     // add callback to the list of listeners
     this._listeners.push({ callback, priority });

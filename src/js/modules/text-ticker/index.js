@@ -1,7 +1,9 @@
+import { INVIEW_ENTER } from "@scroll/constants";
 import { $, $$, rect } from "@utils/dom";
 import ImagesLoaded from "@utils/imagesloaded";
 import { lerp } from "@utils/math";
 import { mobile } from "@utils/mobile";
+import RAF from "@utils/raf";
 import ResizeOrientation from "@utils/resize";
 import Wheel from "@utils/wheel";
 
@@ -103,6 +105,7 @@ class TextTicker {
   stop() { this._unbindEvents(); }
 
   _bindEvents() {
+    this._raf = RAF.add(this._onRaf);
     ResizeOrientation.add(this._onResize);
 
     if (this._wheel) this._wheel?.on();
@@ -113,10 +116,11 @@ class TextTicker {
       this.emitter?.on("TextTicker.pause", this._onPause);
       this.emitter?.on("TextTicker.resume", this._onResume);
 
-      this._raf = requestAnimationFrame(this._onRaf);
+      if( this._inView && this._raf ) this._raf(true);
     }
   }
   _unbindEvents() {
+    RAF.remove(this._onRaf);
     ResizeOrientation.remove(this._onResize);
 
     if(this._mode === MODE_JS || this._mode === MODE_SCROLL) {
@@ -128,9 +132,6 @@ class TextTicker {
     }
 
     if (this._wheel) this._wheel?.off();
-    if (this._raf) cancelAnimationFrame(this._raf);
-
-    this._raf = null;
   }
 
   // method for pausing ticker emitted from another module
@@ -151,11 +152,9 @@ class TextTicker {
     // apply directional restriction on velocity
     if( this._direction !== DIRECTION_BOTH ) this._velocity.target = Math.abs(this._velocity.target) * this._direction;
   }
-  _onRaf() {
+  _onRaf(delta) {
     // do nothing if we have no text to move
     if (!this.texts) return;
-
-    this._raf = requestAnimationFrame(this._onRaf);
 
     // stop here when not inView or paused
     if(!this._inView || this._paused) return;
@@ -170,7 +169,7 @@ class TextTicker {
     }
 
     // lerp velocity
-    this._velocity.current = lerp(this._velocity.current, this._velocity.target, 0.2);
+    this._velocity.current = lerp(this._velocity.current, this._velocity.target, 0.2 * delta);
 
     // update position
     this._position += this._velocity.current;
@@ -188,20 +187,25 @@ class TextTicker {
   }
   _onScrollStart() {
     this._wheel?.on();
-    this._raf = requestAnimationFrame(this._onRaf);
+    if( this._inView && !this._paused && this._raf ) this._raf(true);
   }
   _onScrollStop() {
     this._wheel?.off();
-
-    if (this._raf) cancelAnimationFrame(this._raf);
-    this._raf = null;
+    if( this._raf ) this._raf(false);
   }
   _onScrollCall(direction, obj) {
     // if scroll call is not related to this element, do nothing
     if( obj.el !== this.el ) return;
 
     // update inView status
-    this._inView = direction === 'enter';
+    this._inView = direction === INVIEW_ENTER;
+
+    // toggle playback
+    if( this._inView ) {
+      if( !this._paused && this._raf ) this._raf(true);
+    } else {
+      if( this._raf ) this._raf(false);
+    }
   }
   _onResize() {
     const elRect = rect(this.el);
@@ -237,7 +241,7 @@ class TextTicker {
     else if( this.el.classList.contains('--direction-bottom') ) return DIRECTION_BOTTOM;
   }
   _getDirectionAxis() {
-    if( this.el.classList.contains('--direction-left') || this.el.classList.contains('--direction-right') ) return 'x';
+    if( this.el.classList.contains('--direction-left') || this.el.classList.contains('--direction-right') || this.el.classList.contains('--direction-both') ) return 'x';
     else if( this.el.classList.contains('--direction-top') || this.el.classList.contains('--direction-bottom') ) return 'y';
   }
   _getMode() {

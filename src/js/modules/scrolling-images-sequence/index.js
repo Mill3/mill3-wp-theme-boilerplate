@@ -2,6 +2,7 @@ import ImagesSequence from "@components/ImagesSequence";
 import { INVIEW_ENTER } from "@scroll/constants";
 import { $ } from "@utils/dom";
 import { limit } from "@utils/math";
+import RAF from "@utils/raf";
 import ResizeOrientation from "@utils/resize";
 import Viewport from "@utils/viewport";
 
@@ -54,7 +55,6 @@ class ScrollingImagesSequence {
   destroy() {
     this._unbindEvents();
 
-    if( this._raf ) cancelAnimationFrame(this._raf);
     if( this.imagesSequence ) this.imagesSequence.destroy();
 
     this.el = null;
@@ -77,12 +77,14 @@ class ScrollingImagesSequence {
 
   _bindEvents() {
     ResizeOrientation.add(this._onResize);
+    this._raf = RAF.add(this._onRAF);
 
     this.emitter.on('SiteScroll.scrolling-images-sequence', this._onScrollCall);
     this.emitter.on('SiteScroll.scroll', this._onScroll);
   }
   _unbindEvents() {
     ResizeOrientation.remove(this._onResize);
+    RAF.remove(this._onRAF);
 
     this.emitter.off('SiteScroll.scrolling-images-sequence', this._onScrollCall);
     this.emitter.off('SiteScroll.scroll', this._onScroll);
@@ -100,10 +102,9 @@ class ScrollingImagesSequence {
 
     // toggle RAF
     if( this._inView ) {
-      if( !this._raf ) this._onRAF();
+      if( this._raf ) this._raf(true);
     } else {
-      if( this._raf ) cancelAnimationFrame(this._raf);
-      this._raf = null;
+      if( this._raf ) this._raf(false);
     }
   }
   _onScroll({ y }) {
@@ -123,9 +124,6 @@ class ScrollingImagesSequence {
     // if currentFrame is not equal to targetFrame, update currentFrame
     const { currentFrame } = this.imagesSequence;
     if( currentFrame !== this._targetFrame ) this.imagesSequence.currentFrame = currentFrame + (currentFrame < this._targetFrame ? 1 : -1);
-
-    if( this._inView ) this._raf = requestAnimationFrame(this._onRAF);
-    else this._raf = null;
   }
 }
 
