@@ -1,2 +1,11 @@
 $grid-columns: 12;
 $grid-rows: 3;
+$grid-gaps: (
+  0: 0,
+  5: 5px,
+  10: 10px,
+  12: 12px,
+  15: 15px,
+  20: 20px,
+  30: 30px,
+);

@@ -11,6 +11,7 @@ const fillArray = (l, startAt = 1) => Array.apply(null, Array(l)).map((y, i) => 
 
 let columnsArray = fillArray(vars["$grid-columns"]);
 let rowsArray = fillArray(vars["$grid-rows"]);
+let gapsArray = vars["$grid-gaps"];
 
 export const GridColumns = () => {
   return Object.values(columnsArray).map((key) => {
@@ -29,13 +30,43 @@ export const GridColumns = () => {
 };
 
 export const GridGap = () => {
-  return Object.keys(vars.$spacers).map((key) => {
+  return Object.keys(gapsArray).map((key) => {
     return (
       <Wrapper>
         <pre>.grid-gap-{key}</pre>
-        <div className={`d-grid grid-column-${vars["$grid-columns"]} grid-gap-${key}`}>
-          {Object.values(columnsArray).map((key) => {
-            return <div class="p-10 bg-gray-300">column-{key}</div>;
+        <div className={`d-grid grid-column-6 grid-gap-${key}`}>
+          {(new Array(6)).fill(0).map((key, index) => {
+            return <div class="p-10 bg-gray-300">column-{index + 1}</div>;
+          })}
+        </div>
+      </Wrapper>
+    );
+  });
+};
+
+export const ColumGap = () => {
+  return Object.keys(gapsArray).map((key) => {
+    return (
+      <Wrapper>
+        <pre>.column-gap-{key} (.grid-gap-20)</pre>
+        <div className={`d-grid grid-column-3 grid-gap-20 column-gap-${key}`}>
+          {(new Array(9)).fill(0).map((key, index) => {
+            return <div class="p-10 bg-gray-300">column-{index + 1}</div>;
+          })}
+        </div>
+      </Wrapper>
+    );
+  });
+};
+
+export const RowGap = () => {
+  return Object.keys(gapsArray).map((key) => {
+    return (
+      <Wrapper>
+        <pre>.row-gap-{key} (.grid-gap-20)</pre>
+        <div className={`d-grid grid-column-3 grid-gap-20 row-gap-${key}`}>
+          {(new Array(9)).fill(0).map((key, index) => {
+            return <div class="p-10 bg-gray-300">column-{index + 1}</div>;
           })}
         </div>
       </Wrapper>
@@ -56,56 +87,24 @@ export const GridColumnStart = () => {
           </Wrapper>
         );
       })}
-      {Object.values(columnsArray).map((key) => {
-        return (
-          <Wrapper>
-            <pre>.col-start-span-{key}</pre>
-            <div className={`d-grid grid-column-${vars["$grid-columns"]} grid-gap-10`}>
-              <div class={`p-10 bg-gray-300 col-start-span-${key}`}>column</div>
-            </div>
-          </Wrapper>
-        );
-      })}
     </>
   );
 };
 
-export const GridColumnEnd = () => {
+export const GridColumnSpan = () => {
   return (
     <>
-      {Object.values(fillArray(5)).map((key) => {
-        return (
-          <Wrapper>
-            <pre>.col-end-{key}</pre>
-            <div className={`d-grid grid-column-${vars["$grid-columns"]} grid-gap-10`}>
-              <div class={`p-10 bg-gray-300 col-start-1 col-end-${key}`}>column</div>
-            </div>
-          </Wrapper>
-        );
-      })}
       {Object.values(columnsArray).map((key) => {
         return (
           <Wrapper>
-            <pre>.col-end-span-{key}</pre>
+            <pre>.col-span-{key}</pre>
             <div className={`d-grid grid-column-${vars["$grid-columns"]} grid-gap-10`}>
-              <div class={`p-10 bg-gray-300 col-start-1 col-end-span-${key}`}>column</div>
+              <div class={`p-10 bg-gray-300 col-start-1 col-span-${key}`}>column</div>
             </div>
           </Wrapper>
         );
       })}
     </>
-  );
-};
-
-export const GridColumnFull = () => {
-  return (
-    <Wrapper>
-      <pre>.col-full</pre>
-      <div className={`d-grid grid-column-${vars["$grid-columns"]} grid-row-2 grid-gap-10`}>
-        <div class={`p-10 bg-gray-300 row-start-1`}>column</div>
-        <div class={`p-10 bg-gray-300 row-start-2 col-full color-primary`}>column</div>
-      </div>
-    </Wrapper>
   );
 };
 
@@ -132,57 +131,25 @@ export const GridRows = () => {
 
 export const GridRowStart = () => {
   return (
-    <>
-      <Wrapper>
-        <pre>.row-start-$value</pre>
-        <div className={`d-grid grid-column-3 grid-row-${vars["$grid-rows"]} grid-gap-10`}>
-          {Object.values(rowsArray).map((key) => {
-            return <div class={`p-10 bg-gray-300 col-start-${key} row-start-${key}`}>row-start-{key}</div>;
-          })}
-        </div>
-      </Wrapper>
-      <Wrapper>
-        <pre>.row-start-span-$value</pre>
-        <div className={`d-grid grid-column-3 grid-row-${vars["$grid-rows"]} grid-gap-10`}>
-          {Object.values(rowsArray).map((key) => {
-            return <div class={`p-10 bg-gray-300 col-start-${key} row-start-span-${key}`}>row-start-span-{key}</div>;
-          })}
-        </div>
-      </Wrapper>
-    </>
+    <Wrapper>
+      <pre>.row-start-$value</pre>
+      <div className={`d-grid grid-column-3 grid-row-${vars["$grid-rows"]} grid-gap-10`}>
+        {Object.values(rowsArray).map((key) => {
+          return <div class={`p-10 bg-gray-300 col-start-${key} row-start-${key}`}>row-start-{key}</div>;
+        })}
+      </div>
+    </Wrapper>
   );
 };
 
-export const GridRowEnd = () => {
-  return (
-    <>
-      <Wrapper>
-        <pre>.row-end-$value</pre>
-        <div className={`d-grid grid-column-3 grid-row-3 grid-gap-10`}>
-          <div class={`p-10 bg-gray-300 row-end-2`}>row-end-2</div>
-          <div class={`p-10 bg-gray-300 col-start-3 row-end-3`}>row-end-3</div>
-          <div class={`p-10 bg-gray-300 row-end-4`}>row-end-4</div>
-        </div>
-      </Wrapper>
-      <Wrapper>
-        <pre>.row-end-span-$value</pre>
-        <div className={`d-grid grid-column-3 grid-row-${vars["$grid-rows"]} grid-gap-10`}>
-          {Object.values(rowsArray).map((key) => {
-            return <div class={`p-10 bg-gray-300 col-start-${key} row-end-span-${key}`}>row-end-span-{key}</div>;
-          })}
-        </div>
-      </Wrapper>
-    </>
-  );
-};
-
-export const GridRowFull = () => {
+export const GridRowSpan = () => {
   return (
     <Wrapper>
-      <pre>.row-full</pre>
-      <div className={`d-grid grid-column-${vars["$grid-columns"]} grid-row-${vars["$grid-rows"]} grid-gap-10`}>
-        <div class={`p-10 bg-gray-300 col-start-1`}>row</div>
-        <div class={`p-10 bg-gray-300 col-start-2 row-full color-primary`}>row</div>
+      <pre>.row-span-$value</pre>
+      <div className={`d-grid grid-column-3 grid-row-3 grid-gap-10`}>
+        <div class={`p-10 bg-gray-300 row-span-1`}>row-span-1</div>
+        <div class={`p-10 bg-gray-300 row-span-2`}>row-span-2</div>
+        <div class={`p-10 bg-gray-300 row-span-3`}>row-span-3</div>
       </div>
     </Wrapper>
   );

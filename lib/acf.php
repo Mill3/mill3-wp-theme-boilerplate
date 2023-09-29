@@ -282,8 +282,6 @@ add_filter('acf/prepare_field/name=pt_md', 'acf_populate_padding');
 add_filter('acf/prepare_field/name=pb_md', 'acf_populate_padding');
 add_filter('acf/prepare_field/name=pt_lg', 'acf_populate_padding');
 add_filter('acf/prepare_field/name=pb_lg', 'acf_populate_padding');
-add_filter('acf/prepare_field/name=grid_gap', 'acf_populate_padding');
-add_filter('acf/prepare_field/name=grid_gap_mobile', 'acf_populate_padding');
 
 // Populate margin field (mt, mb, mt_lg, mb_lg)
 function acf_populate_margin($field)
@@ -344,6 +342,26 @@ add_filter('acf/prepare_field/name=mt_md', 'acf_populate_margin');
 add_filter('acf/prepare_field/name=mb_md', 'acf_populate_margin');
 add_filter('acf/prepare_field/name=mt_lg', 'acf_populate_margin');
 add_filter('acf/prepare_field/name=mb_lg', 'acf_populate_margin');
+
+// Populate grid-gap field (grid_gap, grid_gap_mobile)
+function acf_populate_grid_gap($field)
+{
+
+    $field['choices'] = array(
+        "0" => "0px",
+        "5" => "5px",
+        "10" => "10px",
+        "12" => "12px",
+        "15" => "15px",
+        "20" => "20px",
+        "30" => "30px"
+    );
+
+    return $field;
+}
+
+add_filter('acf/prepare_field/name=grid_gap', 'acf_populate_grid_gap');
+add_filter('acf/prepare_field/name=grid_gap_mobile', 'acf_populate_grid_gap');
 
 
 /*

@@ -1,5 +1,4 @@
 @use "../vars/grid" as grid;
-@use "../vars/spacers" as spacers;
 @use "../vars/breakpoints" as breakpoints;
 @use "../mixins/breakpoints" as bp;
 @use "../mixins/variants";
@@ -9,22 +8,20 @@
 ///
 
 /// Set grid template columns
-/// Set grid col-start / col-end
+/// Set grid col-start / col-span
 ///
 /// Check [theme.js](https://github.com/Mill3/mill3-packages/blob/master/packages/system-ui-sass/theme.js) for amount of columns.
 ///
 /// @name .grid-column-[value]
 /// @name .col-start-[value]
-/// @name .col-end-[value]
-/// @name .col-full
+/// @name .col-span-[value]
 ///
-/// @example .grid-column-1, .grid-column-md-3, .col-start-1, .col-end-5
+/// @example .grid-column-1, .grid-column-md-3, .col-start-1, .col-span-5
 
 // note: keep this line below for SassDoc
 // .grid-column-[size] { ... }
 // .col-start-[size] { ... }
-// .col-end-[size] { ... }
-// .col-full { ... }
+// .col-span-[size] { ... }
 
 // @include generate-variants(
 //   "grid-template-columns",
@@ -44,29 +41,10 @@
       .col-start#{$infix}-#{$i} {
         grid-column-start: #{$i};
       }
-      .col-start-span#{$infix}-#{$i} {
-        grid-column-start: span #{$i};
-      }
 
-      .col-end-span#{$infix}-#{$i} {
+      .col-span#{$infix}-#{$i} {
         grid-column-end: span #{$i};
       }
-    }
-
-    @for $i from 1 through grid.$grid-columns + 1 {
-      .col-end#{$infix}-#{$i} {
-        grid-column-end: #{$i};
-      }
-    }
-
-    // col end to bounds
-    .col-end#{$infix}-limit {
-      grid-column-end: -1;
-    }
-
-    // full width
-    .col-full#{$infix} {
-      grid-column: 1 / -1;
     }
   }
 }
@@ -83,29 +61,29 @@
 
 // note: keep this line below for SassDoc
 // .grid-gap-[size] { ... }
+// .row-gap-[size] { ... }
+// .column-gap-[size] { ... }
 
-@include variants.generate-variants("grid-gap", spacers.$spacers);
-// @include variants.generate-variants("row-gap", spacers.$spacers, 'row-gap');
-// @include variants.generate-variants("column-gap", spacers.$spacers, 'column-gap');
+@include variants.generate-variants("grid-gap", grid.$grid-gaps);
+@include variants.generate-variants("row-gap", grid.$grid-gaps, 'row-gap');
+@include variants.generate-variants("column-gap", grid.$grid-gaps, 'column-gap');
 
 
 /// Set grid template rows
-/// Set grid row-start / row-end
+/// Set grid row-start / row-span
 ///
 /// Check [theme.js](https://github.com/Mill3/mill3-packages/blob/master/packages/system-ui-sass/theme.js) for amount of rows.
 ///
 /// @name .grid-row-[value]
 /// @name .row-start-[value]
-/// @name .row-end-[value]
-/// @name .row-full
+/// @name .row-span-[value]
 ///
-/// @example .grid-row-1, .grid-row-md-3, .row-start-1, .row-end-5
+/// @example .grid-row-1, .grid-row-md-3, .row-start-1, .row-span-5
 
 // note: keep this line below for SassDoc
 // .grid-row-[size] { ... }
 // .row-start-[size] { ... }
-// .row-end-[size] { ... }
-// .row-full { ... }
+// .row-span-[size] { ... }
 @each $breakpoint in map-keys(breakpoints.$grid-breakpoints) {
   @include bp.media-breakpoint-up($breakpoint) {
     $infix: bp.breakpoint-infix($breakpoint, breakpoints.$grid-breakpoints);
@@ -118,29 +96,10 @@
       .row-start#{$infix}-#{$i} {
         grid-row-start: #{$i};
       }
-      .row-start-span#{$infix}-#{$i} {
-        grid-row-start: span #{$i};
-      }
 
-      .row-end-span#{$infix}-#{$i} {
+      .row-span#{$infix}-#{$i} {
         grid-row-end: span #{$i};
       }
-    }
-
-    @for $i from 1 through grid.$grid-rows + 1 {
-      .row-end#{$infix}-#{$i} {
-        grid-row-end: #{$i};
-      }
-    }
-
-    // row end to bounds
-    .row-end#{$infix}-limit {
-      grid-row-end: -1;
-    }
-
-    // full width
-    .row-full#{$infix} {
-      grid-row: 1 / -1;
     }
   }
 }
