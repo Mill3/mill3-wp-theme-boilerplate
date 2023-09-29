@@ -132,7 +132,7 @@ export const Visibilities = () => {
 export const ZIndex = () => {
   return (
     <>
-      <Wrapper note="Supported values: 0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000">
+      <Wrapper note="Supported values: 0, 1, 2, 3, 4, 5, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000">
         <pre>.z-$value</pre>
       </Wrapper>
     </>
