@@ -66,6 +66,9 @@
   // on submit
   &.--submitting {
     cursor: wait;
+    .btn.gsubmit {
+      pointer-events: none;
+    }
   }
 
   .gform_body {
