@@ -1,5 +1,3 @@
-import IntlMessageFormat from "intl-messageformat";
-
 export const defaultLocale = "fr";
 
 const MESSAGES = {
@@ -13,14 +11,15 @@ const MESSAGES = {
 
 export const getCurrentlocale = () => (typeof MILL3WP.locale !== "undefined" ? MILL3WP.locale : defaultLocale);
 
-export const getMessage = ID => {
+export const getMessage = (ID) => {
   const locale = getCurrentlocale();
-  try {
-    const msg = new IntlMessageFormat(MESSAGES[`${locale}`][ID], defaultLocale);
-    return msg ? msg.format() : ID;
-  } catch (error) {
-    return ID;
-  }
+  const messagesForLocale = MESSAGES[locale] !== undefined ? MESSAGES[locale] : null;
+
+  // if no messages for locale, return ID
+  if( !messagesForLocale ) return ID;
+
+  // return found message for current locale, or ID if not found
+  return messagesForLocale[ID] !== undefined ? messagesForLocale[ID] : ID;
 };
 
 export default getMessage;
