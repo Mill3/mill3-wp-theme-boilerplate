@@ -26,9 +26,9 @@ defined('SENTRY_ENV') or define('SENTRY_ENV', null);
 if (defined('SENTRY_DSN_PHP') && \function_exists('\Sentry\init')) {
     \Sentry\init([
         'dsn' => SENTRY_DSN_PHP,
-        'environment' => SENTRY_ENV ? SENTRY_ENV : 'production'
+        'environment' => SENTRY_ENV ? SENTRY_ENV : 'production',
+        'error_types' => E_ERROR & ~E_WARNING & ~E_NOTICE
     ]);
-    \Sentry\captureLastError();
 }
 
 //

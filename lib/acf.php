@@ -180,7 +180,7 @@ add_filter('acf/prepare_field/name=theme_color', function ($field) {
         "" => "",
         "white" => "Fond blanc avec texte noir",
         "gray" => "Fond gris avec texte noir",
-        "primary" => "Couleur principale (${primary_value})",
+        "primary" => "Couleur principale ({$primary_value})",
         "black" => "Fond noir avec texte blanc",
     ];
 
