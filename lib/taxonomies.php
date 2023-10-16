@@ -92,6 +92,7 @@ class Theme_CustomTaxonomies
         $taxonomy_name = "dummy";
         $name = __('Dummies', 'mill3wp');
         $singular_name = __('Dummy', 'mill3wp');
+        // Important ! Always prefix taxonomy slug when necessary, for exemple "year" will conflict WP internal's blog archive per year
         $slug = __("dummies", 'mill3wp');
         $labels = $this->labels($name, $singular_name);
 
