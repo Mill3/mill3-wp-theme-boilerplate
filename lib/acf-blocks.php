@@ -31,12 +31,18 @@ if ( ! class_exists( 'Mill3_ACF_Blocks' ) ) {
 
     /**
      * Class Mill3_ACF_Blocks, handles ACF blocks registration and rendering
+     *
+     * Note : this class has many static objects and methods because 'render_callback' is called statically from block.json instructions
+     *
      */
 
     class Mill3_ACF_Blocks {
 
         // holds the order of the block rendering each time render_callback is called
         public static $order = 0;
+
+        // holds the first block rendering state
+        public static $first = true;
 
         public function __construct() {
             if ( is_callable( 'add_action' )
@@ -55,19 +61,47 @@ if ( ! class_exists( 'Mill3_ACF_Blocks' ) ) {
             }
         }
 
+        /**
+         * Register all blocks found in templates/blocks directory
+         *
+         * - blocks are registered using the directory name as block name
+         * - block directory should include a block.json file
+         * - block directory should include a pb-row-[name].twig file
+         * - registered blocks will appear in ACF fields editor
+         *
+         * @return void
+         */
         public function register_blocks() {
             $blocks_directory = new \DirectoryIterator( \locate_template( "templates/blocks" ) );
             foreach ( $blocks_directory as $directory ) {
-                if ( $directory->isDot() ) {
-                    continue;
-                }
+                if ( $directory->isDot() ) continue;
+
+                // try to register block if it's a directory
                 if( $directory->isDir() ) {
-                    // TODO: should check first if directory has a file named block.json
-                    register_block_type( $directory->getPathname() );
+                    // get all files in directory
+                    $files = new \DirectoryIterator( $directory->getPathname() );
+                    foreach ($files as $file) {
+                        if ( $file->isDot() ) continue;
+                        // register block if block.json file is found
+                        if($file->getFilename() === "block.json") {
+                            register_block_type( $directory->getPathname() );
+                        }
+                    }
                 }
             }
         }
 
+        /**
+         * render_callback : this method is called through block.json instructions under 'acf : { renderCallback : func_cb_here }'
+         *
+         * A global function is registered on top of this file to enable calls this method statically outside of this class
+         *
+         * @param object $block
+         * @param string $content
+         * @param boolean $is_preview
+         * @param int $post_id
+         * @return string
+         */
         static function render_callback($block, $content = "", $is_preview = false, $post_id = null) {
             // Context compatibility.
             if ( method_exists( 'Timber', 'context' ) ) {
@@ -76,7 +110,10 @@ if ( ! class_exists( 'Mill3_ACF_Blocks' ) ) {
                 $context = Timber::get_context();
             }
 
+            // extract acf/pb-row-name from block data
             $slug = explode('/', $block['name'])[1];
+
+            // get all ACF fields for block
             $fields = \get_fields();
 
             $context['first']      = self::is_first();
@@ -93,14 +130,19 @@ if ( ! class_exists( 'Mill3_ACF_Blocks' ) ) {
             if($template) {
                 return Timber::render( [$template], $context );
             } else {
-                $error = Timber::compile_string( '<pre>No twig template found for block {{ slug }}, place in folder </pre>', $context );
-                echo $error;
+                $template_warning = Timber::compile_string( '<pre>No twig template found for block {{ slug }}.</pre>', $context );
+                echo $template_warning;
             }
         }
 
-        // check if current block is the first rendered
+        // check if current block is the first rendered, then invert state to false for the rest of class instance lifespan
         public static function is_first() {
-            return self::$order < 1 ? true : false;
+            if(self::$first) {
+                self::$first = false;
+                return true;
+            } else {
+                return false;
+            }
         }
 
         // increment/decrement block rendering order, value can be decremented because of field 'zindex_below'
