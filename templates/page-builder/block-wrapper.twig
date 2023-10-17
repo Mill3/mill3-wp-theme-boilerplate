@@ -1,5 +1,5 @@
 {% set is_preview = is_preview ?? false %}
-{% set order = fields.order %}
+{% set order = order ?? 1 %}
 
 {# create Timber/Post #}
 {% set post = Post(fields) %}
@@ -7,7 +7,7 @@
 {% set effect = post ? post.get_field('effect')|default(null) : null %}
 {% set pb_row_id = post ? post.get_field('pb_row_id')|default(null) : pb_row_id|default(null) %}
 {% set activate_md_breakpoint = post ? post.get_field('activate_md_breakpoint')|default(false) : false %}
-{% set first = fields.first|default(false) %}
+{% set first = first ?? false %}
 
 {# xs padding #}
 {% set pt = post ? post.get_field('pt')|default(0) : spacer_mobile|default(0) %}

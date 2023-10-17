@@ -9,7 +9,6 @@
  *
  */
 
-use Mill3WP\Assets;
 
 /**
  * ACF block example for Gutenberg

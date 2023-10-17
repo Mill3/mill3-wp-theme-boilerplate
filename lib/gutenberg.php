@@ -2,6 +2,8 @@
 
 namespace Mill3WP\Gutenberg;
 
+use Timber\Timber;
+
 
 // Remove Gutenberg Block Styles
 add_action('wp_print_styles', function() { wp_dequeue_style('wp-block-library'); }, 100);
@@ -23,9 +25,9 @@ remove_action( 'enqueue_block_editor_assets', 'wp_enqueue_editor_block_directory
 add_filter( 'should_load_remote_block_patterns', '__return_false' );
 add_filter( 'wp_lazy_loading_enabled', '__return_false' );
 
-add_filter( 'timber/acf-gutenberg-blocks-templates', function () {
-    return ['/templates/page-builder'];
-});
+// add_filter( 'timber/acf-gutenberg-blocks-templates', function () {
+//     return ['/templates/page-builder'];
+// });
 
 
 //
@@ -48,6 +50,7 @@ function mill3_gutenberg_resizable_sidebar() {
 add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\mill3_gutenberg_resizable_sidebar');
 
 
+
 // This filter inject in each block context the current block order using a $GLOBAL variable.
 // Also calculating if block is first rendered and bool sent to context.
 $block_order = 0;
@@ -67,3 +70,5 @@ add_filter( 'timber/acf-gutenberg-blocks-data', function( $context ) {
 
     return $context;
 } );
+
+

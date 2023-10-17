@@ -8,7 +8,7 @@
  * @subpackage  Timber
  */
 
-require __DIR__ . '/vendor/autoload.php';
+// require __DIR__ . '/vendor/autoload.php';
 
 //
 // Define various constants
@@ -18,7 +18,6 @@ defined('WEBPACK_DEV_SERVER') or define('WEBPACK_DEV_SERVER', THEME_ENV === 'dev
 defined('SENTRY_DSN_PHP') or define('SENTRY_DSN_PHP', null);
 defined('SENTRY_DSN_JS') or define('SENTRY_DSN_JS', null);
 defined('SENTRY_ENV') or define('SENTRY_ENV', null);
-
 
 //
 // Init Sentry.io
@@ -99,6 +98,7 @@ Timber::$autoescape = false;
 $includes = [
     'lib/translations.php',
     'lib/acf.php',
+    'lib/acf-blocks.php',
     'lib/actions.php',
     'lib/admin-status.php',
     'lib/assets.php',

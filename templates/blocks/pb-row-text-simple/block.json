@@ -1,0 +1,12 @@
+{
+  "name": "acf/pb-row-text-simple",
+  "title": "Text simple (new method)",
+  "description": "A custom foobar block module.",
+  "category": "formatting",
+  "icon": "admin-comments",
+  "keywords": ["testimonial", "quote"],
+  "acf": {
+    "mode": "preview",
+    "renderCallback": "acf_block_render_callback"
+  }
+}
