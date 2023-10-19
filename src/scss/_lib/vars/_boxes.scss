@@ -1,6 +1,7 @@
 @use "sass:math";
 
 $boxes: (
+  auto: var(--ratio),
   narrow: math.div(50, 19), // 38%,
   superscope: math.div(20, 9), // 45%,
   half-square: math.div(2, 1), // 50%,
