@@ -1,8 +1,10 @@
-import { $$ } from "@utils/dom";
+import { $, $$ } from "@utils/dom";
+import { on, off } from "@utils/listener";
 import { mobile } from "@utils/mobile";
 import YoutubeAPI from "@utils/youtube-api";
 
 export const SELECTOR = `.wysiwyg iframe[src*="youtube.com"]`;
+const PREVIEW_SELECTOR = `.wysiwyg script[type="text/html"]`;
 
 const STATUS_DESTROYED = 0;
 const STATUS_INITIALIZED = 1;
@@ -16,6 +18,7 @@ class PbRowOEmbed {
     this.el = el;
     this.emitter = emitter;
     this.items = null;
+    this.previews = null;
 
     this._elements = null;
     this._status = STATUS_DESTROYED;
@@ -24,6 +27,8 @@ class PbRowOEmbed {
   }
 
   init() {
+    this.previews = Array.from( $$(PREVIEW_SELECTOR, this.el) ).map(el => new YoutubePreview(el.parentElement, this));
+
     // do nothing for mobile
     if (mobile) return;
 
@@ -49,11 +54,13 @@ class PbRowOEmbed {
     });
   }
   destroy() {
+    if (this.previews) this.previews.forEach(el => el.destroy());
     if (this.items) this.items.forEach(el => el.destroy());
 
     this.el = null;
     this.emitter = null;
     this.items = null;
+    this.previews = null;
 
     this._elements = null;
     this._status = STATUS_DESTROYED;
@@ -107,6 +114,18 @@ class PbRowOEmbed {
               item.destroy();
       }
     }
+
+    // remove from previews
+    if( this.previews ) {
+      // find his index in array
+      const index = this.previews.findIndex(preview => preview.el === el);
+
+      // if found in array, destroy instance
+      if( index > -1 ) {
+        const item = this.previews.splice(index, 1)[0];
+              item.destroy();
+      }
+    }
   }
 
   _initChildren() {
@@ -118,7 +137,7 @@ class PbRowOEmbed {
 class MouseWheelYoutubeItem {
   constructor(el) {
     this.el = el;
-    this.parent = this.el.parentNode;
+    this.parent = this.el.parentElement;
     this.udid = this.el.id ? this.el.id : null;
 
     if( !this.udid ) {
@@ -181,7 +200,7 @@ class MouseWheelYoutubeItem {
   }
   _unbindEvents() {
     if (this.parent) {
-      this.el.style.pointerEvents = "";
+      this.el.style.removeProperty("pointer-events");
       this.parent.removeEventListener("click", this._onClick);
     }
   }
@@ -213,6 +232,50 @@ class MouseWheelYoutubeItem {
     if(event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) this._bindEvents();
     // on playing
     else if(event.data === YT.PlayerState.PLAYING) this._unbindEvents();
+  }
+}
+
+class YoutubePreview {
+  constructor(el, controller) {
+    this.el = el;
+    this.controller = controller;
+
+    this._onClick = this._onClick.bind(this);
+
+    this.init();
+  }
+
+  init() {
+    this._bindEvents();
+  }
+  destroy() {
+    this._unbindEvents();
+
+    this.el = null;
+    this.controller = null;
+
+    this._onClick = null;
+  }
+
+  _bindEvents() {
+    on(this.el, 'click', this._onClick);
+  }
+  _unbindEvents() {
+    off(this.el, 'click', this._onClick);
+  }
+
+  _onClick(event) {
+    if( event ) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+
+    const template = $('script[type="text/html"]', this.el).innerHTML;
+    const { el, controller } = this;
+    
+    controller.remove(el);
+    el.innerHTML = template;
+    controller.add($('iframe[src*="youtube.com"]', el));
   }
 }
 

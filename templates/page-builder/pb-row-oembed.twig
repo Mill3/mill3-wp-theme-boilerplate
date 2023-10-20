@@ -73,6 +73,10 @@
               {{ __('Play video', 'mill3wp') }}
             </button>
           </div>
+
+          <script type="text/html">
+            {{ video|embeded_settings({'autoplay': 1}) }}
+          </script>
         {% else %}
           {{ video|embeded_settings }}
         {% endif %}
@@ -83,11 +87,5 @@
       {% endif %}
     </div>
   </div>
-
-  {% if hasPreview %}
-  <script type="text/html">
-    {{ video|embeded_settings({'autoplay': 1}) }}
-  </script>
-  {% endif %}
 </div>
 {% endblock %}
