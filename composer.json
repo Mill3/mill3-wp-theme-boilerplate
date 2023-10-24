@@ -1,6 +1,13 @@
 {
     "require": {
-        "sentry/sdk": "^3.1",
-        "palmiak/timber-acf-wp-blocks": "^1.15"
+      "timber/timber": "2.0.0-rc.1",
+      "sentry/sdk": "3.1",
+      "palmiak/timber-acf-wp-blocks": "1.15"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false,
+            "composer/installers": false
+        }
     }
 }

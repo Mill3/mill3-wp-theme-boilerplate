@@ -95,6 +95,7 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
         $scheme = $url['scheme'];
         $authority = $url['authority'];
         $host = parse_url($authority, \PHP_URL_HOST);
+        $proxy = self::getProxyUrl($options['proxy'], $url);
         $url = implode('', $url);
 
         if (!isset($options['normalized_headers']['user-agent'])) {
@@ -110,7 +111,7 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
             \CURLOPT_MAXREDIRS => 0 < $options['max_redirects'] ? $options['max_redirects'] : 0,
             \CURLOPT_COOKIEFILE => '', // Keep track of cookies during redirects
             \CURLOPT_TIMEOUT => 0,
-            \CURLOPT_PROXY => $options['proxy'],
+            \CURLOPT_PROXY => $proxy,
             \CURLOPT_NOPROXY => $options['no_proxy'] ?? $_SERVER['no_proxy'] ?? $_SERVER['NO_PROXY'] ?? '',
             \CURLOPT_SSL_VERIFYPEER => $options['verify_peer'],
             \CURLOPT_SSL_VERIFYHOST => $options['verify_host'] ? 2 : 0,
@@ -200,8 +201,14 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
         if (\extension_loaded('zlib') && !isset($options['normalized_headers']['accept-encoding'])) {
             $options['headers'][] = 'Accept-Encoding: gzip'; // Expose only one encoding, some servers mess up when more are provided
         }
+        $body = $options['body'];
 
-        foreach ($options['headers'] as $header) {
+        foreach ($options['headers'] as $i => $header) {
+            if (\is_string($body) && '' !== $body && 0 === stripos($header, 'Content-Length: ')) {
+                // Let curl handle Content-Length headers
+                unset($options['headers'][$i]);
+                continue;
+            }
             if (':' === $header[-2] && \strlen($header) - 2 === strpos($header, ': ')) {
                 // curl requires a special syntax to send empty headers
                 $curlopts[\CURLOPT_HTTPHEADER][] = substr_replace($header, ';', -2);
@@ -217,7 +224,7 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
             }
         }
 
-        if (!\is_string($body = $options['body'])) {
+        if (!\is_string($body)) {
             if (\is_resource($body)) {
                 $curlopts[\CURLOPT_INFILE] = $body;
             } else {
@@ -229,13 +236,18 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
             }
 
             if (isset($options['normalized_headers']['content-length'][0])) {
-                $curlopts[\CURLOPT_INFILESIZE] = substr($options['normalized_headers']['content-length'][0], \strlen('Content-Length: '));
-            } elseif (!isset($options['normalized_headers']['transfer-encoding'])) {
-                $curlopts[\CURLOPT_HTTPHEADER][] = 'Transfer-Encoding: chunked'; // Enable chunked request bodies
+                $curlopts[\CURLOPT_INFILESIZE] = (int) substr($options['normalized_headers']['content-length'][0], \strlen('Content-Length: '));
+            }
+            if (!isset($options['normalized_headers']['transfer-encoding'])) {
+                $curlopts[\CURLOPT_HTTPHEADER][] = 'Transfer-Encoding:'.(isset($curlopts[\CURLOPT_INFILESIZE]) ? '' : ' chunked');
             }
 
             if ('POST' !== $method) {
                 $curlopts[\CURLOPT_UPLOAD] = true;
+
+                if (!isset($options['normalized_headers']['content-type']) && 0 !== ($curlopts[\CURLOPT_INFILESIZE] ?? null)) {
+                    $curlopts[\CURLOPT_HTTPHEADER][] = 'Content-Type: application/x-www-form-urlencoded';
+                }
             }
         } elseif ('' !== $body || 'POST' === $method) {
             $curlopts[\CURLOPT_POSTFIELDS] = $body;
@@ -396,21 +408,34 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
             }
         }
 
-        return static function ($ch, string $location) use ($redirectHeaders) {
+        return static function ($ch, string $location, bool $noContent) use (&$redirectHeaders, $options) {
             try {
                 $location = self::parseUrl($location);
             } catch (InvalidArgumentException $e) {
                 return null;
             }
 
+            if ($noContent && $redirectHeaders) {
+                $filterContentHeaders = static function ($h) {
+                    return 0 !== stripos($h, 'Content-Length:') && 0 !== stripos($h, 'Content-Type:') && 0 !== stripos($h, 'Transfer-Encoding:');
+                };
+                $redirectHeaders['no_auth'] = array_filter($redirectHeaders['no_auth'], $filterContentHeaders);
+                $redirectHeaders['with_auth'] = array_filter($redirectHeaders['with_auth'], $filterContentHeaders);
+            }
+
             if ($redirectHeaders && $host = parse_url('http:'.$location['authority'], \PHP_URL_HOST)) {
                 $requestHeaders = $redirectHeaders['host'] === $host ? $redirectHeaders['with_auth'] : $redirectHeaders['no_auth'];
                 curl_setopt($ch, \CURLOPT_HTTPHEADER, $requestHeaders);
+            } elseif ($noContent && $redirectHeaders) {
+                curl_setopt($ch, \CURLOPT_HTTPHEADER, $redirectHeaders['with_auth']);
             }
 
             $url = self::parseUrl(curl_getinfo($ch, \CURLINFO_EFFECTIVE_URL));
+            $url = self::resolveUrl($location, $url);
 
-            return implode('', self::resolveUrl($location, $url));
+            curl_setopt($ch, \CURLOPT_PROXY, self::getProxyUrl($options['proxy'], $url));
+
+            return implode('', $url);
         };
     }
 
@@ -429,7 +454,7 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
     private function validateExtraCurlOptions(array $options): void
     {
         $curloptsToConfig = [
-            //options used in CurlHttpClient
+            // options used in CurlHttpClient
             \CURLOPT_HTTPAUTH => 'auth_ntlm',
             \CURLOPT_USERPWD => 'auth_ntlm',
             \CURLOPT_RESOLVE => 'resolve',
@@ -444,6 +469,7 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
             \CURLOPT_TIMEOUT_MS => 'max_duration',
             \CURLOPT_TIMEOUT => 'max_duration',
             \CURLOPT_MAXREDIRS => 'max_redirects',
+            \CURLOPT_POSTREDIR => 'max_redirects',
             \CURLOPT_PROXY => 'proxy',
             \CURLOPT_NOPROXY => 'no_proxy',
             \CURLOPT_SSL_VERIFYPEER => 'verify_peer',
@@ -457,7 +483,7 @@ final class CurlHttpClient implements HttpClientInterface, LoggerAwareInterface,
             \CURLOPT_CERTINFO => 'capture_peer_cert_chain',
             \CURLOPT_USERAGENT => 'normalized_headers',
             \CURLOPT_REFERER => 'headers',
-            //options used in CurlResponse
+            // options used in CurlResponse
             \CURLOPT_NOPROGRESS => 'on_progress',
             \CURLOPT_PROGRESSFUNCTION => 'on_progress',
         ];

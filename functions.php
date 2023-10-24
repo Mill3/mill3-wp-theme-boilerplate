@@ -10,6 +10,9 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+// Initialize Timber.
+Timber\Timber::init();
+
 //
 // Define various constants
 //
