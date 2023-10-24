@@ -27,7 +27,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ACF Preview</title>
-  <link rel="stylesheet" href="{{ stylesheet }}" type="text/css" media="all">
+  <link rel="stylesheet" href="{{ site.url }}{{ stylesheet }}" type="text/css" media="all">
 </head>
 <body class="acf-block-preview {{ body_classname|join(" ") }}" {% if body_styles %}style="{{ body_styles|join(';') }}"{% endif %}>
   <div data-windmill="wrapper">
@@ -38,6 +38,6 @@
       {{ content }}
     </div>
   </div>
-  <script src="{{ js }}"></script>
+  <script src="{{ site.url }}{{ js }}"></script>
 </body>
 </html>
