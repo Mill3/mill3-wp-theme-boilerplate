@@ -1,6 +1,7 @@
 {% if menu %}
 
 {% set link_template = link_template|default('%s') %}
+{% set empty_link_tag = empty_link_tag|default('button') %}
 {% set ignore_divider = ignore_divider|default(false) %}
 {% set divider = divider|default(null) %}
 {% set level = level|default(0) %}
@@ -39,10 +40,10 @@
 
       <li class="{{ item.classes | join(' ') }}">
         {% if item.link starts with '#' %}
-          <button
+          <{{ empty_link_tag }}
             class="{{ item.btn_classes|default('') }}"
             {{ link_attr|join(' ') }}
-          >{{ link_template|replace({'%s': item.title, '%img': img}) }}</button>
+          >{{ link_template|replace({'%s': item.title, '%img': img}) }}</{{ empty_link_tag }}>
         {% else %}
           <a
             href="{{ item.link }}"
@@ -56,6 +57,7 @@
           'menu': level + 1 < max_level ? item.get_children : null,
           'classname': classname,
           'link_template': link_template,
+          'empty_link_tag': empty_link_tag,
           'ignore_divider': ignore_divider,
           'divider': divider,
           'level': level + 1,

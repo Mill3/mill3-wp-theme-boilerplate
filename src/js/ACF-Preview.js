@@ -2,10 +2,6 @@
 /* eslint-disable no-undef */
 import domready from "domready";
 
-import windmill from "@core/windmill";
-import WindmillScripts from "@core/windmill.scripts";
-import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
-
 import ACF from '@utils/acf';
 import { body } from '@utils/dom';
 import { limit } from '@utils/math';
@@ -26,9 +22,5 @@ domready(() => {
   ResizeOrientation.add(resize);
   once(window, 'load', resize);
   parent.addEventListener('resize', resize, false);
-
-  windmill.use( new WindmillScripts() );
-  windmill.use( new WindmillWebpackChunks() );
-  windmill.init();
 
 });
