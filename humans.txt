@@ -7,15 +7,12 @@ info@mill3.studio
 ## Wordpress/PHP Packages
 
 * Timber
-* illuminate/collections
 
 ## NPM Packages
 
 * webpback
-* babel
 * swc
 * autoprefixer
-* chalk
 * animejs
 * splittingjs
 * swiper

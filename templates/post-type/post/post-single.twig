@@ -1,6 +1,5 @@
 {% extends "base.twig" %}
 
-{% set post = Article(post) %}
 {% set title = post.title %}
 {% set thumbnail = post.thumbnail %}
 {% set previous_posts = post.previous_posts(2) %}
@@ -15,6 +14,8 @@
     <p class="post-single__author">
       By <a href="{{post.author.path}}">{{ post.author.name }}</a> / {{ post.date }}
     </p>
+
+    {% include 'partial/sharing.twig' with {'post': post} only %}
 
     <div class="post-single__body">
       {{ post.content }}

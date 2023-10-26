@@ -2,9 +2,6 @@
 
 namespace Mill3\Twig;
 
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
-
 /**
  *
  * Twig filter : string|title_highlights
@@ -27,7 +24,7 @@ use Twig\TwigFilter;
  * @return string
  */
 
-class Twig_Title_Highlights extends AbstractExtension {
+class Twig_Title_Highlights {
 
     /**
      * Constants
@@ -55,16 +52,22 @@ class Twig_Title_Highlights extends AbstractExtension {
      */
     private $styles = [];
 
-    /**
-     * Twig filter registration
-     *
-     * @return array
-     */
-    public function getFilters()
+
+    public static function init(): void
     {
-        return [
-            new TwigFilter('title_highlights', [$this, 'title_highlights']),
-        ];
+        $self = new self();
+
+        \add_filter('timber/twig/filters', [$self, 'add_timber_filters']);
+    }
+
+    /**
+     * Adds filters to Twig.
+     */
+    public function add_timber_filters($filters)
+    {
+        $filters['title_highlights'] = ['callable' => [$this, 'title_highlights']];
+
+        return $filters;
     }
 
     /**
@@ -173,5 +176,7 @@ class Twig_Title_Highlights extends AbstractExtension {
         $this->styles = [];
     }
 
-
 }
+
+
+Twig_Title_Highlights::init();

@@ -2,9 +2,7 @@
 
 namespace Mill3\Twig;
 
-use Twig\Extension\AbstractExtension;
 use Timber\PathHelper;
-use Twig\TwigFilter;
 
 /**
  *
@@ -21,25 +19,31 @@ use Twig\TwigFilter;
  * {% endif %}
  */
 
-class Twig_File_Filters extends AbstractExtension {
+class Twig_File_Filters {
+
+    public static function init(): void
+    {
+        $self = new self();
+
+        \add_filter('timber/twig/filters', [$self, 'add_timber_filters']);
+    }
+
 
     /**
-     * Twig filter registration
-     *
-     * @return array
+     * Adds filters to Twig.
      */
-    public function getFilters()
+    public function add_timber_filters($filters)
     {
-        return [
-            new TwigFilter('is_image', [$this, 'is_image']),
-            new TwigFilter('is_json', [$this, 'is_json']),
-            new TwigFilter('is_svg', [$this, 'is_svg']),
-            new TwigFilter('is_video', [$this, 'is_video']),
-        ];
+        $filters['is_image'] = ['callable' => [$this, 'is_image']];
+        $filters['is_json'] = ['callable' => [$this, 'is_json']];
+        $filters['is_svg'] = ['callable' => [$this, 'is_svg']];
+        $filters['is_video'] = ['callable' => [$this, 'is_video']];
+
+        return $filters;
     }
 
     private function check_extension($file, $allowed_extensions) {
-        $src = wp_get_attachment_url($file['ID']);
+        $src = wp_get_attachment_url($file->ID);
         $check = wp_check_filetype(PathHelper::basename(strtok($src, "?")), null);
 
         return in_array($check['ext'], $allowed_extensions);
@@ -89,5 +93,6 @@ class Twig_File_Filters extends AbstractExtension {
         return $this->check_extension($file, array('mp4'));
     }
 
-
 }
+
+Twig_File_Filters::init();

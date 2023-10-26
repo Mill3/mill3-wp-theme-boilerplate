@@ -4,10 +4,8 @@
 </head>
 {% endblock %}
 
-<body
-  class="{{ body_class }} {% block body_extra_class %}{% endblock %}"
-  data-template="base.twig"
->
+<body class="{{ body_class }} {% block body_extra_class %}{% endblock %}">
+
   {% if options.gtm_code %}
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ options.gtm_code }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -24,8 +22,8 @@
     >
 
       {% block header %}
-        {% include 'site-header.twig' with {'menu': primary_navigation.get_items, 'site': site, 'options': options} only %}
-        {% include 'site-nav.twig' with {'menu': primary_navigation.get_items, 'site': site, 'options': options} only %}
+        {% include 'site-header.twig' with {'menu': primary_navigation.items, 'site': site, 'options': options} only %}
+        {% include 'site-nav.twig' with {'menu': primary_navigation.items, 'site': site, 'options': options} only %}
       {% endblock %}
 
       <main class="flex-grow-1" role="main">

@@ -13,15 +13,13 @@
   Example: { "title": "Blog Medias" }
 #}
 
-{% set post = Post(fields) %}
-
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('blog-medias-' ~ random()) %}
 
-{% set medias = post.get_field('medias') %}
-{% set layout = post.get_field('layout')|default('grid-1') %}
-{% set format = post.get_field('format')|default('auto') %}
+{% set medias = fields.medias %}
+{% set layout = fields.layout|default('grid-1') %}
+{% set format = fields.format|default('auto') %}
 
 {% set classname = classname ~ ' --layout-' ~ layout %}
 

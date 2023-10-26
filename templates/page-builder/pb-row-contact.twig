@@ -13,14 +13,12 @@
   Example: { "title": "Contact" }
 #}
 
-{% set post = Post(fields) %}
-
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb-row-contact-' ~ random()) %}
 
-{% set title = post.get_field('title')|default(null) %}
-{% set gravity_form_id = post.get_field('gravity_form_id')|default(null) %}
+{% set title = fields.title|default(null) %}
+{% set gravity_form_id = fields.gravity_form_id|default(null) %}
 
 {% block row_wrapper %}
 <div

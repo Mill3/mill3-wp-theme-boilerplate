@@ -19,23 +19,11 @@ use Timber;
  */
 class ArticlePost extends Timber\Post
 {
-
-    /**
-     * model query instance
-     *
-     * @var class
-     */
-    public $query;
-
-    /**
-     * extended class constructor, send to parent constructor the $post object
-     *
-     * @param [type] $post
-     */
-    public function __construct($post)
-    {
-        parent::__construct($post);
-        $this->query = new ArticleQueries();
+    private $query;
+    
+    private function get_query() {
+        if( !$this->query ) $this->query = new ArticleQueries();
+        return $this->query;
     }
 
     /**
@@ -45,9 +33,10 @@ class ArticlePost extends Timber\Post
      */
     public function previous_posts($limit = 2)
     {
-        $this->query->set_limit($limit);
-        $this->query->set_exclude([$this->id]);
-        return $this->query->get_previous_posts($this->post_date);
+        $this->get_query()->set_limit($limit);
+        $this->get_query()->set_exclude([$this->id]);
+
+        return $this->get_query()->get_previous_posts($this->post_date);
     }
 
 }
@@ -81,7 +70,8 @@ class ArticleQueries extends PostQueries\Theme_PostQueries
         );
 
         // get all posts
-        $posts = self::run_query($args, 'Mill3WP\PostQueries\Article\ArticlePost');
+        $posts = self::run_query($args);
+        if( $posts ) $posts = $posts->getArrayCopy();
 
         // if we have less post then requested, find more posts
         if(count($posts) < $limit) {
@@ -90,7 +80,7 @@ class ArticleQueries extends PostQueries\Theme_PostQueries
             $difference_limit =  $limit - count($posts);
             $query = new self($difference_limit);
             $query->set_exclude($exclude);
-            $posts = array_merge($posts, $query->get_posts());
+            $posts = array_merge($posts, $query->get_posts($this->post_type)->getArrayCopy());
         }
 
         return $posts;
@@ -106,16 +96,6 @@ add_filter('timber/twig', __NAMESPACE__ . '\\add_to_twig');
 
 function add_to_twig($twig)
 {
-
-    $twig->addFunction(
-        new \Twig\TwigFunction(
-            'Article',
-            function ($post) {
-                return new \Mill3WP\PostQueries\Article\ArticlePost($post);
-            }
-        )
-    );
-
     $twig->addFunction(
         new \Twig\TwigFunction('GetRecentArticles', function ($limit = -1, $exclude = []) {
             return (new \Mill3WP\PostQueries\Article\ArticleQueries($limit, 'Timber', $exclude))->get_recent_posts();

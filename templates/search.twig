@@ -5,8 +5,10 @@
 {% set num_results = posts|length %}
 
 {% set post_types = [] %}
-{% for post in search_all if not (post.post_type in post_types) %}
-  {% set post_types = post_types|merge([post.post_type]) %}
+{% for post in search_all %}
+  {% if not (post.type.name in post_types) %}
+    {% set post_types = post_types|merge([post.type.name]) %}
+  {% endif %}
 {% endfor %}
 
 {% block content %}
@@ -37,7 +39,7 @@
       </button>
     </form>
 
-    {% if query|length > 0 %}
+    {% if search_query|length > 0 %}
       <p class="search-layout__numResults m-0">
         {% if num_results == 0 %}
           {{ __('No result found', 'mill3wp') }}
@@ -51,7 +53,7 @@
 
   </header>
 
-  {% if query|length > 0 %}
+  {% if num_results > 0 %}
   <section 
     class="search-layout__wrap"
     data-module="filtered-posts-list"
@@ -81,7 +83,7 @@
     </nav>
 
     <ul 
-      class="search-layout__results w-100 d-grid grid-column-sm-2 grid-column-md-3 grid-column-xl-4 list-none m-0 p-0"
+      class="search-layout__results w-100 d-grid grid-column-2 grid-column-md-3 grid-column-xl-4 grid-gap-10 grid-gap-xl-20 list-none m-0 p-0"
       data-filtered-posts-list-results
     >
       {% for post in posts %}

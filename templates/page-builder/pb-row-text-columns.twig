@@ -13,14 +13,12 @@
   Example: { "title": "Text Columns" }
 #}
 
-{% set post = Post(fields) %}
-
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb-row-text-columns-' ~ random()) %}
 
-{% set title = post.get_field('title')|default(null) %}
-{% set columns = post.get_field('columns')|default(null) %}
+{% set title = fields.title|default(null) %}
+{% set columns = fields.columns|default(null) %}
 
 {% block row_wrapper %}
 <div

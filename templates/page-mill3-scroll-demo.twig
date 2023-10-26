@@ -98,16 +98,6 @@
 
       {{ PageSection('stacked-sections-demo', '--effect-stacked') }}
 
-      {#
-      {% include 'page-builder/pb-row-page-section.twig' with {
-        'fields': MILL3_Fake_Post({
-          'page_section': Post(259),
-          'effect': 'stacked',
-        }),
-        'slug': 'pb-row-page-section'
-      } only %}
-      #}
-
       <section class="mill3-scroll-demo__sticky pt-60 pt-lg-120 pb-60 pb-lg-120">
         <div class="container-fluid d-grid grid-column-md-2 grid-gap-60">
           <div>
@@ -150,7 +140,10 @@
       {% endset %}
 
       {% include 'page-builder/pb-row-text-simple.twig' with {
-        'fields': MILL3_Fake_Post({
+        'block': {
+          'order': 7
+        },
+        'fields': {
           'title': 'Reveal Panel',
           'text': text,
           'position': 'left',
@@ -160,7 +153,7 @@
           'pb_lg': 100,
           'effect': 'reveal',
           'bg-color': 'yellow',
-        }),
+        },
         'slug': 'pb-row-text-simple'
       } only %}
 

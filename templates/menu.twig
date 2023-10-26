@@ -18,7 +18,7 @@
       {% if link_img %}
         {% set img %}
           {% include 'partial/image.twig' with {
-            'image': Image(link_img),
+            'image': get_image(link_img),
             'size': 'small',
             'lazyload': true
           } only %}
@@ -54,7 +54,7 @@
         {% endif %}
 
         {% include "menu.twig" with {
-          'menu': level + 1 < max_level ? item.get_children : null,
+          'menu': level + 1 < max_level ? item.children : null,
           'classname': classname,
           'link_template': link_template,
           'empty_link_tag': empty_link_tag,

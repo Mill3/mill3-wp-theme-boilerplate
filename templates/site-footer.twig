@@ -4,9 +4,13 @@
 
   <hr/>
 
-  <div class="site-footer__wrapper d-grid grid-column-2">
+  <div class="site-footer__wrapper d-grid grid-column-3">
     <nav class="site-footer__nav">
-      {% include 'menu.twig' with { 'menu': footer_navigation.get_items, 'classname': 'site-footer__menu list-none m-0 p-0' } only %}
+      {% include 'menu.twig' with { 'menu': footer_navigation.items, 'classname': 'site-footer__menu list-none m-0 p-0' } only %}
+    </nav>
+
+    <nav class="site-footer__languages">
+      {{ language_switcher() }}
     </nav>
 
     <p class="site-footer__credits m-0 p-0 ta-right">

@@ -4,27 +4,33 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157
+class ComposerStaticInit9c79edf91a24124a928fdcf6c3449f3a
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
         '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
+        '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         'fb4ca2d97fe7ba6af750497425204e70' => __DIR__ . '/..' . '/sentry/sentry/src/functions.php',
         '32a4c26a4fcb93d787a6a7cafb8c7c9d' => __DIR__ . '/..' . '/palmiak/timber-acf-wp-blocks/timber-acf-wp-blocks.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'T' => 
+        array (
+            'Twig\\' => 5,
+            'Timber\\' => 7,
+        ),
         'S' => 
         array (
-            'Symfony\\Polyfill\\Uuid\\' => 22,
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Php73\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Contracts\\Service\\' => 26,
             'Symfony\\Contracts\\HttpClient\\' => 29,
             'Symfony\\Component\\OptionsResolver\\' => 34,
@@ -58,14 +64,19 @@ class ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157
         ),
         'C' => 
         array (
+            'Composer\\Installers\\' => 20,
             'Clue\\StreamFilter\\' => 18,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Polyfill\\Uuid\\' => 
+        'Twig\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-uuid',
+            0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Timber\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/timber/timber/src',
         ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
@@ -74,6 +85,14 @@ class ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157
         'Symfony\\Polyfill\\Php73\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Symfony\\Contracts\\Service\\' => 
         array (
@@ -97,12 +116,12 @@ class ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157
         ),
         'Psr\\Log\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+            0 => __DIR__ . '/..' . '/psr/log/src',
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -122,8 +141,8 @@ class ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157
         ),
         'Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/php-http/message/src',
-            1 => __DIR__ . '/..' . '/php-http/message-factory/src',
+            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
+            1 => __DIR__ . '/..' . '/php-http/message/src',
         ),
         'Http\\Factory\\Guzzle\\' => 
         array (
@@ -149,6 +168,10 @@ class ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
         ),
+        'Composer\\Installers\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/installers/src/Composer/Installers',
+        ),
         'Clue\\StreamFilter\\' => 
         array (
             0 => __DIR__ . '/..' . '/clue/stream-filter/src',
@@ -168,9 +191,9 @@ class ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitabaec6af61c62fb4652e9b85c0d9e157::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit9c79edf91a24124a928fdcf6c3449f3a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit9c79edf91a24124a928fdcf6c3449f3a::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit9c79edf91a24124a928fdcf6c3449f3a::$classMap;
 
         }, null, ClassLoader::class);
     }

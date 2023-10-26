@@ -29,10 +29,6 @@ function filter_embeded_settings($iframe, $params = array()) {
     return $iframe;
 }
 
-function filter_slugify($slug) {
-    return sanitize_title($slug);
-}
-
 function filter_line_breaks($text, $replacement = '') {
     return str_replace(array("\r\n"), $replacement, $text);
 }

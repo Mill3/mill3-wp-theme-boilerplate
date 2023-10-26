@@ -2,7 +2,6 @@
 
 {% set title = post.title %}
 {% set thumbnail = post.thumbnail %}
-{% set posts_random = post.random_dummies(2) %}
 
 {% block content %}
 
@@ -17,13 +16,6 @@
     <div class="post-single__body">
       {{ post.content }}
     </div>
-
-    <h3>Random post</h3>
-    <ul>
-    {% for this_post in posts_random %}
-      <li>{{ this_post.title }}</li>
-    {% endfor %}
-    </ul>
 
   </header>
 

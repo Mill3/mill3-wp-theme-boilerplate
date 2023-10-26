@@ -143,10 +143,10 @@ class Theme_PostQueries
      *
      * @return WP_Query
      */
-    public function run_query($args = [], $timber_post_class = null)
+    public function run_query($args = [])
     {
         if ($this->query_engine == 'Timber') {
-            return Timber::get_posts($args, $timber_post_class);
+            return Timber::get_posts($args);
         }
 
         if ($this->query_engine == 'WP_Query') {
@@ -207,12 +207,6 @@ add_filter('timber/twig', __NAMESPACE__ . '\\add_to_twig');
 
 function add_to_twig($twig)
 {
-    $twig->addFunction(
-        new \Twig\TwigFunction('get_posts', function ($limit = 10, $post_type = 'post') {
-            return (new \Mill3WP\PostQueries\Theme_PostQueries($limit, 'Timber'))->get_posts($post_type);
-        })
-    );
-
     $twig->addFunction(
         new \Twig\TwigFunction('search', function ($s, $limit = -1, $post_type = 'any') {
             return (new \Mill3WP\PostQueries\Theme_PostQueries($limit, 'Timber'))->search($s, $post_type);

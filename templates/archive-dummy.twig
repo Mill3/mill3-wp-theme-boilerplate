@@ -2,6 +2,14 @@
 
 {% block content %}
 <section class="dummy-archives">
-  {{ PageSection('dummy-archives', 'dummy-archives') }}
+  
+  <div class="dummy-archives__posts container-fluid">
+    <ol class="d-grid grid-column-3 grid-gap-10 grid-gap-xl-20 list-none m-0 p-0">
+      {% for post in posts %}
+      <li>{% include 'post-type/dummy/dummy-preview.twig' with {'post': post} only %}</li>
+      {% endfor %}
+    </ol>
+  </div>
+
 </section>
 {% endblock %}

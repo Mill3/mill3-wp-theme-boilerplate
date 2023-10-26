@@ -13,14 +13,12 @@
   Example: { "title": "Blockquote" }
 #}
 
-{% set post = Post(fields) %}
-
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb_row_blockquote-' ~ random()) %}
 
-{% set text = post.get_field('text') %}
-{% set credit = post.get_field('credit') %}
+{% set text = fields.text %}
+{% set credit = fields.credit %}
 
 {% block row_wrapper %}
 <div
@@ -35,10 +33,11 @@
   <blockquote class="pb-row-blockquote__text d-block ff-heading fz-30 fz-lg-64 fw-300 lh-none m-0 row-start-md-1">
     {{ text }}
   </blockquote>
+
   {% if credit %}
-    <figcaption class="pb-row-blockquote__credit position-relative fz-14 fz-lg-base d-block row-start-md-2 lh-none">
-        {{ credit }}
-    </figcaption>
+  <figcaption class="pb-row-blockquote__credit position-relative fz-14 fz-lg-base d-block row-start-md-2 lh-none">
+      {{ credit }}
+  </figcaption>
   {% endif %}
 
 </div>

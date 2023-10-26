@@ -15,12 +15,9 @@
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 
-{% set post = Post(fields) %}
-
-{% set page_section = post.get_field('page_section')|default(null) %}
-{% set effect = post.get_field('effect')|default(null) %}
+{% set page_section = fields.page_section|default(null) %}
+{% set effect = fields.effect|default(null) %}
 {% set edit_button = null %}
-{% set zindex = zindex ?? 1 %}
 
 {# get content rows from page-section #}
 {% set content = page_section.content %}

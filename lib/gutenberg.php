@@ -59,8 +59,8 @@ add_filter( 'timber/acf-gutenberg-blocks-data', function( $context ) {
     } else {
         $GLOBALS['block_order'] = $GLOBALS['block_order'] + 1;
     }
-    $context['fields']['first'] = $GLOBALS['block_first'];
-    $context['fields']['order'] = $GLOBALS['block_order'];
+    $context['block']['first'] = $GLOBALS['block_first'];
+    $context['block']['order'] = $GLOBALS['block_order'];
 
     // then set block_first to false from now on if is true
     if($GLOBALS['block_first']) $GLOBALS['block_first'] = false;

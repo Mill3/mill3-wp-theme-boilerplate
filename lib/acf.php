@@ -63,26 +63,23 @@ function acf_block_example($slug)
 function acf_block_preview($content)
 {
     global $post;
-    $context = Timber\Timber::get_context();
-    $context['is_preview'] = True;
-    $context['post'] = $post;
+
+    $context = Timber\Timber::context();
+    $context['post'] = Timber::get_post($post);
     $context['stylesheet'] = Mill3WP\Assets\Asset_File_path('acfPreview', 'css');
     $context['js'] = Mill3WP\Assets\Asset_File_path('acfPreviewIframe', 'js');
     $context['content'] = $content;
+    $context['is_preview'] = true;
 
     $doc = Timber\Timber::compile("base-acf-preview.twig", $context);
-
-?>
-    <iframe srcdoc="<?php echo htmlspecialchars($doc, ENT_QUOTES, 'UTF-8', true) ?>" style="pointer-events: none;" width="100%" frameborder="0" scrolling="no">
-    </iframe>
-<?php
+    echo '<iframe srcdoc="' . htmlspecialchars($doc, ENT_QUOTES, 'UTF-8', true) . '" style="pointer-events: none;" width="100%" frameborder="0" scrolling="no"></iframe>';
 }
 
 /**
  * Set stripe animations type image selector in cloned field
  */
 
-add_filter('acfe/load_field/name=image_selector_field', 'acfe_image_selector_field_sample', 10, 3);
+//add_filter('acfe/load_field/name=image_selector_field', 'acfe_image_selector_field_sample', 10, 3);
 
 // function acfe_image_selector_field_sample($field)
 // {
@@ -363,44 +360,6 @@ function acf_populate_grid_gap($field)
 add_filter('acf/prepare_field/name=grid_gap', 'acf_populate_grid_gap');
 add_filter('acf/prepare_field/name=grid_gap_mobile', 'acf_populate_grid_gap');
 
-
-/*
- * This Class is useful if you want to inject a pb-row from another Twig template.
- * example:
-
- {% include 'page-builder/pb-row-text-simple.twig' with {
-    'fields': MILL3_Fake_Post({
-        'title': 'My Title',
-        'text': '<p>This is my text.</p>,
-        'position': 'left',
-        'pt': 60,
-        'pb': 60,
-        'pt_lg': 100,
-        'pb_lg': 100,
-    }),
-    'slug': 'pb-row-text-simple'
- } only %}
-*/
-
-class MILL3FakePost {
-    public function __construct($fields) {
-        $this->ID = rand(10000, 100000);
-        $this->post_title = 'MILL3_Fake_Post';
-        $this->post_status = 'publish';
-        $this->post_name = 'mill3-fake-post';
-        $this->fields = $fields;
-
-        add_filter('timber_post_get_meta_field_pre', array(&$this, 'get_meta_field'), 10, 4);
-        add_filter('timber_post_get_meta_field', array(&$this, 'get_meta_field'), 10, 4);
-    }
-
-    public function get_meta_field($value, $ID, $field_name, $post) {
-        if( $ID !== $this->ID ) return;
-        if( !array_key_exists($field_name, $this->fields) ) return;
-
-        return $this->fields[$field_name];
-    }
-}
 
 if (defined('GOOGLE_API_KEY')) {
     add_action('acf/init', function () {

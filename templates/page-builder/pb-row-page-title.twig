@@ -13,13 +13,11 @@
   Example: { "title": "Page Title" }
 #}
 
-{% set post = Post(fields) %}
-
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb-row-page-title-' ~ random()) %}
 
-{% set title = post.get_field('title')|default(null) %}
+{% set title = fields.title|default(null) %}
 
 {% block row_wrapper %}
 <div
