@@ -2,8 +2,6 @@
 
 namespace Mill3\Twig;
 
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
 use Timber;
 
 
@@ -34,7 +32,7 @@ use Timber;
  */
 
 
-class Twig_Title_Replacements extends AbstractExtension {
+class Twig_Title_Replacements {
 
     /**
      * array holder for attributes
@@ -57,16 +55,21 @@ class Twig_Title_Replacements extends AbstractExtension {
      */
     private $styles = [];
 
-    /**
-     * Twig filter registration
-     *
-     * @return array
-     */
-    public function getFilters()
+    public static function init(): void
     {
-        return [
-            new TwigFilter('title_replacements', [$this, 'title_replacements']),
-        ];
+        $self = new self();
+
+        \add_filter('timber/twig/filters', [$self, 'add_timber_filters']);
+    }
+
+    /**
+     * Adds filters to Twig.
+     */
+    public function add_timber_filters($filters)
+    {
+        $filters['title_replacements'] = ['callable' => [$this, 'title_replacements']];
+
+        return $filters;
     }
 
     /**
@@ -159,8 +162,8 @@ class Twig_Title_Replacements extends AbstractExtension {
         $menu = $replacement['menu'];
 
         if($menu) {
-            $menu_instance = new \Timber\Menu($menu);
-            $menu_tag = Timber::compile('menu.twig', ['menu' => $menu_instance->get_items()]);
+            $menu_instance = Timber::get_menu($menu);
+            $menu_tag = Timber::compile('menu.twig', ['menu' => $menu_instance->items()]);
             return $this->markup_wrapper($menu_tag);
         } else {
             return "[no menu]";
@@ -194,3 +197,6 @@ class Twig_Title_Replacements extends AbstractExtension {
 
 
 }
+
+
+Twig_Title_Replacements::init();

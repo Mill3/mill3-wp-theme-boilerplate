@@ -22,35 +22,12 @@ use Timber;
  */
 class DummyPost extends Timber\Post
 {
+    private $query;
 
-    /**
-     * model query instance
-     *
-     * @var class
-     */
-    public $query;
-
-    /**
-     * extended class constructor, send to parent constructor the $post object
-     *
-     * @param [type] $post
-     */
-    public function __construct($post)
-    {
-        parent::__construct($post);
-        $this->query = new DummyQueries();
+    private function get_query() {
+        if( !$this->query ) $this->query = new ArticleQueries();
+        return $this->query;
     }
-
-    /**
-     * exeaple of custom method for Timber\Post instance
-     *
-     * @return string
-     */
-    public function foo()
-    {
-        return 'bar';
-    }
-
 
     /**
      * Run a specific query from DummyQueries() instance
@@ -58,11 +35,11 @@ class DummyPost extends Timber\Post
      * @return array
      */
     public function random_dummies($limit) {
-        $this->query->set_limit($limit);
-        $this->query->set_exclude([$this->id]);
-        return $this->query->random();
-    }
+        $this->get_query()->set_limit($limit);
+        $this->get_query()->set_exclude([$this->id]);
 
+        return $this->get_query()->random();
+    }
 
 }
 
@@ -137,7 +114,7 @@ class DummyQueries extends PostQueries\Theme_PostQueries
             'post__not_in' => $this->exclude,
         ];
 
-        return self::run_query($args, 'Mill3WP\PostQueries\Dummy\DummyPost');
+        return self::run_query($args);
     }
 
     public function random()
@@ -150,7 +127,7 @@ class DummyQueries extends PostQueries\Theme_PostQueries
             'posts_per_page' => $this->limit,
         );
 
-        return self::run_query($args, 'Mill3WP\PostQueries\Dummy\DummyPost');
+        return self::run_query($args);
     }
 
 }
@@ -163,23 +140,11 @@ add_filter('timber/twig', __NAMESPACE__ . '\\add_to_twig');
 
 function add_to_twig($twig)
 {
-
-    $twig->addFunction(
-        new \Twig\TwigFunction(
-            'DummyPost',
-            function ($post) {
-                return new \Mill3WP\PostQueries\Dummy\DummyPost($post);
-            }
-        )
-    );
-
     $twig->addFunction(
         new \Twig\TwigFunction('DummyAll', function ($limit = -1) {
             return (new \Mill3WP\PostQueries\Dummy\DummyQueries($limit))->all();
         })
     );
-
-
 
     return $twig;
 }

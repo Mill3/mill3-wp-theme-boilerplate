@@ -24,7 +24,7 @@ class PageSectionQueries extends PostQueries\Theme_PostQueries
 
         $post = self::run_query($args);
 
-        $context = Timber\Timber::get_context();
+        $context = Timber\Timber::context();
 
         // stop here if none found
         if( !$post ) {

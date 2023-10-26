@@ -1,6 +1,6 @@
 {% if post %}
 
-{% set classname = classname|default(null) %}
+{% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 
 {% set title = post.title %}
@@ -24,7 +24,7 @@
     {% if thumbnail %}
     <figure class="search-preview__media w-100 box-square position-relative overflow-clip">
       {% include 'partial/image.twig' with {
-        'image': Image(thumbnail),
+        'image': thumbnail,
         'size': 'small',
         'classname': 'search-preview__img image-as-background'
       } only %}

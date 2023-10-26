@@ -13,14 +13,12 @@
   Example: { "title": "Partners" }
 #}
 
-{% set post = Post(fields) %}
-
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb_row_partners-' ~ random()) %}
 
-{% set title = post.get_field('title') %}
-{% set partners = post.get_field('partners')|default([]) %}
+{% set title = fields.title %}
+{% set partners = fields.partners|default([]) %}
 
 {% block row_wrapper %}
 <section
@@ -55,7 +53,7 @@
           class="pb-row-partners__partner__media pb-row-partners__partner__link"
         >
           {% include 'partial/image.twig' with {
-            'image': Image(partner.logo),
+            'image': partner.logo,
             'alt': partner.name,
             'size': 'large',
             'sizes': ['170px'],
@@ -66,7 +64,7 @@
       {% else %}
         <figure class="pb-row-partners__partner__media">
           {% include 'partial/image.twig' with {
-            'image': Image(partner.logo),
+            'image': partner.logo,
             'alt': partner.name,
             'size': 'large',
             'sizes': ['170px'],

@@ -13,10 +13,9 @@
  * @since   Timber 0.1
  */
 
-$context = Timber::get_context();
-$context['posts'] = new Timber\PostQuery(false, 'Mill3WP\PostQueries\Article\ArticlePost');
-
+$context = Timber::context();
 $templates = array('index.twig');
 
 if (is_front_page()) array_unshift($templates, 'home.twig');
+
 Timber::render($templates, $context);

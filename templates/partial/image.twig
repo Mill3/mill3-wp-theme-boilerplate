@@ -24,9 +24,7 @@
   code: [ '100vw', null, null, '50vw', null, null, '1800px' ]
 #}
 {% if image %}
-
-  {# replace Timber/Image() with our class extenxion Timber/Mill3Image #}
-  {% set image = Mill3Image(image) %}
+  {% set image = get_image(image) %}
 
   {# creates default title value based on alt, if none is set get title value #}
   {% set default_title = image.alt ? image.alt : image.title %}

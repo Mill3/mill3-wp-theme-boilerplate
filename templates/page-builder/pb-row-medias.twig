@@ -13,19 +13,17 @@
   Example: { "title": "Medias" }
 #}
 
-{% set post = Post(fields) %}
-
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb-row-medias-' ~ random()) %}
 
-{% set medias = post.get_field('medias') %}
-{% set layout = post.get_field('layout')|default('slider') %}
-{% set format = post.get_field('format')|default('auto') %}
-{% set ticker_direction = post.get_field('ticker_direction')|default('left') %}
-{% set grid_gap = post.get_field('grid_gap')|default(20) %}
-{% set grid_gap_mobile = post.get_field('grid_gap_mobile')|default(20) %}
-{% set fullwidth = post.get_field('fullwidth')|default(false) %}
+{% set medias = fields.medias %}
+{% set layout = fields.layout|default('slider') %}
+{% set format = fields.format|default('auto') %}
+{% set ticker_direction = fields.ticker_direction|default('left') %}
+{% set grid_gap = fields.grid_gap|default(20) %}
+{% set grid_gap_mobile = fields.grid_gap_mobile|default(20) %}
+{% set fullwidth = fields.fullwidth|default(false) %}
 
 {% set classname = classname ~ ' --layout-' ~ layout %}
 
@@ -136,7 +134,7 @@
 
   <div class="pb-row-medias__grid d-grid grid-gap-{{ grid_gap_mobile }} grid-gap-lg-{{ grid_gap }} {% if fullwidth %}--fullwidth{% endif %}">
     {% for media in medias %}
-    {% set image = Mill3Image(media) %}
+    {% set image = get_image(media) %}
     {% set sizes = {
       'grid-1': ['100vw'],
       'grid-2': ['50vw'],

@@ -2,9 +2,6 @@
 
 namespace Mill3\Twig;
 
-use Twig\Extension\AbstractExtension;
-use Twig\TwigFilter;
-
 /**
  *
  * Twig filter : file or image field|is_image
@@ -20,21 +17,26 @@ use Twig\TwigFilter;
  * {% endif %}
  */
 
-class Twig_Sharing_Filters extends AbstractExtension {
+class Twig_Sharing_Filters {
+
+    public static function init(): void
+    {
+        $self = new self();
+
+        \add_filter('timber/twig/filters', [$self, 'add_timber_filters']);
+    }
 
     /**
-     * Twig filter registration
-     *
-     * @return array
+     * Adds filters to Twig.
      */
-    public function getFilters()
+    public function add_timber_filters($filters)
     {
-        return [
-            new TwigFilter('facebook_share', [$this, 'facebook_share']),
-            new TwigFilter('twitter_share', [$this, 'twitter_share']),
-            new TwigFilter('linkedin_share', [$this, 'linkedin_share']),
-            new TwigFilter('email_share', [$this, 'email_share']),
-        ];
+        $filters['facebook_share'] = ['callable' => [$this, 'facebook_share']];
+        $filters['twitter_share'] = ['callable' => [$this, 'twitter_share']];
+        $filters['linkedin_share'] = ['callable' => [$this, 'linkedin_share']];
+        $filters['email_share'] = ['callable' => [$this, 'email_share']];
+
+        return $filters;
     }
 
     /**
@@ -93,3 +95,5 @@ class Twig_Sharing_Filters extends AbstractExtension {
     }
 
 }
+
+Twig_Sharing_Filters::init();

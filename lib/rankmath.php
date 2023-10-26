@@ -2,6 +2,19 @@
 
 namespace Mill3WP\RankMath;
 
+
+// expose breadcrumb function to Twig
+add_filter('timber/twig/functions', function($functions) {
+    
+    $functions['breadcrumb'] = [
+        'callable' => function_exists('rank_math_the_breadcrumbs') ? 
+            'rank_math_the_breadcrumbs' : 
+            function() { return "RankMath plugin is not installed"; }
+    ];
+
+    return $functions;
+});
+
 /**
  * Allow changing or removing the Breadcrumb items
  *
@@ -9,9 +22,7 @@ namespace Mill3WP\RankMath;
  * @param Breadcrumbs $this   Current breadcrumb object.
  */
 
-add_filter(
-    'rank_math/frontend/breadcrumb/items',
-    function ($crumbs, $class) {
+add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs, $class) {
 
         // do nothing with taxonomies
         if( is_tax() || is_tag() || is_category() ) return $crumbs;

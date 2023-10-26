@@ -1,4 +1,18 @@
-{% set post = Post(fields) %}
+{# 
+  Variables injected in context by vendor/palmiak/timber-acf-wp-blocks
+
+  post_id (int) : Post ID
+  block (object) : Block data
+  fields (object) : Block meta fields (ACF fields)
+  slug (string) : Block slug
+  is_preview (boolean) : If block rendering is for Admin Panel
+  classes (string) : Custom classes for this block (not used by our framework)
+
+  Variables injected in context by lib/gutenberg.php
+  first (boolean) : True if block is the first to be rendered in this page.
+  order (int) : Block z-index
+#}
+{% set is_preview = is_preview ?? false %}
 
 {% set row %}
 <section class="blog-row-wrapper container-fluid">

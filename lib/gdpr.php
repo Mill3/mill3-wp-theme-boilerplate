@@ -4,7 +4,7 @@ namespace Mill3WP\GDPR;
 
 
 // add GDPR Cookies value to Timber's Context
-add_filter('timber_context', function($context) {
+add_filter('timber/context', function($context) {
 
     // default values
     $consent_analytics = 'granted';

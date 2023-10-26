@@ -4,22 +4,19 @@
 <section class="post-archives">
 
   <div class="post-archives__posts container-fluid">
-
-    <ol class="list-none p-0 pt-lg-40 d-sm-grid grid-column-2 grid-gap-20 grid-gap-lg-50">
+    <ol class="d-grid grid-column-3 grid-gap-10 grid-gap-xl-20 list-none m-0 p-0">
         {% for post in posts %}
         <li>
           {% include 'post-type/post/post-preview.twig' with {'post': post, 'classname': '' } only %}
         </li>
       {% endfor %}
     </ol>
-
   </div>
 
   {% include 'partial/pagination.twig' with {
     'pagination': posts.pagination({show_all: false, mid_size: 1, end_size: 1}),
     'classname': 'post-archives__pagination pt-30 pt-lg-90',
   } only %}
-
 
 </section>
 

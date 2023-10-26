@@ -13,14 +13,12 @@
   Example: { "title": "Testimonials" }
 #}
 
-{% set post = Post(fields) %}
-
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('pb_row_testimonials-' ~ random()) %}
 
-{% set title = post.get_field('title')|default(null) %}
-{% set testimonials = post.get_field('testimonials')|default([]) %}
+{% set title = fields.title|default(null) %}
+{% set testimonials = fields.testimonials|default([]) %}
 
 {% block row_wrapper %}
 <section
