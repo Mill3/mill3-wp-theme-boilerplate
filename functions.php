@@ -112,6 +112,7 @@ $includes = [
     'lib/acf-fields/spacer/index.php',
     'lib/acf-fields/row-title/index.php',
     // model class per post-type
+    'lib/models/abstract-post.php',
     'lib/models/page-section.php',
     'lib/models/post.php',
     'lib/models/post-class-map.php'

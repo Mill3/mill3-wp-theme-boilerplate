@@ -2,8 +2,8 @@
 
 add_filter('timber/post/classmap', function ($classmap) {
     $custom_classmap = [
-        'post' => \Mill3WP\PostQueries\Article\ArticlePost::class,
-        //'dummy' => Mill3WP\PostQueries\Dummy\DummyPost::class,
+        'post' => \Mill3WP\Models\ArticlePost::class,
+        //'dummy' => Mill3WP\Models\DummyPost::class,
     ];
 
     return array_merge($classmap, $custom_classmap);

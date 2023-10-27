@@ -2,7 +2,7 @@
 
 {% set title = post.title %}
 {% set thumbnail = post.thumbnail %}
-{% set previous_posts = post.previous_posts(2) %}
+{% set previous_posts = post.get_previous_posts(2) %}
 
 {% block content %}
 
