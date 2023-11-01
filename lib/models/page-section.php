@@ -1,18 +1,16 @@
 <?php
 
-namespace Mill3WP\PostQueries\PageSection;
+namespace Mill3WP\Models;
 
-// use Mill3WP\PostQueries;
 use Timber;
 
 /**
  * Show post-type queries
  */
 
-class PageSectionQueries
-{
+class PageSectionQueries extends Mill3AbstractPost {
 
-    public function get($slug, $classname = null)
+    public static function get($slug, $classname = null)
     {
         // set context
         $context = Timber\Timber::context();
@@ -44,18 +42,10 @@ class PageSectionQueries
 
 
 /**
- * Register Twig functions refering to various model queries
+ * Register Twig functions refering to this class
  */
 
-add_filter('timber/twig', __NAMESPACE__ . '\\add_to_twig');
-
-function add_to_twig($twig)
-{
-    $twig->addFunction(
-        new \Twig\TwigFunction('PageSection', function ($slug = null, $classname = null) {
-            return (new \Mill3WP\PostQueries\PageSection\PageSectionQueries())->get($slug, $classname);
-        })
-    );
-
-    return $twig;
-}
+add_filter('timber/twig/functions', function($functions) {
+    $functions['PageSection'] = ['callable' => [PageSectionQueries::class, 'get']];
+    return $functions;
+});
