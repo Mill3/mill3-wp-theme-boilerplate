@@ -6,9 +6,9 @@
     "type": "git",
     "url": "git@github.com:Mill3/mill3-wp-theme-boilerplate.git"
   },
-  "engines" : {
-    "npm" : ">=9.0.0",
-    "node" : ">=18.0.0"
+  "engines": {
+    "npm": ">=9.0.0",
+    "node": ">=18.0.0"
   },
   "author": "Mill3 Studio <info@mill3.studio>",
   "license": "MIT",
@@ -42,10 +42,8 @@
     "ejs": "^3.1.8",
     "fs-extra": "^11.1.0",
     "husky": "^3.0.9",
-    "image-webpack-loader": "^8.1.0",
     "jest": "^27.0.6",
     "mini-css-extract-plugin": "^2.7.2",
-    "mozjpeg": "^8.0.0",
     "path": "^0.12.7",
     "postcss": "^8.4.21",
     "postcss-loader": "^7.0.2",

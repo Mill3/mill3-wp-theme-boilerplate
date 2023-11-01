@@ -31,37 +31,7 @@ module.exports = (DEV = false) => {
       },
       {
         test: /.*\.(gif|png|jpe?g)$/i,
-        loader: `image-webpack-loader`,
-        options: {
-          query: {
-            mozjpeg: {
-              quality: 75,
-              progressive: true,
-              optimizationLevel: 4,
-              interlaced: false
-            },
-            pngquant: {
-              quality: [0.6, 1],
-              speed: 4
-            },
-            optipng: {
-              optimizationLevel: 3
-            },
-            gifsicle: {
-              optimizationLevel: 1
-            },
-            svgo: {
-              plugins: [
-                {
-                  removeViewBox: false
-                },
-                {
-                  removeEmptyAttrs: false
-                }
-              ]
-            }
-          }
-        }
+        type: 'asset/resource'
       },
       // styles loaders
       {
