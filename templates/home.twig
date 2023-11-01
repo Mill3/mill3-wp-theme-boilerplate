@@ -26,7 +26,7 @@
 
   {% set posts = get_posts(1) %}
   {% set search = search('hello') %}
-  {# {% set recent_posts = GetRecentArticles() %} #}
+  {% set recent_posts = get_posts_by('post', 5) %}
 
   <pre class="bg-gray-100 fz-12 overflow-clip p-10">
     <h3>get_posts()</h3>
@@ -39,7 +39,7 @@
   </pre>
 
   <pre class="bg-gray-100 fz-12 overflow-clip p-10">
-    <h3>recent_posts()</h3>
+    <h3>get_posts_by()</h3>
     {{ dump(recent_posts) }}
   </pre>
 
