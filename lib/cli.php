@@ -23,7 +23,6 @@ class Commands extends WP_CLI_Command
         'https://wordpress-commercial-plugins.vercel.app/gravityforms.zip',
         'https://wordpress-commercial-plugins.vercel.app/wp-migrate-db-pro.zip',
         'https://wordpress-commercial-plugins.vercel.app/polylang-pro.zip',
-        'timber-library',
         'seo-by-rank-math',
         'webp-express'
     ];
