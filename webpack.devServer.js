@@ -1,6 +1,4 @@
-import { SERVER_PORT, PATHS } from "./webpack.config.babel";
-
-export const webpackDevServer = (DEV = false) => {
+module.exports = (DEV = false, SERVER_PORT, PATHS) => {
   return {
     ...(DEV
       ? {

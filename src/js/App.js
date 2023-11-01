@@ -22,6 +22,9 @@ import transitions from "@transitions";
 //import Modules from '@modules/index.dom-controller';
 //import UI from '@ui/index.dom-controller'
 
+import image from "../../acf-json/thumbnails/pb_row_spacer.png";
+console.log('image:', image)
+
 /*
  * Main app
  */

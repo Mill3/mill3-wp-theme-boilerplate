@@ -1,13 +1,10 @@
-/* eslint-disable no-undef */
-import path from "path";
-import webpack from "webpack";
-import WebpackBar from "webpackbar";
-import AssetsPlugin from "assets-webpack-plugin";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
+const path = require("path");
+const webpack = require("webpack");
+const WebpackBar = require("webpackbar");
+const AssetsPlugin = require("assets-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-import { PATHS } from "./webpack.config.babel";
-
-export const webpackPlugins = (DEV = false) => {
+module.exports = (DEV = false, PATHS = {}) => {
   return [
     new WebpackBar(),
     new webpack.DefinePlugin({
@@ -37,4 +34,4 @@ export const webpackPlugins = (DEV = false) => {
           })
         ])
   ];
-};
+};;

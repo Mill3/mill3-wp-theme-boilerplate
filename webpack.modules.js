@@ -1,8 +1,6 @@
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-import { PATHS } from "./webpack.config.babel";
-
-export const webpackModules = (DEV = false) => {
+module.exports = (DEV = false) => {
   return {
     rules: [
       {
@@ -14,7 +12,7 @@ export const webpackModules = (DEV = false) => {
       },
       {
         test: /\.json$/,
-        type: 'json'
+        type: "json"
       },
       {
         test: /\.txt$/,
@@ -22,55 +20,25 @@ export const webpackModules = (DEV = false) => {
       },
       {
         test: /\.(woff|woff2)$/,
-        type: 'asset/resource',
+        type: "asset/resource",
         generator: {
-          filename: 'fonts/font-[hash][ext][query]'
+          filename: "fonts/font-[hash][ext][query]"
         }
       },
       {
         test: /\.(svg)$/,
-        type: 'asset/inline'
+        type: "asset/inline"
       },
       {
         test: /.*\.(gif|png|jpe?g)$/i,
-        loader: `image-webpack-loader`,
-        options: {
-          query: {
-            mozjpeg: {
-              quality: 75,
-              progressive: true,
-              optimizationLevel: 4,
-              interlaced: false
-            },
-            pngquant: {
-              quality: [0.6, 1],
-              speed: 4
-            },
-            optipng: {
-              optimizationLevel: 3
-            },
-            gifsicle: {
-              optimizationLevel: 1
-            },
-            svgo: {
-              plugins: [
-                {
-                  removeViewBox: false
-                },
-                {
-                  removeEmptyAttrs: false
-                }
-              ]
-            }
-          }
-        }
+        type: 'asset/resource'
       },
       // styles loaders
       {
         test: /\.(sa|sc|c)ss$/i,
         use: [
           {
-            loader: DEV ? 'style-loader' : MiniCssExtractPlugin.loader
+            loader: DEV ? "style-loader" : MiniCssExtractPlugin.loader
           },
           `css-loader`,
           `postcss-loader`,
@@ -80,11 +48,7 @@ export const webpackModules = (DEV = false) => {
               implementation: require.resolve("sass"),
               sourceMap: false
             }
-          },
-          // {
-          //   loader: "sass-json-loader",
-          //   options: { path: PATHS["sass_theme"] }
-          // }
+          }
         ]
       }
     ]

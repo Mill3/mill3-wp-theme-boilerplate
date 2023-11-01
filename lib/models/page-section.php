@@ -2,29 +2,27 @@
 
 namespace Mill3WP\PostQueries\PageSection;
 
-use Mill3WP\PostQueries;
+// use Mill3WP\PostQueries;
 use Timber;
-
 
 /**
  * Show post-type queries
  */
 
-class PageSectionQueries extends PostQueries\Theme_PostQueries
+class PageSectionQueries
 {
 
     public function get($slug, $classname = null)
     {
+        // set context
+        $context = Timber\Timber::context();
 
+        // get post
         $args = array(
             'name' => $slug,
-            'post_type' => 'page_section',
-            'posts_per_page' => 1
+            'post_type' => 'page_section'
         );
-
-        $post = self::run_query($args);
-
-        $context = Timber\Timber::context();
+        $post = Timber::get_post($args);
 
         // stop here if none found
         if( !$post ) {
@@ -34,7 +32,7 @@ class PageSectionQueries extends PostQueries\Theme_PostQueries
             $template = "post-type/page-section/page-section-single.twig";
             Timber\Timber::render($template, $context);
         } else {
-            $context['post'] = $post[0];
+            $context['post'] = $post;
             $context['classname'] = $classname;
 
             $template = "post-type/page-section/page-section-single.twig";
