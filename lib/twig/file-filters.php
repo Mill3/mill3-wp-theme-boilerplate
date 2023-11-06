@@ -43,7 +43,8 @@ class Twig_File_Filters {
     }
 
     private function check_extension($file, $allowed_extensions) {
-        $src = wp_get_attachment_url($file->ID);
+        $ID = is_int($file) ? $file : (array_key_exists('ID', $file) ? $file['ID'] : $file->ID);
+        $src = wp_get_attachment_url($ID);
         $check = wp_check_filetype(PathHelper::basename(strtok($src, "?")), null);
 
         return in_array($check['ext'], $allowed_extensions);
