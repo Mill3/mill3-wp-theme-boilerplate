@@ -80,6 +80,7 @@ class Video {
 
 
   // getter - setter
+  get playing() { return this._action === "play"; }
   get src() {
     if (!this._src_mobile) return this._src;
     return Viewport.width < 768 ? this._src_mobile : this._src;
