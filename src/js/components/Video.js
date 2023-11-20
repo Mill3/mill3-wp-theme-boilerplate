@@ -7,7 +7,7 @@ class Video {
   constructor(el) {
     this.el = el;
     
-    this._src = this.el.dataset.src;
+    this._src = this.el.dataset.src || this.el.src;
     this._src_mobile = this.el.dataset.srcMobile;
 
     this._onBreakpointChange = this._onBreakpointChange.bind(this);
