@@ -102,6 +102,9 @@ class GDPR {
     if (this.optionsWrap) this.optionsWrap.setAttribute("aria-hidden", true);
     if (this.homeWrap) this.homeWrap.setAttribute("aria-hidden", false);
 
+    // reset to first panel if expanded
+    if(this._expanded) this._onBackClick();
+
     this._unbindEvents();
   }
 
