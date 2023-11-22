@@ -7,7 +7,7 @@ class Video {
   constructor(el) {
     this.el = el;
     
-    this._src = this.el.dataset.src;
+    this._src = this.el.dataset.src || this.el.src;
     this._src_mobile = this.el.dataset.srcMobile;
 
     this._onBreakpointChange = this._onBreakpointChange.bind(this);
@@ -80,6 +80,7 @@ class Video {
 
 
   // getter - setter
+  get playing() { return this._action === "play"; }
   get src() {
     if (!this._src_mobile) return this._src;
     return Viewport.width < 768 ? this._src_mobile : this._src;

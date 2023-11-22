@@ -7,39 +7,52 @@ import { INVIEW_ENTER } from "@scroll/constants";
 class ScrollCallListener {
   constructor() {
     this.items = new Map();
-
-    this._onScrollBnd = this._onScrollCall.bind(this);
-    this._onVideoDestroyBnd = this._onVideoDestroy.bind(this);
+    this.pausedItems = new Map();
 
     windmill.on('exit', this.reset, this);
 
-    EMITTER.on('SiteScroll.video', this._onScrollBnd);
-    EMITTER.on('Video.destroy', this._onVideoDestroyBnd);
+    EMITTER.on('SiteScroll.video', this._onScrollCall.bind(this));
+    EMITTER.on('Video.resumeAll', this._onVideoResumeAll.bind(this));
+    EMITTER.on('Video.pauseAll', this._onVideoPauseAll.bind(this));
+    EMITTER.on('Video.destroy', this._onVideoDestroy.bind(this));
   }
 
-  add(el, scrollCallCallback, destroyCallback) {
-    this.items.set(el, { scrollCallCallback, destroyCallback });
+  add(el, module) {
+    this.items.set(el, module);
   }
   remove(el) {
     this.items.delete(el);
+    this.pausedItems.delete(el);
   }
   reset() {
     this.items.clear();
+    this.pausedItems.clear();
   }
 
   _onScrollCall(direction, { el }) {
     // if object is not added to listener, stop here
     if( !this.items.has(el) ) return;
 
-    // run callback
-    this.items.get(el).scrollCallCallback(direction);
+    const { video } = this.items.get(el);
+    video[direction === INVIEW_ENTER ? "play" : "pause"]();
+  }
+  _onVideoResumeAll() {
+    // resume all previously paused videos
+    this.pausedItems.forEach(({ video }) => video.play());
+  }
+  _onVideoPauseAll() {
+    // store all playing videos
+    this.items.forEach((module, key) => { if( module.video.playing ) this.pausedItems.set(key, module); });
+
+    // pause all videos
+    this.pausedItems.forEach(({ video }) => video.pause());
   }
   _onVideoDestroy(el) {
     // if object is not added to listener, stop here
     if( !this.items.has(el) ) return;
 
-    // run callback
-    this.items.get(el).destroyCallback();
+    // destroy module
+    this.items.get(el).destroy();
   }
 }
 
@@ -49,9 +62,6 @@ export default class {
   constructor(el) {
     this.el = el;
     this.video = new Video(this.el);
-
-    this._onScrollCall = this._onScrollCall.bind(this);
-    this._onVideoDestroy = this._onVideoDestroy.bind(this);
   }
 
   init() {
@@ -60,33 +70,15 @@ export default class {
   destroy() {
     this._unbindEvents();
 
-    if (this.video) this.video.destroy();
+    if (this.video) {
+      this.video.pause();
+      this.video.destroy();
+    }
 
     this.el = null;
     this.video = null;
-
-    this._onScrollCall = null;
-    this._onVideoDestroy = null;
   }
 
-  _bindEvents() {
-    if( this.video ) SCROLL_CALL_LISTENER.add(this.el, this._onScrollCall, this._onVideoDestroy);
-  }
-  _unbindEvents() { SCROLL_CALL_LISTENER.remove(this.el); }
-
-  _onScrollCall(direction) {
-    if( !this.video ) return;
-
-    // TODO: check if video is visible before calling is method (for responsive viewports)
-    this.video[direction === INVIEW_ENTER ? "play" : "pause"]();
-  }
-  _onVideoDestroy() {
-    if( !this.video ) return;
-
-    this._unbindEvents();
-
-    this.video.pause();
-    this.video.destroy();
-    this.video = null;
-  }
+  _bindEvents() { if( this.el && this.video ) SCROLL_CALL_LISTENER.add(this.el, this); }
+  _unbindEvents() { if( this.el ) SCROLL_CALL_LISTENER.remove(this.el); }
 }

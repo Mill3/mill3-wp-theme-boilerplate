@@ -25,16 +25,14 @@
   {% set attributes = attributes|merge([
     'data-module="' ~ module ~ '"',
   ]) %}
+{% else %}
+  {# if module isn't defined, disable autoplay #}
+  {% set autoplay = is_preview %}
 {% endif %}
 
 <video
   class="w-100 {{ classname }}"
-  {% if not module or is_preview %}
-  src="{{ src.url }}"
-  {% else %}
-  data-src="{{ src.url }}"
-  {% if src_mobile %}data-src-mobile="{{ src_mobile.url }}"{% endif %}
-  {% endif %}
+  {% if not module or is_preview %}src="{{ src.url }}"{% endif %}
   {% if src and src.width %}width="{{ src.width }}"{% endif %}
   {% if src and src.height %}height="{{ src.height }}"{% endif %}
   {% if muted %}muted{% endif %}
@@ -42,6 +40,8 @@
   {% if loop %}loop{% endif %}
   {% if playsInline %}playsInline{% endif %}
   {% if disableRemotePlayback %}disableRemotePlayback{% endif %}
+  data-src="{{ src.url }}"
+  {% if src_mobile %}data-src-mobile="{{ src_mobile.url }}"{% endif %}
   {{ attributes|join(' ') }}
 >
 </video>
