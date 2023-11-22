@@ -3,6 +3,7 @@ import { default as Consent, CONSENT_DENIED, CONSENT_GRANTED, CONSENT_PENDING } 
 import { $, $$, rect } from "@utils/dom";
 import { on, off } from "@utils/listener";
 import Accordion from "@components/Accordion";
+import ResizeOrientation from '@utils/resize';
 
 export const SELECTOR = "#gdpr";
 
@@ -21,6 +22,7 @@ class GDPR {
     this._onBackClick = this._onBackClick.bind(this);
     this._openBnd = this.open.bind(this);
     this._setHeight = this._setHeight.bind(this);
+    this._onResize = this._onResize.bind(this);
 
     init ? this.init() : null;
   }
@@ -48,7 +50,7 @@ class GDPR {
     this.accordionBtn = $(".gdpr__accordion__btn", this.el);
     this.accordionPanel = $(".gdpr__accordion__panel", this.el);
     this.accordion =
-      this.accordionBtn && this.accordionPanel ? new Accordion(this.accordionBtn, this.accordionPanel) : null;
+    this.accordionBtn && this.accordionPanel ? new Accordion(this.accordionBtn, this.accordionPanel) : null;
     this.toggleBtns = null;
 
     // set initial state on check inputs
@@ -70,12 +72,14 @@ class GDPR {
     // find togglers and bind click event
     this.toggleBtns = [...$$(`[aria-controls="${SELECTOR}"]`)];
     if (this.toggleBtns) on(this.toggleBtns, "click", this._openBnd);
+    ResizeOrientation.add(this._onResize);
   }
 
   stop() {
     // unbind click event on togglers
     if (this.toggleBtns) off(this.toggleBtns, "click", this._openBnd);
     this.toggleBtns = null;
+    ResizeOrientation.remove(this._onResize);
   }
 
   open() {
@@ -120,9 +124,18 @@ class GDPR {
     }
 
     // When not pending, set checked status on input based on Consent's stored cookies,
-    // inputs are unchecked by default in template's markup
-    if (analytics_input && Consent.consent_analytics === CONSENT_GRANTED) analytics_input.checked = "checked";
-    if (ads_input && Consent.consent_ads === CONSENT_GRANTED) ads_input.checked = "checked";
+    // inputs are checked by default in template's markup.
+    // If consent is denied in cookies, remove checked attribute
+    if (analytics_input && Consent.consent_analytics === CONSENT_GRANTED) {
+      analytics_input.checked = "checked";
+    } else if (analytics_input && Consent.consent_analytics === CONSENT_DENIED) {
+      analytics_input.removeAttribute("checked");
+    }
+    if (ads_input && Consent.consent_ads === CONSENT_GRANTED) {
+      ads_input.checked = "checked"
+    } else if (ads_input && Consent.consent_ads === CONSENT_DENIED) {
+      ads_input.removeAttribute("checked");
+    }
   }
 
   _bindEvents() {
@@ -140,12 +153,17 @@ class GDPR {
     if (this.rejectBtn) off(this.rejectBtn, "click", this._rejectAll);
     if (this.moreBtn) off(this.moreBtn, "click", this._onMoreClick);
     if (this.backBtn) off(this.backBtn, "click", this._onBackClick);
+    if (this._ro) this._ro.dispose();
   }
   _updateUserId() {
     if (!this.userId || !Consent.consent_user_id) return;
 
     this.userId.textContent = this.userId.textContent.replace("%s", Consent.consent_user_id);
     this.userId.setAttribute("aria-hidden", false);
+  }
+
+  _onResize() {
+    this._setHeight(false);
   }
 
   _acceptAll() {
