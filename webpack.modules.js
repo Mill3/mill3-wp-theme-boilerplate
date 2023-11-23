@@ -16,7 +16,7 @@ module.exports = (DEV = false) => {
       },
       {
         test: /\.txt$/,
-        loader: `raw-loader`
+        type: "asset/source"
       },
       {
         test: /\.(woff|woff2)$/,
