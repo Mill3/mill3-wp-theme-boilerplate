@@ -1,8 +1,6 @@
 .site-nav {
   $self: &;
 
-  height: calc(var(--vh) * 100);
-
   &__scroller {
     overflow-y: auto;
   }
@@ -17,6 +15,6 @@
   }
 
   &__wrap {
-    min-height: calc((var(--vh) * 100) + 1px);
+    min-height: calc(100vh + 1px);
   }
 }
