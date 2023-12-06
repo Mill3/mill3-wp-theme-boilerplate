@@ -1,11 +1,19 @@
-{% set classname = classname|default('') %}
+{% set classname = classname|default('')|split(' ') %}
 {% set attributes = attributes|default([]) %}
+{% set is_preview = is_preview|default(false) %}
+
 {% set tagname = tagname|default('h3') %}
 {% set mode = mode|default('js') %}
 {% set direction = direction|default(null) %}
 {% set speed = speed|default(1) %}
 {% set playInView = playInView ?? true %}
 {% set inViewOffset = inViewOffset|default(-200) %}
+
+{# force mode css for ACF Preview #}
+{% if is_preview %}
+  {% set mode = 'css' %}
+  {% set classname = classname|merge(['--mode-' ~ mode]) %}
+{% endif %}
 
 {# make sure mode is valid #}
 {% if mode not in ['css', 'js', 'scroll'] %}
@@ -18,15 +26,15 @@
 {% endif %}
 
 {% if direction in ['top', 'bottom'] %}
-  {% set classname = classname|split(' ')|merge(['flex-column', 'align-items-start'])|join(' ') %}
+  {% set classname = classname|merge(['flex-column', 'align-items-start']) %}
 {% else %}
-  {% set classname = classname|split(' ')|merge(['flex-row', 'align-items-center'])|join(' ') %}
+  {% set classname = classname|merge(['flex-row', 'align-items-center']) %}
 {% endif %}
 
 {% set attributes = attributes|merge(['style="--speed: ' ~ speed ~ '"']) %}
 
 <div
-  class="text-ticker d-flex flex-nowrap overflow-clip --direction-{{ direction }} {{ classname }}"
+  class="text-ticker d-flex flex-nowrap overflow-clip --direction-{{ direction }} {{ classname|join(' ') }}"
   {% if playInView %}
   data-scroll
   data-scroll-call="text-ticker"
@@ -42,4 +50,13 @@
     {% if aria_label != false %}aria-label="{{ aria_label|default(text) }}"{% endif %}
     style="--ticker-index: 0;"
   >{{ text }}</{{tagname}}>
+
+  {% if is_preview %}
+  <{{tagname}} 
+    class="text-ticker__text m-0 p-0" 
+    {% if aria_label != false %}aria-label="{{ aria_label|default(text) }}"{% endif %}
+    aria-hidden="true"
+    style="--ticker-index: 0;"
+  >{{ text }}</{{tagname}}>
+  {% endif %}
 </div>

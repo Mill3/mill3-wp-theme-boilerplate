@@ -11,7 +11,7 @@ import WindmillScroll from "@core/windmill.scroll";
 import WindmillSplitting from "@core/windmill.splitting";
 import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 //import WindmillDomController from "@core/windmill.dom-controller";
-import MobileViewportUnit from "@core/mobile-vh";
+//import MobileViewportUnit from "@core/mobile-vh";
 import scrollbarWidth from "@core/scrollbar-width";
 import { chrome, edge, firefox, safari, ios, iphone, ipad, android } from "@utils/browser";
 import { html, body } from "@utils/dom";
@@ -52,7 +52,7 @@ class App {
     windmill.on('entering', updateScrollbarWidth);
 
     // if mobile, create mobile vh fix
-    if( mobile ) MobileViewportUnit.init();
+    //if( mobile ) MobileViewportUnit.init();
 
     // install Windmill's plugins
     windmill.use( new WindmillScripts() );
