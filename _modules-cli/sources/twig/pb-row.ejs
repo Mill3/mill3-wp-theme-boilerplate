@@ -14,14 +14,12 @@
   Example: { "title": "<%= ModuleName %>" }
 #}
 
-{% set post = Post(fields) %}
-
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
 {% set udid = udid|default('<%= module_slug %>-' ~ random()) %}
 
-{% set title = post.title %}
-{% set field = post.get_field('field') %}
+{% set title = fields.title %}
+{% set field = fields.field|default(null) %}
 
 {% block row_wrapper %}
 <div
