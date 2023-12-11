@@ -8,14 +8,21 @@ class ScrollMinimum {
     this.scroll = scroll;
 
     this._hasScrolledAboveThreshold = false;
+    this._started = false;
 
     this._onScroll = this._onScroll.bind(this);
   }
 
   start() {
+    if( this._started ) return;
+    this._started = true;
+
     EMITTER.on("SiteScroll.scroll", this._onScroll);
   }
   stop() {
+    if( !this._started ) return;
+    this._started = false;
+
     EMITTER.off("SiteScroll.scroll", this._onScroll);
   }
   reset() {
