@@ -3,7 +3,7 @@
   "title": "blog-medias",
   "fields": [
       {
-          "key": "field_6351a37b8a6c5",
+          "key": "field_6351a37b8a6c6",
           "label": "Medias gallery",
           "name": "medias_gallery",
           "type": "row-title",
@@ -20,7 +20,7 @@
           "acfe_field_group_condition": 0
       },
       {
-          "key": "field_633da9664a661",
+          "key": "field_633da9664a662",
           "label": "Medias",
           "name": "",
           "type": "accordion",
@@ -39,7 +39,7 @@
           "acfe_field_group_condition": 0
       },
       {
-          "key": "field_63810b37df019",
+          "key": "field_63810b37df020",
           "label": "Medias",
           "name": "medias",
           "type": "gallery",
@@ -67,7 +67,7 @@
           "preview_size": "medium"
       },
       {
-          "key": "field_633da99f228f5",
+          "key": "field_633da99f228f6",
           "label": "Layout",
           "name": "",
           "type": "accordion",
@@ -86,7 +86,7 @@
           "acfe_field_group_condition": 0
       },
       {
-          "key": "field_601d52cd75214",
+          "key": "field_601d52cd75215",
           "label": "Layout",
           "name": "layout",
           "type": "select",
@@ -123,7 +123,7 @@
           "append": ""
       },
       {
-          "key": "field_603fe7cbe2d9c",
+          "key": "field_603fe7cbe2d9d",
           "label": "Medias format",
           "name": "format",
           "type": "select",
@@ -155,7 +155,7 @@
           "placeholder": ""
       },
       {
-          "key": "field_633da9b2228f6",
+          "key": "field_633da9b2228f7",
           "label": "Padding & Margin",
           "name": "",
           "type": "accordion",
@@ -174,7 +174,7 @@
           "acfe_field_group_condition": 0
       },
       {
-          "key": "field_60463bdacd526",
+          "key": "field_60463bdacd527",
           "label": "Default Options",
           "name": "padding_margin",
           "type": "clone",
@@ -203,7 +203,7 @@
           "acfe_clone_modal_size": "large"
       },
       {
-          "key": "field_633da9c2228f7",
+          "key": "field_633da9c2228f8",
           "label": "Colors",
           "name": "",
           "type": "accordion",
@@ -222,7 +222,7 @@
           "acfe_field_group_condition": 0
       },
       {
-          "key": "field_620fcd1ca5c06",
+          "key": "field_620fcd1ca5c07",
           "label": "Colors",
           "name": "colors",
           "type": "clone",
@@ -251,7 +251,7 @@
           "acfe_clone_modal_size": "large"
       },
       {
-          "key": "field_633da9ce228f8",
+          "key": "field_633da9ce228f9",
           "label": "General Settings",
           "name": "",
           "type": "accordion",
@@ -270,7 +270,7 @@
           "acfe_field_group_condition": 0
       },
       {
-          "key": "field_623ca15e0d1fd",
+          "key": "field_623ca15e0d1fe",
           "label": "General Settings",
           "name": "general_settings",
           "type": "clone",
