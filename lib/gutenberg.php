@@ -47,6 +47,17 @@ function mill3_gutenberg_resizable_sidebar() {
 
 add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\mill3_gutenberg_resizable_sidebar');
 
+//
+// Add block editor custom categories
+//
+add_filter( 'block_categories_all' , function( $categories ) {
+    $categories[] = array(
+        'slug'  => 'homepage',
+        'title' => 'Homepage'
+    );
+    return $categories;
+} );
+
 
 // This filter inject in each block context the current block order using a $GLOBAL variable.
 // Also calculating if block is first rendered and bool sent to context.
