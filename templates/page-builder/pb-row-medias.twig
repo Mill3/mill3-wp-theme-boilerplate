@@ -164,9 +164,11 @@
       >
         <div
           class="pb-row-medias__parallax position-absolute t-0 l-0 r-0 b-0"
+          {% if format != 'auto' %}
           data-scroll
           data-scroll-target="#{{ udid ~ '_' ~ loop.index }}"
           data-scroll-speed="{{ parallax[format]|default(0.5) }}"
+          {% endif %}
         >
           {% include 'partial/image.twig' with {
             'image': image,

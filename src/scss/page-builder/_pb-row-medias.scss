@@ -4,7 +4,7 @@
 .pb-row-medias {
   $self: &;
 
-  &__parallax {
+  &__parallax[data-scroll-speed] {
     html.has-scroll-smooth & {
       top: -6%;
       bottom: -6%;
