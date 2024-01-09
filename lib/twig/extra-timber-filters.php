@@ -36,3 +36,27 @@ function filter_line_breaks($text, $replacement = '') {
 function filter_split_line_breaks($text) {
     return explode("\r\n", $text);
 }
+
+/**
+ * filter_group_by_key function
+ *
+ * @param [type] $array
+ * @param [type] $key
+ * @return array
+ *
+ * Usage :
+ *   {% set grouped = array|group_by_key('label') %}
+ *   {% for key, group in grouped %}
+ *      {{ key }}
+ *      {% for item in group %}
+ *        {{ item.label }}
+ *      {% endfor %}
+ *   {% endfor %}
+ */
+function filter_group_by_key($array, $key) {
+    $result = array();
+    foreach ($array as $val) {
+        $result[$val[$key]][] = $val;
+    }
+    return $result;
+}

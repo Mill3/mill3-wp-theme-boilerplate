@@ -147,13 +147,13 @@ class Mill3WP extends Timber\Site
         parent::__construct();
     }
 
-    /** 
+    /**
      * Override Timber\Site\link method :
      * When Polylang is installed, returns home_url() core function instead of $this->url
      *
      * @return string
      */
-    public function link(): string 
+    public function link(): string
     {
         if( function_exists('pll_current_language') ) {
             return home_url() . "/";
@@ -177,16 +177,16 @@ class Mill3WP extends Timber\Site
         }
     }
 
-    /** 
-     * This is where you can register custom post types. 
+    /**
+     * This is where you can register custom post types.
      */
     public function register_post_types(): void
     {
         Theme_CustomPostTypes::instance()->run();
     }
 
-    /** 
-     * This is where you can register custom taxonomies. 
+    /**
+     * This is where you can register custom taxonomies.
      */
     public function register_taxonomies(): void
     {
@@ -218,31 +218,32 @@ class Mill3WP extends Timber\Site
         return $context;
     }
 
-    /** 
+    /**
      * This is where you can add your custom functions to Twig.
      *
      * @param string $functions : Array of available functions in Twig.
      */
-    public function add_filters($filters) 
+    public function add_filters($filters)
     {
         // alias of sanitize
         $filters['slugify'] = $filters['sanitize'];
 
         $filters['embeded_settings'] = ['callable' => 'filter_embeded_settings'];
-        
+        $filters['group_by_key'] = ['callable' => 'filter_group_by_key'];
+
         return $filters;
     }
 
-    /** 
+    /**
      * This is where you can add your custom functions to Twig.
      *
      * @param string $functions : Array of available functions in Twig.
      */
-    public function add_functions($functions) 
+    public function add_functions($functions)
     {
         $functions['get_context'] = ['callable' => function () { return Timber::context(); }];
         $functions['get_options'] = ['callable' => function () { return get_fields('options'); }];
-        $functions['is_menu_item'] = ['callable' => function ($item) { return ($item instanceof Timber\MenuItem); }];    
+        $functions['is_menu_item'] = ['callable' => function ($item) { return ($item instanceof Timber\MenuItem); }];
 
         return $functions;
     }
