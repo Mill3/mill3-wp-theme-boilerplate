@@ -111,6 +111,7 @@ $includes = [
     // custom field type
     'lib/acf-fields/spacer/index.php',
     'lib/acf-fields/row-title/index.php',
+    'lib/acf-fields/graphic-composition/index.php',
     // model class per post-type
     'lib/models/abstract-post.php',
     'lib/models/page-section.php',
