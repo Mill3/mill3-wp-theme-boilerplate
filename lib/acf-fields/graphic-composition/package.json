@@ -1,0 +1,20 @@
+{
+  "name": "acf-graphic-composition-field",
+  "version": "1.0.0",
+  "description": "ACF field to create complex graphic composition with an image editor like user interface.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
+  },
+  "author": "Mill3 Studio <antoine@mill3.studio>",
+  "license": "ISC",
+  "devDependencies": {
+    "@wordpress/scripts": "^26.19.0"
+  },
+  "dependencies": {
+    "@wordpress/components": "^25.14.0",
+    "@wordpress/core-data": "^6.25.0"
+  }
+}

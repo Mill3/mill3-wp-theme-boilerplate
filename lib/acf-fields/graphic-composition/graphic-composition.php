@@ -211,11 +211,13 @@ class MILL3_acf_field_graphic_composition extends \acf_field {
 		$url     = trailingslashit( $this->env['url'] );
 		$version = $this->env['version'];
 
-		wp_register_script('graphic_composition', "{$url}assets/js/input.js", array( 'acf-input' ), $version);
-		wp_register_style('graphic_composition', "{$url}assets/css/input.css", array( 'acf-input' ), $version);
+        wp_register_style('graphic_composition-App', "{$url}build/index.css", array(), $version);
+        wp_register_script('graphic_composition-App', "{$url}build/index.js", array('wp-element'), $version, true);
+		wp_register_script('graphic_composition', "{$url}assets/js/input.js", array('acf-input', 'graphic_composition-App'), $version, true);
 
+		wp_enqueue_style('graphic_composition-App');
+        wp_enqueue_script('graphic_composition-App');
 		wp_enqueue_script('graphic_composition');
-		wp_enqueue_style('graphic_composition');
 	}
 
     /**
@@ -224,31 +226,7 @@ class MILL3_acf_field_graphic_composition extends \acf_field {
     public function input_admin_footer() {
         ?>
         <dialog id="GraphicComposition" class="GraphicComposition">
-            <div class="GraphicComposition__wrapper">
-                <div class="GraphicComposition__canvas">
-                    <h1>Hello World</h1>
-                </div>
-
-                <aside class="GraphicComposition__toolbar">
-                    <div class="GraphicComposition__assets">
-                        <h2>Assets</h2>
-                    </div>
-
-                    <div class="GraphicComposition__properties">
-                        <h2>Properties</h2>
-                    </div>
-
-                    <div class="GraphicComposition__layers">
-                        <h2>Layers</h2>
-                    </div>
-
-                    <div class="GraphicComposition__actions">
-                        <button class="button button-secondary">Cancel</button>
-                        <button class="button button-primary">Done</button>
-                    </div>
-
-                </aside>
-            </div>
+            <h1>Loading...</h1>
         </dialog>
         <?php
     }

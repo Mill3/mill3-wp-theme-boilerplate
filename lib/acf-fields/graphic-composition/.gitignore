@@ -1,0 +1,21 @@
+# Include your project-specific ignores in this file
+# Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
+npm-debug.log
+.DS_Store
+yarn-error.log
+node_modules
+.vscode
+.webpack_cache
+sass_vars.json
+build/index.asset.php
+build/*.map
+
+# OS files
+.tm_properties
+.DS_Store
+.AppleDouble
+.AppleTemp*
+:2e*
+._*
+*~
+.nfs*
