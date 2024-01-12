@@ -23,8 +23,6 @@
 }
 .GraphicComposition__wrapper {
   background-color: white;
-  display: grid;
-  grid-template-columns: 1fr 250px;
   width: 100%;
   height: 100%;
 }
@@ -34,20 +32,7 @@
   justify-content: center;
 }
 .GraphicComposition__toolbar {
-  border-left: 1px solid black;
-  display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  grid-gap: 8px;
-}
-.GraphicComposition__toolbar h2 {
-  margin: 0;
-}
-.GraphicComposition__actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  grid-gap: 20px;
-  padding: 8px 8px;
+  height: 100%;
 }
 
 /*# sourceMappingURL=index.css.map*/
