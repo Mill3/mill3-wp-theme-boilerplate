@@ -1,9 +1,8 @@
-import SwiperCore, { Swiper, Pagination } from 'swiper';
-
-// configure Swiper to use modules
-SwiperCore.use([Pagination]);
+import Swiper from 'swiper';
+import { Pagination } from 'swiper/modules';
 
 const SWIPER_OPTIONS = {
+  modules: [Pagination],
   centeredSlides: false,
   freeMode: false,
   loop: false,

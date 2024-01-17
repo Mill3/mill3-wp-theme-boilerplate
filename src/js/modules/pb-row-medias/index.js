@@ -1,11 +1,11 @@
-import SwiperCore, { Swiper, Navigation } from 'swiper';
+import Swiper from 'swiper';
+import { Navigation } from 'swiper/modules';
 
 import { $ } from "@utils/dom";
 
-// configure Swiper to use modules
-SwiperCore.use([Navigation]);
 
 const SWIPER_OPTIONS = {
+  modules: [Navigation],
   centeredSlides: false,
   freeMode: false,
   loop: true,
