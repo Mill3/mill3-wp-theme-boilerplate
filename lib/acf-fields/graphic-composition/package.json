@@ -14,7 +14,10 @@
     "@wordpress/scripts": "^26.19.0"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.0.1",
     "@wordpress/components": "^25.14.0",
-    "@wordpress/core-data": "^6.25.0"
+    "@wordpress/core-data": "^6.25.0",
+    "@wordpress/icons": "^9.40.0",
+    "react-redux": "^9.1.0"
   }
 }

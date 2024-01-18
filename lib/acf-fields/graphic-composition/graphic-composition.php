@@ -173,15 +173,27 @@ class MILL3_acf_field_graphic_composition extends \acf_field {
             'height' => $field['editor_height'],
         );
 
-        // Input.
-        $input_attrs = array(
-            'id' => $field['id'],
-            'name' => $field['name'],
-            'class' => 'graphic-composition__input',
+        $value = maybe_unserialize( isset($field['value']) ? $field['value'] : array() );
+
+        // Editor Settings
+        $editor_attrs = array(
+            'id' => $field['id'] . '-editor-settings',
+            'name' => $field['name'] . '-editor-settings',
+            'class' => 'graphic-composition__settings',
             'value' => json_encode($editor_settings),
         );
 
-        acf_hidden_input( $input_attrs );
+        acf_hidden_input( $editor_attrs );
+
+        // Value
+        $layers_attrs = array(
+            'id' => $field['id'],
+            'name' => $field['name'],
+            'class' => 'graphic-composition__value',
+            'value' => $value,
+        );
+
+        acf_hidden_input( $layers_attrs );
 
         // Button.
         $btn_attrs = array(
