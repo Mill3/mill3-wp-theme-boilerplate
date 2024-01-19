@@ -19,11 +19,16 @@ const MODULES_SELECTOR = `[data-module]`;
 const UI_SELECTOR = `[data-ui]`;
 
 export class WindmillWebpackChunks {
-  constructor() {
+  constructor(registry = []) {
+    this._registry = new Set(registry);
     this._chunks = new Map();
     this._modules = [];
     this._uis = [];
     this._trashed = [];
+    this._idleID = null;
+    this._waiting = false;
+
+    this._preloadModule = this._preloadModule.bind(this);
   }
 
   install(windmill) {
@@ -53,6 +58,12 @@ export class WindmillWebpackChunks {
 
     // windmill completed his page transition
     windmill.on('done', this._startModules, this);
+
+    // if requestIdleCallback is supported by browser and registry isn't empty
+    if( window.requestIdleCallback && this._registry.size > 0 ) {
+      windmill.on('exiting', this._stopIdle, this);
+      windmill.on('done', this._startIdle, this);
+    }
   }
 
   _importChunks({ next }) {
@@ -99,6 +110,9 @@ export class WindmillWebpackChunks {
 
     // save promise in chunks map
     this._chunks.set(name, promise);
+
+    // remove chunk from registry
+    if( this._registry.has(name) ) this._registry.delete(name);
 
     // when loading is completed, update chunks set with default export
     promise.then(chunk => { this._chunks.set(name, chunk.default) });
@@ -161,6 +175,35 @@ export class WindmillWebpackChunks {
     [ ...this._modules, ...this._uis ].forEach(({ instance }) => {
       if( isFunction(instance.stop) ) instance.stop();
     });
+  }
+
+
+  _startIdle() {
+    if( this._waiting ) return;
+    this._waiting = true;
+
+    if( this._registry.size > 0 ) this._idleID = requestIdleCallback(this._preloadModule);
+  }
+  _stopIdle() {
+    if( this._idleID ) cancelIdleCallback(this._idleID);
+
+    this._idleID = null;
+    this._waiting = false;
+  }
+  _preloadModule() {
+    this._idleID = null;
+
+    const module = this._registry.values().next().value;
+    //console.log('preload', module);
+
+    this
+      ._importChunk(module)
+      .then(() => {
+        if( this._waiting ) {
+          this._waiting = false;
+          this._startIdle();
+        };
+      });
   }
 }
 
