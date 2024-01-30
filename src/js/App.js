@@ -6,6 +6,7 @@ import domready from "domready";
 import "@core/hello";
 //import "@core/gdpr";
 import windmill from "@core/windmill";
+import WindmillImgLazyload from "@core/windmill.img-lazyload";
 import WindmillScripts from "@core/windmill.scripts";
 import WindmillScroll from "@core/windmill.scroll";
 import WindmillSplitting from "@core/windmill.splitting";
@@ -13,10 +14,14 @@ import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 //import WindmillDomController from "@core/windmill.dom-controller";
 //import MobileViewportUnit from "@core/mobile-vh";
 import scrollbarWidth from "@core/scrollbar-width";
+import { SCROLLBAR_HIDDEN_CLASSNAME } from "@scroll/constants";
 import { chrome, edge, firefox, safari, ios, iphone, ipad, android } from "@utils/browser";
 import { html, body } from "@utils/dom";
-import { mobile } from "@utils/mobile";
+//import { mobile } from "@utils/mobile";
 import transitions from "@transitions";
+
+// ONLY FOR WINDMILL WEBPACK CHUNKS : registry of all modules
+//import Modules from '@modules/index.webpack-chunks.js';
 
 // ONLY FOR WINDMILL DOM CONTROLLER : load all UI and modules classes
 //import Modules from '@modules/index.dom-controller';
@@ -45,7 +50,12 @@ class App {
     if( android() ) html.classList.add('android');
 
     // set scrollbar width in css variables
-    const updateScrollbarWidth = () => { html.style.setProperty('--scrollbar-width', `${scrollbarWidth()}px`); }
+    const updateScrollbarWidth = () => {
+      // show scrollbar & update scrollbar's width
+      html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
+      html.style.setProperty('--scrollbar-width', `${scrollbarWidth()}px`);
+    }
+
     updateScrollbarWidth();
 
     // update scrollbar width for each page
@@ -60,6 +70,7 @@ class App {
     //windmill.use( new WindmillDomController({ modules: Modules, ui: UI }) );
     windmill.use( new WindmillScroll() );
     windmill.use( new WindmillSplitting() );
+    windmill.use( new WindmillImgLazyload() );
 
 
     // if you use Windmill's Async mode, please do this:

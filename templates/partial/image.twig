@@ -35,6 +35,7 @@
   {% set lazyload = lazyload|default(false) %}
   {% set size = size|default('small') %}
   {% set sizes = sizes|default(null) %}
+  {% set srcset = srcset ?? true %}
   {% set priority = priority|default(null) %}
   {% set decoding = decoding|default(null) %}
   {% set width = width|default(image.sizes[size].width)|default(image.sizes[size ~ '-width'])|default((image.sizes|first).width) %}
@@ -91,7 +92,7 @@
 
   <img
     src="{{ image.src(size) }}"
-    srcset="{{ image.srcset }}"
+    {% if srcset %}srcset="{{ image.srcset }}"{% endif %}
     sizes="{{ sizes_attr|default(image.img_sizes) }}"
     alt="{{ alt }}"
     width="{{ width }}"
