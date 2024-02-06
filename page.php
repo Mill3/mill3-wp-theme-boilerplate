@@ -26,4 +26,9 @@ $post = Timber::get_post();
 $context['post'] = $post;
 $templates = array('page-' . $post->post_name . '.twig', 'page.twig');
 
-Timber::render($templates, $context);
+if (post_password_required($post->ID)) {
+    $context['form_action'] = site_url( 'wp-login.php?action=postpass', 'login_post' );
+    Timber::render('single-password.twig', $context);
+} else {
+    Timber::render($templates, $context);
+}
