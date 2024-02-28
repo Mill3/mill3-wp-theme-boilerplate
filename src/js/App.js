@@ -17,11 +17,10 @@ import scrollbarWidth from "@core/scrollbar-width";
 import { SCROLLBAR_HIDDEN_CLASSNAME } from "@scroll/constants";
 import { chrome, edge, firefox, safari, ios, iphone, ipad, android } from "@utils/browser";
 import { html, body } from "@utils/dom";
-//import { mobile } from "@utils/mobile";
 import transitions from "@transitions";
 
 // ONLY FOR WINDMILL WEBPACK CHUNKS : registry of all modules
-//import Modules from '@modules/index.webpack-chunks.js';
+import Modules from '@modules/index.webpack-chunks.js';
 
 // ONLY FOR WINDMILL DOM CONTROLLER : load all UI and modules classes
 //import Modules from '@modules/index.dom-controller';
@@ -61,12 +60,9 @@ class App {
     // update scrollbar width for each page
     windmill.on('entering', updateScrollbarWidth);
 
-    // if mobile, create mobile vh fix
-    //if( mobile ) MobileViewportUnit.init();
-
     // install Windmill's plugins
     windmill.use( new WindmillScripts() );
-    windmill.use( new WindmillWebpackChunks() );
+    windmill.use( new WindmillWebpackChunks(Modules) );
     //windmill.use( new WindmillDomController({ modules: Modules, ui: UI }) );
     windmill.use( new WindmillScroll() );
     windmill.use( new WindmillSplitting() );
