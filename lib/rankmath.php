@@ -5,10 +5,10 @@ namespace Mill3WP\RankMath;
 
 // expose breadcrumb function to Twig
 add_filter('timber/twig/functions', function($functions) {
-    
+
     $functions['breadcrumb'] = [
-        'callable' => function_exists('rank_math_the_breadcrumbs') ? 
-            'rank_math_the_breadcrumbs' : 
+        'callable' => function_exists('rank_math_the_breadcrumbs') ?
+            'rank_math_the_breadcrumbs' :
             function() { return "RankMath plugin is not installed"; }
     ];
 
@@ -59,3 +59,9 @@ add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs, $class) {
     10,
     2
 );
+
+
+// disable Slack enhanced data output, like "Written by : Author Name" in opengraph meta
+add_filter('rank_math/opengraph/slack_enhanced_data', function() {
+    return [];
+});
