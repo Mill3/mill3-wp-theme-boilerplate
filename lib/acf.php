@@ -165,7 +165,7 @@ function my_acfe_dynamic_render($field)
     if (!$slug) return;
     echo "<input value='{$slug}' readonly style='border: 1px solid #000; border-radius: 2px; padding: 0.5rem; width: 100%;' />";
     echo "<h4 style='font-weight: 400;'>How to use in your twig template :</h4>";
-    echo "<pre>{{ PageSection('{$slug}) }}</pre>";
+    echo "<pre>{{ PageSection('{$slug}') }}</pre>";
 }
 
 // Theme colors

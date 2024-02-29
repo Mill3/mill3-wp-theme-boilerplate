@@ -68,6 +68,12 @@ class Video {
     if (this._playPromise) this._playPromise.then(() => this.el?.pause());
     else this.el?.pause();
   }
+  seek(time = 0) {
+    // if video element does not exist, skip here
+    if (!this.el) return;
+    
+    this.el.currentTime = time;
+  }
 
   _bindEvents() { this._bp?.on(); }
   _unbindEvents() { this._bp?.off(); }

@@ -1,3 +1,4 @@
+@use "sass:math";
 @use "@mill3-sass-vars/easings";
 
 @mixin ticker($duration: 30s, $direction: normal) {
@@ -11,7 +12,7 @@
 }
 
 @function duration($frames: 1) {
-  @return #{strip-unit($frames / 30)}s;
+  @return #{math.div($frames, 30)}s;
 }
 
 // moved to _lib/mixins/_globals.scss
