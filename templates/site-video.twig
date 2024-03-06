@@ -1,18 +1,21 @@
 <div 
-  class="site-video position-fixed t-0 l-0 w-100 vh-100 d-flex align-items-center"
+  class="site-video position-fixed z-9000 t-0 l-0 w-100 vh-100 d-grid align-items-center overflow-clip"
   aria-hidden="true"
   data-ui="site-video"
 >
   <div class="site-video__bg position-absolute t-0 l-0 w-100 h-100 bg-color-black" aria-hidden="true"></div>
 
-  <div class="site-video__container w-100 box-widescreen position-relative bg-color-black">
-    <video class="site-video__video position-absolute t-0 l-0 w-100 h-100" controls autoplay playsInline disableRemotePlayback></video>
+  <div class="site-video__container col-start-1 row-start-1 justify-self-center w-100 position-relative">
+    <div class="site-video__videoWrap position-absolute t-0 l-0 w-100 h-100 overflow-clip bg-color-black">
+      <video class="site-video__video position-absolute t-0 l-0 w-100 h-100" controls autoplay playsInline disableRemotePlayback></video>
+    </div>
   </div>
 
-  <button 
-    class="site-video__close position-absolute t-0 r-0 d-flex align-items-center justify-content-center mt-10 mr-10 color-white" 
-    aria-label="{{ __('Stop video', 'mill3wp') }}"
-  >
-    {{ __('Stop video', 'mill3wp') }}
-  </button>
+  <div class="site-video__closeWrap col-start-1 row-start-1 justify-self-center w-100 position-relative pointer-events-none">
+    {% include 'partial/button.twig' with {
+      'title': __('Stop Video', 'mill3wp'),
+      'style': 'cta',
+      'classname': 'site-video__close position-absolute pointer-events-all'
+    } only %}
+  </div>
 </div>

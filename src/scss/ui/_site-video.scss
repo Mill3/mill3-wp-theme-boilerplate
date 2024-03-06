@@ -1,8 +1,72 @@
+@use "@mill3-sass-mixins/breakpoints";
+@use "@mill3-sass-vars/easings";
+
 .site-video {
   $self: &;
 
-  &[aria-hidden="true"] {
-    pointer-events: none;
+  --ratio: calc(16 / 9);
+  --height: min(calc((100vw - var(--container-fluid-margin) * 2) / var(--ratio)), calc(100vh - var(--container-fluid-margin) * 2));
+
+  &[aria-hidden=true] { display: none; }
+  &:not(.--js-animate-in):not(.--js-animate-out) {
     visibility: hidden;
+    pointer-events: none;
+
+    #{$self}__close { pointer-events: none; }
+  }
+
+  &__bg {
+    opacity: 0;
+  }
+  &__container,
+  &__closeWrap {
+    height: var(--height);
+    width: calc(var(--height) * var(--ratio));
+  }
+  &__container {
+    opacity: 0;
+  }
+  &__videoWrap {
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__close {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  // ANIMATIONS
+  &.--js-animate-in {
+    #{$self}__bg {
+      opacity: 1;
+      transition: opacity 450ms linear;
+    }
+    #{$self}__container {
+      opacity: 1;
+      transition: opacity 450ms 350ms linear;
+    }
+    #{$self}__close {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 450ms linear, transform 850ms easings.$easeOutCubic;
+      transition-delay: 450ms;
+    }
+  }
+  &.--js-animate-out {
+    #{$self}__close {
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 250ms 200ms linear, transform 450ms easings.$easeInQuad;
+    }
+    #{$self}__container {
+      opacity: 0;
+      transition: opacity 350ms linear;
+    }
+    #{$self}__bg {
+      opacity: 0;
+      transition: opacity 350ms 100ms linear;
+    }
   }
 }
