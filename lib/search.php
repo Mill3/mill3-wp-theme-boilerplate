@@ -13,14 +13,22 @@ add_action('init', function() {
 
 
 // modify document title for search
-add_filter('pre_get_document_title', function() {
+add_filter('document_title_parts', function($title_parts_array) {
     if ( is_search() ) {
         $search_query = get_search_query();
 
-        if( !empty($search_query) ) return sprintf(__('Search Results for %s', 'mill3wp'), $search_query);
-        else return __('Search', 'mill3wp');
+        if( !empty($search_query) ) $title_parts_array['title'] = sprintf(__('Search Results for &#8220;%s&#8221;'), $search_query);
+        else $title_parts_array['title'] = __('Search', 'mill3wp');
     }
-}, 30);
+
+    return $title_parts_array;
+});
+
+// Fix a bug in RankMath that was short-circuiting wp_get_document_title with search results
+add_filter('rank_math/frontend/title', function( $title ) {
+    if( is_search() ) return '';
+    return $title;
+});
 
 // enable search results to be filtered by post_type=page
 add_filter('pre_get_posts', function($query) {
