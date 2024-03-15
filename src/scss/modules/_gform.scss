@@ -145,6 +145,18 @@
       }
     }
 
+    // hidden fields hidden for good
+    &.gfield--type-hidden {
+      visibility: hidden;
+      height: 0;
+      width: 0;
+      position: absolute;
+      display: inline;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+
     // floating label hidden on focus and/or filled only on text, tel, email, textarea (the selector scope will prevent the effect on radio, checkboxes, select)
     // see @components/GForm.js#100 for details
     &.--text,
