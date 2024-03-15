@@ -223,7 +223,7 @@ const PREVENT_CUSTOM = 9;
 class Windmill {
   constructor() {
     this._cache = new Map();
-    this._data = {current: {url: null, container: null, html: null}, next: {url: null, container: null, html: null, trigger: null}};
+    this._data = {current: {url: null, container: null, html: null}, next: {url: null, container: null, html: null, scrollY: 0, trigger: null}};
     this._fetched = false;
     this._fetchPromise = null;
     this._listeners = new Map();
@@ -231,6 +231,7 @@ class Windmill {
     this._parser = null;
     this._plugins = new Set();
     this._running = false;
+    this._scrollY = 0;
     this._transition = null;
     
     this._onPopStateBnd = this._onPopState.bind(this);
@@ -263,6 +264,9 @@ class Windmill {
     this._plugins.forEach(plugin => {
       if( plugin && isFunction(plugin.install) ) plugin.install(this);
     });
+    
+    // erase initial page saved scrollY from history API
+    history.replaceState({ scrollY: 0 }, '');
     
     // start automatically
     if (this._options.autoStart === true) this.start();
@@ -341,8 +345,11 @@ class Windmill {
       return;
     }
     
+    // save current page scrollY
+    history.replaceState({ scrollY: window.scrollY }, '');
+
     // push new state into history
-    history.pushState({ scrollY: window.scrollY }, '', url);
+    history.pushState({ scrollY: 0 }, '', url);
     
     // perform transition
     this._run(url, el);
@@ -357,7 +364,7 @@ class Windmill {
   // replace URL from history without triggering page transition
   replace(url) {
     this._data.current.url = url;
-    history.replaceState({ scroll: 0 }, '', url);
+    history.replaceState({ scroll: window.scrollY }, '', url);
   }
   
   
@@ -409,6 +416,7 @@ class Windmill {
     // update data
     this._data.next.url = url;
     this._data.next.trigger = trigger;
+    this._data.next.scrollY = this._scrollY;
     
     // update running status to prevent performing two transitions simultaneously
     this._running = true;
@@ -455,8 +463,8 @@ class Windmill {
         .then(() => this._addNewPage())
         .then(() => this._emit('added'))
         //.then(() => this._preloadImages())
-        .then(() => this._emit('entering'))
         .then(() => this._restoreScroll())
+        .then(() => this._emit('entering'))
         .then(() => this._emit('enter'))
         .then(() => this._emit('entered'))
         .then(() => this._removeOldPage())
@@ -473,8 +481,8 @@ class Windmill {
         .then(() => this._addNewPage())
         .then(() => this._emit('added'))
         .then(() => this._preloadImages())
-        .then(() => this._emit('entering'))
         .then(() => this._restoreScroll())
+        .then(() => this._emit('entering'))
         .then(() => this._emit('enter'))
         .then(() => this._emit('entered'))
         .then(() => this._performCompletion())
@@ -564,7 +572,7 @@ class Windmill {
     this._data.current.container = this._data.next.container;
     this._data.current.html = this._data.next.html;
     
-    this._data.next = { url: null, container: null, html: null, trigger: null };
+    this._data.next = { url: null, container: null, html: null, trigger: null, scrollY: 0 };
   }
   
   
@@ -608,8 +616,11 @@ class Windmill {
     // check if link replace current history instead of pushing a new one
     if( link.getAttribute('data-windmill-method') === 'replace' ) this.replace(href);
     else {
+      // save current page scrollY
+      history.replaceState({ scrollY: window.scrollY }, '');
+
       // push new state into history
-      history.pushState({ scrollY: window.scrollY }, '', href);
+      history.pushState({ scrollY: 0 }, '', href);
       
       // perform transition
       this._run(href, link, event);

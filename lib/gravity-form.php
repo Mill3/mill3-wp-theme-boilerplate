@@ -126,6 +126,7 @@ add_filter( 'gform_disable_form_legacy_css', '__return_true' );
 // Disable theme CSS for all forms
 // https://docs.gravityforms.com/gform_disable_form_theme_css
 add_filter( 'gform_disable_form_theme_css', '__return_true' );
+add_filter( 'gform_disable_css', '__return_true' );
 
 // Disable legacy markup for all forms
 // https://docs.gravityforms.com/gform_enable_legacy_markup
