@@ -50,13 +50,14 @@ export class WindmillImgLazyload {
   _onInit(data) {
     // get query selector target
     const container = data.next.container || data.current.container;
+    const scrollY = data.next.scrollY || 0;
 
     // query images and filter the one who are in viewport
     const images = [ ...$$(SELECTOR, container) ].filter(img => {
       const target = (img.hasAttribute(TARGET_ATTRIBUTE) ? $(img.getAttribute(TARGET_ATTRIBUTE), container) : img) || img;
       const { top, bottom } = rect(target);
 
-      return top < Viewport.height && bottom > 0;
+      return top - scrollY < Viewport.height && bottom - scrollY > 0;
     });
 
     if( !images || images.length < 1 ) return;
