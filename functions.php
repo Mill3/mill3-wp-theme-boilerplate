@@ -95,6 +95,7 @@ $includes = [
     'lib/rankmath.php',
     'lib/recaptcha.php',
     'lib/search.php',
+    'lib/sentry.php',
     'lib/setup.php',
     'lib/shortcodes.php',
     'lib/svg.php',
