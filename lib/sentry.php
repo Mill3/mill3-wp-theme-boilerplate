@@ -7,7 +7,7 @@ use Mill3WP\Assets;
 
 // Insert sentry.js
 add_action('wp_enqueue_scripts', function() {
-    if( WEBPACK_DEV_SERVER === true || !defined('SENTRY_DSN_JS') ) return;
+    if( WEBPACK_DEV_SERVER === true || !defined('SENTRY_DSN_JS') || empty(SENTRY_DSN_JS) ) return;
 
     wp_enqueue_script(
         'mill3wp/js-sentry',
@@ -22,7 +22,7 @@ add_action('wp_enqueue_scripts', function() {
 
 // Links Preconnect
 add_action('wp_head', function() {
-    if( WEBPACK_DEV_SERVER === true || !defined('SENTRY_DSN_JS') ) return;
+    if( WEBPACK_DEV_SERVER === true || !defined('SENTRY_DSN_JS') || empty(SENTRY_DSN_JS) ) return;
 
     preg_match('/(https:\/\/)([^@]+)@([^\/]+\/)(\d+)/', SENTRY_DSN_JS, $matches);
     $url = $matches[1] . $matches[3];
