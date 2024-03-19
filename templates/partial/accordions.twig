@@ -15,6 +15,7 @@
   {% for accordion in accordions %}
   <div class="accordions__accordion w-100" style="--index:{{ loop.index0 }};">
     <button
+      id="{{ udid }}-{{ loop.index }}__btn"
       class="accordions__btn position-relative w-100 ta-left"
       aria-label="{{ accordion.title }}"
       aria-controls="{{ udid }}-{{ loop.index }}"
@@ -33,7 +34,9 @@
     <div 
       id="{{ udid }}-{{ loop.index }}"
       class="accordions__content w-100 wysiwyg"
+      role="region"
       aria-hidden="true"
+      aria-labelledby="{{ udid }}-{{ loop.index }}__btn"
     >
       {{ accordion.content }}
     </div>
