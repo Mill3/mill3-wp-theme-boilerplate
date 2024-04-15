@@ -43,6 +43,9 @@ class Twig_File_Filters {
     }
 
     private function check_extension($file, $allowed_extensions) {
+        // ACF blocks can refers to deleted IDs from media library and returns a boolean instead of array|id, this prevent PHP error
+        if(is_bool($file)) return false;
+        
         $ID = is_int($file) ? $file : (array_key_exists('ID', $file) ? $file['ID'] : $file->ID);
         $src = wp_get_attachment_url($ID);
         $check = wp_check_filetype(PathHelper::basename(strtok($src, "?")), null);
