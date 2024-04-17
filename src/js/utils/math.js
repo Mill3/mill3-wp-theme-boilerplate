@@ -71,6 +71,10 @@ export const lerp = (s, e, m) => s * (1 - m) + e * m;
 export const limit = (min, max, value) => Math.max(min, Math.min(max, value));
 
 
+// Map number x from range [a, b] to [c, d]
+export const map = (x, a, b, c, d) => (x - a) * (d - c) / (b - a) + c;
+
+
 export default {
   cover,
   contain,
@@ -79,5 +83,6 @@ export default {
   degreeToRad,
   radToDegree,
   lerp,
-  limit
+  limit,
+  map
 };
