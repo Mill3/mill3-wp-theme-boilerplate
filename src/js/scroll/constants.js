@@ -16,6 +16,7 @@ export const SCROLL_TO_OPTIONS = {
   offset: 0,
   smooth: true,
   callback: false,
+  cancel: false,
   duration: null,
   easing: 'linear',
 };
