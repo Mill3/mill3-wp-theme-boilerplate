@@ -7,6 +7,7 @@ class Video {
   constructor(el) {
     this.el = el;
     
+    this._action = this.el.paused ? "pause" : "play";
     this._src = this.el.dataset.src || this.el.src;
     this._src_mobile = this.el.dataset.srcMobile;
 
@@ -21,8 +22,12 @@ class Video {
   init() {
     this._bindEvents();
     
-    if (this._bp) this._bp.run();
-    else if( this._src ) this._onBreakpointChange();
+    if( this._bp || this._src ) {
+      if( this.el.src !== this.src ) {
+        this.el.setAttribute("src", this.src);
+        if (this._action === "play") this.play();
+      }
+    }
   }
   destroy() {
     this._unbindEvents();
