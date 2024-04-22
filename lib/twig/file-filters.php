@@ -38,6 +38,7 @@ class Twig_File_Filters {
         $filters['is_json'] = ['callable' => [$this, 'is_json']];
         $filters['is_svg'] = ['callable' => [$this, 'is_svg']];
         $filters['is_video'] = ['callable' => [$this, 'is_video']];
+        $filters['video_aspect_ratio'] = ['callable' => [$this, 'video_aspect_ratio']];
 
         return $filters;
     }
@@ -95,6 +96,23 @@ class Twig_File_Filters {
      */
     public function is_video($file) {
         return $this->check_extension($file, array('mp4'));
+    }
+
+    
+    /**
+     * video_aspect_ratio filter method
+     *
+     * @param array $file : File array object
+     * @return float
+     */
+    public function video_aspect_ratio($file) {
+        if( !$this->is_video($file) ) return 0;
+
+        $meta = wp_get_attachment_metadata($file['ID']);
+        $width = intval($meta['width']);
+        $height = intval($meta['height']);
+
+        return $width / $height;
     }
 
 }
