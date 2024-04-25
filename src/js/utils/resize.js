@@ -81,6 +81,13 @@ class ResizeOrientation {
     // if list of listeners is empty
     if( this._listeners && this._listeners.length === 0 ) this._unbindEvents();
   }
+  trigger() {
+    if( this._tick ) return;
+
+    this._tick = true;
+    this._event = new Event("resize");
+    this._run();
+  }
 
   _bindEvents() {
     on(window, "orientationchange", this._getThrottleBnd);
