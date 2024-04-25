@@ -1,20 +1,25 @@
+import PowerMode from "@core/power-mode";
 import Breakpoint from "@utils/breakpoint";
 import Viewport from "@utils/viewport";
 
 const BREAKPOINTS = ["(min-width: 768px)"];
 
 class Video {
-  constructor(el) {
+  constructor(el, ignorePowerMode = false) {
     this.el = el;
     
     this._action = this.el.paused ? "pause" : "play";
     this._src = this.el.dataset.src || this.el.src;
     this._src_mobile = this.el.dataset.srcMobile;
+    this._poster = this.el.dataset.poster;
+    this._powerModeLow = PowerMode.low && ignorePowerMode === false;
 
     this._onBreakpointChange = this._onBreakpointChange.bind(this);
 
-    // listen to css breakpoints change
-    if (this._src && this._src_mobile) this._bp = new Breakpoint(BREAKPOINTS, this._onBreakpointChange);
+    if( !this._powerModeLow ) {
+      // listen to css breakpoints change
+      if (this._src && this._src_mobile) this._bp = new Breakpoint(BREAKPOINTS, this._onBreakpointChange);
+    }
 
     this.init();
   }
@@ -22,11 +27,15 @@ class Video {
   init() {
     this._bindEvents();
     
-    if( this._bp || this._src ) {
-      if( this.el.src !== this.src ) {
-        this.el.setAttribute("src", this.src);
-        if (this._action === "play") this.play();
+    if( !this._powerModeLow ) {
+      if( this._bp || this._src ) {
+        if( this.el.src !== this.src ) {
+          this.el.setAttribute("src", this.src);
+          this[this._action === "play" ? "play" : "pause"]();
+        }
       }
+    } else {
+      if( this._poster ) this.el.setAttribute('poster', this._poster);
     }
   }
   destroy() {
@@ -40,13 +49,18 @@ class Video {
     this._playPromise = null;
     this._src = null;
     this._src_mobile = null;
+    this._poster = null;
     this._bp = null;
+    this._powerModeLow = null;
 
     this._onBreakpointChange = null;
   }
   play(force = false) {
     // if video element does not exist, skip here
     if (!this.el) return;
+
+    // if low power, skip here
+    if (this._powerModeLow) return;
 
     // if we already request play without forcing it, skip here
     if (this._action === "play" && force === false) return;
@@ -63,6 +77,9 @@ class Video {
   pause() {
     // if video element does not exist, skip here
     if (!this.el) return;
+
+    // if low power, skip here
+    if (this._powerModeLow) return;
 
     // if we already request pause, skip here
     if (this._action === "pause") return;
@@ -85,7 +102,7 @@ class Video {
 
   // change video src depending on viewport's width
   _onBreakpointChange() {
-    this.el.setAttribute("src", this.src);
+    if (!this._powerModeLow) this.el.setAttribute("src", this.src);
     if (this._action === "play") this.play(true);
   }
 

@@ -4,6 +4,7 @@
 import domready from "domready";
 
 import "@core/hello";
+//import "@core/power-mode";
 //import "@core/gdpr";
 import windmill from "@core/windmill";
 import WindmillImgLazyload from "@core/windmill.img-lazyload";
