@@ -2,7 +2,7 @@ import PowerMode from "@core/power-mode";
 import Breakpoint from "@utils/breakpoint";
 import Viewport from "@utils/viewport";
 
-const BREAKPOINTS = ["(min-width: 768px)"];
+const BREAKPOINTS = ["(min-width: 768px)", "(min-width: 1200px)"];
 
 class Video {
   constructor(el, ignorePowerMode = false) {
@@ -11,6 +11,7 @@ class Video {
     this._action = this.el.paused ? "pause" : "play";
     this._src = this.el.dataset.src || this.el.src;
     this._src_mobile = this.el.dataset.srcMobile;
+    this._src_tablet = this.el.dataset.srcTablet;
     this._poster = this.el.dataset.poster;
     this._powerModeLow = PowerMode.low && ignorePowerMode === false;
 
@@ -18,7 +19,7 @@ class Video {
 
     if( !this._powerModeLow ) {
       // listen to css breakpoints change
-      if (this._src && this._src_mobile) this._bp = new Breakpoint(BREAKPOINTS, this._onBreakpointChange);
+      if (this._src && (this._src_mobile || this._src_tablet)) this._bp = new Breakpoint(BREAKPOINTS, this._onBreakpointChange);
     }
 
     this.init();
@@ -49,6 +50,7 @@ class Video {
     this._playPromise = null;
     this._src = null;
     this._src_mobile = null;
+    this._src_tablet = null;
     this._poster = null;
     this._bp = null;
     this._powerModeLow = null;
@@ -101,8 +103,19 @@ class Video {
   _unbindEvents() { this._bp?.off(); }
 
   // change video src depending on viewport's width
-  _onBreakpointChange() {
-    if (!this._powerModeLow) this.el.setAttribute("src", this.src);
+  _onBreakpointChange() {    
+    // check if src has changed
+    if( this.src === this.el.src ) return;
+
+    if (!this._powerModeLow) {
+      // pause before changing video source
+      if( this._action === "play" ) this.el.pause();
+
+      // change video source
+      this.el.setAttribute("src", this.src);
+    }
+
+    // if video was playing, restart playback
     if (this._action === "play") this.play(true);
   }
 
@@ -110,8 +123,11 @@ class Video {
   // getter - setter
   get playing() { return this._action === "play"; }
   get src() {
-    if (!this._src_mobile) return this._src;
-    return Viewport.width < 768 ? this._src_mobile : this._src;
+    if (!this._src_mobile && !this._src_tablet) return this._src;
+
+    if( Viewport.width < 768 ) return this._src_mobile ? this._src_mobile : this._src_tablet;
+    else if( Viewport.width < 1200 ) return this._src_tablet ? this._src_tablet : this._src;
+    return this._src;
   }
 }
 

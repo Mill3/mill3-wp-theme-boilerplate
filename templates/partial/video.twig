@@ -5,6 +5,9 @@
 {% set is_preview = is_preview|default(false) %}
 {% set module = module ?? 'video' %}
 
+{% set src = src|default(null) %}
+{% set src_mobile = src_mobile|default(null) %}
+{% set src_tablet = src_tablet|default(null) %}
 {% set muted = muted ?? true %}
 {% set autoplay = autoplay ?? true %}
 {% set loop = loop ?? true %}
@@ -42,6 +45,7 @@
   {% if disableRemotePlayback %}disableRemotePlayback{% endif %}
   data-src="{{ src.url }}"
   {% if src_mobile %}data-src-mobile="{{ src_mobile.url }}"{% endif %}
+  {% if src_tablet %}data-src-tablet="{{ src_tablet.url }}"{% endif %}
   {{ attributes|join(' ') }}
 >
 </video>
