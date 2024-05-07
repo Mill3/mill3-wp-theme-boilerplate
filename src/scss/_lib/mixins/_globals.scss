@@ -5,6 +5,12 @@
   }
 }
 
-@mixin inView() {
-  @content;
+@mixin inView($hard: false) {
+  @if $hard {
+    &[data-scroll] {
+      @content;
+    }
+  } @else {
+    @content;
+  }
 }
