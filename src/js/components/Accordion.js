@@ -3,18 +3,15 @@ import EventEmitter2 from "eventemitter2";
 import { on, off } from "@utils/listener";
 
 class Accordion extends EventEmitter2 {
-  constructor(button, panel, closeOnTapOut = false) {
+  constructor(el, closeOnTapOut = false) {
     super();
 
-    this.button = button;
-    this.panel = panel;
-    this.parent = button.closest('.accordions__accordion');
+    this.el = el;
 
-    this._toggled = this.button.getAttribute("aria-expanded") == 'true';
     this._closeOnTapOut = closeOnTapOut;
+    this._silent = false;
 
-    this._onClick = this._onClick.bind(this);
-    this._onClickPanel = this._onClickPanel.bind(this);
+    this._onToggle = this._onToggle.bind(this);
     this._onClickOutside = this._onClickOutside.bind(this);
 
     this.init();
@@ -26,76 +23,65 @@ class Accordion extends EventEmitter2 {
   destroy() {
     this._unbindEvents();
 
-    this.button = null;
-    this.panel = null;
+    this.el = null;
 
-    this._toggled = null;
     this._closeOnTapOut = null;
+    this._silent = null;
 
-    this._onClick = null;
-    this._onClickPanel = null;
+    this._onToggle = null;
     this._onClickOutside = null;
   }
   open(silent = false) {
-    if (this._toggled === true) return;
-    this._toggled = true;
+    // if accordion is already opened, stop here
+    if (this.opened === true) return;
 
-    if(this.parent) this.parent.setAttribute("data-expanded", true);
-    this.button.setAttribute("aria-expanded", true);
-    this.panel.setAttribute("aria-hidden", false);
+    // save silent status
+    this._silent = silent;
 
-    if (this._closeOnTapOut) window.addEventListener("click", this._onClickOutside);
-
-    if (!silent) this.emit("open", this);
+    // open accordion
+    this.el.open = true;
   }
   close(silent = false) {
-    if (this._toggled === false) return;
-    this._toggled = false;
+    // if accordion isn't opened, stop here
+    if (this.opened === false) return;
 
-    if (this._closeOnTapOut) window.removeEventListener("click", this._onClickOutside);
+    // save silent status
+    this._silent = silent;
 
-    if(this.parent) this.parent.setAttribute("data-expanded", false);
-    this.button.setAttribute("aria-expanded", false);
-    this.panel.setAttribute("aria-hidden", true);
-
-    if (!silent) this.emit("close", this);
+    // close accordion
+    this.el.open = false;
   }
   toggle() {
-    if (this._toggled === true) this.close();
+    if (this.opened === true) this.close();
     else this.open();
   }
+  
 
   _bindEvents() {
-    if (this.button) on(this.button, "click", this._onClick);
-    if (this.panel) on(this.panel, "click", this._onClickPanel);
+    if (this.el) on(this.el, "toggle", this._onToggle);
   }
   _unbindEvents() {
-    if (this.button) off(this.button, "click", this._onClick);
-    if (this.panel) off(this.panel, "click", this._onClickPanel);
-    if (this._closeOnTapOut) window.removeEventListener("click", this._onClickOutside);
+    if (this.el) off(this.el, "toggle", this._onToggle);
+    if (this._closeOnTapOut) off(window, "click", this._onClickOutside);
   }
+  _emit() { this.emit(this.opened ? "open" : "close", this); }
 
-  _onClick(event) {
-    if (event) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-    }
 
-    this.toggle();
-  }
-  _onClickPanel(event) {
-    if (event) {
-      event.stopImmediatePropagation();
+  _onToggle() {
+    // if accordion need to be close on click outside
+    if( this._closeOnTapOut ) {
+      // bind/unbind click outside event if accordion is opened/closed
+      if( this.opened ) on(window, "click", this._onClickOutside);
+      else off(window, "click", this._onClickOutside);
     }
+    
+    // emit event if required
+    if( !this._silent ) this._emit();
   }
-  _onClickOutside() {
-    this.close();
-  }
+  _onClickOutside() { this.close(); }
 
   // getter
-  get toggled() {
-    return this._toggled;
-  }
+  get opened() { return this.el.open; }
 }
 
 export default Accordion;

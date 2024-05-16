@@ -1,56 +1,36 @@
-import Accordion from '@components/Accordion';
-import { $, $$ } from '@utils/dom';
+import { $$ } from '@utils/dom';
+import { on, off } from '@utils/listener';
 
 class Accordions {
   constructor(el, emitter) {
     this.el = el;
     this.emitter = emitter;
-    this.accordions = [ ...$$('.accordions__accordion', this.el) ].map(accordion => {
-      const btn = $('.accordions__btn', accordion);
-      const panel = $('.accordions__content', accordion);
+    this.accordions = [ ...$$('.accordions__accordion', this.el) ];
 
-      return new Accordion(btn, panel);
-    });
-
-    this._onAccordionOpen = this._onAccordionOpen.bind(this);
-    this._onAccordionClose = this._onAccordionClose.bind(this);
+    this._onAccordionToggle = this._onAccordionToggle.bind(this);
   }
 
+  init() {
+    this._bindEvents();
+  }
   destroy() {
-    if( this.accordions ) this.accordions.forEach(accordion => accordion.destroy());
+    this._unbindEvents();
 
     this.el = null;
     this.emitter = null;
     this.accordions = null;
 
-    this._onAccordionOpen = null;
-    this._onAccordionClose = null;
+    this._onAccordionToggle = null;
   }
-
-  start() { this._bindEvents(); }
-  stop() { this._unbindEvents(); }
 
   _bindEvents() {
-    if( this.accordions ) {
-      this.accordions.forEach(accordion => {
-        accordion.on('open', this._onAccordionOpen);
-        accordion.on('close', this._onAccordionClose);
-      });
-    }
+    if( this.accordions ) on(this.accordions, 'toggle', this._onAccordionToggle);
   }
   _unbindEvents() {
-    if( this.accordions ) {
-      this.accordions.forEach(accordion => {
-        accordion.off('open', this._onAccordionOpen);
-        accordion.off('close', this._onAccordionClose);
-      });
-    }
+    if( this.accordions ) off(this.accordions, 'toggle', this._onAccordionToggle);
   }
 
-  _onAccordionOpen() {
-    this.emitter.emit('SiteScroll.update');
-  }
-  _onAccordionClose() {
+  _onAccordionToggle() {
     this.emitter.emit('SiteScroll.update');
   }
 }
