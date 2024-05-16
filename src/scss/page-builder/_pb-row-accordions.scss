@@ -1,5 +1,4 @@
 @use "@mill3-sass-mixins/breakpoints";
-@use "@mill3-sass-vars/easings";
 @use "@mixins/animations";
 
 .pb-row-accordions {
@@ -10,6 +9,11 @@
   &__accordions {
     width: 100%;
   }
+
+  &__title { --self-delay: 0ms; }
+  &__text { --self-delay: 100ms; }
+  &__accordions { --delay: calc(var(--module-delay) + 150ms); }
+  
 
   // POSITION
   &.--position-center {
@@ -69,20 +73,12 @@
   // IN-VIEW ANIMATIONS
   @include inView {
     #{$self}__title,
-    #{$self}__text {
-      opacity: 0.0001;
-      transform: translate3d(0, 40px, 0);
-    }
-    #{$self}__accordions {
-      --delay: 150ms;
-    }
+    #{$self}__text { @include animations.slideFadeUpInitial; }    
 
     &.is-inview {
       #{$self}__title,
       #{$self}__text {
-        opacity: 0.999;
-        transform: translate3d(0, 0px, 0);
-        transition: opacity 450ms linear, transform 650ms easings.$easeOutCubic;
+        @include animations.slideFadeUp($delay: calc(var(--self-delay) + var(--module-delay)));
       }
     }
   }

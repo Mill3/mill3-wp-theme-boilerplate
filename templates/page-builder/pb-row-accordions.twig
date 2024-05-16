@@ -32,10 +32,10 @@
 
   {% include 'partial/accordions.twig' with {
     'accordions': accordions,
-    'udid': udid,
     'classname': 'pb-row-accordions__accordions',
     'attributes': [
-      'data-scroll-target="#'~ udid ~'"'
+      'data-scroll-target="#'~ udid ~'"',
+      'data-scroll-offset="200px,0"',
     ]
   } only %}
 
