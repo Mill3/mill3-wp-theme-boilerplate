@@ -4,83 +4,7 @@
 * ## Windmill Webpack Chunks.
 *
 * - Load webpack-chunks from [data-module] & [data-ui] attributes
-* - Init, start, stop and destroy module during Windmill's page transition
-* 
-*
-* --------------
-*  How it works
-* --------------
-* This script will parse HTML source and find nodes with [data-module] and [data-ui] attributes.
-* These scripts will be loaded asynchronously, and store in a registry for the next page.
-* Scripts are loaded only once to preserve bandwith and speed up next's page loading.
-* 
-*
-* ------------------------------------------
-*  Where to locate "modules" and "ui"
-* ------------------------------------------
-* Modules are located in js/modules/[module-name]/
-* UIs are located in js/ui/[ui-name]/
-* Every modules and uis must have an index.js file that export a default class constructor.
-* This default class constructor will be invoked with 2 parameters during Windmill process.
-*
-*
-* ------------------------------------------
-*  What shoud i expect the get in my Module/UI class constructor?
-* ------------------------------------------
-* When Windmill have finished loading your script, it will create an instance of your default class constructor.
-* This class constructor will receive 2 parameters:
-*   el: NodeElement who loaded this script. (aka: <div data-module="my-module">)
-*   emitter: Global event emitter used through application. Very useful if you want to communicate between two modules during application runtime.
-*
-*
-* ------------------------------------------
-*  Windmill events flow
-* ------------------------------------------
-* Windmill will invoked custom methods for each modules/ui in page at different time during page loading.
-* Depending of Windmill synchronosity (async: true | false), events flow may be different.
-*
-* Synchronous events flow:
-*   ready: Parse HTML source and import modules/ui (referenced as "chunks").
-*          Create instances of all chunks required in this page.
-*          Call every chunk.init() method.
-*
-*   done: Call every chunk.start() method.
-*
-*   exiting: Call every chunk.stop() method.
-*   exited: Call every chunk.destroy() method for chunks who are not children of [data-windmill="container"].
-*
-*   enter: Parse HTML source and import chunks.
-*          Create instances of all chunks required in this page.
-*          Call every chunk.init() method. Even for chunks that were not destroyed in previous "exited" event.
-*
-*   done: Call every chunk.start() method.
-*
-*
-* Asynchronous events flow: 
-*   ready: Parse HTML source and import modules/ui (referenced as "chunks").
-*          Create instances of all chunks required in this page.
-*          Call every chunk.init() method.
-*
-*   done: Call every chunk.start() method.
-*
-*   exiting: Call every chunk.stop() method.
-*
-*   enter: Parse HTML source and import chunks.
-*          Create instances of all chunks required in this page.
-*          Call every chunk.init() method. Even for chunks that were not destroyed in previous "exited" event.
-*
-*   entered: Call every chunk.destroy() method for previous page's chunks who were not children of [data-windmill="container"].
-*
-*   done: Call every chunk.start() method.
-*
-*
-* ------------------------------------------
-*  Preloading modules/ui ahead-of-time
-* ------------------------------------------
-* When Windmill is not performing CPU intensive tasks, it will preload modules ahead-of-time to speed up future pages loading.
-* To do so, you need to create a registry of modules/ui used in your application.
-* Registry is located in: js/modules/index.webpack-chunks.js
-*
+* - Start, stop and destroy module during Windmill's page transition
 *
 * @module windmill
 * @preferred
@@ -88,6 +12,7 @@
 
 import EMITTER from "@core/emitter";
 import { STATE } from "@core/state";
+import ACF from "@utils/acf";
 import { $$, body } from "@utils/dom";
 import { isFunction } from "@utils/is";
 import { mobile } from "@utils/mobile";
@@ -149,16 +74,13 @@ export class WindmillWebpackChunks {
 
     [ ...$$(MODULES_SELECTOR, container), ...$$(UI_SELECTOR, container), container ].forEach(el => {
 
-      // get module or ui chunk type
-      // element could be : 
-      //    <div data-module="my-module"> or 
-      //    <div data-ui="my-ui-js-thing">
-      const { module, moduleNative, ui, uiNative } = el.dataset;
+      // get data and module or ui chunk type
+      // element should be : <div data-module="my-module"> or <div data-ui="my-ui-js-thing">
+      const { module, moduleNative, moduleBackend, ui, uiNative, uiBackend } = el.dataset;
 
-      // element can cast multiple chunks, each seperated by a coma
+      // element can cast 1 or multiple chunk, each seperated by a coma
       if (module) {
-        // use [data-module-native] attribute if exists AND user is on mobile device
-        const moduleSelector = (mobile && el.hasAttribute('data-module-native') ? moduleNative : module);
+        const moduleSelector = ACF.is_preview && el.hasAttribute('data-module-backend') ? moduleBackend : (mobile && el.hasAttribute('data-module-native') ? moduleNative : module);
 
         if( moduleSelector ) {
           moduleSelector.split(",").forEach(m => {
@@ -174,8 +96,7 @@ export class WindmillWebpackChunks {
       }
 
       if (ui) {
-        // use [data-ui-native] attribute if exists AND user is on mobile device
-        const uiSelector = (mobile && el.hasAttribute('data-ui-native') ? uiNative : ui);
+        const uiSelector = ACF.is_preview && el.hasAttribute('data-ui-backend') ? uiBackend : (mobile && el.hasAttribute('data-ui-native') ? uiNative : ui);
 
         if( uiSelector ) {
           uiSelector.split(",").forEach(m => {
