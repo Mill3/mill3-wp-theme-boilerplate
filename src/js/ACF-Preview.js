@@ -13,7 +13,6 @@ domready(() => {
   const resize = () => {
     const max = Math.ceil(parent.innerHeight * 2 >> 0);
     window.frameElement.height = limit(25, max, body.scrollHeight);
-    // window.frameElement.height = body.scrollHeight;
   };
 
   resize();
