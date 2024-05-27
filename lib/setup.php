@@ -25,6 +25,7 @@ function setup()
 
     // Enable features
     //add_theme_support('post-formats', array('aside', 'gallery'));
+    add_theme_support('rank-math-breadcrumbs');
     add_theme_support('post-thumbnails');
     add_theme_support('title-tag');
     add_theme_support('menus');
