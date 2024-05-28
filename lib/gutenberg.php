@@ -76,5 +76,17 @@ add_filter( 'timber/acf-gutenberg-blocks-data', function( $context ) {
     // then set block_first to false from now on if is true
     if($GLOBALS['block_first']) $GLOBALS['block_first'] = false;
 
+    // try to override global $wp_query to enable correct RankMath's breadcrumb
+    if( $context['is_preview'] ) {
+        global $wp_query;
+
+        $new_wp_query = new \WP_Query(array(
+            'p' => $context['post_id'],
+            'post_type' => 'any',
+        ));
+
+        if( $new_wp_query->found_posts ) $wp_query = $new_wp_query;
+    }
+
     return $context;
 } );
