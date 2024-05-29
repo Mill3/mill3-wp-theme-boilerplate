@@ -19,7 +19,7 @@ const BREAKPOINTS = {
     gutter: 12,
     margin: 30,
   },
-  1024: {
+  1200: {
     columns: 12,
     gutter: 20,
     margin: 60,
