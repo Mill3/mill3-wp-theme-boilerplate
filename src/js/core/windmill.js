@@ -260,6 +260,9 @@ class Windmill {
     this._data.current.container = $(this._options.container);
     this._data.current.html = html.innerHTML;
 
+    // save cache for current page
+    this.saveCache(this._data.current.url, this._data.current.html);
+
     // install plugins
     this._plugins.forEach(plugin => {
       if( plugin && isFunction(plugin.install) ) plugin.install(this);
@@ -365,6 +368,26 @@ class Windmill {
   replace(url) {
     this._data.current.url = url;
     history.replaceState({ scroll: window.scrollY }, '', url);
+  }
+
+  saveCache(url, html) {
+    // if cache is disabled, stop here
+    if( !this._options.cache ) return;
+
+    // clean url
+    url = cleanURL(url);
+    
+    // if already in cache, stop here
+    if( this._cache.has(url) ) return;
+    
+    // save to cache 
+    this._cache.set(url, html);
+  }
+  urlCached(url) {
+    // if cache is disabled, return all URLs as cached
+    if( !this._options.cache ) return true;
+
+    return this._cache.has(url);
   }
   
   
@@ -630,8 +653,8 @@ class Windmill {
     // save new content
     this._data.next.html = html;
     
-    // set cache if enabled
-    if( this._options.cache === true ) this._cache.set(cleanURL(this._data.next.url), html);
+    // save cache
+    this.saveCache(this._data.next.url, html);
     
     // DOMParser.parseFromString fails with img[srcset] on iOS. 
     // see https://github.com/metafizzy/infinite-scroll/issues/770
@@ -672,6 +695,7 @@ class Windmill {
   
   // getter - setter
   get async() { return this._options.async }
+  get cache() { return this._options.cache }
   get debug() { return this._options.debug }
   get wrapper() { return this._options.wrapper }
 }

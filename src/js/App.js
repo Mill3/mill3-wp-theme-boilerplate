@@ -8,6 +8,7 @@ import "@core/hello";
 //import "@core/gdpr";
 import windmill from "@core/windmill";
 import WindmillImgLazyload from "@core/windmill.img-lazyload";
+import WindmillPrefetch from "@core/windmill.prefetch";
 import WindmillScripts from "@core/windmill.scripts";
 import WindmillScroll from "@core/windmill.scroll";
 import WindmillSplitting from "@core/windmill.splitting";
@@ -68,6 +69,7 @@ class App {
     windmill.use( new WindmillScroll() );
     windmill.use( new WindmillSplitting() );
     windmill.use( new WindmillImgLazyload() );
+    windmill.use( new WindmillPrefetch() );
 
 
     // if you use Windmill's Async mode, please do this:

@@ -102,6 +102,7 @@ $includes = [
     'lib/taxonomies.php',
     'lib/taxonomy-queries.php',
     'lib/utils.php',
+    'lib/windmill-prefetch.php',
     'lib/window-messenger.php',
     // twig
     'lib/twig/extra-timber-filters.php',
