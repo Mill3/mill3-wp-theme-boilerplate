@@ -43,7 +43,7 @@ export class WindmillPrefetch {
     AJAX
       .get("windmill_prefetch")
       .then(json => {
-        if( !isArray(json) && json.length > 0 ) return;
+        if( !isArray(json) || json.length < 1 ) return;
 
         this._urls = json;
         requestIdleCallback(this._prefetchURL);
