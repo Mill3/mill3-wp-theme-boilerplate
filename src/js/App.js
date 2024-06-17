@@ -7,6 +7,7 @@ import "@core/hello";
 //import "@core/power-mode";
 //import "@core/gdpr";
 import windmill from "@core/windmill";
+import WindmillFluidTypography from "@core/windmill.fluid-typography";
 import WindmillImgLazyload from "@core/windmill.img-lazyload";
 import WindmillPrefetch from "@core/windmill.prefetch";
 import WindmillScripts from "@core/windmill.scripts";
@@ -63,6 +64,7 @@ class App {
     windmill.on('entering', updateScrollbarWidth);
 
     // install Windmill's plugins
+    //windmill.use( new WindmillFluidTypography() );
     windmill.use( new WindmillScripts() );
     windmill.use( new WindmillWebpackChunks(Modules) );
     //windmill.use( new WindmillDomController({ modules: Modules, ui: UI }) );
