@@ -3,6 +3,8 @@ import { on, off } from "@utils/listener";
 
 const ANIMATE_IN_CLASSNAME = '--js-animate-in';
 const ANIMATE_OUT_CLASSNAME = '--js-animate-out';
+const ATTRIBUTE_URL = "data-site-video-url";
+const ATTRIBUTE_OEMBED = "data-site-video-oembed";
 const MODE_INLINE = "inline";
 const MODE_OEMBED = "oembed";
 
@@ -19,39 +21,29 @@ class SiteVideo {
     this._mode = MODE_INLINE;
     this._opened = false;
     this._playing = false;
+    this._elements = null;
 
     this._onPlayReady = this._onPlayReady.bind(this);
     this._onStopComplete = this._onStopComplete.bind(this);
     this._handleKeyDown = this._handleKeyDown.bind(this);
+    this._handleElementClick = this._handleElementClick.bind(this);
     this._playBnd = this.play.bind(this);
-    this._stopBnd = this.stop.bind(this);
+    this._closeBnd = this.close.bind(this);
     this._oembedBnd = this.oembed.bind(this);
 
     this._bindEvents();
   }
 
-  // destroy() {
-  //   this._unbindEvents();
-  //   this.stop();
+  init() {
+    this._elements = $$(`[${ATTRIBUTE_URL}], [${ATTRIBUTE_OEMBED}]`);
+    if( this._elements ) on(this._elements, 'click', this._handleElementClick);
+  }
+  stop() {
+    if( this._elements ) off(this._elements, 'click', this._handleElementClick);
+    this._elements = null;
 
-  //   this.el = null;
-  //   this.emitter = null;
-  //   this.bg = null;
-  //   this.container = null;
-  //   this.videoWrap = null;
-  //   this.video = null;
-  //   this.closeBtn = null;
-
-  //   this._opened = false;
-  //   this._playing = false;
-
-  //   this._onPlayReady = null;
-  //   this._onStopComplete = null;
-  //   this._handleKeyDown = null;
-  //   this._playBnd = null;
-  //   this._stopBnd = null;
-  //   this._oembedBnd = null;
-  // }
+    this.close();
+  }
 
   play(url) {
     // if already opened, replace <video> src and reload playback
@@ -90,7 +82,7 @@ class SiteVideo {
     // wait for next frame to start animation (required because display: none; was previously applied)
     requestAnimationFrame(() => this.el.classList.add(ANIMATE_IN_CLASSNAME));
   }
-  stop() {
+  close() {
     // if not opened, stop here
     if( !this._opened ) return;
     this._opened = false;
@@ -122,6 +114,9 @@ class SiteVideo {
     // make sure ANIMATE_OUT is removed
     this.el.classList.remove(ANIMATE_OUT_CLASSNAME);
 
+    // remove display: none; from modal
+    this.el.setAttribute('aria-hidden', false);
+
     // wait for next frame to start animation (required because display: none; was previously applied)
     requestAnimationFrame(() => this.el.classList.add(ANIMATE_IN_CLASSNAME));
   }
@@ -129,34 +124,34 @@ class SiteVideo {
   _bindEvents() {
     if( this.emitter ) {
       this.emitter.on('SiteVideo.play', this._playBnd);
-      this.emitter.on('SiteVideo.stop', this._stopBnd);
+      this.emitter.on('SiteVideo.stop', this._closeBnd);
       this.emitter.on('SiteVideo.oembed', this._oembedBnd);
     }
 
     if( this.el ) on(window, "keydown", this._handleKeyDown);
     if( this.closeBtn ) {
-      on(this.closeBtn, "click", this._stopBnd);
+      on(this.closeBtn, "click", this._closeBnd);
       on(this.closeBtn, "transitionend", this._onPlayReady);
     }
     if( this.bg ) {
-      on(this.bg, "click", this._stopBnd);
+      on(this.bg, "click", this._closeBnd);
       on(this.bg, "transitionend", this._onStopComplete);
     }
   }
   _unbindEvents() {
     if( this.emitter ) {
       this.emitter.off('SiteVideo.play', this._playBnd);
-      this.emitter.off('SiteVideo.stop', this._stopBnd);
+      this.emitter.off('SiteVideo.stop', this._closeBnd);
       this.emitter.off('SiteVideo.oembed', this._oembedBnd);
     }
 
     if( this.el ) off(window, "keydown", this._handleKeyDown);
     if( this.closeBtn ) {
-      off(this.closeBtn, "click", this.stopBnd);
+      off(this.closeBtn, "click", this._closeBnd);
       off(this.closeBtn, "transitionend", this._onPlayReady);
     }
     if( this.bg ) {
-      off(this.bg, "click", this._stopBnd);
+      off(this.bg, "click", this._closeBnd);
       off(this.bg, "transitionend", this._onStopComplete);
     }
   }
@@ -190,8 +185,24 @@ class SiteVideo {
   }
   _handleKeyDown(event) {
     if (this._opened === true && (event.key === "Escape" || event.key === "Esc")) {
-      this.stop();
+      this.close();
     }
+  }
+  _handleElementClick(event) {
+    if( event ) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+
+    const el = event.currentTarget;
+    const url = el.getAttribute(ATTRIBUTE_URL);
+    const oembed = el.getAttribute(ATTRIBUTE_OEMBED);
+    
+    // if clicked element doesn't have URL or oEmbed attribute, stop here
+    if( !url && !oembed ) return;
+
+    if( url ) this.play(url);
+    else if( oembed ) this.oembed( $(oembed) );
   }
 }
 
