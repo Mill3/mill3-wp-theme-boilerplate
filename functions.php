@@ -86,6 +86,7 @@ $includes = [
     'lib/gdpr.php',
     'lib/gravity-form.php',
     'lib/gutenberg.php',
+    'lib/media-gallery.php',
     'lib/menu.php',
     'lib/newsletter.php',
     'lib/polylang.php',
