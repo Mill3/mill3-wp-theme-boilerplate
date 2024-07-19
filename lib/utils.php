@@ -1,5 +1,8 @@
 <?php
 
+namespace Mill3WP\Utils;
+
+
 /**
  * Detect XHR ajax requests
  */
@@ -9,4 +12,17 @@ function is_ajax() {
     } else {
         return false;
     }
+}
+
+
+
+/**
+ * Encode image to Base64
+ */
+function ImageToBase64($filepath) {
+    $type = wp_get_image_mime($filepath);
+    $data = file_get_contents($filepath);
+    
+    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+    return $base64;
 }

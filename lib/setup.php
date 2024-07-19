@@ -63,6 +63,7 @@ function setup()
     add_image_size('largest', 1800);
     add_image_size('largest-retina', 2800);
     add_image_size('full', '');
+    add_image_size('open-ai-vision', 512, 512);
 
     // Enable HTML5 markup support
     // http://codex.wordpress.org/Function_Reference/add_theme_support#HTML5
