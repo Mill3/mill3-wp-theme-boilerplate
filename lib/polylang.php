@@ -40,7 +40,7 @@ if( function_exists('pll_the_languages') ){
             if( $slug === $defaultLanguage ) continue;
 
             $form_fields['alt_text_' . $slug] = array(
-                'label' => sprintf('%s <br /><em>(%s)</em>', __('Alternative Text', 'mill3wp'), $language['name'] ),
+                'label' => sprintf('%s <br /><em>(%s)</em>', __('Alternative Text'), $language['name'] ),
                 'input' => 'textarea',
                 'value'  => get_post_meta( $post->ID, 'mill3_image_alt_' . $slug, true ),
             );
@@ -72,5 +72,36 @@ if( function_exists('pll_the_languages') ){
 
         return $post;
     }, 10, 2);
+
+    // Media > Library > Attachment Details > Edit more details :: /wp-admin/post.php?post=[XXX]&action=edit
+    add_action('print_media_templates', function() {
+    ?>
+        <style>
+            
+            #post .compat-attachment-fields > tbody > tr[class*="compat-field-alt_text_"] {
+                display: grid;
+                grid-template-columns: 20% 1fr;
+                border: 1px solid #c3c4c7;
+            }
+            #post .compat-attachment-fields > tbody > tr[class*="compat-field-alt_text_"] + tr[class*="compat-field-alt_text_"] {
+                border-top-color: #e1e1e1;
+                margin-top: -1px;
+            }
+            #post .compat-attachment-fields > tbody > tr[class*="compat-field-alt_text_"] > th {
+                background: #f9f9f9;
+                border-right: 1px solid #e1e1e1;
+                padding: 15px 12px;
+                text-align: left;
+            }
+            #post .compat-attachment-fields > tbody > tr[class*="compat-field-alt_text_"] > td {
+                background: #fff;
+                padding: 15px 12px;
+            }
+            #post .compat-attachment-fields > tbody > tr[class*="compat-field-alt_text_"] > td textarea {
+                width: 100%;
+            }
+        </style>
+    <?php
+    });
     
 }

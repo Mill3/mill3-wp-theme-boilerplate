@@ -149,6 +149,15 @@ if( defined('OPENAI_API_KEY') ) {
                     const pll_default_language = '<?php echo get_locale() ?>';
                 <?php endif; ?>
 
+                const labels = {
+                    button: "<?php echo __('Generate Alt with AI', 'mill3wp') ?>",
+                    failed: "<?php echo __('Failed', 'mill3wp') ?>",
+                    waiting: "<?php echo __( 'Generating…', 'mill3wp' ) ?>",
+                };
+
+                const getButton = function() {
+                    return '<button class="mill3-generate-alt-button">' + labels.button + '</button>';
+                };
                 const getTemplate = function(template, view, isTwoColumn = false) {
                     const html = wp.media.template(template)(view);
                     const dom = document.createElement('div');
@@ -156,14 +165,19 @@ if( defined('OPENAI_API_KEY') ) {
 
                     if ( !dom.querySelector('#alt-text-description') ) return html;
 
-                    const generateAltTextButton = '<button class="mill3-generate-alt-button"><?php echo __('Generate Alt with AI', 'mill3wp') ?></button><br />'
-
                     // Add it to the beginning of #alt-text-description, along with a line break.
                     const altText = dom.querySelector('#alt-text-description');
-                    altText.innerHTML = generateAltTextButton + altText.innerHTML;
+                    altText.innerHTML = getButton() + '<br />' + altText.innerHTML;
 
                     return dom.innerHTML;
                 };
+                const updateButton = function(btn, enabled, label, failure) {
+                    if( label ) btn.innerHTML = label;
+
+                    btn.disabled = !enabled;
+                    btn.classList[failure ? 'add' : 'remove']('failed');
+                };
+
                 const generateAltTextForImage = function(event) {
                     if( event ) {
                         event.preventDefault();
@@ -173,15 +187,15 @@ if( defined('OPENAI_API_KEY') ) {
                     // get media ID
                     const model = this.model;
                     const mediaID = model.attributes.id;
+                    const generateAltTextButton = event.currentTarget;
+
+                    // stop here if we can't find Attachment ID
                     if( !mediaID ) return;
 
-                    const generateAltTextButton = event.currentTarget;
-                    const generateButtonText = generateAltTextButton.innerHTML;
-
                     // Disable the button while generating alt text
-                    generateAltTextButton.disabled = true;
-                    generateAltTextButton.innerHTML = "<?php echo __( 'Generating…', 'mill3wp' ) ?>";
+                    updateButton(generateAltTextButton, false, labels.waiting);
                     
+                    // request alt text generator
                     altTextGenerator(mediaID)
                         .then(function(response) {
                             // if response is not for this media, stop here
@@ -220,25 +234,74 @@ if( defined('OPENAI_API_KEY') ) {
                             if( compatItem ) jQuery(compatItem).trigger('change');
 
                             // reset button default label
-                            generateAltTextButton.innerHTML = generateButtonText;
+                            updateButton(generateAltTextButton, true, labels.button);
                         })
                         .catch(function(error) {
                             console.error(error);
 
                             // Update the button to show failure
-                            generateAltTextButton.classList.add('failed');
-                            generateAltTextButton.innerHTML = "<?php echo __('Failed', 'mill3wp') ?>";
+                            updateButton(generateAltTextButton, false, labels.failed, true);
 
                             // Wait 3 seconds then reset button to original state
                             setTimeout( function() {
-                                generateAltTextButton.classList.remove('failed');
-                                generateAltTextButton.innerHTML = generateButtonText;
+                                updateButton(generateAltTextButton, true, labels.button);
                             }, 3000 );
-                        })
-                        .finally(function() {
-                            // Re-enable the button after operation
-                            generateAltTextButton.disabled = false;
                         });
+                };
+                const injectButton = function(destination) {
+                    destination.insertAdjacentHTML('afterend', '<br>' + getButton());
+
+                    const button = destination.parentElement.querySelector('button.mill3-generate-alt-button');
+                    button.addEventListener('click', function(event) {
+                    if( event ) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+
+                    const generateAltTextButton = event.currentTarget;
+
+                    // Disable the button while generating alt text
+                    updateButton(generateAltTextButton, false, labels.waiting);
+
+                    // request alt text generator
+                    altTextGenerator(attachmentID)
+                        .then(function(response) {
+                            console.log(response.mediaID, attachmentID, response.mediaID == attachmentID);
+
+                            // if response is not for this media, stop here
+                            if( response.mediaID != attachmentID ) return;
+
+                            // Successfully generated alt text, now update and save the alt text field
+                            const translations = JSON.parse(response.altText);
+                            const altText = translations[pll_default_language];
+
+                            // update textfields
+                            altTextField.value = altText;
+
+                            Object.values(pll_the_languages).forEach(function(language) {
+                                if( language.slug === pll_default_language ) return;
+
+                                const value = translations[language.slug];
+                                const textfield = document.querySelector(`#attachments-${attachmentID}-alt_text_${language.slug}`);
+
+                                if( textfield ) textfield.value = value;
+                            });
+
+                            // reset button default label
+                            updateButton(generateAltTextButton, true, labels.button);
+                        })
+                        .catch(function(error) {
+                            console.error(error);
+
+                            // Update the button to show failure
+                            updateButton(generateAltTextButton, false, labels.failed, true);
+
+                            // Wait 3 seconds then reset button to original state
+                            setTimeout( function() {
+                                updateButton(generateAltTextButton, true, labels.button);
+                            }, 3000 );
+                        });
+                    });
                 };
                 const altTextGenerator = function(mediaID) {
                     return new Promise(function(resolve, reject) {
@@ -261,21 +324,30 @@ if( defined('OPENAI_API_KEY') ) {
                 };
 
                 const events = Object.assign(wp.media.view.ImageDetails.prototype.events, { 'click .mill3-generate-alt-button': generateAltTextForImage });
+                const altTextField = document.querySelector('#attachment_alt');
+
+                let attachmentID = document.querySelector('input[type="hidden"]#post_ID');
+                if( attachmentID ) attachmentID = attachmentID.value;
 
                 // Two Column Attchment Details modal. Add Generate Button in Media library Grid mode.
-                wp.media.view.Attachment.Details.TwoColumn = wp.media.view.Attachment.Details.TwoColumn.extend({
-                    template: function( view ) {
-                        //return getTemplate( isTwoColumn ? 'attachment-details-two-column' : 'image-details', view, true );
-                        return getTemplate( 'attachment-details-two-column', view, true );
-                    },
-                    events: events
-                });
+                if( wp.media.view.Attachment.Details.TwoColumn ) {
+                    wp.media.view.Attachment.Details.TwoColumn = wp.media.view.Attachment.Details.TwoColumn.extend({
+                        template: function( view ) {
+                            //return getTemplate( isTwoColumn ? 'attachment-details-two-column' : 'image-details', view, true );
+                            return getTemplate( 'attachment-details-two-column', view, true );
+                        },
+                        events: events
+                    });
+                }
 
                 // Attachment Details modal. Add Generate Button in Block Editor Attachment details modal.
                 wp.media.view.Attachment.Details = wp.media.view.Attachment.Details.extend({
                     template: function(view) { return getTemplate('attachment-details', view); },
                     events: events
                 });
+
+                // If there is no #attachment_alt field OR no #post_ID field, then we don't need to do anything.
+                if( altTextField && attachmentID ) injectButton(altTextField);
             });
         </script>
     <?
