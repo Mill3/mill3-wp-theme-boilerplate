@@ -206,11 +206,9 @@ if( defined('OPENAI_API_KEY') ) {
                             const altText = translations[pll_default_language];
 
                             // update textfields
-                            const altTextField = document.querySelector('#attachment-details-two-column-alt-text');
-                            const altTextFieldTwoColumns = document.querySelector('#attachment-details-two-column-alt-text');
-
-                            if( altTextField ) altTextField.value = altText;
-                            if( altTextFieldTwoColumns ) altTextField.value = altText;
+                            document
+                                .querySelectorAll('#attachment-details-two-column-alt-text, #attachment-details-alt-text, #attachment-details-two-column-alt-text')
+                                .forEach(function(textfield) { textfield.value = altText; });
 
                             // update translations
                             let compatItem;
