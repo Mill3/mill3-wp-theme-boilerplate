@@ -4,6 +4,8 @@ function filter_embeded_settings($iframe, $params = array()) {
     // use preg_match to find iframe src
     preg_match('/src="(.+?)"/', $iframe, $matches);
     $src = $matches[1];
+    $language = explode('-', get_bloginfo("language"));
+    $language = $language[0];
 
     // add extra params to iframe src
     $default_params = array(
@@ -16,6 +18,9 @@ function filter_embeded_settings($iframe, $params = array()) {
         'responsive' => 1,
         'playsinline' => 1,
         'origin' => get_site_url(),
+        'widget_referrer' => get_site_url(),
+        'hl' => $language,
+        'cc_lang_pref' => $language,
     );
     $params = array_merge($default_params, $params);
 
