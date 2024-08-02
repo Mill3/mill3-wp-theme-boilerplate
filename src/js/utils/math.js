@@ -1,3 +1,10 @@
+/**
+ * 
+ * @param {Integer} width Destination's width
+ * @param {Integer} height Destination's height
+ * @param {Float} ratio Source image's aspect ratio
+ * @returns {Object}
+ */
 export const cover = (width, height, ratio) => {
   let w = width;
   let h = w / ratio;
@@ -15,6 +22,13 @@ export const cover = (width, height, ratio) => {
   };
 };
 
+/**
+ * 
+ * @param {Integer} width Destination's width
+ * @param {Integer} height Destination's height
+ * @param {Float} ratio Source image's aspect ratio
+ * @returns {Object}
+ */
 export const contain = (width, height, ratio) => {
   let w = width;
   let h = w / ratio;

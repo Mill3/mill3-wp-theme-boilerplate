@@ -1,0 +1,154 @@
+{# copy of https://tympanus.net/Development/OnScrollViewSwitch/ with our internal tools #}
+{#
+ # YOU NEED TO ENABLE THIS FOR THIS DEMO TO WORK:
+ # - uncomment {% include 'site-webgl.twig' %} in templates/base.twig
+ # - uncomment src/scss/ui/site-webgl.scss in src/scss/ui/index.scss
+ # - uncomment these lines:
+ #   line 9:  // import ScrollWebGL from "@scroll/scroll-webgl";
+ #   line 11: // import { mobile } from "@utils/mobile";
+ #   line 81: // if( !mobile ) this.webgl = new ScrollWebGL(this.scroll);
+ #}
+{% extends "base.twig" %}
+
+{# remove header & footer for this demo #}
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block head %}
+<style type="text/css">
+  body { background: #080808 !important; }
+  body::after {
+    /*content: '';*/
+    position: fixed;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: red;
+  }
+
+  .mill3-scroll-timeline { color: #5e5754; }
+
+  .header {
+    padding-left: 50%;
+    mix-blend-mode: color-dodge;
+  }
+  .header__title {
+    color: #f1e4dd;
+    font-size: 85px;
+    width: min-content;
+    white-space: nowrap;
+  }
+  .header__sub {
+    color: #f1e4dd;
+  }
+
+  .overflow-clip {
+    overflow: hidden;
+    overflow: clip;
+  }
+
+  .content {
+    gap: 20vh;
+    padding: 58vh 13.25vw 10vw;
+  }
+
+  .item {
+    grid-template-columns: 25vw 1fr;
+    grid-gap: 1vw;
+  }
+  .item__title {
+    color: #944d3e;
+    font-size: 60px;
+    width: min-content;
+    white-space: nowrap;
+  }
+  .item__caption {
+    max-width: 200px;
+  }
+  .item__media {
+    z-index: 0;
+  }
+  .item__img {
+    transform-origin: top center;
+  }
+
+  .footer {
+    height: 386px;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .footer__wrap {
+    top: -100vh;
+    height: calc(386px + 100vh);
+  }
+  .footer__logo {
+    width: auto;
+    height: 100%;
+    max-height: 386px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<article class="mill3-scroll-timeline">
+
+  <header class="header position-fixed z-4000 t-0 l-0 w-100 d-flex flex-column pointer-events-none overflow-clip">
+    <h1 class="header__title fw-400 tt-uppercase m-0">Projects * Insomnia * Projects * Insomnia * Projects * Insomnia * Projects</h1>
+    <span class="header__sub fz-16">1984 - 2022</span>
+  </header>
+
+  <div class="content d-flex flex-column">
+    
+    {% set titles = [
+      'Cast a spell', 
+      'Corruption', 
+      'All their lives', 
+      'You\'ll burn in hell',
+      'What we become', 
+      'Take a bow', 
+      'You bring death', 
+      'You must pay',
+      'Feed the hex', 
+      'Beg for their lives', 
+      'For all your sins', 
+      'Beholden'
+    ] %}
+
+    {% for title in titles %}
+    <figure id="item-{{ loop.index }}" class="item d-grid align-items-start">
+      <figcaption class="item__wrap d-flex flex-column fz-18 position-relative z-2000">
+        <span class="item__index lh-base mb-10 overflow-clip">{{ "%02d"|format(loop.index) }}</span>
+        <h2 class="item__title fw-400 lh-base m-0 mb-20 overflow-clip">{{ title }}</h2>
+        <p class="item__caption m-0">All natural and technological processes proceed in such a way that the availability of the remaining energy decreases.</p>
+      </figcaption>
+
+      <div class="item__media box-postal-card position-relative overflow-clip z-1000">
+        <img
+          src="https://mill3-vercel-dropbox.vercel.app/scroll-timeline/timeline-{{ "%02d"|format(loop.index) }}.jpg"
+          alt=""
+          class="item__img image-as-background"
+          crossOrigin=""
+          data-webgl
+        >
+      </div>
+    </figure>
+    {% endfor %}
+
+  </div>
+
+  <footer class="footer position-relative bg-color-primary color-white">
+    <div class="footer__wrap position-absolute d-flex align-items-end">
+      <div class="footer__sticky position-sticky b-0 l-0 container-fluid pt-100 pb-100">
+        <svg class="footer__logo" width="646" height="186" viewBox="0 0 646 186" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M141.021 6.16082H177.911V186H156.457V61.8378C156.457 50.5107 156.631 40.1421 156.98 30.7319V24.9812L156.719 24.7198L100.991 186H76.6587L21.1923 24.7198L20.9307 24.9812V30.7319C21.2795 40.1421 21.454 50.5107 21.454 61.8378V186H0V6.16082H36.6287L88.6938 161.429L141.021 6.16082Z" fill="currentColor"/>
+          <path d="M246.04 186H224.586V6.16082H246.04V186Z" fill="currentColor"/>
+          <path d="M377.12 186H292.549V6.16082H314.003V166.918H377.12V186Z" fill="currentColor"/>
+          <path d="M497.202 186H412.631V6.16082H434.085V166.918H497.202V186Z" fill="currentColor"/>
+          <path d="M583.993 185.851C571.958 185.851 561.318 183.586 552.074 179.055C542.829 174.35 535.503 167.815 530.096 159.45C524.689 151.086 521.724 141.327 521.201 130.174L542.916 126.776C543.789 139.846 547.975 149.953 555.475 157.098C562.975 164.243 572.568 167.815 584.255 167.815C596.639 167.815 606.319 164.591 613.296 158.144C620.273 151.696 623.761 143.157 623.761 132.527C623.761 122.245 620.273 114.055 613.296 107.956C606.319 101.682 596.115 98.5456 582.685 98.5456C578.499 98.5456 573.266 98.7199 566.987 99.0684V79.9866C569.777 80.1609 575.097 80.248 582.946 80.248C594.284 80.248 603.267 77.4598 609.895 71.8834C616.697 66.1327 620.098 58.2909 620.098 48.3579C620.098 39.6448 616.959 32.4129 610.68 26.6622C604.575 20.9115 596.115 18.0362 585.301 18.0362C573.615 18.0362 564.283 21.6086 557.306 28.7534C550.504 35.7239 546.666 45.3083 545.794 57.5067L524.079 53.5858C524.602 42.9558 527.48 33.6327 532.713 25.6166C538.12 17.4263 545.358 11.1528 554.428 6.79625C563.498 2.26542 573.876 0 585.563 0C602.482 0 616.174 4.18231 626.639 12.5469C637.104 20.9115 642.337 32.5 642.337 47.3124C642.337 58.2909 639.285 67.1783 633.18 73.9746C627.075 80.5966 619.488 85.3016 610.418 88.0899V88.3512C621.232 90.6167 629.866 95.5832 636.32 103.251C642.773 110.918 646 120.503 646 132.004C646 142.808 643.384 152.306 638.151 160.496C633.093 168.512 625.854 174.786 616.435 179.316C607.017 183.673 596.202 185.851 583.993 185.851Z" fill="currentColor"/>
+        </svg>
+      </div>
+    </div>
+  </footer>
+
+</article>
+{% endblock %}
