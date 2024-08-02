@@ -76,6 +76,82 @@
     max-height: 386px;
   }
 </style>
+
+{# view-timeline experiments (you need to disable scroll-timeline in core/windmill.scroll.js to see it working) #}
+{#
+<style type="text/css">
+  .mill3-scroll-timeline { view-timeline: --timelineRoot block; }
+  .item { view-timeline: --item block; }
+  .item__index { view-timeline: --item-index block; view-timeline-inset: 0px 20%; }
+  .item__title { view-timeline: --item-title block; view-timeline-inset: 0px 20%; }
+
+  .header__title {
+    animation-name: headerTitleAnimation 1s linear both;
+    animation-timeline: --timelineRoot;
+  }
+
+  .item__index,
+  .item__title {
+    animation: itemWrapAnimation 1s linear both;
+    animation-timeline: --item;
+  }
+  .item__index span {
+    animation: itemIndexChildAnimation 1s ease-out both;
+    animation-timeline: --item-index;
+  }
+  .item__title span {
+    animation: itemTitleChildAnimation 1s ease-in both;
+    animation-timeline: --item-title;
+  }
+  .item__img {
+    animation: itemImgAnimation 1s linear both;
+    animation-timeline: view(block);
+  }  
+
+  @keyframes headerTitleAnimation {
+    from {
+      transform: translateX(0%);
+    }
+    to {
+      transform: translateX(-70%);
+    }
+  }
+  @keyframes itemWrapAnimation {
+    from {
+      transform: translateY(0%);
+    }
+    to {
+      transform: translateY(-150%);
+    }
+  }
+  @keyframes itemIndexChildAnimation {
+    from {
+      transform: translateY(0%);
+    }
+    to {
+      transform: translateY(-100%);
+    }
+  }
+  @keyframes itemTitleChildAnimation {
+    from {
+      transform: translateY(0%);
+    }
+    to {
+      transform: translateY(-100%);
+    }
+  }
+  @keyframes itemImgAnimation {
+    from {
+      opacity: 1;
+      transform: scale(1, 1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(1.2, 2.4);
+    }
+  }
+</style>
+#}
 {% endblock %}
 
 {% block content %}
@@ -158,8 +234,6 @@
           data-scroll-call="timeline"
           data-scroll-target="#item-{{ loop.index }} .item__media"
           data-timeline="{{ {scaleX: 1.2, scaleY: 2.4, opacity: 0}|json_encode|escape('html_attr') }}"
-          data-webgl
-          {#{% if loop.index0 == 1 %}data-webgl{% endif %}#}
         >
       </div>
     </figure>
