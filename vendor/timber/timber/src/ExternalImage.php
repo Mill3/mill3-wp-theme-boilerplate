@@ -34,7 +34,7 @@ namespace Timber;
  *
  * ```html
  * <article>
- *   <img src="http://example.org/wp-content/uploads/2015/06/nevermind.jpg" class="cover-image" />
+ *   <img src="https://example.org/wp-content/uploads/2015/06/nevermind.jpg" class="cover-image" />
  *   <h1 class="headline">Now you've done it!</h1>
  *   <div class="body">
  *     Whatever whatever
@@ -97,7 +97,7 @@ class ExternalImage implements ImageInterface
      *
      * @var integer|null
      */
-    protected ?int $size;
+    protected ?int $size = null;
 
     /**
      * File types.
@@ -122,9 +122,9 @@ class ExternalImage implements ImageInterface
      * @internal
      * @var ImageDimensions|null stores Image Dimensions in a structured way.
      */
-    protected ?ImageDimensions $image_dimensions;
+    protected ?ImageDimensions $image_dimensions = null;
 
-    final protected function __construct()
+    protected function __construct()
     {
     }
 
@@ -141,16 +141,11 @@ class ExternalImage implements ImageInterface
             return null;
         }
 
-        $args = \wp_parse_args($args, [
-            'alt' => '',
-        ]);
-
         $external_image = new static();
 
         if (!empty($args['alt'])) {
             $external_image->alt_text = (string) $args['alt'];
         }
-
         if (!empty($args['caption'])) {
             $external_image->caption = (string) $args['caption'];
         }
@@ -160,7 +155,7 @@ class ExternalImage implements ImageInterface
             $external_image->init_with_url($url);
 
             return $external_image;
-        } elseif (\str_contains($url, ABSPATH)) {
+        } elseif (\str_contains($url, (string) ABSPATH)) {
             // Assume absolute path.
             $external_image->init_with_file_path($url);
 
@@ -169,7 +164,7 @@ class ExternalImage implements ImageInterface
             // Check for image file types.
             foreach ($external_image->image_file_types as $type) {
                 // Assume a relative path.
-                if (\str_contains(\strtolower($url), $type)) {
+                if (\str_contains(\strtolower($url), (string) $type)) {
                     $external_image->init_with_relative_path($url);
 
                     return $external_image;
@@ -190,8 +185,8 @@ class ExternalImage implements ImageInterface
      * <img src="{{ post.thumbnail.src('medium') }}">
      * ```
      * ```html
-     * <img src="http://example.org/wp-content/uploads/2015/08/pic.jpg" />
-     * <img src="http://example.org/wp-content/uploads/2015/08/pic-800-600.jpg">
+     * <img src="https://example.org/wp-content/uploads/2015/08/pic.jpg" />
+     * <img src="https://example.org/wp-content/uploads/2015/08/pic-800-600.jpg">
      * ```
      *
      * @param string $size Ignored. For compatibility with Timber\Image.
@@ -231,10 +226,7 @@ class ExternalImage implements ImageInterface
      */
     public function file_loc(): string
     {
-        if (isset($this->file_loc)) {
-            return $this->file_loc;
-        }
-        return '';
+        return $this->file_loc ?? '';
     }
 
     /**
@@ -309,10 +301,7 @@ class ExternalImage implements ImageInterface
      */
     public function extension(): ?string
     {
-        if (isset($this->file_extension)) {
-            return $this->file_extension;
-        }
-        return $this->file_extension = \pathinfo($this->file_loc(), PATHINFO_EXTENSION);
+        return $this->file_extension ?? ($this->file_extension = \pathinfo($this->file_loc(), PATHINFO_EXTENSION));
     }
 
     /**
@@ -324,7 +313,7 @@ class ExternalImage implements ImageInterface
      * <img src="{{ image.src }}" width="{{ image.width }}" />
      * ```
      * ```html
-     * <img src="http://example.org/wp-content/uploads/2015/08/pic.jpg" width="1600" />
+     * <img src="https://example.org/wp-content/uploads/2015/08/pic.jpg" width="1600" />
      * ```
      *
      * @return int|null The width of the image in pixels. Null if the width can’t be read, e.g. because the file doesn’t
@@ -344,7 +333,7 @@ class ExternalImage implements ImageInterface
      * <img src="{{ image.src }}" height="{{ image.height }}" />
      * ```
      * ```html
-     * <img src="http://example.org/wp-content/uploads/2015/08/pic.jpg" height="900" />
+     * <img src="https://example.org/wp-content/uploads/2015/08/pic.jpg" height="900" />
      * ```
      *
      * @return int|null The height of the image in pixels. Null if the height can’t be read, e.g. because the file
@@ -464,20 +453,20 @@ class ExternalImage implements ImageInterface
      * ```
      * ```html
      * <img
-     *     src="http://example.org/wp-content/uploads/2015/08/pic.jpg"
+     *     src="https://example.org/wp-content/uploads/2015/08/pic.jpg"
      *     alt="You should always add alt texts to your images for better accessibility"
      * />
      * ```
      *
      * @return string Alt text stored in WordPress.
      */
-    public function alt(): string
+    public function alt(): ?string
     {
-        return $this->alt_text;
+        return $this->alt_text ?? null;
     }
 
-    public function caption(): string
+    public function caption(): ?string
     {
-        return $this->caption;
+        return $this->caption ?? null;
     }
 }

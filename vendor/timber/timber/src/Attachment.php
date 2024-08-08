@@ -56,7 +56,7 @@ class Attachment extends Post
     public $abs_url;
 
     /**
-     * Attachement metadata.
+     * Attachment metadata.
      *
      * @var array Attachment metadata.
      */
@@ -67,7 +67,7 @@ class Attachment extends Post
      *
      * @var integer|null
      */
-    protected ?int $size;
+    protected ?int $size = null;
 
     /**
      * Gets the src for an attachment.
@@ -92,8 +92,8 @@ class Attachment extends Post
      * <a href="{{ image.link }}"><img src="{{ image.src }} "></a>
      * ```
      * ```html
-     * <a href="http://example.org/my-cool-picture">
-     *     <img src="http://example.org/wp-content/uploads/2015/whatever.jpg"/>
+     * <a href="https://example.org/my-cool-picture">
+     *     <img src="https://example.org/wp-content/uploads/2015/whatever.jpg"/>
      * </a>
      * ```
      *
@@ -136,10 +136,7 @@ class Attachment extends Post
      */
     public function file(): string
     {
-        if (isset($this->file)) {
-            return $this->file;
-        }
-        return $this->file = (string) \get_post_meta($this->ID, '_wp_attached_file', true);
+        return $this->file ?? ($this->file = (string) \get_post_meta($this->ID, '_wp_attached_file', true));
     }
 
     /**
@@ -151,10 +148,7 @@ class Attachment extends Post
      */
     public function file_loc(): string
     {
-        if (isset($this->file_loc)) {
-            return $this->file_loc;
-        }
-        return $this->file_loc = (string) \get_attached_file($this->ID);
+        return $this->file_loc ?? ($this->file_loc = (string) \get_attached_file($this->ID));
     }
 
     /**
@@ -166,7 +160,7 @@ class Attachment extends Post
      * <a href="{{ get_attachment(post.meta('job_pdf')).src }}" download>
      * ```
      * ```html
-     * <a href="http://example.org/wp-content/uploads/2015/08/job-ad-5noe2304i.pdf" download>
+     * <a href="https://example.org/wp-content/uploads/2015/08/job-ad-5noe2304i.pdf" download>
      * ```
      *
      * @return string
@@ -192,9 +186,9 @@ class Attachment extends Post
      * </figure>
      * ```
      *
-     * @return string
+     * @return string|null
      */
-    public function caption(): string
+    public function caption(): ?string
     {
         /**
          * Filters the attachment caption.
@@ -209,26 +203,25 @@ class Attachment extends Post
     }
 
     /**
-     * Gets filesize in a human readable format.
+     * Gets the raw filesize in bytes.
      *
-     * This can be useful if you want to display the human readable filesize for a file. It’s
-     * easier to read «16 KB» than «16555 bytes» or «1 MB» than «1048576 bytes».
+     * Use the `size_format` filter to format the raw size into a human readable size («1 MB» instead of «1048576»)
      *
      * @api
      * @since 2.0.0
      * @example
+     * @see https://developer.wordpress.org/reference/functions/size_format/
      *
      * Use filesize information in a link that downloads a file:
      *
      * ```twig
      * <a class="download" href="{{ attachment.src }}" download="{{ attachment.title }}">
      *     <span class="download-title">{{ attachment.title }}</span>
-     *     <span class="download-info">(Download, {{ attachment.size }})</span>
+     *     <span class="download-info">(Download, {{ attachment.size|size_format }})</span>
      * </a>
      * ```
      *
-     * @return int|null The filesize string in a human-readable format or null if the
-     *                     filesize can’t be read.
+     * @return int|null The raw filesize or null if it could not be read.
      */
     public function size(): ?int
     {
@@ -279,10 +272,7 @@ class Attachment extends Post
      */
     public function extension(): string
     {
-        if (isset($this->file_extension)) {
-            return $this->file_extension;
-        }
-        return $this->file_extension = \pathinfo($this->file(), PATHINFO_EXTENSION);
+        return $this->file_extension ?? ($this->file_extension = \pathinfo($this->file(), PATHINFO_EXTENSION));
     }
 
     /**
@@ -341,12 +331,11 @@ class Attachment extends Post
      *
      * This method is used to retrieve the attachment metadata only when it's needed.
      *
-     * @param string|null $key
      * @return array|string|int|null
      */
     protected function metadata(?string $key = null)
     {
-        // We haven't retrived the metadata yet because it's wasn't needed until now.
+        // We haven't retrieved the metadata yet because it's wasn't needed until now.
         if (!isset($this->metadata)) {
             // Cache it so we don't have to retrieve it again.
             $this->metadata = (array) \wp_get_attachment_metadata($this->ID);

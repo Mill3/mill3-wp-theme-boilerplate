@@ -6,11 +6,12 @@ use DateInterval;
 use DateTime;
 use DateTimeInterface;
 use Exception;
-
 use Timber\Factory\PostFactory;
 use Timber\Factory\TermFactory;
 use Twig\Environment;
 use Twig\Extension\CoreExtension;
+use Twig\Extension\EscaperExtension;
+use Twig\Runtime\EscaperRuntime;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 
@@ -24,14 +25,14 @@ class Twig
     /**
      * @codeCoverageIgnore
      */
-    public static function init()
+    public static function init(): void
     {
         $self = new self();
 
         \add_filter('timber/twig', [$self, 'add_timber_functions']);
         \add_filter('timber/twig', [$self, 'add_timber_filters']);
+        \add_filter('timber/twig', [$self, 'add_timber_escaper_filters']);
         \add_filter('timber/twig', [$self, 'add_timber_escapers']);
-
         \add_filter('timber/loader/twig', [$self, 'set_defaults']);
     }
 
@@ -247,9 +248,9 @@ class Twig
     /**
      * Adds Timber-specific functions to Twig.
      *
-     * @param \Twig\Environment $twig The Twig Environment.
+     * @param Environment $twig The Twig Environment.
      *
-     * @return \Twig\Environment
+     * @return Environment
      */
     public function add_timber_functions($twig)
     {
@@ -276,26 +277,26 @@ class Twig
         $filters = [
             /* image filters */
             'resize' => [
-                'callable' => ['Timber\ImageHelper', 'resize'],
+                'callable' => [ImageHelper::class, 'resize'],
             ],
             'retina' => [
-                'callable' => ['Timber\ImageHelper', 'retina_resize'],
+                'callable' => [ImageHelper::class, 'retina_resize'],
             ],
             'letterbox' => [
-                'callable' => ['Timber\ImageHelper', 'letterbox'],
+                'callable' => [ImageHelper::class, 'letterbox'],
             ],
             'tojpg' => [
-                'callable' => ['Timber\ImageHelper', 'img_to_jpg'],
+                'callable' => [ImageHelper::class, 'img_to_jpg'],
             ],
             'towebp' => [
-                'callable' => ['Timber\ImageHelper', 'img_to_webp'],
+                'callable' => [ImageHelper::class, 'img_to_webp'],
             ],
 
             // Debugging filters.
             'get_class' => [
                 'callable' => function ($obj) {
                     Helper::deprecated('{{ my_object | get_class }}', "{{ function('get_class', my_object) }}", '2.0.0');
-                    return \get_class($obj);
+                    return $obj::class;
                 },
                 'options' => [
                     'deprecated' => true,
@@ -322,7 +323,7 @@ class Twig
                 'callable' => 'wp_trim_words',
             ],
             'excerpt_chars' => [
-                'callable' => ['Timber\TextHelper', 'trim_characters'],
+                'callable' => [TextHelper::class, 'trim_characters'],
             ],
             'function' => [
                 'callable' => [$this, 'exec_function'],
@@ -343,16 +344,14 @@ class Twig
                 'callable' => [$this, 'add_list_separators'],
             ],
             'pluck' => [
-                'callable' => ['Timber\Helper', 'pluck'],
+                'callable' => [Helper::class, 'pluck'],
             ],
             'wp_list_filter' => [
-                'callable' => ['Timber\Helper', 'wp_list_filter'],
+                'callable' => [Helper::class, 'wp_list_filter'],
             ],
 
             'relative' => [
-                'callable' => function ($link) {
-                    return URLHelper::get_rel_url($link, true);
-                },
+                'callable' => fn ($link) => URLHelper::get_rel_url($link, true),
             ],
 
             /**
@@ -365,12 +364,10 @@ class Twig
                 ],
             ],
             'time_ago' => [
-                'callable' => ['Timber\DateTimeHelper', 'time_ago'],
+                'callable' => [DateTimeHelper::class, 'time_ago'],
             ],
             'truncate' => [
-                'callable' => function ($text, $len) {
-                    return TextHelper::trim_words($text, $len);
-                },
+                'callable' => fn ($text, $len) => TextHelper::trim_words($text, $len),
             ],
 
             // Numbers filters
@@ -429,11 +426,74 @@ class Twig
     }
 
     /**
+     * Get Timber default filters
+     *
+     * @return array Default Timber filters
+     */
+    public function get_timber_escaper_filters()
+    {
+        $escaper_filters = [
+            'esc_url' => [
+                'callable' => 'esc_url',
+            ],
+            'wp_kses' => [
+                'callable' => 'wp_kses',
+            ],
+            'wp_kses_post' => [
+                'callable' => 'wp_kses_post',
+            ],
+            'esc_attr' => [
+                'callable' => 'esc_attr',
+            ],
+            'esc_html' => [
+                'callable' => 'esc_html',
+            ],
+            'esc_js' => [
+                'callable' => 'esc_js',
+            ],
+        ];
+
+        /**
+         * Filters the escaping filters that are added to Twig.
+         *
+         * The `$escaper_filters` array is an associative array with the filter name as a key and an
+         * arguments array as the value. In the arguments array, you pass the function to call with
+         * a `callable` entry.
+         *
+         *
+         * @api
+         * @since 2.1.0
+         * @example
+         * ```php
+         * add_filter( 'timber/twig/escapers', function( $escaper_filters ) {
+         *     // Add your own filter.
+         *     $filters['esc_xml'] = [
+         *         'callable' => 'esc_xml',
+         *          'options' => [
+         *             'is_safe' => ['html'],
+         *          ],
+         *     ];
+         *
+         *     // Remove a filter.
+         *     unset( $filters['esc_js'] );
+         *
+         *     return $filters;
+         * } );
+         * ```
+         *
+         * @param array $escaper_filters
+         */
+        $escaper_filters = \apply_filters('timber/twig/escapers', $escaper_filters);
+
+        return $escaper_filters;
+    }
+
+    /**
      * Adds filters to Twig.
      *
-     * @param \Twig\Environment $twig The Twig Environment.
+     * @param Environment $twig The Twig Environment.
      *
-     * @return \Twig\Environment
+     * @return Environment
      */
     public function add_timber_filters($twig)
     {
@@ -450,37 +510,53 @@ class Twig
         return $twig;
     }
 
+    public function add_timber_escaper_filters($twig)
+    {
+        foreach ($this->get_timber_escaper_filters() as $name => $function) {
+            $twig->addFilter(
+                new TwigFilter(
+                    $name,
+                    $function['callable'],
+                    $function['options'] ?? [
+                        'is_safe' => ['html'],
+                    ]
+                )
+            );
+        }
+
+        return $twig;
+    }
+
     /**
      * Adds escapers.
      *
-     * @param \Twig\Environment $twig The Twig Environment.
-     * @return \Twig\Environment
+     * @param Environment $twig The Twig Environment.
+     * @return Environment
      */
     public function add_timber_escapers($twig)
     {
-        $esc_url = function (Environment $env, $string) {
-            return \esc_url($string);
-        };
+        $esc_url = fn (Environment $env, $string) => \esc_url($string);
 
-        $wp_kses_post = function (Environment $env, $string) {
-            return \wp_kses_post($string);
-        };
+        $wp_kses_post = fn (Environment $env, $string) => \wp_kses_post($string);
 
-        $esc_html = function (Environment $env, $string) {
-            return \esc_html($string);
-        };
+        $esc_html = fn (Environment $env, $string) => \esc_html($string);
 
-        $esc_js = function (Environment $env, $string) {
-            return \esc_js($string);
-        };
+        $esc_js = fn (Environment $env, $string) => \esc_js($string);
 
-        if (\class_exists('Twig\Extension\EscaperExtension')) {
-            $escaper_extension = $twig->getExtension('Twig\Extension\EscaperExtension');
+        if (\class_exists(EscaperRuntime::class)) {
+            $escaper_extension = $twig->getRuntime(EscaperRuntime::class);
+            $escaper_extension->setEscaper('esc_url', '\esc_url');
+            $escaper_extension->setEscaper('wp_kses_post', '\wp_kses_post');
+            $escaper_extension->setEscaper('esc_html', '\esc_html');
+            $escaper_extension->setEscaper('esc_js', '\esc_js');
+        } elseif ($twig->hasExtension(EscaperExtension::class)) {
+            $escaper_extension = $twig->getExtension(EscaperExtension::class);
             $escaper_extension->setEscaper('esc_url', $esc_url);
             $escaper_extension->setEscaper('wp_kses_post', $wp_kses_post);
             $escaper_extension->setEscaper('esc_html', $esc_html);
             $escaper_extension->setEscaper('esc_js', $esc_js);
         }
+
         return $twig;
     }
 
@@ -493,9 +569,9 @@ class Twig
      * @since 2.0.0
      *
      * @throws \Twig\Error\RuntimeError
-     * @param \Twig\Environment $twig Twig Environment.
+     * @param Environment $twig Twig Environment.
      *
-     * @return \Twig\Environment
+     * @return Environment
      */
     public function set_defaults(Environment $twig)
     {
@@ -521,7 +597,7 @@ class Twig
      *
      * @throws Exception
      *
-     * @param \Twig\Environment         $env      Twig Environment.
+     * @param Environment         $env      Twig Environment.
      * @param null|string|int|DateTime $date     A date.
      * @param null|string               $format   Optional. PHP date format. Will return the
      *                                            current date as a DateTimeImmutable object by
@@ -574,10 +650,9 @@ class Twig
     /**
      *
      *
-     * @param mixed   $arr
      * @return array
      */
-    public function to_array($arr)
+    public function to_array(mixed $arr)
     {
         if (\is_array($arr)) {
             return $arr;
@@ -621,7 +696,7 @@ class Twig
      */
     public function convert_pre_entities($matches)
     {
-        return \str_replace($matches[1], \htmlentities($matches[1]), $matches[0]);
+        return \str_replace($matches[1], \htmlentities((string) $matches[1]), (string) $matches[0]);
     }
 
     /**

@@ -71,30 +71,34 @@ class Helper
      *
      * @internal
      *
-     * @param string     $slug
-     * @param callable     $callback
-     * @param integer      $transient_time Expiration of transients in seconds
-     * @param integer     $lock_timeout   How long (in seconds) to lock the transient to prevent race conditions
-     * @param boolean     $force          Force callback to be executed when transient is locked
+     * @param string      $slug              Unique identifier for transient
+     * @param callable    $callback          Callback that generates the data that's to be cached
+     * @param integer     $transient_time    Expiration of transients in seconds
+     * @param integer     $lock_timeout      How long (in seconds) to lock the transient to prevent race conditions
+     * @param boolean     $force             Force callback to be executed when transient is locked
      * @param boolean     $enable_transients Force callback to be executed when transient is locked
      */
     protected static function handle_transient_locking($slug, $callback, $transient_time, $lock_timeout, $force, $enable_transients)
     {
         if ($enable_transients && self::_is_transient_locked($slug)) {
             /**
-             * Filters …
+             * Filters whether to force a locked transients to be regenerated.
              *
-             * @todo Add summary, add description, add description for $force param
+             * If a transient is locked, it means that another process is currently generating the data.
+             * If you want to force the transient to be regenerated, during that process, you can set this
+             * filter to true.
              *
              * @since 2.0.0
-             * @param bool $force
+             * @param bool $force Whether to force a locked transient to be regenerated.
              */
             $force = \apply_filters('timber/transient/force_transients', $force);
 
             /**
-             * Filters …
+             * Filters whether to force a locked transients to be regenerated.
              *
-             * @todo Add summary
+             * If a transient is locked, it means that another process is currently generating the data.
+             * If you want to force the transient to be regenerated, during that process, you can set this
+             * filter to true.
              *
              * @deprecated 2.0.0, use `timber/transient/force_transients`
              */
@@ -106,27 +110,44 @@ class Helper
             );
 
             /**
-             * Filters …
+             * Filters whether to force a specific locked transients to be regenerated.
              *
-             * Here is a description about the filter.
-             * `$slug` The transient slug.
+             * If a transient is locked, it means that another process is currently generating the data.
+             * If you want to force the transient to be regenerated during that process, you can set this value to true.
              *
-             * @todo Add summary, add description, add description for $force param
+             * @example
+             * ```php
              *
+             * add_filter( 'timber/transient/force_transient_mycustumslug', function($force) {
+             *     if(false == something_special_has_occurred()){
+             *       return false;
+             *     }
+             *
+             *     return true;
+             * }, 10 );
+             * ```
              * @since 2.0.0
              *
-             * @param bool $force
+             * @param bool $force Whether to force a locked transient to be regenerated.
              */
             $force = \apply_filters("timber/transient/force_transient_{$slug}", $force);
 
             /**
-             * Filters …
+             * Filters whether to force a specific locked transients to be regenerated.
              *
-             * @todo Add summary
+             * If a transient is locked, it means that another process is currently generating the data.
+             * If you want to force the transient to be regenerated, during that process, you can set this value to true.
+             * `$slug` The transient slug.
              *
+             * @param bool $force Whether to force a locked transient to be regenerated.
              * @deprecated 2.0.0, use `timber/transient/force_transient_{$slug}`
              */
-            $force = \apply_filters("timber_force_transient_{$slug}", $force);
+            $force = \apply_filters_deprecated(
+                "timber_force_transient_{$slug}",
+                [$force],
+                '2.0.0',
+                "timber/transient/force_transient_{$slug}"
+            );
 
             if (!$force) {
                 //the server is currently executing the process.
@@ -264,7 +285,7 @@ class Helper
      * @param mixed $error The error that you want to error_log().
      * @return void
      */
-    public static function error_log($error)
+    public static function error_log(mixed $error)
     {
         global $timber_disable_error_log;
         if (!WP_DEBUG || $timber_disable_error_log) {
@@ -364,7 +385,7 @@ class Helper
             $message .= \sprintf(
                 ' Please see Debugging in WordPress (%1$s) as well as Debugging in Timber (%2$s) for more information.',
                 'https://wordpress.org/support/article/debugging-in-wordpress/',
-                'https://timber.github.io/docs/guides/debugging/'
+                'https://timber.github.io/docs/v2/guides/debugging/'
             );
 
             $error_message = \sprintf(
@@ -466,7 +487,7 @@ class Helper
          */
         $separator = \apply_filters_deprecated('timber_wp_title_seperator', [$separator], '2.0.0', 'timber/helper/wp_title_separator');
 
-        return \trim(\wp_title($separator, false, $seplocation));
+        return \trim((string) \wp_title($separator, false, $seplocation));
     }
 
     /**
@@ -481,9 +502,7 @@ class Helper
      */
     public static function osort(&$array, $prop)
     {
-        \usort($array, function ($a, $b) use ($prop) {
-            return $a->$prop > $b->$prop ? 1 : -1;
-        });
+        \usort($array, fn ($a, $b) => $a->$prop > $b->$prop ? 1 : -1);
     }
 
     /**
@@ -524,10 +543,9 @@ class Helper
      *
      * @param array   $array
      * @param string  $key
-     * @param mixed   $value
      * @return bool|int
      */
-    public static function get_object_index_by_property($array, $key, $value)
+    public static function get_object_index_by_property($array, $key, mixed $value)
     {
         if (\is_array($array)) {
             $i = 0;
@@ -552,11 +570,10 @@ class Helper
      *
      * @param array   $array
      * @param string  $key
-     * @param mixed   $value
      * @return array|null
      * @throws Exception
      */
-    public static function get_object_by_property($array, $key, $value)
+    public static function get_object_by_property($array, $key, mixed $value)
     {
         if (\is_array($array)) {
             foreach ($array as $arr) {
@@ -585,15 +602,13 @@ class Helper
     }
 
     /* Bool Utilities
-    ======================== */
-
+       ======================== */
     /**
      * @api
      *
-     * @param mixed   $value
      * @return bool
      */
-    public static function is_true($value)
+    public static function is_true(mixed $value)
     {
         if (isset($value)) {
             if (\is_string($value)) {
@@ -690,12 +705,12 @@ class Helper
      * Converts a WP object (WP_Post, WP_Term) into its
      * equivalent Timber class (Timber\Post, Timber\Term).
      *
-     * If no match is found the function will return the inital argument.
+     * If no match is found the function will return the initial argument.
      *
      * @param mixed $obj WP Object
      * @return mixed Instance of equivalent Timber object, or the argument if no match is found
      */
-    public static function convert_wp_object($obj)
+    public static function convert_wp_object(mixed $obj)
     {
         if ($obj instanceof WP_Post) {
             static $postFactory;

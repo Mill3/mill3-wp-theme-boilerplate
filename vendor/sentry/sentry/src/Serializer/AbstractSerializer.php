@@ -20,7 +20,6 @@ declare(strict_types=1);
 
 namespace Sentry\Serializer;
 
-use Sentry\Exception\InvalidArgumentException;
 use Sentry\Options;
 
 /**
@@ -77,7 +76,7 @@ abstract class AbstractSerializer
     {
         $this->maxDepth = $maxDepth;
 
-        if (null != $mbDetectOrder) {
+        if ($mbDetectOrder != null) {
             $this->mbDetectOrder = $mbDetectOrder;
         }
 
@@ -236,7 +235,7 @@ abstract class AbstractSerializer
      */
     protected function serializeValue($value)
     {
-        if ((null === $value) || \is_bool($value) || is_numeric($value)) {
+        if (($value === null) || \is_bool($value) || is_numeric($value)) {
             return $value;
         }
 
@@ -254,7 +253,7 @@ abstract class AbstractSerializer
                 }
             }
 
-            return 'Object ' . $reflection->getName() . (is_scalar($objectId) ? '(#' . $objectId . ')' : '');
+            return 'Object ' . $reflection->getName() . (\is_scalar($objectId) ? '(#' . $objectId . ')' : '');
         }
 
         if (\is_resource($value)) {
@@ -262,7 +261,7 @@ abstract class AbstractSerializer
         }
 
         try {
-            if (\is_callable($value)) {
+            if (@\is_callable($value)) {
                 return $this->serializeCallable($value);
             }
         } catch (\Throwable $exception) {
@@ -281,19 +280,19 @@ abstract class AbstractSerializer
      */
     protected function serializeCallable($callable): string
     {
-        if (\is_string($callable) && !\function_exists($callable)) {
+        if (\is_string($callable)) {
             return $callable;
         }
 
         if (!\is_callable($callable)) {
-            throw new InvalidArgumentException(sprintf('Expecting callable, got %s', \is_object($callable) ? \get_class($callable) : \gettype($callable)));
+            throw new \InvalidArgumentException(\sprintf('Expecting callable, got %s', \is_object($callable) ? \get_class($callable) : \gettype($callable)));
         }
 
         try {
             if (\is_array($callable)) {
                 $reflection = new \ReflectionMethod($callable[0], $callable[1]);
                 $class = $reflection->getDeclaringClass();
-            } elseif ($callable instanceof \Closure || (\is_string($callable) && \function_exists($callable))) {
+            } elseif ($callable instanceof \Closure) {
                 $reflection = new \ReflectionFunction($callable);
                 $class = null;
             } elseif (\is_object($callable) && method_exists($callable, '__invoke')) {

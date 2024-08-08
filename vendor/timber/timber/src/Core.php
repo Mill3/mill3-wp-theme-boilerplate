@@ -27,14 +27,11 @@ abstract class Core
      */
     public function __isset($field)
     {
-        if (isset($this->$field)) {
-            return $this->$field;
-        }
-        return false;
+        return isset($this->$field);
     }
 
     /**
-     * Magic method dispatcher for meta fields, for convience in Twig views.
+     * Magic method dispatcher for meta fields, for convenience in Twig views.
      *
      * Called when explicitly invoking non-existent methods on a Core object. This method is not
      * meant to be called directly.
@@ -165,7 +162,7 @@ abstract class Core
      * @param string $key   The key of the meta field to update.
      * @param mixed  $value The new value.
      */
-    public function update($key, $value)
+    public function update($key, mixed $value)
     {
         Helper::deprecated('Timber\Core::update()', 'update_metadata()', '2.0.0');
         \update_metadata($this->object_type, $this->ID, $key, $value);

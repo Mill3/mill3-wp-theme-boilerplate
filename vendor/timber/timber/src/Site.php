@@ -37,7 +37,7 @@ class Site extends Core implements CoreInterface
      *
      * @var WP_Site|null Will only be filled in multisite environments. Otherwise `null`.
      */
-    protected ?WP_Site $wp_object;
+    protected ?WP_Site $wp_object = null;
 
     /**
      * @api
@@ -107,7 +107,7 @@ class Site extends Core implements CoreInterface
 
     /**
      * @api
-     * @var \Timber\Theme
+     * @var Theme
      */
     public $theme;
 
@@ -174,6 +174,35 @@ class Site extends Core implements CoreInterface
     }
 
     /**
+     * Magic method dispatcher for site option fields, for convenience in Twig views.
+     *
+     * Called when explicitly invoking non-existent methods on the Site object. This method is not
+     * meant to be called directly.
+     *
+     * @example
+     * The following example will dynamically dispatch the magic __call() method with an argument
+     * of "users_can_register" #}
+     *
+     * ```twig
+     * {% if site.users_can_register %}
+     *   {# Show a notification and link to the register form #}
+     * {% endif %}
+     * @link https://secure.php.net/manual/en/language.oop5.overloading.php#object.call
+     * @link https://github.com/twigphp/Twig/issues/2
+     * @api
+     *
+     * @param string $option     The name of the method being called.
+     * @param array  $arguments Enumerated array containing the parameters passed to the function.
+     *                          Not used.
+     *
+     * @return mixed The value of the option field named `$field` if truthy, `false` otherwise.
+     */
+    public function __call($option, $arguments)
+    {
+        return $this->option($option);
+    }
+
+    /**
      * Gets the underlying WordPress Core object.
      *
      * @since 2.0.0
@@ -188,17 +217,30 @@ class Site extends Core implements CoreInterface
     /**
      * Switches to the blog requested in the request
      *
-     * @param string|integer|null $site_name_or_id
+     * @param string|integer|null $blog_identifier The name or ID of the blog to switch to. If `null`, the current blog.
      * @return integer with the ID of the new blog
      */
-    protected static function switch_to_blog($site_name_or_id)
+    protected static function switch_to_blog($blog_identifier = null): int
     {
-        if ($site_name_or_id === null) {
-            $site_name_or_id = \get_current_blog_id();
+        $current_id = \get_current_blog_id();
+
+        if ($blog_identifier === null) {
+            $blog_identifier = $current_id;
         }
-        $info = \get_blog_details($site_name_or_id);
-        \switch_to_blog($info->blog_id);
-        return $info->blog_id;
+
+        $info = \get_blog_details($blog_identifier, false);
+
+        if (false === $info) {
+            return $current_id;
+        }
+
+        $blog_identifier = $info->blog_id;
+
+        if ((int) $current_id !== (int) $blog_identifier) {
+            \switch_to_blog($blog_identifier);
+        }
+
+        return (int) $blog_identifier;
     }
 
     /**
@@ -363,7 +405,7 @@ class Site extends Core implements CoreInterface
      * </a>
      * ```
      * ```html
-     * <a href="http://example.org" title="Home">
+     * <a href="https://example.org" title="Home">
      *       <img src="/wp-content/uploads/logo.png" alt="Logo for some stupid thing" />
      * </a>
      * ```
@@ -395,7 +437,7 @@ class Site extends Core implements CoreInterface
          * @param mixed        $value   The new value.
          * @param string       $key     The option key.
          * @param int          $site_id The site ID.
-         * @param \Timber\Site $site    The site object.
+         * @param Site $site    The site object.
          */
         $value = \apply_filters('timber/site/update_option', $value, $key, $this->ID, $this);
 

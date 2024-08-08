@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Sentry\Profiling;
 
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Sentry\Context\OsContext;
 use Sentry\Context\RuntimeContext;
 use Sentry\Event;
@@ -25,7 +27,6 @@ use Sentry\Util\SentryUid;
  *     module: string|null,
  *     lineno: int|null,
  * }
- *
  * @phpstan-type SentryProfile array{
  *    device: array{
  *        architecture: string,
@@ -61,7 +62,6 @@ use Sentry\Util\SentryUid;
  *        stacks: array<int, array<int, int>>,
  *    },
  * }
- *
  * @phpstan-type ExcimerLogStackEntryTrace array{
  *     file: string,
  *     line: int,
@@ -69,7 +69,6 @@ use Sentry\Util\SentryUid;
  *     function?: string,
  *     closure_line?: int,
  * }
- *
  * @phpstan-type ExcimerLogStackEntry array{
  *     trace: array<int, ExcimerLogStackEntryTrace>,
  *     timestamp: float
@@ -121,9 +120,15 @@ final class Profile
      */
     private $options;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(?Options $options = null)
     {
         $this->options = $options;
+        $this->logger = $options !== null ? $options->getLoggerOrNullLogger() : new NullLogger();
     }
 
     public function setStartTimeStamp(float $startTimeStamp): void
@@ -150,20 +155,28 @@ final class Profile
     public function getFormattedData(Event $event): ?array
     {
         if (!$this->validateExcimerLog()) {
+            $this->logger->warning('The profile does not contain enough samples, the profile will be discarded.');
+
             return null;
         }
 
         $osContext = $event->getOsContext();
         if (!$this->validateOsContext($osContext)) {
+            $this->logger->warning('The OS context is not missing or invalid, the profile will be discarded.');
+
             return null;
         }
 
         $runtimeContext = $event->getRuntimeContext();
         if (!$this->validateRuntimeContext($runtimeContext)) {
+            $this->logger->warning('The runtime context is not missing or invalid, the profile will be discarded.');
+
             return null;
         }
 
         if (!$this->validateEvent($event)) {
+            $this->logger->warning('The event is missing a transaction and/or trace ID, the profile will be discarded.');
+
             return null;
         }
 
@@ -176,7 +189,7 @@ final class Profile
         $registerStack = static function (array $stack) use (&$stacks, &$stackHashMap): int {
             $stackHash = md5(serialize($stack));
 
-            if (false === \array_key_exists($stackHash, $stackHashMap)) {
+            if (\array_key_exists($stackHash, $stackHashMap) === false) {
                 $stackHashMap[$stackHash] = \count($stacks);
                 $stacks[] = $stack;
             }
@@ -200,7 +213,7 @@ final class Profile
 
                 $frameIndex = $frameHashMap[$frameKey] ?? null;
 
-                if (null === $frameIndex) {
+                if ($frameIndex === null) {
                     $file = $this->stripPrefixFromFilePath($this->options, $absolutePath);
                     $module = null;
 
@@ -241,11 +254,15 @@ final class Profile
         }
 
         if (!$this->validateMaxDuration((float) $duration)) {
+            $this->logger->warning(\sprintf('The profile is %ss which is longer than the allowed %ss, the profile will be discarded.', (float) $duration, self::MAX_PROFILE_DURATION));
+
             return null;
         }
 
         $startTime = \DateTime::createFromFormat('U.u', number_format($this->startTimeStamp, 4, '.', ''), new \DateTimeZone('UTC'));
-        if (false === $startTime) {
+        if ($startTime === false) {
+            $this->logger->warning(\sprintf('The start time (%s) of the profile is not valid, the profile will be discarded.', $this->startTimeStamp));
+
             return null;
         }
 
@@ -264,6 +281,7 @@ final class Profile
             'environment' => $event->getEnvironment() ?? Event::DEFAULT_ENVIRONMENT,
             'runtime' => [
                 'name' => $runtimeContext->getName(),
+                'sapi' => $runtimeContext->getSAPI(),
                 'version' => $runtimeContext->getVersion(),
             ],
             'timestamp' => $startTime->format(\DATE_RFC3339_EXTENDED),
@@ -314,7 +332,7 @@ final class Profile
             $sampleCount = $this->excimerLog->count();
         }
 
-        return self::MIN_SAMPLE_COUNT <= $sampleCount;
+        return $sampleCount >= self::MIN_SAMPLE_COUNT;
     }
 
     private function validateMaxDuration(float $duration): bool
@@ -333,15 +351,15 @@ final class Profile
      */
     private function validateOsContext(?OsContext $osContext): bool
     {
-        if (null === $osContext) {
+        if ($osContext === null) {
             return false;
         }
 
-        if (null === $osContext->getVersion()) {
+        if ($osContext->getVersion() === null) {
             return false;
         }
 
-        if (null === $osContext->getMachineType()) {
+        if ($osContext->getMachineType() === null) {
             return false;
         }
 
@@ -354,11 +372,11 @@ final class Profile
      */
     private function validateRuntimeContext(?RuntimeContext $runtimeContext): bool
     {
-        if (null === $runtimeContext) {
+        if ($runtimeContext === null) {
             return false;
         }
 
-        if (null === $runtimeContext->getVersion()) {
+        if ($runtimeContext->getVersion() === null) {
             return false;
         }
 
@@ -371,11 +389,11 @@ final class Profile
      */
     private function validateEvent(Event $event): bool
     {
-        if (null === $event->getTransaction()) {
+        if ($event->getTransaction() === null) {
             return false;
         }
 
-        if (null === $event->getTraceId()) {
+        if ($event->getTraceId() === null) {
             return false;
         }
 
