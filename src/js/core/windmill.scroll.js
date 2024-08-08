@@ -89,7 +89,7 @@ export class WindmillScroll {
     this.scroll.raf(delta);
     this.intersection?.raf(delta);
     this.timeline?.raf();
-    this.webgl?.raf(delta);
+    this.webgl?.raf();
   }
   _onResize() {
     if( !this._started ) return;
@@ -101,8 +101,8 @@ export class WindmillScroll {
 
   _onPageReady() {
     this.scroll?.init();
-    this.intersection?.init();
     this.webgl?.init();
+    this.intersection?.init();
 
     this._startModules();
     this._bindEvents();
@@ -116,8 +116,8 @@ export class WindmillScroll {
   }
   _onPageDone() {
     this.scroll?.resize();
-    this.intersection?.resize();
     this.webgl?.resize();
+    this.intersection?.resize();
   }
 
   _onAsyncPageEnter({ next }) {
@@ -127,8 +127,8 @@ export class WindmillScroll {
     html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
 
     this.scroll?.init();
+    this.webgl?.init(next.container);
     this.intersection?.init(next.container);
-    this.webgl?.init();
   }
   _onAsyncPageEntered() {
     this._startModules();
@@ -165,6 +165,7 @@ export class WindmillScroll {
     // update scroll
     this.timeline?.reset();
     this.scroll?.resize();
+    this.webgl?.update();
     this.intersection?.update();
 
     // trigger event that scroll update is completed
@@ -225,7 +226,6 @@ export class WindmillScroll {
     this.minimum?.reset();
     this.timeline?.reset();
     this.webgl?.reset();
-    this.webgl?.cleanup();
   }
 }
 

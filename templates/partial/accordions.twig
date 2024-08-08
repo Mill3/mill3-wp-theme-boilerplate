@@ -1,43 +1,53 @@
+{#
+ #############################
+ # Accordions data structure #
+ #############################
+ # - classname (string) : Custom classnames to add to this component. (optional)
+ # - attributes (array) : Custom attributes to add to this component. (optional)
+ # - group (string) : Group's name to each accordions. If accordions are part of a group, only one accordion can be opened at the same time. (optional)
+ # - accordions (array) : List of accordions. (required)
+ #   - title (string) : Label inside the clickable button/summary. (required)
+ #   - aria_label (string) : Button/Summary's aria-label. Fallback to title. (optional)
+ #   - content (sring) : Main information. (required)
+ #   - open (boolean) : True if accordion is opened. Default to false. (optional)
+ #   - group (string) : Group's name. If accordion is part of a group, only one accordion of this group can be opened at the same time. Default to global group name. (optional)
+ #}
 {% if accordions %}
 
 {% set classname = classname|default(null) %}
 {% set attributes = attributes|default([]) %}
-{% set udid = udid|default('accordion-' ~ random()) %}
+{% set group = group|default(null) %}
 
 <div 
-  class="accordions {{ classname }}"
+  class="accordions d-flex flex-column {{ classname }}"
   data-module="accordions"
   data-scroll
-  data-scroll-offset="100px,0"
   {{ attributes|join(' ') }}
 >
 
   {% for accordion in accordions %}
-  <div class="accordions__accordion w-100" style="--index:{{ loop.index0 }};">
-    <button
-      class="accordions__btn position-relative w-100 ta-left"
-      aria-label="{{ accordion.title }}"
-      aria-controls="{{ udid }}-{{ loop.index }}"
-      aria-expanded="false"
+  <details 
+    class="accordions__accordion w-100" 
+    {% if accordion.group or group %}name="{{ accordion.group|default(group) }}"{% endif %}
+    {% if accordion.open %}open{% endif %}
+    style="--index:{{ loop.index0 }};"
+  >
+    <summary
+      class="accordions__btn d-grid grid-gap-20 w-100"
+      aria-label="{{ accordion.aria_label|default(accordion.title) }}"
     >
-      {{ accordion.title }}
+      <span class="accordions__title col-start-1 row-start-1" aria-hidden="true">{{ accordion.title }}</span>
 
-      <span class="accordions__arrowDown accordions__arrow" aria-hidden="true">
+      <span class="accordions__arrowDown accordions__arrow col-start-2 row-start-1" aria-hidden="true">
         {{ source('src/svg/arrow-down.svg') }}
       </span>
-      <span class="accordions__arrowUp accordions__arrow" aria-hidden="true">
+      <span class="accordions__arrowUp accordions__arrow col-start-2 row-start-1" aria-hidden="true">
         {{ source('src/svg/arrow-up.svg') }}
       </span>
-    </button>
+    </summary>
 
-    <div 
-      id="{{ udid }}-{{ loop.index }}"
-      class="accordions__content w-100 wysiwyg"
-      aria-hidden="true"
-    >
-      {{ accordion.content }}
-    </div>
-  </div>
+    <div class="accordions__content w-100 wysiwyg">{{ accordion.content }}</div>
+  </details>
   {% endfor %}
 
 </div>

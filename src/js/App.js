@@ -4,9 +4,12 @@
 import domready from "domready";
 
 import "@core/hello";
+//import "@core/power-mode";
 //import "@core/gdpr";
 import windmill from "@core/windmill";
+import WindmillFluidTypography from "@core/windmill.fluid-typography";
 import WindmillImgLazyload from "@core/windmill.img-lazyload";
+import WindmillPrefetch from "@core/windmill.prefetch";
 import WindmillScripts from "@core/windmill.scripts";
 import WindmillScroll from "@core/windmill.scroll";
 import WindmillSplitting from "@core/windmill.splitting";
@@ -61,12 +64,14 @@ class App {
     windmill.on('entering', updateScrollbarWidth);
 
     // install Windmill's plugins
+    //windmill.use( new WindmillFluidTypography() );
     windmill.use( new WindmillScripts() );
     windmill.use( new WindmillWebpackChunks(Modules) );
     //windmill.use( new WindmillDomController({ modules: Modules, ui: UI }) );
     windmill.use( new WindmillScroll() );
     windmill.use( new WindmillSplitting() );
     windmill.use( new WindmillImgLazyload() );
+    windmill.use( new WindmillPrefetch() );
 
 
     // if you use Windmill's Async mode, please do this:

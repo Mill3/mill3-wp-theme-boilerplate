@@ -34,28 +34,26 @@ function wp_gallery($output, $atts, $instance)
 
     $medias = array_map(function($image){
         // transform array to a WP Post object
-        if (is_array($image)) {
-            $image = get_post($image['id']);
-        }
+        if (is_array($image)) $image = get_post($image['id']);
 
-        return array(
-            'image' => $image->ID,
-            'credit' => $image->post_excerpt,
-            'post' => $image
-        );
+        return array('image' => $image, 'credit' => $image->post_excerpt);
     }, $posts);
 
-    return Timber::compile('page-builder/pb_row_medias.twig', array(
-        'post' => array(
+    return Timber::compile('page-builder/pb-row-medias.twig', array(
+        'is_preview' => false,
+        'slug' => 'pb-row-medias',
+        'block' => array(
+            'order' => 0,
+            'first' => false
+        ),
+        'fields' => array(
             'medias' => $medias,
             'layout' => 'grid-' . min($columns, 4),
             'format' => $format,
             'grid_gap' => $grid_gap,
             'grid_gap_mobile' => $grid_gap_mobile,
-            'fullwidth' => true,
-            'color_theme' => 'theme-default'
-        ),
-        'is_shortcode' => true
+            'fullwidth' => false
+        )
     ));
 }
 

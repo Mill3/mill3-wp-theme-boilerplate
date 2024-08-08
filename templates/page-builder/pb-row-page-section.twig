@@ -1,7 +1,7 @@
 {#
   Title: Page section
   Description: Embed a page-section content in page
-  Category: embed
+  Category: widgets
   Icon: database
   Keywords: section
   Mode: edit
@@ -17,14 +17,15 @@
 
 {% set page_section = fields.page_section|default(null) %}
 {% set effect = fields.effect|default(null) %}
-{% set edit_button = null %}
-
-{# get content rows from page-section #}
-{% set content = page_section.content %}
 
 {# effect stacked #}
 {% if effect == 'stacked' %}
   {% set classname = classname|split(' ')|merge(['--effect-stacked'])|join(' ') %}
+{% endif %}
+
+{# get content rows from page-section #}
+{% if page_section %}
+  {% set content = get_post(page_section.ID).content %}
 {% endif %}
 
 {% if page_section and content %}

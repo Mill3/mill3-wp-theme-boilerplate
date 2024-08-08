@@ -24,6 +24,7 @@ ResizeOrientation.remove(callback);
 */
 
 import { on, off } from "./listener";
+import { mobile } from "./mobile";
 import Throttle from "./throttle";
 
 
@@ -81,14 +82,19 @@ class ResizeOrientation {
     // if list of listeners is empty
     if( this._listeners && this._listeners.length === 0 ) this._unbindEvents();
   }
+  trigger() {
+    if( this._tick ) return;
+
+    this._tick = true;
+    this._event = new Event("resize");
+    this._run();
+  }
 
   _bindEvents() {
-    on(window, "orientationchange", this._getThrottleBnd);
-    on(window, "resize", this._getThrottleBnd);
+    on(window, mobile ? "orientationchange" : "resize", this._getThrottleBnd);
   }
   _unbindEvents() {
-    off(window, "orientationchange", this._getThrottleBnd);
-    off(window, "resize", this._getThrottleBnd);
+    off(window, mobile ? "orientationchange" : "resize", this._getThrottleBnd);
   }
 
   _exists(callback) {

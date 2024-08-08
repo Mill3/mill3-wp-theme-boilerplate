@@ -99,8 +99,9 @@ class Scroll {
     // An offset to apply on top of given `target` or `sourceElem`'s target
     let offset = parseInt(options.offset) || 0;
 
-    // function called when scrollTo completes (note that it won't wait for lerp to stabilize)
+    // function called when scrollTo completes or cancel (note that it won't wait for lerp to stabilize)
     const callback = options.callback ? options.callback : false;
+    const cancel = options.cancel ? options.cancel : false;
 
     if (typeof target === 'string') {
       // Selector or boundaries
@@ -141,6 +142,7 @@ class Scroll {
       this._data.scrollTo = {
         offset: parseInt(offset),
         callback,
+        cancel,
       };
     }
 
@@ -234,8 +236,8 @@ class Scroll {
     if( this._data.scrollTo ) {
       // if offset as been reached, run callback & destroy saved scrollTo's offset
       if( this._data.scrollTo.offset === this._data.scroll >> 0 ) {
-        this._data.scrollTo.callback();
-        this._stopScrollTo();
+        if( this._data.scrollTo.callback ) this._data.scrollTo.callback();
+        this._stopScrollTo(false);
       }
     }
   }
@@ -324,9 +326,13 @@ class Scroll {
       this._data.lastScroll = this._data.scroll;
     }
   }
-  _stopScrollTo() {
+  _stopScrollTo(canceled = true) {
+    let cancelCallback = this._data.scrollTo ? this._data.scrollTo.cancel : false;
+
     if( this._data.scrollTo ) anime.remove(this._data.scrollTo);
     this._data.scrollTo = null;
+
+    if( canceled && cancelCallback ) cancelCallback();
   }
 
 

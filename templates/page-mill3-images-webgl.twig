@@ -1,4 +1,13 @@
 {# copy of https://tympanus.net/Development/OnScrollViewSwitch/ with our internal tools #}
+{#
+ # YOU NEED TO ENABLE THIS FOR THIS DEMO TO WORK:
+ # - uncomment {% include 'site-webgl.twig' %} in templates/base.twig
+ # - uncomment src/scss/ui/site-webgl.scss in src/scss/ui/index.scss
+ # - uncomment these lines:
+ #   line 9:  // import ScrollWebGL from "@scroll/scroll-webgl";
+ #   line 11: // import { mobile } from "@utils/mobile";
+ #   line 81: // if( !mobile ) this.webgl = new ScrollWebGL(this.scroll);
+ #}
 {% extends "base.twig" %}
 
 {# remove header & footer for this demo #}
@@ -8,8 +17,14 @@
 {% block head %}
 <style type="text/css">
   body { background: #080808 !important; }
-  canvas {
-    z-index: -1;
+  body::after {
+    /*content: '';*/
+    position: fixed;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: red;
   }
 
   .mill3-scroll-timeline { color: #5e5754; }
@@ -58,10 +73,6 @@
     transform-origin: top center;
   }
 
-  html.has-scroll-webgl .item__img[data-webgl] {
-    visibility: hidden;
-  }
-
   .footer {
     height: 386px;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -76,95 +87,13 @@
     max-height: 386px;
   }
 </style>
-
-{# view-timeline experiments (you need to disable scroll-timeline in core/windmill.scroll.js to see it working) #}
-{#
-<style type="text/css">
-  .mill3-scroll-timeline { view-timeline: --timelineRoot block; }
-  .item { view-timeline: --item block; }
-  .item__index { view-timeline: --item-index block; view-timeline-inset: 0px 20%; }
-  .item__title { view-timeline: --item-title block; view-timeline-inset: 0px 20%; }
-
-  .header__title {
-    animation-name: headerTitleAnimation 1s linear both;
-    animation-timeline: --timelineRoot;
-  }
-
-  .item__index,
-  .item__title {
-    animation: itemWrapAnimation 1s linear both;
-    animation-timeline: --item;
-  }
-  .item__index span {
-    animation: itemIndexChildAnimation 1s ease-out both;
-    animation-timeline: --item-index;
-  }
-  .item__title span {
-    animation: itemTitleChildAnimation 1s ease-in both;
-    animation-timeline: --item-title;
-  }
-  .item__img {
-    animation: itemImgAnimation 1s linear both;
-    animation-timeline: view(block);
-  }  
-
-  @keyframes headerTitleAnimation {
-    from {
-      transform: translateX(0%);
-    }
-    to {
-      transform: translateX(-70%);
-    }
-  }
-  @keyframes itemWrapAnimation {
-    from {
-      transform: translateY(0%);
-    }
-    to {
-      transform: translateY(-150%);
-    }
-  }
-  @keyframes itemIndexChildAnimation {
-    from {
-      transform: translateY(0%);
-    }
-    to {
-      transform: translateY(-100%);
-    }
-  }
-  @keyframes itemTitleChildAnimation {
-    from {
-      transform: translateY(0%);
-    }
-    to {
-      transform: translateY(-100%);
-    }
-  }
-  @keyframes itemImgAnimation {
-    from {
-      opacity: 1;
-      transform: scale(1, 1);
-    }
-    to {
-      opacity: 0;
-      transform: scale(1.2, 2.4);
-    }
-  }
-</style>
-#}
 {% endblock %}
 
 {% block content %}
 <article class="mill3-scroll-timeline">
 
   <header class="header position-fixed z-4000 t-0 l-0 w-100 d-flex flex-column pointer-events-none overflow-clip">
-    <h1
-      class="header__title fw-400 tt-uppercase m-0"
-      data-scroll
-      data-scroll-call="timeline"
-      data-scroll-target=".mill3-scroll-timeline"
-      data-timeline="{{ {translateX: '-70%'}|json_encode|escape('html_attr') }}"
-    >Projects * Insomnia * Projects * Insomnia * Projects * Insomnia * Projects</h1>
+    <h1 class="header__title fw-400 tt-uppercase m-0">Projects * Insomnia * Projects * Insomnia * Projects * Insomnia * Projects</h1>
     <span class="header__sub fz-16">1984 - 2022</span>
   </header>
 
@@ -188,40 +117,8 @@
     {% for title in titles %}
     <figure id="item-{{ loop.index }}" class="item d-grid align-items-start">
       <figcaption class="item__wrap d-flex flex-column fz-18 position-relative z-2000">
-        <span
-          class="item__index lh-base mb-10 overflow-clip"
-          data-scroll
-          data-scroll-call="timeline"
-          data-scroll-target="#item-{{ loop.index }}"
-          data-timeline="{{ {translateY: '-150%'}|json_encode|escape('html_attr') }}"
-        >
-          <span
-            class="d-block"
-            data-scroll
-            data-scroll-call="timeline"
-            data-scroll-target="#item-{{ loop.index }} .item__index"
-            data-scroll-offset="0,20%"
-            data-timeline="{{ {translateY: '-100%', easing: 'easeInExpo'}|json_encode|escape('html_attr') }}"
-          >{{ "%02d"|format(loop.index) }}</span>
-        </span>
-
-        <h2
-          class="item__title fw-400 lh-base m-0 mb-20 overflow-clip"
-          data-scroll
-          data-scroll-call="timeline"
-          data-scroll-target="#item-{{ loop.index }}"
-          data-timeline="{{ {translateY: '-150%'}|json_encode|escape('html_attr') }}"
-        >
-          <span
-            class="d-block"
-            data-scroll
-            data-scroll-call="timeline"
-            data-scroll-target="#item-{{ loop.index }} .item__title"
-            data-scroll-offset="0,20%"
-            data-timeline="{{ {translateY: '-100%', easing: 'easeInExpo'}|json_encode|escape('html_attr') }}"
-          >{{ title }}</span>
-        </h2>
-
+        <span class="item__index lh-base mb-10 overflow-clip">{{ "%02d"|format(loop.index) }}</span>
+        <h2 class="item__title fw-400 lh-base m-0 mb-20 overflow-clip">{{ title }}</h2>
         <p class="item__caption m-0">All natural and technological processes proceed in such a way that the availability of the remaining energy decreases.</p>
       </figcaption>
 
@@ -230,10 +127,8 @@
           src="https://mill3-vercel-dropbox.vercel.app/scroll-timeline/timeline-{{ "%02d"|format(loop.index) }}.jpg"
           alt=""
           class="item__img image-as-background"
-          data-scroll
-          data-scroll-call="timeline"
-          data-scroll-target="#item-{{ loop.index }} .item__media"
-          data-timeline="{{ {scaleX: 1.2, scaleY: 2.4, opacity: 0}|json_encode|escape('html_attr') }}"
+          crossOrigin=""
+          data-webgl
         >
       </div>
     </figure>

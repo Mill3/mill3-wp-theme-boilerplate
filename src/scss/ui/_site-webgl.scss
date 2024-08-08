@@ -1,0 +1,8 @@
+.site-webgl {
+  height: 100lvh;
+}
+
+html.has-scroll-webgl {
+  img[data-webgl] { visibility: hidden; }
+  //*:has(> img[data-webgl]) { outline: 1px solid red; }
+}

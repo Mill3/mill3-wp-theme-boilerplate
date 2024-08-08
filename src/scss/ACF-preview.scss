@@ -8,7 +8,7 @@
 }
 
 // override in-view mixin because there is no need to include in-view animations in our ACF previews
-@mixin inView() {
+@mixin inView($hard: false) {
   @if false {
     @content;
   }

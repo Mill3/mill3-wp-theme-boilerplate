@@ -86,6 +86,7 @@ $includes = [
     'lib/gdpr.php',
     'lib/gravity-form.php',
     'lib/gutenberg.php',
+    'lib/media-gallery.php',
     'lib/menu.php',
     'lib/newsletter.php',
     'lib/polylang.php',
@@ -95,12 +96,14 @@ $includes = [
     'lib/rankmath.php',
     'lib/recaptcha.php',
     'lib/search.php',
+    'lib/sentry.php',
     'lib/setup.php',
     'lib/shortcodes.php',
     'lib/svg.php',
     'lib/taxonomies.php',
     'lib/taxonomy-queries.php',
     'lib/utils.php',
+    'lib/windmill-prefetch.php',
     'lib/window-messenger.php',
     // twig
     'lib/twig/extra-timber-filters.php',
@@ -113,6 +116,7 @@ $includes = [
     'lib/acf-fields/row-title/index.php',
     // model class per post-type
     'lib/models/abstract-post.php',
+    'lib/models/image.php',
     'lib/models/page-section.php',
     'lib/models/post.php',
     'lib/models/post-class-map.php'

@@ -19,7 +19,7 @@ const BREAKPOINTS = {
     gutter: 12,
     margin: 30,
   },
-  1024: {
+  1200: {
     columns: 12,
     gutter: 20,
     margin: 60,
@@ -48,6 +48,7 @@ class GridViewer {
     this.button.style.width = '40px';
     this.button.style.height = '40px';
     this.button.style.backgroundColor = 'rgba(0, 0, 255, 0.5)';
+    this.button.setAttribute('tabindex', -1);
 
     this._breakpoint = null;
     this._level = localStorage.getItem(STORAGE) || DEFAULT_LEVEL;

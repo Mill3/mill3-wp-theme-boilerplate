@@ -114,7 +114,7 @@ export class WindmillDomController {
       if( !container.contains(data.el) && container !== data.el ) return;
 
       // put instance in trash and remove from array
-      this._trashed.push(data.instance);
+      this._trashed.push(data);
       array.splice(index, 1);
     };
 

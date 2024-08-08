@@ -12,8 +12,10 @@
 
 import EMITTER from "@core/emitter";
 import { STATE } from "@core/state";
+import ACF from "@utils/acf";
 import { $$, body } from "@utils/dom";
 import { isFunction } from "@utils/is";
+import { mobile } from "@utils/mobile";
 
 const MODULES_SELECTOR = `[data-module]`;
 const UI_SELECTOR = `[data-ui]`;
@@ -74,31 +76,39 @@ export class WindmillWebpackChunks {
 
       // get data and module or ui chunk type
       // element should be : <div data-module="my-module"> or <div data-ui="my-ui-js-thing">
-      const { module, ui } = el.dataset;
+      const { module, moduleNative, moduleBackend, ui, uiNative, uiBackend } = el.dataset;
 
       // element can cast 1 or multiple chunk, each seperated by a coma
       if (module) {
-        module.split(",").forEach(m => {
-          const name = `modules/${m}`;
+        const moduleSelector = ACF.is_preview && el.hasAttribute('data-module-backend') ? moduleBackend : (mobile && el.hasAttribute('data-module-native') ? moduleNative : module);
 
-          // if this chunk as never been imported before, import it
-          if( !this._chunks.has(name) ) promises.push( this._importChunk(name) );
-
-          // add element to modules
-          this._modules.push(new ChunkData(el, name));
-        });
+        if( moduleSelector ) {
+          moduleSelector.split(",").forEach(m => {
+            const name = `modules/${m}`;
+            
+            // if this chunk as never been imported before, import it
+            if( !this._chunks.has(name) ) promises.push( this._importChunk(name) );
+            
+            // add element to modules
+            this._modules.push(new ChunkData(el, name));
+          });
+        }
       }
 
       if (ui) {
-        ui.split(",").forEach(m => {
-          const name = `ui/${m}`;
+        const uiSelector = ACF.is_preview && el.hasAttribute('data-ui-backend') ? uiBackend : (mobile && el.hasAttribute('data-ui-native') ? uiNative : ui);
 
-          // if this chunk as never been imported before, import it
-          if( !this._chunks.has(name) ) promises.push( this._importChunk(name) );
-
-          // add element to uis
-          this._uis.push(new ChunkData(el, name));
-        });
+        if( uiSelector ) {
+          uiSelector.split(",").forEach(m => {
+            const name = `ui/${m}`;
+            
+            // if this chunk as never been imported before, import it
+            if( !this._chunks.has(name) ) promises.push( this._importChunk(name) );
+            
+            // add element to uis
+            this._uis.push(new ChunkData(el, name));
+          });
+        }
       }
     });
 

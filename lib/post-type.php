@@ -129,7 +129,7 @@ class Theme_CustomPostTypes {
             'menu_position'       => $this->incrementMenuPosition(),
             'can_export'          => true,
             'has_archive'         => true,
-            'exclude_from_search' => true,
+            'exclude_from_search' => false,
             'publicly_queryable'  => true,
             'capability_type'     => 'post',
             'menu_icon'           => 'dashicons-editor-alignleft',

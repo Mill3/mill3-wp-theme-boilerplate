@@ -25,6 +25,7 @@ function setup()
 
     // Enable features
     //add_theme_support('post-formats', array('aside', 'gallery'));
+    add_theme_support('rank-math-breadcrumbs');
     add_theme_support('post-thumbnails');
     add_theme_support('title-tag');
     add_theme_support('menus');
@@ -62,6 +63,7 @@ function setup()
     add_image_size('largest', 1800);
     add_image_size('largest-retina', 2800);
     add_image_size('full', '');
+    add_image_size('open-ai-vision', 512, 512);
 
     // Enable HTML5 markup support
     // http://codex.wordpress.org/Function_Reference/add_theme_support#HTML5
@@ -106,13 +108,6 @@ function assets()
             null
         );
         wp_enqueue_script(
-            'mill3wp/js-sentry',
-            Assets\Asset_File_path('sentry', 'js'),
-            [],
-            null,
-            false
-        );
-        wp_enqueue_script(
             'mill3wp/js',
             Assets\Asset_File_path('app', 'js'),
             [],
@@ -135,6 +130,9 @@ function assets()
     // remove core scripts and freaking emoji
     remove_action('wp_head', 'print_emoji_detection_script', 7);
     remove_action('wp_print_styles', 'print_emoji_styles');
+    
+    wp_deregister_script('wp-polyfill');
+    wp_deregister_script('regenerator-runtime');
 }
 
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
