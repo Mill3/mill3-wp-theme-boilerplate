@@ -24,6 +24,8 @@ class Commands extends WP_CLI_Command
         'https://wordpress-commercial-plugins.vercel.app/wp-migrate-db-pro.zip',
         'https://wordpress-commercial-plugins.vercel.app/polylang-pro.zip',
         'seo-by-rank-math',
+        'https://plugins.mill3.dev/seo-by-rank-math-pro.zip',
+        'https://plugins.mill3.dev/mill3-wp-utils-plugin.zip',
         'webp-express'
     ];
 
