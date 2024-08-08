@@ -1,1 +1,10 @@
-<canvas class="site-webgl position-fixed t-0 l-0 w-100 z-0 pointer-events-none" aria-hidden="true"></canvas>
+{#
+ # YOU NEED TO FOLLOW THESE INSTRUCTIONS TO ENABLE THIS MODULE:
+ # - uncomment {% include 'site-webgl.twig' %} in templates/base.twig
+ # - uncomment src/scss/ui/site-webgl.scss in src/scss/ui/index.scss
+ # - uncomment these lines:
+ #   line 9:  // import ScrollWebGL from "@scroll/scroll-webgl";
+ #   line 11: // import { mobile } from "@utils/mobile";
+ #   line 81: // if( !mobile ) this.webgl = new ScrollWebGL(this.scroll);
+ #}
+<canvas class="site-webgl d-none position-fixed t-0 l-0 w-100 z-0 pointer-events-none" aria-hidden="true"></canvas>

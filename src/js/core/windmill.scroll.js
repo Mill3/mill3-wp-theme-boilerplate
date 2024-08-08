@@ -89,7 +89,7 @@ export class WindmillScroll {
     this.scroll.raf(delta);
     this.intersection?.raf(delta);
     this.timeline?.raf();
-    this.webgl?.raf();
+    this.webgl?.raf(delta);
   }
   _onResize() {
     if( !this._started ) return;

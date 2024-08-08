@@ -17,15 +17,6 @@
 {% block head %}
 <style type="text/css">
   body { background: #080808 !important; }
-  body::after {
-    /*content: '';*/
-    position: fixed;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: red;
-  }
 
   .mill3-scroll-timeline { color: #5e5754; }
 
@@ -128,6 +119,9 @@
           alt=""
           class="item__img image-as-background"
           crossOrigin=""
+          data-scroll
+          data-scroll-call="webgl"
+          data-scroll-progress
           data-webgl
         >
       </div>

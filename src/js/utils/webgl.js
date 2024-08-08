@@ -27,9 +27,44 @@ export const createProgram = (gl, vertexShader, fragmentShader) => {
   gl.deleteProgram(program);
 }
 
+export const createRectangle = (gl, x, y, width, height, widthSegments = 1, heightSegments = 1) => {
+  // normalize values
+  width = Math.max(0, width);
+  height = Math.max(0, height);
+  widthSegments = Math.max(1, Math.floor(widthSegments));
+  heightSegments = Math.max(1, Math.floor(heightSegments));
+
+  const vertices = [];
+  const columnWidth = width / widthSegments;
+  const rowHeight = height / heightSegments;
+
+  for(let rowIndex = 0; rowIndex < heightSegments; rowIndex++) {
+    let y1 = y + rowIndex * rowHeight;
+    let y2 = y1 + rowHeight;
+
+    for(let columnIndex = 0; columnIndex < widthSegments; columnIndex++) {
+      let x1 = x + columnIndex * columnWidth;
+      let x2 = x1 + columnWidth;
+
+      vertices.push(
+        x1, y1, 
+        x2, y1,
+        x1, y2,
+
+        x1, y2,
+        x2, y1,
+        x2, y2
+      );
+    }
+  }
+
+  gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+}
+
 export default {
   createShader,
   createVertexShader,
   createFragmentShader,
   createProgram,
+  createRectangle,
 };

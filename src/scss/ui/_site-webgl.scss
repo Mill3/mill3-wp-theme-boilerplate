@@ -1,8 +1,34 @@
 .site-webgl {
   height: 100lvh;
+
+  // visible only if webgl is supported
+  html.has-scroll-webgl & { display: block; }
 }
 
 html.has-scroll-webgl {
-  img[data-webgl] { visibility: hidden; }
+  img[data-webgl] {
+    visibility: hidden;
+    transform: none !important;
+  }
+
   //*:has(> img[data-webgl]) { outline: 1px solid red; }
+
+  /*
+  // DEBUGGING
+  body {
+    &:before,
+    &:after {
+      content: '';
+      position: fixed;
+      z-index: 999999;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: red;
+    }
+
+    &:before { top: 30%; }
+    &:after { top: 70%; }
+  }
+  */
 }
