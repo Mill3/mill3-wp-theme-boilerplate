@@ -15,7 +15,7 @@ module.exports = (DEV = false) => {
         type: "json"
       },
       {
-        test: /\.txt$/,
+        test: /\.(txt|glsl)$/,
         type: "asset/source"
       },
       {
