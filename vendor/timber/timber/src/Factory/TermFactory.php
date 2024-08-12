@@ -4,7 +4,6 @@ namespace Timber\Factory;
 
 use InvalidArgumentException;
 use Timber\CoreInterface;
-
 use Timber\Term;
 use WP_Term;
 use WP_Term_Query;
@@ -60,9 +59,16 @@ class TermFactory
         return $this->build($wp_term);
     }
 
-    protected function from_wp_term_query(WP_Term_Query $query): iterable
+    protected function from_wp_term_query(WP_Term_Query $query)
     {
-        return \array_map([$this, 'build'], $query->get_terms());
+        $terms = $query->get_terms();
+
+        $fields = $query->query_vars['fields'];
+        if ('all' === $fields || 'all_with_object_id' === $fields) {
+            return \array_map([$this, 'build'], $terms);
+        }
+
+        return $terms;
     }
 
     protected function from_term_object(object $obj): CoreInterface
@@ -78,7 +84,7 @@ class TermFactory
 
         throw new InvalidArgumentException(\sprintf(
             'Expected an instance of Timber\CoreInterface or WP_Term, got %s',
-            \get_class($obj)
+            $obj::class
         ));
     }
 
@@ -93,7 +99,27 @@ class TermFactory
 
     protected function get_term_class(WP_Term $term): string
     {
-        // Get the user-configured Class Map
+        /**
+         * Filters the class(es) used for terms of different taxonomies.
+         *
+         * The default Term Class Map will contain class names mapped to the build-in post_tag and category taxonomies.
+         *
+         * @since 2.0.0
+         * @example
+         * ```
+         * add_filter( 'timber/term/classmap', function( $classmap ) {
+         *     $custom_classmap = [
+         *         'expertise'   => ExpertiseTerm::class,
+         *     ];
+         *
+         *     return array_merge( $classmap, $custom_classmap );
+         * } );
+         * ```
+         *
+         * @param array $classmap The term class(es) to use. An associative array where the key is
+         *                        the taxonomy name and the value the name of the class to use for this
+         *                        taxonomy or a callback that determines the class to use.
+         */
         $map = \apply_filters('timber/term/classmap', [
             'post_tag' => Term::class,
             'category' => Term::class,
@@ -105,7 +131,7 @@ class TermFactory
             $class = $class($term);
         }
 
-        $class = $class ?? Term::class;
+        $class ??= Term::class;
 
         /**
          * Filters the term class based on your custom criteria.
@@ -167,9 +193,7 @@ class TermFactory
             'tag' => 'post_tag',
         ];
 
-        return \array_map(function ($taxonomy) use ($corrections) {
-            return $corrections[$taxonomy] ?? $taxonomy;
-        }, $taxonomies);
+        return \array_map(fn ($taxonomy) => $corrections[$taxonomy] ?? $taxonomy, $taxonomies);
     }
 
     protected function filter_query_params(array $params)

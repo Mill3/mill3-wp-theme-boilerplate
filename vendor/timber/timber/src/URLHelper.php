@@ -40,16 +40,16 @@ class URLHelper
     /**
      * Check to see if the URL begins with the string in question
      * Because it's a URL we don't care about protocol (HTTP vs HTTPS)
-     * Or case (so it's cAsE iNsEnSeTiVe)
+     * Or case (so it's cAsE iNsEnSiTiVe)
      *
      * @api
      * @return boolean
      */
     public static function starts_with($haystack, $starts_with)
     {
-        $haystack = \str_replace('https', 'http', \strtolower($haystack));
-        $starts_with = \str_replace('https', 'http', \strtolower($starts_with));
-        if (0 === \strpos($haystack, $starts_with)) {
+        $haystack = \str_replace('https', 'http', \strtolower((string) $haystack));
+        $starts_with = \str_replace('https', 'http', \strtolower((string) $starts_with));
+        if (\str_starts_with($haystack, $starts_with)) {
             return true;
         }
         return false;
@@ -79,7 +79,7 @@ class URLHelper
     public static function get_path_base()
     {
         $struc = \get_option('permalink_structure');
-        $struc = \explode('/', $struc);
+        $struc = \explode('/', (string) $struc);
         $p = '/';
         foreach ($struc as $s) {
             if (!\strstr($s, '%') && \strlen($s)) {
@@ -119,7 +119,7 @@ class URLHelper
      * Some setups like HTTP_HOST, some like SERVER_NAME, it's complicated
      *
      * @api
-     * @link http://stackoverflow.com/questions/2297403/http-host-vs-server-name
+     * @link https://stackoverflow.com/questions/2297403/http-host-vs-server-name
      *
      * @return string the HTTP_HOST or SERVER_NAME
      */
@@ -172,14 +172,17 @@ class URLHelper
     }
 
     /**
-     * Takes a url and figures out its place based in the file system based on path
+     * Translates a URL to a filesystem path
+     *
+     * Takes a url and figures out its filesystem location.
+     *
      * NOTE: Not fool-proof, makes a lot of assumptions about the file path
      * matching the URL path
      *
      * @api
      *
-     * @param string $url
-     * @return string
+     * @param string $url The URL to translate to a filesystem path
+     * @return string The filesystem path derived from the URL
      */
     public static function url_to_file_system($url)
     {
@@ -188,14 +191,14 @@ class URLHelper
         /**
          * Filters the path of a parsed URL.
          *
+         * You can use this filter to alter the returned file system path.
          * This filter is used by the WPML integration.
-         *
-         * @todo Add description, parameter description.
+
          *
          * @see \Timber\URLHelper::url_to_file_system()
          * @since 1.3.2
          *
-         * @param string $path
+         * @param string $path The current translated path
          */
         $url_parts['path'] = \apply_filters('timber/url_helper/url_to_file_system/path', $url_parts['path']);
 
@@ -217,43 +220,48 @@ class URLHelper
     }
 
     /**
+     * Translates a filesystem path to a URL
+     *
+     * Takes a filesystem path and figures out its URL location.
+     *
      * @api
-     * @param string $fs
-     * @return string
+     * @param string $fs The filesystem path to translate to a URL
+     * @return string    The URL derived from the filesystem path
      */
     public static function file_system_to_url($fs)
     {
         $relative_path = self::get_rel_path($fs);
-        $home = \home_url('/' . $relative_path);
+        $url = \home_url('/' . $relative_path);
 
         /**
-         * Filters the home URL …
+         * Filters the URL in URLHelper::file_system_to_url
          *
+         * You can use this filter to alter the returned URL.
          * This filter is used by the WPML integration.
-         *
-         * @todo Complete summary, add description.
          *
          * @see \Timber\URLHelper::file_system_to_url()
          * @since 1.3.2
          *
-         * @param string $home The home URL.
+         * @param string $url The current translated url
          */
-        $home = \apply_filters('timber/url_helper/file_system_to_url', $home);
+        $url = \apply_filters('timber/url_helper/file_system_to_url', $url);
 
         /**
-         * Filters the home URL …
+         * Filters the URL in URLHelper::file_system_to_url
          *
-         * @todo Complete summary.
+         * You can use this filter to alter the returned URL.
+         * This filter is used by the WPML integration.
          *
+         * @param string $url The current url
          * @deprecated 2.0.0, use `timber/url_helper/file_system_to_url`
          */
-        $home = \apply_filters_deprecated(
+        $url = \apply_filters_deprecated(
             'timber/URLHelper/file_system_to_url',
-            [$home],
+            [$url],
             '2.0.0',
             'timber/url_helper/file_system_to_url'
         );
-        return $home;
+        return $url;
     }
 
     /**
@@ -290,7 +298,7 @@ class URLHelper
             'timber/url_helper/get_content_subdir/home_url'
         );
 
-        return \str_replace($home_url, '', WP_CONTENT_URL);
+        return \str_replace($home_url, '', (string) WP_CONTENT_URL);
     }
 
     /**
@@ -300,7 +308,7 @@ class URLHelper
      */
     public static function get_rel_path($src)
     {
-        if (\str_contains($src, ABSPATH)) {
+        if (\str_contains($src, (string) ABSPATH)) {
             return \str_replace(ABSPATH, '', $src);
         }
         // its outside the WordPress directory, alternate setups:
@@ -312,12 +320,23 @@ class URLHelper
      * Look for accidental slashes in a URL and remove them
      *
      * @api
-     * @param  string $url to process (ex: http://nytimes.com//news/article.html)
-     * @return string the result (ex: http://nytimes.com/news/article.html)
+     * @param  string $url to process (ex: https://nytimes.com//news/article.html)
+     * @return string the result (ex: https://nytimes.com/news/article.html)
      */
     public static function remove_double_slashes($url)
     {
         $url = \str_replace('//', '/', $url);
+
+        /**
+         * Filters the schemes that are excluded for double slash removal.
+         *
+         * If an url start with one of the schemes in the whitelist,
+         * that scheme will be excluded from the double slash removal.
+         *
+         * @since 1.16.0
+         *
+         * @param array $schemes_whitelist the schemes that are excluded for double slash removal.
+         */
         $schemes_whitelist = \apply_filters('timber/url/schemes-whitelist', ['http', 'https', 's3', 'gs']);
         foreach ($schemes_whitelist as $scheme) {
             if (\strstr($url, $scheme . ':') && !\strstr($url, $scheme . '://')) {
@@ -371,7 +390,7 @@ class URLHelper
      */
     public static function preslashit($path)
     {
-        if (\strpos($path, '/') !== 0) {
+        if (!\str_starts_with($path, '/')) {
             $path = '/' . $path;
         }
         return $path;
@@ -390,7 +409,7 @@ class URLHelper
     }
 
     /**
-     * This will evaluate wheter a URL is at an aboslute location (like http://example.org/whatever)
+     * This will evaluate wheter a URL is at an aboslute location (like https://example.org/whatever)
      *
      * @param string $path
      * @return boolean true if $path is an absolute url, false if relative.
@@ -425,11 +444,11 @@ class URLHelper
         // otherwise you run into errors with sites that:
         // 1. use WPML plugin
         // 2. or redefine content directory.
-        $is_content_url = \strstr($url, \content_url());
+        $is_content_url = \strstr($url, (string) \content_url());
 
         // this case covers when the upload directory has been redefined.
         $upload_dir = \wp_upload_dir();
-        $is_upload_url = \strstr($url, $upload_dir['baseurl']);
+        $is_upload_url = \strstr($url, (string) $upload_dir['baseurl']);
 
         return $is_content_url || $is_upload_url;
     }
@@ -441,7 +460,7 @@ class URLHelper
      * Otherwise, false.
      *
      * @api
-     * @param  string $url URL to evalute.
+     * @param  string $url URL to evaluate.
      * @return bool
      */
     public static function is_external(string $url): bool
@@ -477,8 +496,8 @@ class URLHelper
      * @api
      * @since  1.3.3
      * @author jarednova
-     * @param string $haystack ex: http://example.org/wp-content/uploads/dog.jpg
-     * @param string $needle ex: http://example.org/wp-content
+     * @param string $haystack ex: https://example.org/wp-content/uploads/dog.jpg
+     * @param string $needle ex: https://example.org/wp-content
      * @return string
      */
     public static function remove_url_component($haystack, $needle)
@@ -495,7 +514,7 @@ class URLHelper
      * @since  1.3.3
      * @author jarednova
      *
-     * @param  string $url ex: http://example.org/wp-content/uploads/dog.jpg.
+     * @param  string $url ex: https://example.org/wp-content/uploads/dog.jpg.
      * @return string ex: https://example.org/wp-content/uploads/dog.jpg
      */
     public static function swap_protocol($url)
@@ -535,13 +554,12 @@ class URLHelper
 
     /**
      * Returns the url path parameters, or a single parameter if given an index.
-     * Normalizes REQUEST_URI to lower-case. Returns false if given a
-     * non-existent index.
+     * Returns false if given a non-existent index.
      *
      * @example
      * ```php
      * // Given a $_SERVER["REQUEST_URI"] of:
-     * // http://example.org/blog/post/news/2014/whatever
+     * // https://example.org/blog/post/news/2014/whatever
      *
      * $params = URLHelper::get_params();
      * // => ["blog", "post", "news", "2014", "whatever"]
@@ -563,7 +581,7 @@ class URLHelper
      */
     public static function get_params($i = false)
     {
-        $uri = \trim(\strtolower($_SERVER['REQUEST_URI']));
+        $uri = \trim((string) $_SERVER['REQUEST_URI']);
         $params = \array_values(\array_filter(\explode('/', $uri)));
 
         if (false === $i) {
@@ -587,7 +605,7 @@ class URLHelper
      */
     public static function maybe_secure_url($url)
     {
-        if (\is_ssl() && \strpos($url, 'https') !== 0 && \strpos($url, 'http') === 0) {
+        if (\is_ssl() && !\str_starts_with($url, 'https') && \str_starts_with($url, 'http')) {
             $url = 'https' . \substr($url, \strlen('http'));
         }
 

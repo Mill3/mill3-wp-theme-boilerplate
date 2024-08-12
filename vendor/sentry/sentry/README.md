@@ -1,8 +1,8 @@
-<p align="center">
-  <a href="https://sentry.io/?utm_source=github&utm_medium=logo" target="_blank">
-    <img src="https://sentry-brand.storage.googleapis.com/sentry-wordmark-dark-280x84.png" alt="Sentry" width="280" height="84">
-  </a>
-</p>
+<div align="center">
+    <a href="https://sentry.io/?utm_source=github&utm_medium=logo" target="_blank">
+        <img src="https://sentry-brand.storage.googleapis.com/github-banners/github-sdk-php.jpg" alt="Sentry for PHP">
+    </a>
+</div>
 
 _Bad software is everywhere, and we're tired of it. Sentry is on a mission to help developers write better software faster, so we can get back to enjoying technology. If you want to join us [<kbd>**Check out our open positions**</kbd>](https://sentry.io/careers/)_
 
@@ -24,36 +24,15 @@ information needed to prioritize, identify, reproduce and fix each issue.
 
 ### Install
 
-To install the SDK you will need to be using [Composer]([https://getcomposer.org/)
-in your project. To install it please see the [docs](https://getcomposer.org/download/).
-
-This is our "core" SDK, meaning that all the important code regarding error handling lives here.
-If you are happy with using the HTTP client we recommend install the SDK like: [`sentry/sdk`](https://github.com/getsentry/sentry-php-sdk)
+Install the SDK using [Composer](https://getcomposer.org/).
 
 ```bash
-composer require sentry/sdk
+composer require sentry/sentry
 ```
-
-This package (`sentry/sentry`) is not tied to any specific library that sends HTTP messages. Instead,
-it uses [Httplug](https://github.com/php-http/httplug) to let users choose whichever
-PSR-7 implementation and HTTP client they want to use.
-
-If you just want to get started quickly you should run the following command:
-
-```bash
-composer require sentry/sentry php-http/curl-client
-```
-
-This is basically what our metapackage (`sentry/sdk`) provides.
-
-This will install the library itself along with an HTTP client adapter that uses
-cURL as transport method (provided by Httplug). You do not have to use those
-packages if you do not want to. The SDK does not care about which transport method
-you want to use because it's an implementation detail of your application. You may
-use any package that provides [`php-http/async-client-implementation`](https://packagist.org/providers/php-http/async-client-implementation)
-and [`http-message-implementation`](https://packagist.org/providers/psr/http-message-implementation).
 
 ### Configuration
+
+Initialize the SDK as early as possible in your application.
 
 ```php
 \Sentry\init(['dsn' => '___PUBLIC_DSN___' ]);
@@ -76,29 +55,32 @@ The following integrations are fully supported and maintained by the Sentry team
 - [Symfony](https://github.com/getsentry/sentry-symfony)
 - [Laravel](https://github.com/getsentry/sentry-laravel)
 
-## 3rd party integrations
+## 3rd party integrations using SDK 4.x
 
 The following integrations are available and maintained by members of the Sentry community.
 
 - [Drupal](https://www.drupal.org/project/raven)
-- [Neos Flow](https://github.com/flownative/flow-sentry)
 - [WordPress](https://wordpress.org/plugins/wp-sentry-integration/)
+- ... feel free to be famous, create a port to your favourite platform!
+
+## 3rd party integrations using the old SDK 3.x
+
+- [Neos Flow](https://github.com/flownative/flow-sentry)
 - [ZendFramework](https://github.com/facile-it/sentry-module)
 - [Yii2](https://github.com/notamedia/yii2-sentry)
 - [Silverstripe](https://github.com/phptek/silverstripe-sentry)
 - [CakePHP 3.0 - 4.3](https://github.com/Connehito/cake-sentry)
 - [CakePHP 4.4+](https://github.com/lordsimal/cakephp-sentry)
 - [October CMS](https://github.com/OFFLINE-GmbH/oc-sentry-plugin)
-- ... feel free to be famous, create a port to your favourite platform!
 
-## 3rd party integrations using old SDK 2.x
+## 3rd party integrations using the old SDK 2.x
 
 - [Neos Flow](https://github.com/networkteam/Networkteam.SentryClient)
 - [OXID eShop](https://github.com/OXIDprojects/sentry)
 - [TYPO3](https://github.com/networkteam/sentry_client)
 - [CakePHP](https://github.com/Connehito/cake-sentry/tree/3.x)
 
-## 3rd party integrations using old SDK 1.x
+## 3rd party integrations using the old SDK 1.x
 
 - [Neos CMS](https://github.com/networkteam/Netwokteam.Neos.SentryClient)
 - [OpenCart](https://github.com/BurdaPraha/oc_sentry)
@@ -112,11 +94,17 @@ The following integrations are available and maintained by members of the Sentry
 
 ## Contributing to the SDK
 
-Please refer to [CONTRIBUTING.md](CONTRIBUTING.md).
+Please make sure to read the [CONTRIBUTING.md](CONTRIBUTING.md) before making a pull request.
+
+Thanks to everyone who has contributed to this project so far.
+
+<a href="https://github.com/getsentry/sentry-php/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=getsentry/sentry-php" />
+</a>
 
 ## Getting help/support
 
-If you need help setting up or configuring the PHP SDK (or anything else in the Sentry universe) please head over to the [Sentry Community on Discord](https://discord.com/invite/Ww9hbqr). There is a ton of great people in our Discord community ready to help you!
+If you need help setting up or configuring the PHP SDK (or anything else in the Sentry universe) please head over to the [Sentry Community on Discord](https://discord.com/invite/sentry). There is a ton of great people in our Discord community ready to help you!
 
 ## Resources
 

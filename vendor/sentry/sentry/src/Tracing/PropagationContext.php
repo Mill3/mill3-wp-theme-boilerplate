@@ -9,7 +9,9 @@ use Sentry\State\Scope;
 
 final class PropagationContext
 {
-    private const TRACEPARENT_HEADER_REGEX = '/^[ \\t]*(?<trace_id>[0-9a-f]{32})?-?(?<span_id>[0-9a-f]{16})?-?(?<sampled>[01])?[ \\t]*$/i';
+    private const SENTRY_TRACEPARENT_HEADER_REGEX = '/^[ \\t]*(?<trace_id>[0-9a-f]{32})?-?(?<span_id>[0-9a-f]{16})?-?(?<sampled>[01])?[ \\t]*$/i';
+
+    private const W3C_TRACEPARENT_HEADER_REGEX = '/^[ \\t]*(?<version>[0]{2})?-?(?<trace_id>[0-9a-f]{32})?-?(?<span_id>[0-9a-f]{16})?-?(?<sampled>[01]{2})?[ \\t]*$/i';
 
     /**
      * @var TraceId The trace id
@@ -49,12 +51,12 @@ final class PropagationContext
 
     public static function fromHeaders(string $sentryTraceHeader, string $baggageHeader): self
     {
-        return self::parseTraceAndBaggage($sentryTraceHeader, $baggageHeader);
+        return self::parseTraceparentAndBaggage($sentryTraceHeader, $baggageHeader);
     }
 
     public static function fromEnvironment(string $sentryTrace, string $baggage): self
     {
-        return self::parseTraceAndBaggage($sentryTrace, $baggage);
+        return self::parseTraceparentAndBaggage($sentryTrace, $baggage);
     }
 
     /**
@@ -62,7 +64,15 @@ final class PropagationContext
      */
     public function toTraceparent(): string
     {
-        return sprintf('%s-%s', (string) $this->traceId, (string) $this->spanId);
+        return \sprintf('%s-%s', (string) $this->traceId, (string) $this->spanId);
+    }
+
+    /**
+     * Returns a string that can be used for the W3C `traceparent` header & meta tag.
+     */
+    public function toW3CTraceparent(): string
+    {
+        return \sprintf('00-%s-%s-00', (string) $this->traceId, (string) $this->spanId);
     }
 
     /**
@@ -70,14 +80,14 @@ final class PropagationContext
      */
     public function toBaggage(): string
     {
-        if (null === $this->dynamicSamplingContext) {
+        if ($this->dynamicSamplingContext === null) {
             $hub = SentrySdk::getCurrentHub();
             $client = $hub->getClient();
 
-            if (null !== $client) {
+            if ($client !== null) {
                 $options = $client->getOptions();
 
-                if (null !== $options) {
+                if ($options !== null) {
                     $hub->configureScope(function (Scope $scope) use ($options) {
                         $this->dynamicSamplingContext = DynamicSamplingContext::fromOptions($options, $scope);
                     });
@@ -98,7 +108,7 @@ final class PropagationContext
             'span_id' => (string) $this->spanId,
         ];
 
-        if (null !== $this->parentSpanId) {
+        if ($this->parentSpanId !== null) {
             $result['parent_span_id'] = (string) $this->parentSpanId;
         }
 
@@ -130,9 +140,11 @@ final class PropagationContext
         return $this->spanId;
     }
 
-    public function setSpanId(SpanId $spanId): void
+    public function setSpanId(SpanId $spanId): self
     {
         $this->spanId = $spanId;
+
+        return $this;
     }
 
     public function getDynamicSamplingContext(): ?DynamicSamplingContext
@@ -140,17 +152,29 @@ final class PropagationContext
         return $this->dynamicSamplingContext;
     }
 
-    public function setDynamicSamplingContext(DynamicSamplingContext $dynamicSamplingContext): void
+    public function setDynamicSamplingContext(DynamicSamplingContext $dynamicSamplingContext): self
     {
         $this->dynamicSamplingContext = $dynamicSamplingContext;
+
+        return $this;
     }
 
-    private static function parseTraceAndBaggage(string $sentryTrace, string $baggage): self
+    private static function parseTraceparentAndBaggage(string $traceparent, string $baggage): self
     {
         $context = self::fromDefaults();
         $hasSentryTrace = false;
 
-        if (preg_match(self::TRACEPARENT_HEADER_REGEX, $sentryTrace, $matches)) {
+        if (preg_match(self::SENTRY_TRACEPARENT_HEADER_REGEX, $traceparent, $matches)) {
+            if (!empty($matches['trace_id'])) {
+                $context->traceId = new TraceId($matches['trace_id']);
+                $hasSentryTrace = true;
+            }
+
+            if (!empty($matches['span_id'])) {
+                $context->parentSpanId = new SpanId($matches['span_id']);
+                $hasSentryTrace = true;
+            }
+        } elseif (preg_match(self::W3C_TRACEPARENT_HEADER_REGEX, $traceparent, $matches)) {
             if (!empty($matches['trace_id'])) {
                 $context->traceId = new TraceId($matches['trace_id']);
                 $hasSentryTrace = true;

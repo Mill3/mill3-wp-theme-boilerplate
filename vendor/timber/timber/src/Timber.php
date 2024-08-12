@@ -9,7 +9,6 @@ use Timber\Factory\PostFactory;
 use Timber\Factory\TermFactory;
 use Timber\Factory\UserFactory;
 use Timber\Integration\IntegrationInterface;
-
 use WP_Comment;
 use WP_Comment_Query;
 use WP_Post;
@@ -101,9 +100,10 @@ class Timber
     /**
      * @codeCoverageIgnore
      */
-    public static function init()
+    public static function init(): void
     {
-        if (!\defined('ABSPATH')
+        if (
+            !\defined('ABSPATH')
             || !\class_exists('\WP')
             || \defined('TIMBER_LOADED')
         ) {
@@ -116,10 +116,10 @@ class Timber
         Twig::init();
         ImageHelper::init();
 
-        \add_action('init', [__CLASS__, 'init_integrations']);
+        \add_action('init', [self::class, 'init_integrations']);
         \add_action('admin_init', [Admin::class, 'init']);
 
-        \add_filter('timber/post/import_data', [__CLASS__, 'handle_preview'], 10, 2);
+        \add_filter('timber/post/import_data', [self::class, 'handle_preview'], 10, 2);
 
         /**
          * Make an alias for the Timber class.
@@ -127,7 +127,7 @@ class Timber
          * This way, developers can use Timber::render() instead of Timber\Timber::render, which
          * is more user-friendly.
          */
-        \class_alias('Timber\Timber', 'Timber');
+        \class_alias(Timber::class, 'Timber');
 
         \define('TIMBER_LOADED', true);
     }
@@ -157,9 +157,7 @@ class Timber
         $integrations = \apply_filters('timber/integrations', $integrations);
 
         // Integration classes must implement the IntegrationInterface.
-        $integrations = \array_filter($integrations, static function ($integration) {
-            return $integration instanceof IntegrationInterface;
-        });
+        $integrations = \array_filter($integrations, static fn ($integration) => $integration instanceof IntegrationInterface);
 
         foreach ($integrations as $integration) {
             if (!$integration->should_init()) {
@@ -246,26 +244,14 @@ class Timber
      *                       returned. Default false.
      * @param array $options Optional associative array of options. Defaults to an empty array.
      *
-     * @return \Timber\Post|null Timber\Post object if a post was found, null if no post was
+     * @return Post|null Timber\Post object if a post was found, null if no post was
      *                           found.
      */
-    public static function get_post($query = false, $options = [])
+    public static function get_post(mixed $query = false, $options = [])
     {
-        if (\is_string($query) && !\is_numeric($query)) {
-            Helper::doing_it_wrong(
-                'Timber::get_post()',
-                'Getting a post by post slug or post name was removed from Timber::get_post() in Timber 2.0. Use Timber::get_post_by() instead.',
-                '2.0.0'
-            );
-        }
+        self::check_post_api_deprecations($query, $options, 'Timber::get_post()');
 
         if (\is_string($options)) {
-            Helper::doing_it_wrong(
-                'Timber::get_post()',
-                'The $PostClass parameter for passing in the post class to use in Timber::get_posts() was replaced with an $options array in Timber 2.0. To customize which class to instantiate for your post, use Class Maps instead: https://timber.github.io/docs/v2/guides/class-maps/',
-                '2.0.0'
-            );
-
             $options = [];
         }
 
@@ -313,8 +299,10 @@ class Timber
      * @return Attachment|null Timber\Attachment object if an attachment was found, null if no
      *                         attachment was found.
      */
-    public static function get_attachment($query = false, $options = [])
+    public static function get_attachment(mixed $query = false, $options = [])
     {
+        self::check_post_api_deprecations($query, $options, 'Timber::get_attachment()');
+
         $post = static::get_post($query, $options);
 
         // No need to instantiate a Post we're not going to use.
@@ -338,8 +326,10 @@ class Timber
      *
      * @return Image|null
      */
-    public static function get_image($query = false, $options = [])
+    public static function get_image(mixed $query = false, $options = [])
     {
+        self::check_post_api_deprecations($query, $options, 'Timber::get_image()');
+
         $post = static::get_post($query, $options);
 
         // No need to instantiate a Post we're not going to use.
@@ -379,6 +369,32 @@ class Timber
     }
 
     /**
+     * Checks for deprecated Timber::get_post() API usage.
+     *
+     * @param $query
+     * @param $options
+     * @param $function_name
+     */
+    private static function check_post_api_deprecations($query = false, $options = [], string $function_name = 'Timber::get_post()')
+    {
+        if (\is_string($query) && !\is_numeric($query)) {
+            Helper::doing_it_wrong(
+                $function_name,
+                'Getting a post by post slug or post name was removed from Timber::get_post() in Timber 2.0. Use Timber::get_post_by() instead.',
+                '2.0.0'
+            );
+        }
+
+        if (\is_string($options)) {
+            Helper::doing_it_wrong(
+                $function_name,
+                'The $PostClass parameter for passing in the post class to use in Timber::get_posts() was replaced with an $options array in Timber 2.0. To customize which class to instantiate for your post, use Class Maps instead: https://timber.github.io/docs/v2/guides/class-maps/',
+                '2.0.0'
+            );
+        }
+    }
+
+    /**
      * Gets a collection of posts.
      *
      * Refer to the official documentation for
@@ -414,10 +430,10 @@ class Timber
      *                                  the current template. Default false.
      * }
      *
-     * @return \Timber\PostCollectionInterface|null Null if no query could be run with the used
+     * @return PostCollectionInterface|null Null if no query could be run with the used
      *                                              query parameters.
      */
-    public static function get_posts($query = false, $options = [])
+    public static function get_posts(mixed $query = false, $options = [])
     {
         if (\is_string($query)) {
             Helper::doing_it_wrong(
@@ -503,7 +519,7 @@ class Timber
      *
      * }
      *
-     * @return \Timber\Post|null A Timber post or `null` if no post could be found. If multiple
+     * @return Post|null A Timber post or `null` if no post could be found. If multiple
      *                           posts with the same slug or title were found, it will select the
      *                           post with the oldest date.
      */
@@ -571,12 +587,10 @@ class Timber
      * @api
      * @deprecated since 2.0.0 Use `Timber::get_post()` instead.
      *
-     * @param mixed $query
-     * @param array $options
      *
      * @return Post|array|bool|null
      */
-    public static function query_post($query = false, array $options = [])
+    public static function query_post(mixed $query = false, array $options = [])
     {
         Helper::deprecated('Timber::query_post()', 'Timber::get_post()', '2.0.0');
 
@@ -589,12 +603,10 @@ class Timber
      * @api
      * @deprecated since 2.0.0 Use `Timber::get_posts()` instead.
      *
-     * @param mixed $query
-     * @param array $options
      *
-     * @return \Timber\PostCollectionInterface
+     * @return PostCollectionInterface
      */
-    public static function query_posts($query = false, array $options = [])
+    public static function query_posts(mixed $query = false, array $options = [])
     {
         Helper::deprecated('Timber::query_posts()', 'Timber::get_posts()', '2.0.0');
 
@@ -628,7 +640,7 @@ class Timber
      * @param string $ident          Optional. An attachment URL or absolute path. Default empty
      *                               string.
      *
-     * @return \Timber\Attachment|null
+     * @return Attachment|null
      */
     public static function get_attachment_by(string $field_or_ident, string $ident = '')
     {
@@ -721,7 +733,7 @@ class Timber
     public static function get_terms($args = null, array $options = []): iterable
     {
         // default to all queryable taxonomies
-        $args = $args ?? [
+        $args ??= [
             'taxonomy' => \get_taxonomies(),
         ];
 
@@ -735,7 +747,7 @@ class Timber
      *
      * @api
      * @param int|WP_Term $term A WP_Term or term_id
-     * @return \Timber\Term|null
+     * @return Term|null
      * @example
      * ```php
      * // Get a Term.
@@ -792,7 +804,7 @@ class Timber
      * @param string     $taxonomy The taxonomy you want to retrieve from. Empty string will search
      *                             from all.
      *
-     * @return \Timber\Term|null
+     * @return Term|null
      */
     public static function get_term_by(string $field, $value, string $taxonomy = '')
     {
@@ -896,7 +908,7 @@ class Timber
      * @param int|WP_User $user A WP_User object or a WordPress user ID. Defaults to the ID of the
      *                           currently logged-in user.
      *
-     * @return \Timber\User|null
+     * @return User|null
      */
     public static function get_user($user = null)
     {
@@ -933,7 +945,7 @@ class Timber
      *                          `ID`, `slug`, `email` or `login`.
      * @param int|string $value The value to search for by `$field`.
      *
-     * @return \Timber\User|null
+     * @return User|null
      */
     public static function get_user_by(string $field, $value)
     {
@@ -945,7 +957,6 @@ class Timber
 
         return static::get_user($wp_user);
     }
-
 
     /* Menu Retrieval
     ================================ */
@@ -976,7 +987,7 @@ class Timber
      * - `depth`: How deep down the tree of menu items to query. Useful if you only want
      *   the first N levels of items in the menu.
      *
-     * @return \Timber\Menu|null
+     * @return Menu|null
      */
     public static function get_menu($identifier = null, array $args = []): ?Menu
     {
@@ -1002,29 +1013,20 @@ class Timber
      *                          `ID`, `term_id`, `slug`, `name` or `location`.
      * @param int|string $value The value to search for by `$field`.
      *
-     * @return \Timber\Menu|null
+     * @return Menu|null
      */
     public static function get_menu_by(string $field, $value, array $args = []): ?Menu
     {
         $factory = new MenuFactory();
         $menu = null;
 
-        switch ($field) {
-            case 'id':
-            case 'term_id':
-            case 'ID':
-                $menu = $factory->from_id($value, $args);
-                break;
-            case 'slug':
-                $menu = $factory->from_slug($value, $args);
-                break;
-            case 'name':
-                $menu = $factory->from_name($value, $args);
-                break;
-            case 'location':
-                $menu = $factory->from_location($value, $args);
-                break;
-        }
+        $menu = match ($field) {
+            'id', 'term_id', 'ID' => $factory->from_id($value, $args),
+            'slug' => $factory->from_slug($value, $args),
+            'name' => $factory->from_name($value, $args),
+            'location' => $factory->from_location($value, $args),
+            default => $menu,
+        };
 
         return $menu;
     }
@@ -1054,7 +1056,6 @@ class Timber
         return $menu;
     }
 
-
     /* Comment Retrieval
     ================================ */
 
@@ -1081,7 +1082,7 @@ class Timber
      * @api
      * @since 2.0.0
      * @param int|WP_Comment $comment
-     * @return \Timber\Comment|null
+     * @return Comment|null
      */
     public static function get_comment($comment)
     {
@@ -1110,7 +1111,6 @@ class Timber
         }
         return $return;
     }
-
 
     /*  Template Setup and Display
     ================================ */
@@ -1308,15 +1308,15 @@ class Timber
      *
      * $team_member = Timber::compile( 'team-member.twig', $data );
      * ```
-     * @param array|string $filenames  Name or full path of the Twig file to compile. If this is an array of file
-     *                                 names or paths, Timber will compile the first file that exists.
-     * @param array        $data       Optional. An array of data to use in Twig template.
-     * @param bool|int     $expires    Optional. In seconds. Use false to disable cache altogether. When passed an
-     *                                 array, the first value is used for non-logged in visitors, the second for users.
-     *                                 Default false.
-     * @param string       $cache_mode Optional. Any of the cache mode constants defined in Timber\Loader.
-     * @param bool         $via_render Optional. Whether to apply optional render or compile filters. Default false.
-     * @return bool|string The returned output.
+     * @param array|string    $filenames        Name or full path of the Twig file to compile. If this is an array of file
+     *                                          names or paths, Timber will compile the first file that exists.
+     * @param array           $data             Optional. An array of data to use in Twig template.
+     * @param bool|int|array  $expires          Optional. In seconds. Use false to disable cache altogether. When passed an
+     *                                          array, the first value is used for non-logged in visitors, the second for users.
+     *                                          Default false.
+     * @param string          $cache_mode       Optional. Any of the cache mode constants defined in Timber\Loader.
+     * @param bool            $via_render       Optional. Whether to apply optional render or compile filters. Default false.
+     * @return bool|string                      The returned output.
      */
     public static function compile($filenames, $data = [], $expires = false, $cache_mode = Loader::CACHE_USE_DEFAULT, $via_render = false)
     {
@@ -1450,11 +1450,11 @@ class Timber
         /**
          * Filters the compiled result before it is returned in `Timber::compile()`.
          *
-         * It adds the posibility to filter the output ready for render.
+         * It adds the possibility to filter the output ready for render.
          *
          * @since 2.0.0
          *
-         * @param string $output
+         * @param string|bool $output the compiled output.
          */
         $output = \apply_filters('timber/compile/result', $output);
 
@@ -1465,15 +1465,13 @@ class Timber
          * This action can be helpful if you need to debug Twig template
          * compilation.
          *
-         * @todo Add parameter descriptions
-         *
          * @since 2.0.0
          *
-         * @param string $output
-         * @param string $file
-         * @param array  $data
-         * @param bool   $expires
-         * @param string $cache_mode
+         * @param string            $output       The compiled output.
+         * @param string            $file         The name of the Twig template that was compiled.
+         * @param array             $data         The data that was used to compile the Twig template.
+         * @param bool|int|array    $expires      The expiration time of the cache in seconds, or false to disable cache.
+         * @param string            $cache_mode   Any of the cache mode constants defined in Timber\Loader.
          */
         \do_action('timber/compile/done', $output, $file, $data, $expires, $cache_mode);
 
@@ -1530,7 +1528,7 @@ class Timber
     {
         Helper::deprecated(
             'fetch',
-            'Timber::compile() (see https://timber.github.io/docs/reference/timber/#compile for more information)',
+            'Timber::compile() (see https://timber.github.io/docs/v2/reference/timber/#compile for more information)',
             '2.0.0'
         );
         $output = self::compile($filenames, $data, $expires, $cache_mode, true);
@@ -1566,15 +1564,15 @@ class Timber
      *
      * Timber::render( 'index.twig', $context );
      * ```
-     * @param array|string $filenames  Name or full path of the Twig file to render. If this is an array of file
-     *                                 names or paths, Timber will render the first file that exists.
-     * @param array        $data       Optional. An array of data to use in Twig template.
-     * @param bool|int     $expires    Optional. In seconds. Use false to disable cache altogether. When passed an
-     *                                 array, the first value is used for non-logged in visitors, the second for users.
-     *                                 Default false.
-     * @param string       $cache_mode Optional. Any of the cache mode constants defined in Timber\Loader.
+     * @param array|string   $filenames      Name or full path of the Twig file to render. If this is an array of file
+     *                                       names or paths, Timber will render the first file that exists.
+     * @param array          $data           Optional. An array of data to use in Twig template.
+     * @param bool|int|array $expires        Optional. In seconds. Use false to disable cache altogether. When passed an
+     *                                       array, the first value is used for non-logged in visitors, the second for users.
+     *                                       Default false.
+     * @param string         $cache_mode     Optional. Any of the cache mode constants defined in Timber\Loader.
      */
-    public static function render($filenames, $data = [], $expires = false, $cache_mode = Loader::CACHE_USE_DEFAULT)
+    public static function render($filenames, $data = [], $expires = false, $cache_mode = Loader::CACHE_USE_DEFAULT): void
     {
         $output = self::compile($filenames, $data, $expires, $cache_mode, true);
         echo $output;
@@ -1600,7 +1598,6 @@ class Timber
         $compiled = self::compile_string($string, $data);
         echo $compiled;
     }
-
 
     /*  Sidebar
     ================================ */
@@ -1669,7 +1666,7 @@ class Timber
      *
      * @api
      * @deprecated 2.0.0
-     * @link https://timber.github.io/docs/guides/pagination/
+     * @link https://timber.github.io/docs/v2/guides/pagination/
      * @param array $prefs an array of preference data.
      * @return array|mixed
      */
@@ -1677,7 +1674,7 @@ class Timber
     {
         Helper::deprecated(
             'get_pagination',
-            '{{ posts.pagination }} (see https://timber.github.io/docs/guides/pagination/ for more information)',
+            '{{ posts.pagination }} (see https://timber.github.io/docs/v2/guides/pagination/ for more information)',
             '2.0.0'
         );
 

@@ -8,7 +8,7 @@ use Timber\Image\Operation;
  * Class ImageHelper
  *
  * Implements the Twig image filters:
- * https://timber.github.io/docs/guides/cookbook-images/#arbitrary-resizing-of-images
+ * https://timber.github.io/docs/v2/guides/cookbook-images/#arbitrary-resizing-of-images
  * - resize
  * - retina
  * - letterbox
@@ -35,9 +35,9 @@ class ImageHelper
     public static function init()
     {
         self::$home_url = \get_home_url();
-        \add_action('delete_attachment', [__CLASS__, 'delete_attachment']);
-        \add_filter('wp_generate_attachment_metadata', [__CLASS__, 'generate_attachment_metadata'], 10, 2);
-        \add_filter('upload_dir', [__CLASS__, 'add_relative_upload_dir_key']);
+        \add_action('delete_attachment', [self::class, 'delete_attachment']);
+        \add_filter('wp_generate_attachment_metadata', [self::class, 'generate_attachment_metadata'], 10, 2);
+        \add_filter('upload_dir', [self::class, 'add_relative_upload_dir_key']);
         return true;
     }
 
@@ -52,7 +52,7 @@ class ImageHelper
      * <img src="{{ image.src | resize(300, 200, 'top') }}" />
      * ```
      * ```html
-     * <img src="http://example.org/wp-content/uploads/pic-300x200-c-top.jpg" />
+     * <img src="https://example.org/wp-content/uploads/pic-300x200-c-top.jpg" />
      * ```
      *
      * @param string     $src   A URL (absolute or relative) to the original image.
@@ -136,7 +136,7 @@ class ImageHelper
      */
     public static function is_animated_gif($file)
     {
-        if (\strpos(\strtolower($file), '.gif') === false) {
+        if (!\str_contains(\strtolower($file), '.gif')) {
             //doesn't have .gif, bail
             return false;
         }
@@ -221,7 +221,7 @@ class ImageHelper
      * @api
      *
      * @param string $src   A URL or path to the image
-     *                      (http://example.org/wp-content/uploads/2014/image.jpg) or
+     *                      (https://example.org/wp-content/uploads/2014/image.jpg) or
      *                      (/wp-content/uploads/2014/image.jpg).
      * @param string $bghex The hex color to use for transparent zones.
      * @return string The URL of the processed image.
@@ -236,7 +236,7 @@ class ImageHelper
      * Generates a new image by converting the source into WEBP if supported by the server.
      *
      * @param string $src     A URL or path to the image
-     *                        (http://example.org/wp-content/uploads/2014/image.webp) or
+     *                        (https://example.org/wp-content/uploads/2014/image.webp) or
      *                        (/wp-content/uploads/2014/image.webp).
      * @param int    $quality Range from `0` (worst quality, smaller file) to `100` (best quality,
      *                        biggest file).
@@ -289,7 +289,7 @@ class ImageHelper
      */
     public static function add_relative_upload_dir_key($arr)
     {
-        $arr['relative'] = \str_replace(self::$home_url, '', $arr['baseurl']);
+        $arr['relative'] = \str_replace(self::$home_url, '', (string) $arr['baseurl']);
         return $arr;
     }
 
@@ -302,7 +302,7 @@ class ImageHelper
     {
         if (\wp_attachment_is_image($post_id)) {
             $attachment = Timber::get_post($post_id);
-            /** @var \Timber\Attachment $attachment */
+            /** @var Attachment $attachment */
             if ($file_loc = $attachment->file_loc()) {
                 ImageHelper::delete_generated_files($file_loc);
             }
@@ -313,7 +313,7 @@ class ImageHelper
      * Deletes the auto-generated files for resize and letterboxing created by Timber.
      *
      * @param string $local_file ex: /var/www/wp-content/uploads/2015/my-pic.jpg
-     *                           or: http://example.org/wp-content/uploads/2015/my-pic.jpg
+     *                           or: https://example.org/wp-content/uploads/2015/my-pic.jpg
      */
     public static function delete_generated_files($local_file)
     {
@@ -370,7 +370,7 @@ class ImageHelper
     public static function get_server_location($url)
     {
         // if we're already an absolute dir, just return.
-        if (0 === \strpos($url, ABSPATH)) {
+        if (\str_starts_with($url, (string) ABSPATH)) {
             return $url;
         }
         // otherwise, analyze URL then build mapping path
@@ -393,6 +393,23 @@ class ImageHelper
         $file = \parse_url($file);
         $path_parts = PathHelper::pathinfo($file['path']);
         $basename = \md5($filename);
+
+        /**
+         * Filters basename for sideloaded files.
+         * @since 2.1.0
+         * @example
+         * ```php
+         * // Change the basename used for sideloaded images.
+         * add_filter( 'timber/sideload_image/basename', function ($basename, $path_parts) {
+         *     return $path_parts['filename'] . '-' . substr($basename, 0, 6);
+         * }, 10, 2)
+         * ```
+         *
+         * @param string $basename Current basename for the sideloaded file.
+         * @param array $path_parts Array with path info for the sideloaded file.
+         */
+        $basename = \apply_filters('timber/sideload_image/basename', $basename, $path_parts);
+
         $ext = 'jpg';
         if (isset($path_parts['extension'])) {
             $ext = $path_parts['extension'];
@@ -424,13 +441,13 @@ class ImageHelper
          * @ticket 1098
          * @link https://github.com/timber/timber/issues/1098
          */
-        \add_filter('upload_dir', [__CLASS__, 'set_sideload_image_upload_dir']);
+        \add_filter('upload_dir', [self::class, 'set_sideload_image_upload_dir']);
 
         $loc = self::get_sideloaded_file_loc($file);
         if (\file_exists($loc)) {
             $url = URLHelper::file_system_to_url($loc);
 
-            \remove_filter('upload_dir', [__CLASS__, 'set_sideload_image_upload_dir']);
+            \remove_filter('upload_dir', [self::class, 'set_sideload_image_upload_dir']);
 
             return $url;
         }
@@ -440,8 +457,8 @@ class ImageHelper
         }
         $tmp = \download_url($file);
         \preg_match('/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches);
+
         $file_array = [];
-        $file_array['name'] = PathHelper::basename($matches[0]);
         $file_array['tmp_name'] = $tmp;
         // If error storing temporarily, do not use
         if (\is_wp_error($tmp)) {
@@ -453,7 +470,7 @@ class ImageHelper
         // delete tmp file
         @\unlink($file_array['tmp_name']);
 
-        \remove_filter('upload_dir', [__CLASS__, 'set_sideload_image_upload_dir']);
+        \remove_filter('upload_dir', [self::class, 'set_sideload_image_upload_dir']);
 
         return $file['url'];
     }
@@ -499,7 +516,7 @@ class ImageHelper
 
         if (!empty($subdir)) {
             // Remove slashes before or after.
-            $subdir = \trim($subdir, '/');
+            $subdir = \trim((string) $subdir, '/');
 
             $upload['subdir'] = '/' . $subdir;
             $upload['path'] = $upload['basedir'] . $upload['subdir'];
@@ -516,36 +533,73 @@ class ImageHelper
      * The image is expected to be either part of a theme, plugin, or an upload.
      *
      * @param  string $url A URL (absolute or relative) pointing to an image.
-     * @return array       An array (see keys in code below).
+     * @return array<string, mixed> An array (see keys in code below).
      */
-    public static function analyze_url($url)
+    public static function analyze_url(string $url): array
+    {
+        /**
+         * Filters whether to short-circuit the ImageHelper::analyze_url()
+         * file path of a URL located in a theme directory.
+         *
+         * Returning a non-null value from the filter will short-circuit
+         * ImageHelper::analyze_url(), returning that value.
+         *
+         * @since 2.0.0
+         *
+         * @param array<string, mixed>|null $info The URL components array to short-circuit with. Default null.
+         * @param string                    $url  The URL pointing to an image.
+         */
+        $result = \apply_filters('timber/image_helper/pre_analyze_url', null, $url);
+        if (null === $result) {
+            $result = self::get_url_components($url);
+        }
+
+        /**
+         * Filters the array of analyzed URL components.
+         *
+         * @since 2.0.0
+         *
+         * @param array<string, mixed> $info The URL components.
+         * @param string               $url  The URL pointing to an image.
+         */
+        return \apply_filters('timber/image_helper/analyze_url', $result, $url);
+    }
+
+    /**
+     * Returns information about a URL.
+     *
+     * @param  string $url A URL (absolute or relative) pointing to an image.
+     * @return array<string, mixed> An array (see keys in code below).
+     */
+    private static function get_url_components(string $url): array
     {
         $result = [
-            'url' => $url,
             // the initial url
-            'absolute' => URLHelper::is_absolute($url),
+            'url' => $url,
             // is the url absolute or relative (to home_url)
-            'base' => 0,
+            'absolute' => URLHelper::is_absolute($url),
             // is the image in uploads dir, or in content dir (theme or plugin)
-            'subdir' => '',
+            'base' => 0,
             // the path between base (uploads or content) and file
-            'filename' => '',
+            'subdir' => '',
             // the filename, without extension
-            'extension' => '',
+            'filename' => '',
             // the file extension
-            'basename' => '',
+            'extension' => '',
             // full file name
+            'basename' => '',
         ];
+
         $upload_dir = \wp_upload_dir();
         $tmp = $url;
-        if (\str_starts_with($tmp, ABSPATH) || \str_starts_with($tmp, '/srv/www/')) {
+        if (\str_starts_with($tmp, (string) ABSPATH) || \str_starts_with($tmp, '/srv/www/')) {
             // we've been given a dir, not an url
             $result['absolute'] = true;
-            if (\str_starts_with($tmp, $upload_dir['basedir'])) {
+            if (\str_starts_with($tmp, (string) $upload_dir['basedir'])) {
                 $result['base'] = self::BASE_UPLOADS; // upload based
                 $tmp = URLHelper::remove_url_component($tmp, $upload_dir['basedir']);
             }
-            if (\str_starts_with($tmp, WP_CONTENT_DIR)) {
+            if (\str_starts_with($tmp, (string) WP_CONTENT_DIR)) {
                 $result['base'] = self::BASE_CONTENT; // content based
                 $tmp = URLHelper::remove_url_component($tmp, WP_CONTENT_DIR);
             }
@@ -565,27 +619,64 @@ class ImageHelper
         $parts = PathHelper::pathinfo($tmp);
         $result['subdir'] = ($parts['dirname'] === '/') ? '' : $parts['dirname'];
         $result['filename'] = $parts['filename'];
-        $result['extension'] = \strtolower($parts['extension']);
+        $result['extension'] = (isset($parts['extension']) ? \strtolower((string) $parts['extension']) : '');
         $result['basename'] = $parts['basename'];
+
         return $result;
     }
 
     /**
      * Converts a URL located in a theme directory into the raw file path.
      *
-     * @param string  $src A URL (http://example.org/wp-content/themes/twentysixteen/images/home.jpg).
+     * @param string  $src A URL (https://example.org/wp-content/themes/twentysixteen/images/home.jpg).
      * @return string Full path to the file in question.
      */
-    public static function theme_url_to_dir($src)
+    public static function theme_url_to_dir(string $src): string
+    {
+        /**
+         * Filters whether to short-circuit the ImageHelper::theme_url_to_dir()
+         * file path of a URL located in a theme directory.
+         *
+         * Returning a non-null value from the filter will short-circuit
+         * ImageHelper::theme_url_to_dir(), returning that value.
+         *
+         * @since 2.0.0
+         *
+         * @param string|null $path Full path to short-circuit with. Default null.
+         * @param string      $src  The URL to be converted.
+         */
+        $path = \apply_filters('timber/image_helper/pre_theme_url_to_dir', null, $src);
+        if (null === $path) {
+            $path = self::get_dir_from_theme_url($src);
+        }
+
+        /**
+         * Filters the raw file path of a URL located in a theme directory.
+         *
+         * @since 2.0.0
+         *
+         * @param string $path The resolved full path to $src.
+         * @param string $src  The URL that was converted.
+         */
+        return \apply_filters('timber/image_helper/theme_url_to_dir', $path, $src);
+    }
+
+    /**
+     * Converts a URL located in a theme directory into the raw file path.
+     *
+     * @param string  $src A URL (https://example.org/wp-content/themes/twentysixteen/images/home.jpg).
+     * @return string Full path to the file in question.
+     */
+    private static function get_dir_from_theme_url(string $src): string
     {
         $site_root = \trailingslashit(\get_theme_root_uri()) . \get_stylesheet();
-        $tmp = \str_replace($site_root, '', $src);
-        //$tmp = trailingslashit(get_theme_root()).get_stylesheet().$tmp;
-        $tmp = \get_stylesheet_directory() . $tmp;
-        if (\realpath($tmp)) {
-            return \realpath($tmp);
+        $path = \str_replace($site_root, '', $src);
+        //$path = \trailingslashit(\get_theme_root()).\get_stylesheet().$path;
+        $path = \get_stylesheet_directory() . $path;
+        if ($_path = \realpath($path)) {
+            return $_path;
         }
-        return $tmp;
+        return $path;
     }
 
     /**
@@ -603,7 +694,7 @@ class ImageHelper
             return false;
         }
 
-        if (0 === \strpos($path, (string) $root)) {
+        if (\str_starts_with($path, (string) $root)) {
             return true;
         } else {
             return false;
@@ -652,7 +743,7 @@ class ImageHelper
      */
     protected static function maybe_realpath($path)
     {
-        if (\strstr($path, '../') !== false) {
+        if (\str_contains($path, '../')) {
             return \realpath($path);
         }
         return $path;
@@ -785,8 +876,8 @@ class ImageHelper
         }
         // otherwise generate result file
         if ($op->run($source_path, $destination_path)) {
-            if (\get_class($op) === 'Timber\Image\Operation\Resize' && $external) {
-                $new_url = \strtolower($new_url);
+            if ($op::class === Operation\Resize::class && $external) {
+                $new_url = \strtolower((string) $new_url);
             }
             return $new_url;
         } else {
@@ -795,8 +886,8 @@ class ImageHelper
         }
     }
 
-    // -- the below methods are just used for unit testing the URL generation code
-    //
+    //-- the below methods are just used for
+    // unit testing the URL generation code --//
     /**
      * @internal
      */

@@ -2,6 +2,7 @@
 
 namespace Timber;
 
+use Stringable;
 use WP_User;
 
 /**
@@ -40,7 +41,7 @@ use WP_User;
  *     and it’s by David Foster Wallace</p>
  * ```
  */
-class User extends CoreEntity
+class User extends CoreEntity implements Stringable
 {
     /**
      * The underlying WordPress Core object.
@@ -49,7 +50,7 @@ class User extends CoreEntity
      *
      * @var WP_User|null
      */
-    protected ?WP_User $wp_object;
+    protected ?WP_User $wp_object = null;
 
     public $object_type = 'user';
 
@@ -99,14 +100,14 @@ class User extends CoreEntity
      *
      * @internal
      */
-    final protected function __construct()
+    protected function __construct()
     {
     }
 
     /**
      * Build a new User object.
      */
-    public static function build(WP_User $wp_user): self
+    public static function build(WP_User $wp_user): static
     {
         $user = new static();
         $user->init($wp_user);
@@ -169,7 +170,7 @@ class User extends CoreEntity
      * Get the URL of the user's profile
      *
      * @api
-     * @return string http://example.org/author/lincoln
+     * @return string https://example.org/author/lincoln
      */
     public function link()
     {
@@ -201,6 +202,18 @@ class User extends CoreEntity
     }
 
     /**
+     * Check if the user object is the current user
+     *
+     * @api
+     *
+     * @return bool true if the user is the current user
+     */
+    public function is_current(): bool
+    {
+        return \get_current_user_id() === $this->ID;
+    }
+
+    /**
      * Get the name of the User
      *
      * @api
@@ -214,7 +227,7 @@ class User extends CoreEntity
          * @since 1.1.4
          *
          * @param string       $name The name of the user. Default `display_name`.
-         * @param \Timber\User $user The user object.
+         * @param User $user The user object.
          */
         return \apply_filters('timber/user/name', $this->display_name, $this);
     }
@@ -279,13 +292,13 @@ class User extends CoreEntity
     }
 
     /**
-       * Creates an associative array with user role slugs and their translated names.
-       *
-       * @internal
-       * @since 1.8.5
-       * @param array $roles user roles.
-       * @return array|null
-       */
+     * Creates an associative array with user role slugs and their translated names.
+     *
+     * @internal
+     * @since 1.8.5
+     * @param array $roles user roles.
+     * @return array|null
+     */
     protected function get_roles($roles)
     {
         if (empty($roles)) {
@@ -346,6 +359,32 @@ class User extends CoreEntity
     }
 
     /**
+     * Gets the profile link to the user’s profile in the WordPress admin if the ID in the user object
+     * is the same as the current user’s ID.
+     *
+     * @api
+     * @since 2.1.0
+     * @example
+     *
+     * Get the profile URL for the current user:
+     *
+     * ```twig
+     * {% if user.profile_link %}
+     *     <a href="{{ user.profile_link }}">My profile</a>
+     * {% endif %}
+     * ```
+     * @return string|null The profile link for the current user.
+     */
+    public function profile_link(): ?string
+    {
+        if (!$this->is_current()) {
+            return null;
+        }
+
+        return \get_edit_profile_url($this->ID);
+    }
+
+    /**
      * Checks whether a user has a capability.
      *
      * Don’t use role slugs for capability checks. While checking against a role in place of a
@@ -391,7 +430,7 @@ class User extends CoreEntity
      *
      * @return bool Whether the user has the capability.
      */
-    public function can($capability, ...$args)
+    public function can($capability, mixed ...$args)
     {
         return \user_can($this->wp_object, $capability, ...$args);
     }

@@ -15,7 +15,7 @@ class PagesMenuFactory
      *
      * @param array $args Optional. Args for get_pages().
      *
-     * @return \Timber\CoreInterface
+     * @return CoreInterface
      */
     public function from_pages(array $args = [])
     {
@@ -55,7 +55,7 @@ class PagesMenuFactory
         }
 
         // Fallback on the default class.
-        $class = $class ?? PagesMenu::class;
+        $class ??= PagesMenu::class;
 
         return $class;
     }

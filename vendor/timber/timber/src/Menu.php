@@ -2,8 +2,8 @@
 
 namespace Timber;
 
+use Stringable;
 use Throwable;
-
 use Timber\Factory\MenuItemFactory;
 use WP_Term;
 
@@ -12,7 +12,7 @@ use WP_Term;
  *
  * @api
  */
-class Menu extends CoreEntity
+class Menu extends CoreEntity implements Stringable
 {
     /**
      * The underlying WordPress Core object.
@@ -117,7 +117,7 @@ class Menu extends CoreEntity
      * @param array      $args Optional. Right now, only the `depth` is
      *                            supported which says how many levels of hierarchy should be
      *                            included in the menu. Default `0`, which is all levels.
-     * @return \Timber\Menu
+     * @return Menu
      */
     public static function build(?WP_Term $menu, $args = []): ?self
     {
@@ -172,7 +172,7 @@ class Menu extends CoreEntity
                 if ($nav_menu instanceof Menu) {
                     return $nav_menu;
                 }
-            } catch (Throwable $e) {
+            } catch (Throwable) {
             }
         }
 
@@ -278,7 +278,7 @@ class Menu extends CoreEntity
      *                            many levels of hierarchy should be included in the menu. Default
      *                            `0`, which is all levels.
      */
-    final protected function __construct(?WP_term $term, array $args = [])
+    protected function __construct(?WP_Term $term, array $args = [])
     {
         // For future enhancements?
         $this->raw_args = $args;
@@ -323,15 +323,12 @@ class Menu extends CoreEntity
     /**
      * Convert menu items into MenuItem objects
      *
-     * @param array $menu_items
      * @return MenuItem[]
      */
     protected function convert_menu_items(array $menu_items): array
     {
         $menu_item_factory = new MenuItemFactory();
-        return \array_map(function ($item) use ($menu_item_factory): MenuItem {
-            return $menu_item_factory->from($item, $this);
-        }, $menu_items);
+        return \array_map(fn ($item): MenuItem => $menu_item_factory->from($item, $this), $menu_items);
     }
 
     /**
@@ -340,7 +337,7 @@ class Menu extends CoreEntity
      * @api
      * @param array $menu_items An array of menu items.
      * @param int   $parent_id  The parent ID to look for.
-     * @return \Timber\MenuItem|null A menu item. False if no parent was found.
+     * @return MenuItem|null A menu item. False if no parent was found.
      */
     public function find_parent_item_in_menu(array $menu_items, int $parent_id): ?MenuItem
     {
@@ -354,7 +351,6 @@ class Menu extends CoreEntity
 
     /**
      * @internal
-     * @param array $items
      * @return MenuItem[]
      */
     protected function order_children(array $items): array
@@ -382,7 +378,6 @@ class Menu extends CoreEntity
 
     /**
      * @internal
-     * @param array $menu_items
      */
     protected function strip_to_depth_limit(array $menu_items, int $current = 1): array
     {
@@ -599,8 +594,8 @@ class Menu extends CoreEntity
             $wrap_id = 'menu-' . $this->slug;
 
             while (\in_array($wrap_id, $menu_id_slugs, true)) {
-                if (\preg_match('#-(\d+)$#', $wrap_id, $matches)) {
-                    $wrap_id = \preg_replace('#-(\d+)$#', '-' . ++$matches[1], $wrap_id);
+                if (\preg_match('#-(\d+)$#', (string) $wrap_id, $matches)) {
+                    $wrap_id = \preg_replace('#-(\d+)$#', '-' . ++$matches[1], (string) $wrap_id);
                 } else {
                     $wrap_id = $wrap_id . '-1';
                 }
@@ -608,7 +603,7 @@ class Menu extends CoreEntity
         }
         $menu_id_slugs[] = $wrap_id;
 
-        $wrap_class = $args->menu_class ? $args->menu_class : '';
+        $wrap_class = $args->menu_class ?: '';
 
         $nav_menu .= \sprintf($args->items_wrap, \esc_attr($wrap_id), \esc_attr($wrap_class), $items);
         if ($show_container) {

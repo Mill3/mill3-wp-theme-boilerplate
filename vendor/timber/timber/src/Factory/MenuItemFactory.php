@@ -3,7 +3,6 @@
 namespace Timber\Factory;
 
 use Timber\CoreInterface;
-
 use Timber\Menu;
 use Timber\MenuItem;
 use WP_Post;
@@ -17,7 +16,6 @@ class MenuItemFactory
      * Create a new MenuItem from a WP_Post or post id
      *
      * @param int|WP_Post $item
-     * @param Menu $menu
      * @return MenuItem|null
      */
     public function from($item, Menu $menu): ?MenuItem
@@ -76,7 +74,7 @@ class MenuItemFactory
         }
 
         // Fallback on the default class
-        $class = $class ?? MenuItem::class;
+        $class ??= MenuItem::class;
 
         /**
          * Filters the menu item class

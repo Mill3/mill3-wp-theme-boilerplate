@@ -6,13 +6,20 @@ namespace Sentry;
 
 use Sentry\Context\OsContext;
 use Sentry\Context\RuntimeContext;
+use Sentry\Metrics\Types\AbstractType;
 use Sentry\Profiling\Profile;
 use Sentry\Tracing\Span;
 
 /**
  * This is the base class for classes containing event data.
  *
- * @author Stefano Arlandini <sarlandini@alice.it>
+ * @phpstan-type MetricsSummary array{
+ *     min: int|float,
+ *     max: int|float,
+ *     sum: int|float,
+ *     count: int,
+ *     tags: array<string>,
+ * }
  */
 final class Event
 {
@@ -54,6 +61,16 @@ final class Event
      * @var CheckIn|null The check in data
      */
     private $checkIn;
+
+    /**
+     * @var array<string, AbstractType> The metrics data
+     */
+    private $metrics = [];
+
+    /**
+     * @var array<string, array<string, MetricsSummary>>
+     */
+    private $metricsSummary = [];
 
     /**
      * @var string|null The name of the server (e.g. the host name)
@@ -200,7 +217,7 @@ final class Event
      *
      * @param EventId|null $eventId The ID of the event
      */
-    public static function createTransaction(EventId $eventId = null): self
+    public static function createTransaction(?EventId $eventId = null): self
     {
         return new self($eventId, EventType::transaction());
     }
@@ -208,6 +225,11 @@ final class Event
     public static function createCheckIn(?EventId $eventId = null): self
     {
         return new self($eventId, EventType::checkIn());
+    }
+
+    public static function createMetrics(?EventId $eventId = null): self
+    {
+        return new self($eventId, EventType::metrics());
     }
 
     /**
@@ -233,9 +255,11 @@ final class Event
      *
      * @internal
      */
-    public function setSdkIdentifier(string $sdkIdentifier): void
+    public function setSdkIdentifier(string $sdkIdentifier): self
     {
         $this->sdkIdentifier = $sdkIdentifier;
+
+        return $this;
     }
 
     /**
@@ -253,15 +277,15 @@ final class Event
      *
      * @internal
      */
-    public function setSdkVersion(string $sdkVersion): void
+    public function setSdkVersion(string $sdkVersion): self
     {
         $this->sdkVersion = $sdkVersion;
+
+        return $this;
     }
 
     /**
      * Gets the timestamp of when this event was generated.
-     *
-     * @return float
      */
     public function getTimestamp(): ?float
     {
@@ -271,9 +295,11 @@ final class Event
     /**
      * Sets the timestamp of when the Event was created.
      */
-    public function setTimestamp(?float $timestamp): void
+    public function setTimestamp(?float $timestamp): self
     {
         $this->timestamp = $timestamp;
+
+        return $this;
     }
 
     /**
@@ -289,9 +315,11 @@ final class Event
      *
      * @param Severity|null $level The severity
      */
-    public function setLevel(?Severity $level): void
+    public function setLevel(?Severity $level): self
     {
         $this->level = $level;
+
+        return $this;
     }
 
     /**
@@ -307,9 +335,11 @@ final class Event
      *
      * @param string|null $logger The logger name
      */
-    public function setLogger(?string $logger): void
+    public function setLogger(?string $logger): self
     {
         $this->logger = $logger;
+
+        return $this;
     }
 
     /**
@@ -327,19 +357,59 @@ final class Event
      *
      * @param string|null $transaction The transaction name
      */
-    public function setTransaction(?string $transaction): void
+    public function setTransaction(?string $transaction): self
     {
         $this->transaction = $transaction;
-    }
 
-    public function setCheckIn(?CheckIn $checkIn): void
-    {
-        $this->checkIn = $checkIn;
+        return $this;
     }
 
     public function getCheckIn(): ?CheckIn
     {
         return $this->checkIn;
+    }
+
+    public function setCheckIn(?CheckIn $checkIn): self
+    {
+        $this->checkIn = $checkIn;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string, AbstractType>
+     */
+    public function getMetrics(): array
+    {
+        return $this->metrics;
+    }
+
+    /**
+     * @param array<string, AbstractType> $metrics
+     */
+    public function setMetrics(array $metrics): self
+    {
+        $this->metrics = $metrics;
+
+        return $this;
+    }
+
+    /**
+     * @return array<string, array<string, MetricsSummary>>
+     */
+    public function getMetricsSummary(): array
+    {
+        return $this->metricsSummary;
+    }
+
+    /**
+     * @param array<string, array<string, MetricsSummary>> $metricsSummary
+     */
+    public function setMetricsSummary(array $metricsSummary): self
+    {
+        $this->metricsSummary = $metricsSummary;
+
+        return $this;
     }
 
     /**
@@ -355,9 +425,11 @@ final class Event
      *
      * @param string|null $serverName The server name
      */
-    public function setServerName(?string $serverName): void
+    public function setServerName(?string $serverName): self
     {
         $this->serverName = $serverName;
+
+        return $this;
     }
 
     /**
@@ -373,9 +445,11 @@ final class Event
      *
      * @param string|null $release The release
      */
-    public function setRelease(?string $release): void
+    public function setRelease(?string $release): self
     {
         $this->release = $release;
+
+        return $this;
     }
 
     /**
@@ -411,11 +485,13 @@ final class Event
      * @param string[]    $params    The parameters to use to format the message
      * @param string|null $formatted The formatted message
      */
-    public function setMessage(string $message, array $params = [], ?string $formatted = null): void
+    public function setMessage(string $message, array $params = [], ?string $formatted = null): self
     {
         $this->message = $message;
         $this->messageParams = $params;
         $this->messageFormatted = $formatted;
+
+        return $this;
     }
 
     /**
@@ -433,9 +509,11 @@ final class Event
      *
      * @param array<string, string> $modules
      */
-    public function setModules(array $modules): void
+    public function setModules(array $modules): self
     {
         $this->modules = $modules;
+
+        return $this;
     }
 
     /**
@@ -453,9 +531,11 @@ final class Event
      *
      * @param array<string, mixed> $request The request data
      */
-    public function setRequest(array $request): void
+    public function setRequest(array $request): self
     {
         $this->request = $request;
+
+        return $this;
     }
 
     /**
@@ -498,9 +578,11 @@ final class Event
      *
      * @param array<string, mixed> $extra The context object
      */
-    public function setExtra(array $extra): void
+    public function setExtra(array $extra): self
     {
         $this->extra = $extra;
+
+        return $this;
     }
 
     /**
@@ -518,9 +600,11 @@ final class Event
      *
      * @param array<string, string> $tags The tags to set
      */
-    public function setTags(array $tags): void
+    public function setTags(array $tags): self
     {
         $this->tags = $tags;
+
+        return $this;
     }
 
     /**
@@ -529,9 +613,11 @@ final class Event
      * @param string $key   The key that uniquely identifies the tag
      * @param string $value The value
      */
-    public function setTag(string $key, string $value): void
+    public function setTag(string $key, string $value): self
     {
         $this->tags[$key] = $value;
+
+        return $this;
     }
 
     /**
@@ -539,9 +625,11 @@ final class Event
      *
      * @param string $key The key that uniquely identifies the tag
      */
-    public function removeTag(string $key): void
+    public function removeTag(string $key): self
     {
         unset($this->tags[$key]);
+
+        return $this;
     }
 
     /**
@@ -557,9 +645,11 @@ final class Event
      *
      * @param UserDataBag|null $user The context object
      */
-    public function setUser(?UserDataBag $user): void
+    public function setUser(?UserDataBag $user): self
     {
         $this->user = $user;
+
+        return $this;
     }
 
     /**
@@ -575,9 +665,11 @@ final class Event
      *
      * @param OsContext|null $osContext The context object
      */
-    public function setOsContext(?OsContext $osContext): void
+    public function setOsContext(?OsContext $osContext): self
     {
         $this->osContext = $osContext;
+
+        return $this;
     }
 
     /**
@@ -593,9 +685,11 @@ final class Event
      *
      * @param RuntimeContext|null $runtimeContext The context object
      */
-    public function setRuntimeContext(?RuntimeContext $runtimeContext): void
+    public function setRuntimeContext(?RuntimeContext $runtimeContext): self
     {
         $this->runtimeContext = $runtimeContext;
+
+        return $this;
     }
 
     /**
@@ -615,9 +709,11 @@ final class Event
      *
      * @param string[] $fingerprint The strings
      */
-    public function setFingerprint(array $fingerprint): void
+    public function setFingerprint(array $fingerprint): self
     {
         $this->fingerprint = $fingerprint;
+
+        return $this;
     }
 
     /**
@@ -633,9 +729,11 @@ final class Event
      *
      * @param string|null $environment The name of the environment
      */
-    public function setEnvironment(?string $environment): void
+    public function setEnvironment(?string $environment): self
     {
         $this->environment = $environment;
+
+        return $this;
     }
 
     /**
@@ -653,9 +751,11 @@ final class Event
      *
      * @param Breadcrumb[] $breadcrumbs The breadcrumb array
      */
-    public function setBreadcrumb(array $breadcrumbs): void
+    public function setBreadcrumb(array $breadcrumbs): self
     {
         $this->breadcrumbs = $breadcrumbs;
+
+        return $this;
     }
 
     /**
@@ -673,15 +773,17 @@ final class Event
      *
      * @param ExceptionDataBag[] $exceptions The exceptions
      */
-    public function setExceptions(array $exceptions): void
+    public function setExceptions(array $exceptions): self
     {
         foreach ($exceptions as $exception) {
             if (!$exception instanceof ExceptionDataBag) {
-                throw new \UnexpectedValueException(sprintf('Expected an instance of the "%s" class. Got: "%s".', ExceptionDataBag::class, get_debug_type($exception)));
+                throw new \UnexpectedValueException(\sprintf('Expected an instance of the "%s" class. Got: "%s".', ExceptionDataBag::class, get_debug_type($exception)));
             }
         }
 
         $this->exceptions = $exceptions;
+
+        return $this;
     }
 
     /**
@@ -697,9 +799,11 @@ final class Event
      *
      * @param Stacktrace|null $stacktrace The stacktrace instance
      */
-    public function setStacktrace(?Stacktrace $stacktrace): void
+    public function setStacktrace(?Stacktrace $stacktrace): self
     {
         $this->stacktrace = $stacktrace;
+
+        return $this;
     }
 
     public function getType(): EventType
@@ -713,9 +817,11 @@ final class Event
      * @param string $name The name that uniquely identifies the SDK metadata
      * @param mixed  $data The data of the SDK metadata
      */
-    public function setSdkMetadata(string $name, $data): void
+    public function setSdkMetadata(string $name, $data): self
     {
         $this->sdkMetadata[$name] = $data;
+
+        return $this;
     }
 
     /**
@@ -731,7 +837,7 @@ final class Event
      */
     public function getSdkMetadata(?string $name = null)
     {
-        if (null !== $name) {
+        if ($name !== null) {
             return $this->sdkMetadata[$name] ?? null;
         }
 
@@ -751,9 +857,11 @@ final class Event
      *
      * @param float|null $startTimestamp The start time of the measurement
      */
-    public function setStartTimestamp(?float $startTimestamp): void
+    public function setStartTimestamp(?float $startTimestamp): self
     {
         $this->startTimestamp = $startTimestamp;
+
+        return $this;
     }
 
     /**
@@ -771,19 +879,23 @@ final class Event
      *
      * @param Span[] $spans The list of spans
      */
-    public function setSpans(array $spans): void
+    public function setSpans(array $spans): self
     {
         $this->spans = $spans;
-    }
 
-    public function setProfile(?Profile $profile): void
-    {
-        $this->profile = $profile;
+        return $this;
     }
 
     public function getProfile(): ?Profile
     {
         return $this->profile;
+    }
+
+    public function setProfile(?Profile $profile): self
+    {
+        $this->profile = $profile;
+
+        return $this;
     }
 
     public function getTraceId(): ?string
