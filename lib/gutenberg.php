@@ -31,10 +31,11 @@ add_filter( 'timber/acf-gutenberg-blocks-templates', function () {
 //
 // Add to Gutenberg's sidebar resizable handling capacity
 //
+/*
 function mill3_gutenberg_resizable_sidebar() {
     $current_screen = get_current_screen();
     if( !$current_screen->is_block_editor() ) return;
-
+    
     wp_enqueue_script(
         'mill3-gutenberg-sidebar-js',
         get_stylesheet_directory_uri() . '/src/js/admin/gutenberg-sidebar.js',
@@ -46,6 +47,7 @@ function mill3_gutenberg_resizable_sidebar() {
 }
 
 add_action('admin_enqueue_scripts', __NAMESPACE__ . '\\mill3_gutenberg_resizable_sidebar');
+*/
 
 //
 // Add block editor custom categories
