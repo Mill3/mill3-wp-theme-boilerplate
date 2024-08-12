@@ -61,7 +61,7 @@
   "dependencies": {
     "@sentry/browser": "8.25.0",
     "@vimeo/player": "2.18.0",
-    "animejs": "3.2.1",
+    "animejs": "3.2.2",
     "domready": "1.0.8",
     "eventemitter2": "6.4.9",
     "js-cookie": "^3.0.5",
