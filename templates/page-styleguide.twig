@@ -67,7 +67,7 @@
 			<h1 class="styleguide-title fz-24 fz-md-36 fz-xl-48 lh-none fw-400 m-0">{{post.title}}</h1>
       <!-- Colors -->
 			<div class="d-flex flex-column grid-gap-10">
-				<h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Colors</h2>
+				<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Colors</h2>
         <div class="styleguide-row d-flex flex-wrap grid-gap-20">
           <div class="styleguide-color bg-color-black" data-label="black"></div>
           <div class="styleguide-color bg-color-white" data-label="white"></div>
@@ -81,11 +81,11 @@
       <!-- Font-family & Font-style -->
 			<div class="d-grid grid-column-xl-2 grid-gap-20">
 				<aside class="d-flex flex-column grid-gap-10">
-					<h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
+					<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
 					<div class="styleguide-font ff-heading fz-20 fz-md-24 fz-xl-36 lh-none" data-label="heading">Times Now</div>
 				</aside>
 				<aside class="d-flex flex-column grid-gap-10">
-					<h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Font-weight</h2>
+					<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-weight</h2>
 					<div class="styleguide-row d-flex flex-column grid-gap-10 ff-heading fz-20 fz-md-24 fz-xl-36 lh-none">
 						{# <div class="styleguide-font fw-300">Light (300)</div>
 						<div class="styleguide-font fw-300 fs-italic">Light Italic</div> #}
@@ -99,11 +99,11 @@
 
       <div class="d-grid grid-column-xl-2 grid-gap-20">
         <aside class="d-flex flex-column grid-gap-10">
-          <h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
+          <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
           <div class="styleguide-font ff-body fz-18 fz-md-20 fz-xl-24 lh-125" data-label="body">Inter</div>
         </aside>
         <aside class="d-flex flex-column grid-gap-10">
-          <h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Font-weight</h2>
+          <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-weight</h2>
           <div class="styleguide-row d-flex flex-column grid-gap-10 ff-body fz-18 fz-md-20 fz-xl-24 lh-125">
             <div class="styleguide-font fw-300">Light (300)</div>
             <div class="styleguide-font fw-300 fs-italic">Light Italic</div>
@@ -116,7 +116,7 @@
       </div>
 
       <div class="d-flex flex-column grid-gap-10">
-        <h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Font-sizes</h2>
+        <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-sizes</h2>
         <div class="d-flex flex-column grid-gap-20">
           <div class="styleguide-font fz-48 ff-heading lh-none" data-label="48px"></div>
           <div class="styleguide-font fz-36 ff-heading lh-none" data-label="36px"></div>
@@ -130,7 +130,7 @@
 
       <!-- Buttons -->
       <div class="d-flex flex-column grid-gap-10">
-  			<h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Buttons</h2>
+  			<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Buttons</h2>
   			<div class="d-flex align-items-center grid-gap-20 p-10">
           {% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta'} only %}
           {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'outline'} only %}
@@ -142,8 +142,6 @@
           {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'variation': 'white'} only %}
 				</div>
       </div>
-
-
 		</section>
 	</article>
 {% endblock %}
