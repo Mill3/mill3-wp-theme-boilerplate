@@ -97,7 +97,6 @@ $includes = [
     'lib/sentry.php',
     'lib/setup.php',
     'lib/shortcodes.php',
-    'lib/svg.php',
     'lib/taxonomies.php',
     'lib/taxonomy-queries.php',
     'lib/utils.php',
