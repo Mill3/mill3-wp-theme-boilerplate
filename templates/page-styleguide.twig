@@ -146,7 +146,7 @@
       <div class="d-flex flex-column grid-gap-20">
   			<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">UI & Buttons</h2>
         <div class="d-grid grid-column-xl-2 grid-gap-20">
-    			<aside class="d-flex flex-column grid-gap-20 grid-gap-20 p-20 pb-xl-40 bg-gray-200">
+          <aside class="d-flex flex-column grid-gap-20 grid-gap-20 p-20 pb-xl-40 bg-gray-200 color-black">
             <h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Light</h2>
             <div class="d-flex align-items-center grid-gap-20">
             {% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'attributes': ['data-label="cta"']} only %}
@@ -154,8 +154,8 @@
             {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'attributes': ['data-label="link"']} only %}
             </div>
           </aside>
-  				<aside class="d-flex flex-column grid-gap-20 grid-gap-20 p-20 pb-xl-40 bg-color-black">
-            <h2 class="styleguide-subtitle color-white ff-body tt-uppercase fz-12 fw-700 m-0">Dark</h2>
+          <aside class="d-flex flex-column grid-gap-20 grid-gap-20 p-20 pb-xl-40 bg-color-black color-white">
+            <h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Dark</h2>
             <div class="d-flex align-items-center grid-gap-20">
     					{% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'variation': 'white', 'attributes': ['data-label-white data-label="cta cta-white"']} only %}
               {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'white outline', 'attributes': ['data-label-white data-label="cta cta-white cta-outline"']} only %}
