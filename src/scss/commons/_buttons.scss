@@ -1,4 +1,8 @@
 @use '@mill3-sass-mixins/mq';
+@use '@mill3-sass-mixins/colors';
+@use '@mill3-sass-mixins/breakpoints';
+@use '@mill3-sass-mixins/typography';
+@use '@mixins/rollover';
 
 // reset <button> elements
 
@@ -29,9 +33,44 @@ button {
 
   // CTA
   &.--cta {
+    --btn-radius: 0px;
+    --btn-bg-color: #{colors.color(color-black)};
+    --btn-text-color: #{colors.color(color-white)};
+
     // default styles
-    &:not([class*="d-"]) { display: flex; }
-    //&:not([class*="position-"]) { position: relative; }
+    &:not([class*=" d-"]) { display: flex; }
+    &:not([class*=" position-"]) { position: relative; }
+    &:not([class*=" align-items-"]) { align-items: center; }
+    &:not([class*=" justify-content-"]) { justify-content: center; }
+    &:not([class*=" ff-"]) { font-family: typography.font-family(body); }
+
+    &:not([class*=" fz-"]) { 
+      font-size: 16px; 
+
+      @include breakpoints.media-breakpoint-up(xl) {
+        font-size: 18px;
+      }
+    }
+
+    color: var(--btn-text-color);
+    height: 30px;
+    padding: 0 10px;
+
+    #{$self}__icon, #{$self}__label {
+      isolation: isolate;
+    }
+
+    #{$self}__bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--btn-bg-color);
+      border-radius: var(--btn-radius);
+
+      pointer-events: none;
+    }
 
     // rollover
     @include mq.hoverDevice {
@@ -47,30 +86,57 @@ button {
     }
 
     // variations
-    //&.--cta-inverted {}
+    &.--cta-outline {
+      --btn-text-color: #{colors.color(color-black)};
+
+      #{$self}__bg {
+        background-color: transparent;
+        border: 1px solid var(--btn-text-color);
+      }
+    }
+
+    &.--cta-white {
+      --btn-bg-color: #{colors.color(color-white)};
+      --btn-text-color: #{colors.color(color-black)};
+
+      &.--cta-outline {
+        --btn-text-color: #{colors.color(color-white)};
+
+      }
+    }
   }
 
 
   // LINK
   &.--link {
+    --btn-text-color: #{colors.color(color-black)};
     // default styles
-    //&:not([class*="position-"]) { position: relative; }
+    &:not([class*=" position-"]) { position: relative;}
 
-    // rollover
-    @include mq.hoverDevice {
-      &:not(.pointer-events-none) {
-        // styling only applied for button who can received hover events
+    color: var(--btn-text-color);
 
-        &:hover,
-        &:focus,
-        &:active {
-          // do stuff here
-        }
-      }
+    #{$self}__bg {
+      display: none;
     }
 
+    // rollover
+    @include rollover.linkRollover;
+    // @include mq.hoverDevice {
+    //   &:not(.pointer-events-none) {
+    //     // styling only applied for button who can received hover events
+
+    //     &:hover,
+    //     &:focus,
+    //     &:active {
+    //       // do stuff here
+    //     }
+    //   }
+    // }
+
     // variations
-    //&.--link-inverted {}
+    &.--link-white {
+      --btn-text-color: #{colors.color(color-white)};
+    }
   }
 }
 
