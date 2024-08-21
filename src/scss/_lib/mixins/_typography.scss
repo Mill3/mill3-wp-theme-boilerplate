@@ -37,6 +37,16 @@
   @return $value;
 }
 
+/// color-css-variables
+@mixin ff-css-variables($ff: vars.$font-family) {
+  :root {
+    @each $key, $value in $ff {
+      --ff-#{$key}: #{$value};
+    }
+  }
+}
+
+
 @function font-family($key) {
   $value: map-get(typography.$font-family, $key);
 

@@ -38,7 +38,7 @@
   background-image: linear-gradient(transparent calc(100% - var(--height)), currentColor var(--height));
   background-repeat: no-repeat;
   background-size: 100% calc(100% - var(--bottom));
-  background-position: top right;
+  background-position: top left;
   text-decoration: none;
 
   @include mq.hoverDevice {

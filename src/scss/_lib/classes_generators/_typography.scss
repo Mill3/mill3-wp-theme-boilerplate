@@ -11,3 +11,5 @@
 @include variants.generate-variants("text-transform", vars.$text-transform, "tt");
 @include variants.generate-variants("text-decoration", vars.$text-decoration, "td");
 @include typography.generate-fluid-font-size(vars.$font-size, "ffz");
+
+@include typography.ff-css-variables(vars.$font-family);
