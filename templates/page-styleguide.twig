@@ -52,11 +52,19 @@
 
     font-size: 12px;
     font-family: var(--ff-mono);
-    font-weight: 500;
+    font-style: normal;
+    font-weight: 400;
     color: #666;
 
     background-color: var(--color-black);
     color: var(--color-white);
+  }
+
+  .styleguide [data-label-white]::after {
+
+
+    background-color: var(--color-white);
+    color: var(--color-black);
   }
 </style>
 {% endblock %}
@@ -82,17 +90,17 @@
 			<div class="d-grid grid-column-xl-2 grid-gap-20">
 				<aside class="d-flex flex-column grid-gap-10">
 					<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
-					<div class="styleguide-font ff-heading fz-20 fz-md-24 fz-xl-36 lh-none" data-label="heading">Times Now</div>
+					<div class="styleguide-font ff-heading fz-20 fz-md-24 fz-xl-36 lh-none" data-label="ff-heading">Times Now</div>
 				</aside>
 				<aside class="d-flex flex-column grid-gap-10">
 					<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-weight</h2>
 					<div class="styleguide-row d-flex flex-column grid-gap-10 ff-heading fz-20 fz-md-24 fz-xl-36 lh-none">
 						{# <div class="styleguide-font fw-300">Light (300)</div>
 						<div class="styleguide-font fw-300 fs-italic">Light Italic</div> #}
-						<div class="styleguide-font fw-400">Regular (400)</div>
-						<div class="styleguide-font fw-400 fs-italic">Regular Italic</div>
-            <div class="styleguide-font fw-700">Bold (700)</div>
-            <div class="styleguide-font fw-700 fs-italic">Bold Italic</div>
+						<div class="styleguide-font fw-400" data-label="ff-heading fw-400">Regular (400)</div>
+						<div class="styleguide-font fw-400 fs-italic" data-label="ff-heading fw-400 fs-italic">Regular Italic</div>
+            <div class="styleguide-font fw-700" data-label="ff-heading fw-700">Bold (700)</div>
+            <div class="styleguide-font fw-700 fs-italic" data-label="ff-heading fw-700 fs-italic">Bold Italic</div>
 					</div>
 				</aside>
 			</div>
@@ -100,17 +108,17 @@
       <div class="d-grid grid-column-xl-2 grid-gap-20">
         <aside class="d-flex flex-column grid-gap-10">
           <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
-          <div class="styleguide-font ff-body fz-18 fz-md-20 fz-xl-24 lh-125" data-label="body">Inter</div>
+          <div class="styleguide-font ff-body fz-18 fz-md-20 fz-xl-24 lh-125" data-label="ff-body">Inter</div>
         </aside>
         <aside class="d-flex flex-column grid-gap-10">
           <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-weight</h2>
           <div class="styleguide-row d-flex flex-column grid-gap-10 ff-body fz-18 fz-md-20 fz-xl-24 lh-125">
-            <div class="styleguide-font fw-300">Light (300)</div>
-            <div class="styleguide-font fw-300 fs-italic">Light Italic</div>
-            <div class="styleguide-font fw-400">Regular (400)</div>
-            <div class="styleguide-font fw-400 fs-italic">Regular Italic</div>
-            <div class="styleguide-font fw-700">Bold (700)</div>
-            <div class="styleguide-font fw-700 fs-italic">Bold Italic</div>
+            <div class="styleguide-font fw-300" data-label="ff-body fw-300">Light (300)</div>
+            <div class="styleguide-font fw-300 fs-italic" data-label="ff-body fw-300 fs-italic">Light Italic</div>
+            <div class="styleguide-font fw-400" data-label="ff-body fw-400">Regular (400)</div>
+            <div class="styleguide-font fw-400 fs-italic" data-label="ff-body fw-400 fs-italic">Regular Italic</div>
+            <div class="styleguide-font fw-700" data-label="ff-body fw-700">Bold (700)</div>
+            <div class="styleguide-font fw-700 fs-italic" data-label="ff-body fw-700 fs-italic">Bold Italic</div>
           </div>
         </aside>
       </div>
@@ -118,28 +126,28 @@
       <div class="d-flex flex-column grid-gap-10">
         <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-sizes</h2>
         <div class="d-flex flex-column grid-gap-20">
-          <div class="styleguide-font fz-48 ff-heading lh-none" data-label="48px"></div>
-          <div class="styleguide-font fz-36 ff-heading lh-none" data-label="36px"></div>
-          <div class="styleguide-font fz-24 ff-body lh-125" data-label="24px"></div>
-          <div class="styleguide-font fz-20 ff-body lh-125" data-label="20px"></div>
-          <div class="styleguide-font fz-18 ff-body lh-150" data-label="18px"></div>
-          <div class="styleguide-font fz-16 ff-body lh-150" data-label="16px"></div>
-          <div class="styleguide-font fz-14 ff-body lh-150" data-label="14px"></div>
+          <div class="styleguide-font fz-48 ff-heading lh-none" data-label="ff-heading fz-48 lh-none"></div>
+          <div class="styleguide-font fz-36 ff-heading lh-none" data-label="ff-heading fz-36 lh-none"></div>
+          <div class="styleguide-font fz-24 ff-body lh-125" data-label="ff-body fz-24 lh-125"></div>
+          <div class="styleguide-font fz-20 ff-body lh-125" data-label="ff-body fz-20 lh-125"></div>
+          <div class="styleguide-font fz-18 ff-body lh-150" data-label="ff-body fz-18 lh-150"></div>
+          <div class="styleguide-font fz-16 ff-body lh-150" data-label="ff-body fz-16 lh-150"></div>
+          <div class="styleguide-font fz-14 ff-body lh-150" data-label="ff-body fz-14 lh-150"></div>
         </div>
       </div>
 
       <!-- Buttons -->
       <div class="d-flex flex-column grid-gap-10">
   			<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Buttons</h2>
-  			<div class="d-flex align-items-center grid-gap-20 p-10">
-          {% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta'} only %}
-          {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'outline'} only %}
-          {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link'} only %}
+  			<div class="d-flex flex-column align-items-start grid-gap-20">
+          {% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'attributes': ['data-label="cta"']} only %}
+          {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'outline', 'attributes': ['data-label="cta cta-outline"']} only %}
+          {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'attributes': ['data-label="link"']} only %}
         </div>
-				<div class="d-flex align-items-center grid-gap-20 p-10 bg-color-black">
-					{% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'variation': 'white'} only %}
-          {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'white outline'} only %}
-          {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'variation': 'white'} only %}
+				<div class="d-flex flex-column align-items-start grid-gap-20 p-10 p-xl-20 bg-color-black">
+					{% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'variation': 'white', 'attributes': ['data-label-white data-label="cta cta-white"']} only %}
+          {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'white outline', 'attributes': ['data-label-white data-label="cta cta-white cta-outline"']} only %}
+          {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'variation': 'white', 'attributes': ['data-label-white data-label="link link-white"']} only %}
 				</div>
       </div>
 		</section>
