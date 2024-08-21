@@ -204,8 +204,8 @@ class Mill3WP extends Timber\Site
     public function add_to_context($context)
     {
         $context['site'] = $this;
-        $context['primary_navigation'] = Timber::get_menu('primary_navigation');
-        $context['secondary_navigation'] = Timber::get_menu('secondary_navigation');
+        $context['site_navigation'] = Timber::get_menu('site_navigation');
+        $context['header_navigation'] = Timber::get_menu('header_navigation');
         $context['footer_navigation'] = Timber::get_menu('footer_navigation');
         $context['social_links'] = Timber::get_menu('social_links');
 

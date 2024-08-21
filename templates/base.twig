@@ -24,8 +24,8 @@
     >
 
       {% block header %}
-        {% include 'site-header.twig' with {'menu': primary_navigation.items, 'site': site, 'options': options} only %}
-        {% include 'site-nav.twig' with {'menu': primary_navigation.items, 'site': site, 'options': options} only %}
+        {% include 'site-header.twig' with {'menu': header_navigation.items, 'site': site, 'options': options} only %}
+        {% include 'site-nav.twig' with {'menu': site_navigation.items, 'site': site, 'options': options} only %}
       {% endblock %}
 
       <main class="flex-grow-1" role="main">

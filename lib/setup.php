@@ -17,8 +17,8 @@ function setup()
     // Register wp_nav_menu() menus
     // http://codex.wordpress.org/Function_Reference/register_nav_menus
     register_nav_menus([
-        'primary_navigation' => __('Main navigation', 'mill3wp'),
-        'secondary_navigation' => __('Secondary Navigation', 'mill3wp'),
+        'site_navigation' => __('Site navigation', 'mill3wp'),
+        'header_navigation' => __('Header navigation', 'mill3wp'),
         'footer_navigation' => __('Footer navigation', 'mill3wp'),
         'social_links' => __('Social network links', 'mill3wp')
     ]);
