@@ -1,8 +1,7 @@
 {% set gdpr = options.gdpr %}
 
-<footer class="site-footer container-fluid pt-40">
+<footer class="site-footer container-fluid pt-40 pb-40 pt-xl-80 pb-xl-80 bg-color-black color-white">
 
-  <hr/>
 
   <div class="site-footer__wrapper d-grid grid-column-3">
     <nav class="site-footer__nav">
@@ -17,8 +16,6 @@
       {% include 'partial/credits.twig' %}
     </p>
   </div>
-
-  <hr>
 
   {% if gdpr.active %}
   <div class="site-footer__gdpr pt-3">

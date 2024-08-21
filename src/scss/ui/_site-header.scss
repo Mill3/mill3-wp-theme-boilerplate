@@ -5,15 +5,15 @@
   $self: &;
 
   &__wrap {
-    transition: opacity 350ms linear, color 0ms 350ms linear;
+    transition: opacity 200ms linear, color 0ms 200ms linear;
   }
 
-  &__logo,
-  &__nav,
-  &__burger {
-    transform: translate3d(0, 0px, 0);
-    transition: transform 350ms easings.$easeOutQuad;
-  }
+  // &__logo,
+  // &__nav,
+  // &__burger {
+  //   transform: translate3d(0, 0px, 0);
+  //   transition: transform 200ms easings.$easeOutQuad;
+  // }
 
   &__nav {
     // top level menu
@@ -97,25 +97,6 @@
     }
   }
 
-  // MINIMIZE SITE-HEADER WHEN PAGE HAS SCROLL DOWN ENOUGH
-  body.--js-scroll-min & {
-    &__logo,
-    &__nav,
-    &__burger {
-      transform: translate3d(0, -4px, 0);
-
-      @include breakpoints.media-breakpoint-up(lg) {
-        transform: translate3d(0, -10px, 0);
-      }
-    }
-  }
-
-  // INVERT SITE-HEADER TEXT COLOR
-  body:not(.--js-scroll-min).--site-header-inverted & {
-    &__wrap {
-      color: palegreen;
-    }
-  }
 
   // WHEN SITE-NAV IS OPENED
   html.--js-site-nav-opened & {
