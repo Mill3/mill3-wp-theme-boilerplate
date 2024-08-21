@@ -35,7 +35,7 @@
     padding-top: 0 !important;
   }*/
 
-  .styleguide [data-label] { position: relative; margin-bottom: 30px; }
+  .styleguide [data-label] { position: relative; }
   .styleguide [data-label]::after {
     content: attr(data-label);
     display: block;
@@ -58,7 +58,14 @@
 
     background-color: var(--color-black);
     color: var(--color-white);
+
+    opacity: 0.0001;
+    transition: opacity 200ms linear;
+    z-index: 20;
+
+    pointer-events: none;
   }
+  .styleguide [data-label]:hover::after { opacity: 1.0001; }
 
   .styleguide [data-label-white]::after {
 
@@ -124,7 +131,7 @@
       </div>
 
       <div class="d-flex flex-column grid-gap-10">
-        <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-sizes</h2>
+        <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Stylings & Font-sizes</h2>
         <div class="d-flex flex-column grid-gap-20">
           <div class="styleguide-font fz-48 ff-heading lh-none" data-label="ff-heading fz-48 lh-none"></div>
           <div class="styleguide-font fz-36 ff-heading lh-none" data-label="ff-heading fz-36 lh-none"></div>
@@ -138,13 +145,13 @@
 
       <!-- Buttons -->
       <div class="d-flex flex-column grid-gap-10">
-  			<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Buttons</h2>
-  			<div class="d-flex flex-column align-items-start grid-gap-20">
+  			<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">UI & Buttons</h2>
+  			<div class="d-flex align-items-center p-10 p-xl-20 pb-xl-40 grid-gap-20">
           {% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'attributes': ['data-label="cta"']} only %}
           {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'outline', 'attributes': ['data-label="cta cta-outline"']} only %}
           {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'attributes': ['data-label="link"']} only %}
         </div>
-				<div class="d-flex flex-column align-items-start grid-gap-20 p-10 p-xl-20 bg-color-black">
+				<div class="d-flex align-items-center grid-gap-20 p-10 p-xl-20 pb-xl-40 bg-color-black">
 					{% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'variation': 'white', 'attributes': ['data-label-white data-label="cta cta-white"']} only %}
           {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'white outline', 'attributes': ['data-label-white data-label="cta cta-white cta-outline"']} only %}
           {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'variation': 'white', 'attributes': ['data-label-white data-label="link link-white"']} only %}
