@@ -56,7 +56,7 @@
     font-weight: 400;
     color: #666;
 
-    background-color: var(--color-black);
+    background-color: var(--color-secondary);
     color: var(--color-white);
 
     opacity: 0.0001;
@@ -67,12 +67,6 @@
   }
   .styleguide [data-label]:hover::after { opacity: 1.0001; }
 
-  .styleguide [data-label-white]::after {
-
-
-    background-color: var(--color-white);
-    color: var(--color-black);
-  }
 </style>
 {% endblock %}
 
@@ -81,27 +75,32 @@
 		<section class="styleguide container-fluid pt-40 pb-40 pt-xl-80 pb-xl-80 d-flex flex-column grid-gap-30 grid-gap-xl-50">
 			<h1 class="styleguide-title fz-24 fz-md-36 fz-xl-48 lh-none fw-400 m-0">{{post.title}}</h1>
       <!-- Colors -->
-			<div class="d-flex flex-column grid-gap-10">
+			<div class="d-flex flex-column grid-gap-20">
 				<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Colors</h2>
         <div class="styleguide-row d-flex flex-wrap grid-gap-20">
           <div class="styleguide-color bg-color-black" data-label="black"></div>
           <div class="styleguide-color bg-color-white" data-label="white"></div>
-          <div class="styleguide-color bg-gray-300" data-label="gray-300"></div>
-          <div class="styleguide-color bg-gray-600" data-label="gray-600"></div>
           <div class="styleguide-color bg-color-primary" data-label="primary"></div>
           <div class="styleguide-color bg-color-secondary" data-label="secondary"></div>
+        </div>
+        <div class="styleguide-row d-flex flex-wrap grid-gap-20">
+          <div class="styleguide-color bg-gray-200" data-label="gray-200"></div>
+          <div class="styleguide-color bg-gray-300" data-label="gray-300"></div>
+          <div class="styleguide-color bg-gray-400" data-label="gray-400"></div>
+          <div class="styleguide-color bg-gray-500" data-label="gray-500"></div>
+          <div class="styleguide-color bg-gray-600" data-label="gray-600"></div>
         </div>
 			</div>
 
       <!-- Font-family & Font-style -->
 			<div class="d-grid grid-column-xl-2 grid-gap-20">
-				<aside class="d-flex flex-column grid-gap-10">
+				<aside class="d-flex flex-column grid-gap-20">
 					<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
 					<div class="styleguide-font ff-heading fz-20 fz-md-24 fz-xl-36 lh-none" data-label="ff-heading">Times Now</div>
 				</aside>
-				<aside class="d-flex flex-column grid-gap-10">
+				<aside class="d-flex flex-column grid-gap-20">
 					<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-weight</h2>
-					<div class="styleguide-row d-flex flex-column grid-gap-10 ff-heading fz-20 fz-md-24 fz-xl-36 lh-none">
+					<div class="styleguide-row d-flex flex-column grid-gap-20 ff-heading fz-20 fz-md-24 fz-xl-36 lh-none">
 						{# <div class="styleguide-font fw-300">Light (300)</div>
 						<div class="styleguide-font fw-300 fs-italic">Light Italic</div> #}
 						<div class="styleguide-font fw-400" data-label="ff-heading fw-400">Regular (400)</div>
@@ -113,13 +112,13 @@
 			</div>
 
       <div class="d-grid grid-column-xl-2 grid-gap-20">
-        <aside class="d-flex flex-column grid-gap-10">
+        <aside class="d-flex flex-column grid-gap-20">
           <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
           <div class="styleguide-font ff-body fz-18 fz-md-20 fz-xl-24 lh-125" data-label="ff-body">Inter</div>
         </aside>
-        <aside class="d-flex flex-column grid-gap-10">
+        <aside class="d-flex flex-column grid-gap-20">
           <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-weight</h2>
-          <div class="styleguide-row d-flex flex-column grid-gap-10 ff-body fz-18 fz-md-20 fz-xl-24 lh-125">
+          <div class="styleguide-row d-flex flex-column grid-gap-20 ff-body fz-18 fz-md-20 fz-xl-24 lh-125">
             <div class="styleguide-font fw-300" data-label="ff-body fw-300">Light (300)</div>
             <div class="styleguide-font fw-300 fs-italic" data-label="ff-body fw-300 fs-italic">Light Italic</div>
             <div class="styleguide-font fw-400" data-label="ff-body fw-400">Regular (400)</div>
@@ -130,7 +129,7 @@
         </aside>
       </div>
 
-      <div class="d-flex flex-column grid-gap-10">
+      <div class="d-flex flex-column grid-gap-20">
         <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Stylings & Font-sizes</h2>
         <div class="d-flex flex-column grid-gap-20">
           <div class="styleguide-font fz-48 ff-heading lh-none" data-label="ff-heading fz-48 lh-none"></div>
@@ -144,18 +143,26 @@
       </div>
 
       <!-- Buttons -->
-      <div class="d-flex flex-column grid-gap-10">
+      <div class="d-flex flex-column grid-gap-20">
   			<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">UI & Buttons</h2>
-  			<div class="d-flex align-items-center p-10 p-xl-20 pb-xl-40 grid-gap-20">
-          {% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'attributes': ['data-label="cta"']} only %}
-          {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'outline', 'attributes': ['data-label="cta cta-outline"']} only %}
-          {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'attributes': ['data-label="link"']} only %}
+        <div class="d-grid grid-column-xl-2 grid-gap-20">
+    			<aside class="d-flex flex-column grid-gap-20 grid-gap-20 p-20 pb-xl-40 bg-gray-200">
+            <h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Light</h2>
+            <div class="d-flex align-items-center grid-gap-20">
+            {% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'attributes': ['data-label="cta"']} only %}
+            {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'outline', 'attributes': ['data-label="cta cta-outline"']} only %}
+            {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'attributes': ['data-label="link"']} only %}
+            </div>
+          </aside>
+  				<aside class="d-flex flex-column grid-gap-20 grid-gap-20 p-20 pb-xl-40 bg-color-black">
+            <h2 class="styleguide-subtitle color-white ff-body tt-uppercase fz-12 fw-700 m-0">Dark</h2>
+            <div class="d-flex align-items-center grid-gap-20">
+    					{% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'variation': 'white', 'attributes': ['data-label-white data-label="cta cta-white"']} only %}
+              {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'white outline', 'attributes': ['data-label-white data-label="cta cta-white cta-outline"']} only %}
+              {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'variation': 'white', 'attributes': ['data-label-white data-label="link link-white"']} only %}
+            </div>
+  				</aside>
         </div>
-				<div class="d-flex align-items-center grid-gap-20 p-10 p-xl-20 pb-xl-40 bg-color-black">
-					{% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'variation': 'white', 'attributes': ['data-label-white data-label="cta cta-white"']} only %}
-          {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'white outline', 'attributes': ['data-label-white data-label="cta cta-white cta-outline"']} only %}
-          {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'variation': 'white', 'attributes': ['data-label-white data-label="link link-white"']} only %}
-				</div>
       </div>
 		</section>
 	</article>
