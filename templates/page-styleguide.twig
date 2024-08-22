@@ -185,7 +185,7 @@
 
 {% set uis = [
   {
-    'label': 'Light',
+    'label': 'Buttons on light background',
     'classname': 'bg-gray-200 color-black',
     'uis': [
       { 
@@ -212,7 +212,7 @@
     ]
   },
   {
-    'label': 'Dark',
+    'label': 'Buttons on dark background',
     'classname': 'bg-color-black color-white',
     'uis': [
       { 
@@ -327,6 +327,11 @@
                     {% if ui.title %}
                       {% set ui_params = ui_params|merge({ 'title': ui.title })%}
                       {% set ui_clipboard_label_params = ui_clipboard_label_params|merge({ 'title': ui.title })%}
+                    {% endif %}
+
+                    {% if ui.classname %}
+                      {% set ui_params = ui_params|merge({ 'classname': ui.classname })%}
+                      {% set ui_clipboard_label_params = ui_clipboard_label_params|merge({ 'classname': ui.classname })%}
                     {% endif %}
 
                     {% if ui.style %}
