@@ -15,11 +15,6 @@
     box-shadow: 0 10px 10px 0 rgba(179, 179, 179, 0.4);
   }
 
-/*  .styleguide-font {
-    position: relative;
-    margin: 0 0 30px 0;
-  }*/
-  .styleguide-font:last-child { margin-bottom: 0; }
   .styleguide-font:empty::before {
     content: "The quick brown fox jumps over the lazy dog";
     display: block;
@@ -35,12 +30,13 @@
     padding-top: 0 !important;
   }*/
 
-  .styleguide [data-label] { position: relative; }
-  .styleguide [data-label]::after {
+  .styleguide [data-label] { position: relative;cursor: pointer; }
+
+  .styleguide [data-label]::before, .styleguide [data-label]::after {
     content: attr(data-label);
     display: block;
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 5px);
     left: 0;
     height: 20px;
 
@@ -51,10 +47,11 @@
     white-space: nowrap;
 
     font-size: 12px;
+    line-height: 1;
     font-family: var(--ff-mono);
     font-style: normal;
+    text-transform: initial;
     font-weight: 400;
-    color: #666;
 
     background-color: var(--color-secondary);
     color: var(--color-white);
@@ -65,105 +62,300 @@
 
     pointer-events: none;
   }
+  .styleguide [data-label]::before {
+    content: "copied to clipboard";
+  }
   .styleguide [data-label]:hover::after { opacity: 1.0001; }
+  .styleguide [data-label].--copied:hover::after { opacity: 0.0001; }
+  .styleguide [data-label].--copied:hover::before { opacity: 1.0001; }
 
 </style>
 {% endblock %}
 
+{% set colors = [
+  {
+    'type': 'color',
+    'colors':  [
+      'black',
+      'white',
+      'primary',
+      'secondary'
+    ],
+  },
+  {
+    'type': 'gray',
+    'colors':  [
+      '200',
+      '300',
+      '400',
+      '500',
+      '600'
+    ],
+  }
+] %}
+
+{% set ff = [
+  {
+    'type': 'heading',
+    'family': 'Times Now',
+    'classname': 'fz-20 fz-md-24 fz-xl-36 lh-none',
+    'weights': [
+      {
+        'label': 'Regular (400)',
+        'classname': 'fw-400'
+      },
+      {
+        'label': 'Regular Italic',
+        'classname': 'fw-400 fs-italic'
+      },
+      {
+        'label': 'Bold (700)',
+        'classname': 'fw-700'
+      },
+      {
+        'label': 'Bold Italic',
+        'classname': 'fw-700 fs-italic'
+      }
+    ]
+  },
+  {
+    'type': 'body',
+    'family': 'Basel Grotesk',
+    'classname': 'fz-18 fz-md-20 fz-xl-24 lh-12',
+    'weights': [
+      {
+        'label': 'Regular (400)',
+        'classname': 'fw-400'
+      },
+      {
+        'label': 'Regular Italic',
+        'classname': 'fw-400 fs-italic'
+      },
+      {
+        'label': 'Bold (700)',
+        'classname': 'fw-700'
+      },
+      {
+        'label': 'Bold Italic',
+        'classname': 'fw-700 fs-italic'
+      }
+    ]
+  },
+  {
+    'type': 'mono',
+    'family': 'SFMono-Regular',
+    'classname': 'fz-14'
+  }
+] %}
+
+{% set stylings = [
+  {
+    'label': 'Headings',
+    'stylings': [
+      {
+        'classname': 'ff-heading fz-48 lh-none fw-400',
+        'text': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
+      },
+      {
+        'classname': 'ff-heading fz-36 lh-none fw-400'
+      },
+      {
+        'classname': 'ff-body fz-20 lh-125 fw-700 tt-uppercase'
+      }
+    ]
+  },
+  {
+    'label': 'Paragraphs',
+    'stylings': [
+      {
+        'classname': 'ff-body fz-24 lh-125 fw-400'
+      },
+      {
+        'classname': 'ff-body fz-18 lh-150 fw-400'
+      },
+      {
+        'classname': 'ff-body fz-16 lh-150 fw-400'
+      },
+      {
+        'classname': 'ff-body fz-14 lh-150 fw-400'
+      }
+    ]
+  }
+] %}
+
+{% set uis = [
+  {
+    'label': 'Light',
+    'classname': 'bg-gray-200 color-black',
+    'uis': [
+      { 
+        'type': 'button',
+        'classname': 'btn',
+        'title': 'Button CTA',
+        'style': 'cta'
+      },
+      { 
+        'type': 'button',
+        'classname': 'btn',
+        'title': 'Outline CTA',
+        'style': 'cta',
+        'variation': [
+          'outline'
+        ]
+      },
+      { 
+        'type': 'button',
+        'classname': 'btn',
+        'title': 'Button Link',
+        'style': 'link'
+      }
+    ]
+  },
+  {
+    'label': 'Dark',
+    'classname': 'bg-color-black color-white',
+    'uis': [
+      { 
+        'type': 'button',
+        'classname': 'btn',
+        'title': 'Button CTA',
+        'style': 'cta',
+        'variation': [
+          'white'
+        ]
+      },
+      { 
+        'type': 'button',
+        'classname': 'btn',
+        'title': 'Outline CTA',
+        'style': 'cta',
+        'variation': [
+          'white',
+          'outline'
+        ]
+      },
+      { 
+        'type': 'button',
+        'classname': 'btn',
+        'title': 'Button Link',
+        'style': 'link',
+        'variation': [
+          'white'
+        ]
+      }
+    ]
+  }
+] %}
+
 {% block content %}
 	<article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
-		<section class="styleguide container-fluid pt-40 pb-40 pt-xl-80 pb-xl-80 d-flex flex-column grid-gap-30 grid-gap-xl-50">
+		<section class="styleguide container-fluid pt-40 pb-40 pt-xl-80 pb-xl-80 d-flex flex-column grid-gap-30 grid-gap-xl-50" data-module="styleguide">
 			<h1 class="styleguide-title fz-24 fz-md-36 fz-xl-48 lh-none fw-400 m-0">{{post.title}}</h1>
+
       <!-- Colors -->
-			<div class="d-flex flex-column grid-gap-20">
-				<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Colors</h2>
-        <div class="styleguide-row d-flex flex-wrap grid-gap-20">
-          <div class="styleguide-color bg-color-black" data-label="black"></div>
-          <div class="styleguide-color bg-color-white" data-label="white"></div>
-          <div class="styleguide-color bg-color-primary" data-label="primary"></div>
-          <div class="styleguide-color bg-color-secondary" data-label="secondary"></div>
-        </div>
-        <div class="styleguide-row d-flex flex-wrap grid-gap-20">
-          <div class="styleguide-color bg-gray-200" data-label="gray-200"></div>
-          <div class="styleguide-color bg-gray-300" data-label="gray-300"></div>
-          <div class="styleguide-color bg-gray-400" data-label="gray-400"></div>
-          <div class="styleguide-color bg-gray-500" data-label="gray-500"></div>
-          <div class="styleguide-color bg-gray-600" data-label="gray-600"></div>
-        </div>
-			</div>
 
-      <!-- Font-family & Font-style -->
-			<div class="d-grid grid-column-xl-2 grid-gap-20">
-				<aside class="d-flex flex-column grid-gap-20">
-					<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
-					<div class="styleguide-font ff-heading fz-20 fz-md-24 fz-xl-36 lh-none" data-label="ff-heading">Times Now</div>
-				</aside>
-				<aside class="d-flex flex-column grid-gap-20">
-					<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-weight</h2>
-					<div class="styleguide-row d-flex flex-column grid-gap-20 ff-heading fz-20 fz-md-24 fz-xl-36 lh-none">
-						{# <div class="styleguide-font fw-300">Light (300)</div>
-						<div class="styleguide-font fw-300 fs-italic">Light Italic</div> #}
-						<div class="styleguide-font fw-400" data-label="ff-heading fw-400">Regular (400)</div>
-						<div class="styleguide-font fw-400 fs-italic" data-label="ff-heading fw-400 fs-italic">Regular Italic</div>
-            <div class="styleguide-font fw-700" data-label="ff-heading fw-700">Bold (700)</div>
-            <div class="styleguide-font fw-700 fs-italic" data-label="ff-heading fw-700 fs-italic">Bold Italic</div>
-					</div>
-				</aside>
-			</div>
+      {% if colors %}
+  			<div class="d-flex flex-column grid-gap-20">
+  				<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Colors</h2>
+          {% for color_group in colors %}
+            <div class="styleguide-row d-flex flex-wrap grid-gap-20">
+              {% for color in color_group.colors %}
+                <div class="styleguide-color bg-{{ color_group.type }}-{{ color }}" data-label="{{ color_group.type }}-{{ color }}"></div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+  			</div>
+      {% endif %}
 
-      <div class="d-grid grid-column-xl-2 grid-gap-20">
-        <aside class="d-flex flex-column grid-gap-20">
-          <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
-          <div class="styleguide-font ff-body fz-18 fz-md-20 fz-xl-24 lh-125" data-label="ff-body">Inter</div>
-        </aside>
-        <aside class="d-flex flex-column grid-gap-20">
-          <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-weight</h2>
-          <div class="styleguide-row d-flex flex-column grid-gap-20 ff-body fz-18 fz-md-20 fz-xl-24 lh-125">
-            <div class="styleguide-font fw-300" data-label="ff-body fw-300">Light (300)</div>
-            <div class="styleguide-font fw-300 fs-italic" data-label="ff-body fw-300 fs-italic">Light Italic</div>
-            <div class="styleguide-font fw-400" data-label="ff-body fw-400">Regular (400)</div>
-            <div class="styleguide-font fw-400 fs-italic" data-label="ff-body fw-400 fs-italic">Regular Italic</div>
-            <div class="styleguide-font fw-700" data-label="ff-body fw-700">Bold (700)</div>
-            <div class="styleguide-font fw-700 fs-italic" data-label="ff-body fw-700 fs-italic">Bold Italic</div>
-          </div>
-        </aside>
-      </div>
+      <!-- Font-families & Font-weights -->
 
-      <div class="d-flex flex-column grid-gap-20">
-        <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Stylings & Font-sizes</h2>
-        <div class="d-flex flex-column grid-gap-20">
-          <div class="styleguide-font fz-48 ff-heading lh-none" data-label="ff-heading fz-48 lh-none"></div>
-          <div class="styleguide-font fz-36 ff-heading lh-none" data-label="ff-heading fz-36 lh-none"></div>
-          <div class="styleguide-font fz-24 ff-body lh-125" data-label="ff-body fz-24 lh-125"></div>
-          <div class="styleguide-font fz-20 ff-body lh-125" data-label="ff-body fz-20 lh-125"></div>
-          <div class="styleguide-font fz-18 ff-body lh-150" data-label="ff-body fz-18 lh-150"></div>
-          <div class="styleguide-font fz-16 ff-body lh-150" data-label="ff-body fz-16 lh-150"></div>
-          <div class="styleguide-font fz-14 ff-body lh-150" data-label="ff-body fz-14 lh-150"></div>
-        </div>
-      </div>
-
-      <!-- Buttons -->
-      <div class="d-flex flex-column grid-gap-20">
-  			<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">UI & Buttons</h2>
+      {% for family in ff %}
         <div class="d-grid grid-column-xl-2 grid-gap-20">
-          <aside class="d-flex flex-column grid-gap-20 grid-gap-20 p-20 pb-xl-40 bg-gray-200 color-black">
-            <h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Light</h2>
-            <div class="d-flex align-items-center grid-gap-20">
-            {% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'attributes': ['data-label="cta"']} only %}
-            {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'outline', 'attributes': ['data-label="cta cta-outline"']} only %}
-            {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'attributes': ['data-label="link"']} only %}
-            </div>
+          <aside class="d-flex flex-column grid-gap-20">
+            <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
+            <div class="ff-{{ family.type }} {{ family.classname }}" data-label="ff-{{ family.type }}">{{ family.family }}</div>
           </aside>
-          <aside class="d-flex flex-column grid-gap-20 grid-gap-20 p-20 pb-xl-40 bg-color-black color-white">
-            <h2 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">Dark</h2>
-            <div class="d-flex align-items-center grid-gap-20">
-    					{% include 'partial/button.twig' with {'title': 'Button CTA', 'style': 'cta', 'variation': 'white', 'attributes': ['data-label-white data-label="cta cta-white"']} only %}
-              {% include 'partial/button.twig' with {'title': 'Outline CTA', 'style': 'cta', 'variation': 'white outline', 'attributes': ['data-label-white data-label="cta cta-white cta-outline"']} only %}
-              {% include 'partial/button.twig' with {'title': 'Button Link', 'style': 'link', 'variation': 'white', 'attributes': ['data-label-white data-label="link link-white"']} only %}
-            </div>
-  				</aside>
+          {% if family.weights %}
+            <aside class="d-flex flex-column grid-gap-20">
+              <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-weights</h2>
+              <div class="styleguide-row d-flex flex-column grid-gap-20 ff-{{ family.type }} {{ family.classname }}">
+              {% for weight in family.weights %}
+                <div class="{{ weight.classname }}" data-label="ff-{{ family.type }} {{ weight.classname }}">{{ weight.label }}</div>
+              {% endfor %}
+              </div>
+            </aside>
+          {% endif %}
         </div>
-      </div>
+      {% endfor %}
+
+      <!-- Stylings & Font-sizes -->
+
+      {% if stylings %}
+        <div class="d-flex flex-column grid-gap-20">
+          <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Stylings & Font-sizes</h2>
+          <div class="d-flex flex-column grid-gap-30">
+            {% for styling_group in stylings %}
+              <div class="d-flex flex-column grid-gap-20">
+                <h3 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 gray-600 m-0">{{ styling_group.label }}</h3>
+                <div class="d-flex flex-column grid-gap-20">
+                  {% for styling in styling_group.stylings %}
+                    <div class="{{ styling.classname }}" data-label="{{ styling.classname }}"><div class="styleguide-font">{{ styling.text }}</div></div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- UI & Buttons -->
+
+      {% if uis %}
+        <div class="d-flex flex-column grid-gap-20">
+    			<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">UI & Buttons</h2>
+          <div class="d-grid grid-column-xl-2 grid-gap-20">
+            {% for ui_group in uis %}
+              <aside class="d-flex flex-column grid-gap-20 grid-gap-20 p-20 pb-xl-40 {{ ui_group.classname }}">
+                <h3 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">{{ ui_group.label }}</h3>
+                <div class="d-flex align-items-center grid-gap-20">
+                  {% for ui in ui_group.uis %}
+
+                    {% set ui_label = ui.classname  ~ ' --' ~ ui.style %}
+                    {% set ui_clipboard_label_params = {} %}
+                    {% set ui_params = {} %}
+
+                    {% if ui.title %}
+                      {% set ui_params = ui_params|merge({ 'title': ui.title })%}
+                      {% set ui_clipboard_label_params = ui_clipboard_label_params|merge({ 'title': ui.title })%}
+                    {% endif %}
+
+                    {% if ui.style %}
+                      {% set ui_params = ui_params|merge({ 'style': ui.style })%}
+                      {% set ui_clipboard_label_params = ui_clipboard_label_params|merge({ 'style': ui.style })%}
+                    {% endif %}
+
+                    {% if ui.variation %}
+                      {% set ui_params = ui_params|merge({ 'variation': ui.variation|join(' ') })%}
+                      {% set ui_label = ui_label ~ ' ' ~ ui.variation|map(v => '--' ~ ui.style ~ '-' ~ v)|join(' ') %}
+                      {% set ui_clipboard_label_params = ui_clipboard_label_params|merge({ 'variation': ui.variation|join(' ') })%}
+                    {% endif %}
+
+                    {% set ui_clipboard_label = '{% include \'partial/'~ ui.type ~'.twig\' with {'~ ui_clipboard_label_params|map((value, key) => "'" ~ key ~ "' : '" ~ value ~ "'")|join(', ') ~ '} only %}' %}
+
+                    {% set ui_attr = ['data-label="'~ ui_label ~ '"', 'data-clipboard-label="'~ ui_clipboard_label ~ '"'] %}
+
+                    {% set ui_params = ui_params|merge({ 'attributes': ui_attr })%}
+
+                    {% include 'partial/'~ ui.type ~'.twig' with ui_params only %} 
+
+                  {% endfor %}
+                </div>
+              </aside>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
 		</section>
 	</article>
 {% endblock %}
