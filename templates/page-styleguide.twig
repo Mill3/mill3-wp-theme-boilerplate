@@ -140,11 +140,6 @@
         'classname': 'fw-700 fs-italic'
       }
     ]
-  },
-  {
-    'type': 'mono',
-    'family': 'SFMono-Regular',
-    'classname': 'fz-14'
   }
 ] %}
 
@@ -273,14 +268,14 @@
         <div class="d-grid grid-column-xl-2 grid-gap-20">
           <aside class="d-flex flex-column grid-gap-20">
             <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
-            <div class="ff-{{ family.type }} {{ family.classname }}" data-label="ff-{{ family.type }}">{{ family.family }}</div>
+            <div class="{% if family.type %}ff-{{ family.type }} {% endif %}{{ family.classname }}"{% if family.type %} data-label="ff-{{ family.type }}"{% endif %}>{{ family.family }}</div>
           </aside>
           {% if family.weights %}
             <aside class="d-flex flex-column grid-gap-20">
               <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-weights</h2>
-              <div class="styleguide-row d-flex flex-column grid-gap-20 ff-{{ family.type }} {{ family.classname }}">
+              <div class="styleguide-row d-flex flex-column grid-gap-20 {% if family.type %}ff-{{ family.type }} {% endif %}{{ family.classname }}">
               {% for weight in family.weights %}
-                <div class="{{ weight.classname }}" data-label="ff-{{ family.type }} {{ weight.classname }}">{{ weight.label }}</div>
+                <div class="{{ weight.classname }}" data-label="{% if family.type %}ff-{{ family.type }} {% endif %}{{ weight.classname }}">{{ weight.label }}</div>
               {% endfor %}
               </div>
             </aside>
