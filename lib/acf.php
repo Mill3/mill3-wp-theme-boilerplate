@@ -157,16 +157,15 @@ add_filter('acf/settings/show_admin', function () {
 /*
  * https://www.advancedcustomfields.com/resources/acf-render_field/
  */
-add_action('acf/render_field/name=post_slug', 'my_acfe_dynamic_render');
-function my_acfe_dynamic_render($field)
-{
+add_action('acf/render_field/name=post_slug', function ($field) {
     global $post;
     $slug = $post->post_name;
     if (!$slug) return;
     echo "<input value='{$slug}' readonly style='border: 1px solid #000; border-radius: 2px; padding: 0.5rem; width: 100%;' />";
     echo "<h4 style='font-weight: 400;'>How to use in your twig template :</h4>";
     echo "<pre>{{ PageSection('{$slug}') }}</pre>";
-}
+});
+
 
 // Theme colors
 add_filter('acf/prepare_field/name=theme_color', function ($field) {
@@ -191,7 +190,7 @@ if( function_exists('pll_the_languages') ){
         $screen = get_current_screen();
 
         // if we save theme_options
-        if( strpos($screen->id, 'theme_options') != true ) return;
+        if( strpos($screen->id, 'theme-options') != true ) return;
 
         $fields = get_fields($post_id);
         $value = $fields['gtm_code'];
