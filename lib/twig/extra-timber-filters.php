@@ -65,3 +65,21 @@ function filter_group_by_key($array, $key) {
     }
     return $result;
 }
+
+
+// Automatically add [data-scroll-to="href"] to all links starting with [href="#"]. Thanks to ChatGPT
+// How to use: 
+// {{ my_html_content|add_scroll_to|raw }}
+function filter_add_scroll_to($html) {
+    $dom = new \DOMDocument();
+    @$dom->loadHTML('<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NODEFDTD | LIBXML_HTML_NOIMPLIED);
+
+    $xpath = new \DOMXPath($dom);
+    $links = $xpath->query("//a[starts-with(@href, '#')]");
+
+    foreach ($links as $link) {
+        $link->setAttribute('data-scroll-to', $link->getAttribute('href'));
+    }
+
+    return $dom->saveHTML();
+}
