@@ -231,6 +231,7 @@ class Mill3WP extends Timber\Site
 
         $filters['embeded_settings'] = ['callable' => 'filter_embeded_settings'];
         $filters['group_by_key'] = ['callable' => 'filter_group_by_key'];
+        $filters['add_scroll_to'] = ['callable' => 'filter_add_scroll_to'];
 
         return $filters;
     }
