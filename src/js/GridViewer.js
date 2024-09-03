@@ -11,24 +11,24 @@ const STORAGE = 'grid-view--level';
 const BREAKPOINTS = {
   0: {
     columns: 4,
-    gutter: 10,
-    margin: 20,
+    gutter: 12,
+    margin: 12,
   },
   768: {
     columns: 8,
-    gutter: 12,
-    margin: 30,
+    gutter: 20,
+    margin: 20,
   },
   1200: {
     columns: 12,
     gutter: 20,
-    margin: 60,
+    margin: 20,
   },
   1800: {
     columns: 12,
     gutter: 20,
-    margin: 100,
-  }
+    margin: 40,
+  },
 };
 
 

@@ -1,17 +1,29 @@
 @use "@mill3-sass-mixins/breakpoints";
 
 :root {
-  --container-fluid-margin: 16px;
-  --container-fluid-sm-margin: 16px;
+  --container-fluid-margin: 12px;
+  --container-fluid-sm-margin: 12px;
+
   --site-header-spacer-height: 65px;
 
-  @include breakpoints.media-breakpoint-up(lg) {
-    --container-fluid-margin: 60px;
-    --container-fluid-sm-margin: 40px;
+  --default-column-width: calc(( 100vw - var(--scrollbar-width) - ( var(--container-fluid-margin) * 2 ) - ( ( var(--default-column-count) - 1 ) * var(--default-column-gap) ) ) / var(--default-column-count) );
+  --default-column-count: 4;
+  --default-column-gap: 12px;
+
+  @include breakpoints.media-breakpoint-up(md) {
+    --container-fluid-margin: 20px;
+    --container-fluid-sm-margin: 20px;
+
+    --default-column-count: 8;
+    --default-column-gap: 20px;
+  }
+
+  @include breakpoints.media-breakpoint-up(xl) {
+    --default-column-count: 12;
   }
 
   @include breakpoints.media-breakpoint-up(xxxl) {
-    --container-fluid-margin: 200px;
-    --container-fluid-sm-margin: 120px;
+    --container-fluid-margin: 40px;
+    --container-fluid-sm-margin: 40px;
   }
 }
