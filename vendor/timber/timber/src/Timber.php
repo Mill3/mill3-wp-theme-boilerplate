@@ -1167,8 +1167,14 @@ class Timber
         $context = self::context_global();
 
         if (\is_singular()) {
+            $post = Timber::get_post();
+
+            if( $post ) {
+                $post->setup();
+            }
+
             // NOTE: this also handles the is_front_page() case.
-            $context['post'] = Timber::get_post()->setup();
+            $context['post'] = $post;
         } elseif (\is_home()) {
             $post = Timber::get_post();
 
