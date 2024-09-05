@@ -46,11 +46,10 @@ class Mill3Timber extends Timber\Timber {
     public static function context(array $extra = [])
     {
         $context = self::context_global();
-        // die();
 
         if (\is_singular()) {
+            // this fix in issue when previewing a post through our acf_block_preview() call
             $post = Timber\Timber::get_post();
-
             if( $post ) {
                 $post->setup();
             }
