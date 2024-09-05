@@ -10,7 +10,7 @@
  */
 
 use Mill3WP\Assets;
-
+use Mill3WP\Timber\Mill3Timber;
 /**
  * ACF block example for Gutenberg
  *
@@ -64,14 +64,14 @@ function acf_block_preview($content)
 {
     global $post;
 
-    $context = Timber\Timber::context();
-    $context['post'] = Timber::get_post($post);
+    $context = Mill3Timber::context();
+    $context['post'] = Mill3Timber::get_post($post);
     $context['stylesheet'] = Mill3WP\Assets\Asset_File_path('acfPreview', 'css');
     $context['js'] = Mill3WP\Assets\Asset_File_path('acfPreviewIframe', 'js');
     $context['content'] = $content;
     $context['is_preview'] = true;
 
-    $doc = Timber\Timber::compile("base-acf-preview.twig", $context);
+    $doc = Mill3Timber::compile("base-acf-preview.twig", $context);
     echo '<iframe srcdoc="' . htmlspecialchars($doc, ENT_QUOTES, 'UTF-8', true) . '" style="pointer-events: none;" width="100%" frameborder="0" scrolling="no"></iframe>';
 }
 
