@@ -102,6 +102,8 @@ $includes = [
     'lib/utils.php',
     'lib/windmill-prefetch.php',
     //'lib/window-messenger.php',
+    // Timber
+    'lib/timber/Mill3Timber.php',
     // twig
     'lib/twig/extra-timber-filters.php',
     'lib/twig/file-filters.php',
