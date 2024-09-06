@@ -1,4 +1,3 @@
-@use "sass:math";
 @use "@mill3-sass-vars/easings";
 
 @mixin ticker($duration: 30s, $direction: normal) {
@@ -10,17 +9,6 @@
   animation-iteration-count: infinite;
   animation-play-state: paused;
 }
-
-@function duration($frames: 1) {
-  @return #{math.div($frames, 30)}s;
-}
-
-// moved to _lib/mixins/_globals.scss
-// @mixin inView() {
-//   @content;
-//   html.has-scroll-init &[data-scroll] {
-// }
-// }
 
 
 // FADE IN

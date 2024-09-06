@@ -176,10 +176,10 @@ class Newsletter {
 
   _send(token = null) {
     const url = this.form.getAttribute('action');
-    const formData = new FormData(this.form)
+    const formData = new FormData(this.form);
 
     // add token if available
-    if(token) formData.append('reCAPTCHA', token)
+    if(token) formData.append('reCAPTCHA', token);
 
     return fetch(url, { method: 'post', body: formData })
       .then((response) => response.json())
