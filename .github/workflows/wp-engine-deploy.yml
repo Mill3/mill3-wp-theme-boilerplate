@@ -1,16 +1,18 @@
 name: MILL3 WP Theme boilerplate build test
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - vendor-less
 jobs:
   Mill3-Deploy-Actions:
     runs-on: ubuntu-latest
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
       THEME_PATH: "wp-content/themes/mill3-wp-theme-boilerplate/"
-      WPENGINE_ENV_NAME: ${{ github.ref == 'refs/heads/master' && 'm3boilerplate' || '[change-to-staging]' }}
+      WPENGINE_ENV_NAME: ${{ github.ref == 'refs/heads/master' && 'm3boilerplate' || 'm3boilerplastg' }}
       SITE_NAME: ":amazed_clap: Wordpress Theme Boilerplate :doatm: :hugz: :reno: :capiche:"
-      PROD_SITE_URL: "https://boilerplate.mill3.studio/"
+      PROD_SITE_URL: "https://m3boilerplastg.wpenginepowered.com/"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -20,11 +22,20 @@ jobs:
           cache-dependency-path: package-lock.json
       - name: Copy env.production sample file to .env
         run: cp .env.production .env
-      - name: Install dep
+      - name: Install Node dependencies
         run: npm ci
       - name: Webpack build command
         id: build
         run: npm run build
+      - name: Install PHP dependencies
+        uses: "php-actions/composer@v6"
+        env:
+          COMPOSER: "composer.json"
+        with:
+          php_version: "8.2"
+          version: "2.2"
+          args: "--ignore-platform-reqs"
+          working_dir: ${{ env.THEME_PATH }}
       - name: Deploy to WPEngine
         if: ${{ success() }}
         uses: wpengine/github-action-wpe-site-deploy@v3.1.1
