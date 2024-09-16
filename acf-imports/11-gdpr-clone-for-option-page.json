@@ -38,6 +38,9 @@
                 "layout": "block",
                 "acfe_seamless_style": 0,
                 "acfe_group_modal": 0,
+                "acfe_group_modal_close": 0,
+                "acfe_group_modal_button": "",
+                "acfe_group_modal_size": "large",
                 "sub_fields": [
                     {
                         "key": "field_63ee5561514f5",
@@ -102,6 +105,105 @@
                             [
                                 {
                                     "field": "field_63ee5561514f5",
+                                    "operator": "==",
+                                    "value": "1"
+                                }
+                            ]
+                        ],
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "acfe_textarea_code": 0,
+                        "translations": "translate",
+                        "maxlength": "",
+                        "rows": "",
+                        "placeholder": "",
+                        "new_lines": ""
+                    },
+                    {
+                        "key": "field_66e83e6d86134",
+                        "label": "Consentement nécessaire ?",
+                        "name": "consent_necessary",
+                        "aria-label": "",
+                        "type": "true_false",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": [
+                            [
+                                {
+                                    "field": "field_63ee5561514f5",
+                                    "operator": "==",
+                                    "value": "1"
+                                }
+                            ]
+                        ],
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "message": "",
+                        "default_value": 0,
+                        "translations": "copy_once",
+                        "ui_on_text": "Oui",
+                        "ui_off_text": "Non",
+                        "ui": 1,
+                        "style": ""
+                    },
+                    {
+                        "key": "field_66e83e9786135",
+                        "label": "Titre consentement nécessaire",
+                        "name": "consent_necessary_title",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 0,
+                        "conditional_logic": [
+                            [
+                                {
+                                    "field": "field_63ee5561514f5",
+                                    "operator": "==",
+                                    "value": "1"
+                                },
+                                {
+                                    "field": "field_66e83e6d86134",
+                                    "operator": "==",
+                                    "value": "1"
+                                }
+                            ]
+                        ],
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "Necessary cookies",
+                        "translations": "translate",
+                        "maxlength": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": ""
+                    },
+                    {
+                        "key": "field_66e83ebc86136",
+                        "label": "Texte consentement nécessaire",
+                        "name": "consent_necessary_text",
+                        "aria-label": "",
+                        "type": "textarea",
+                        "instructions": "Courte explication des services « analytics » installés sur le site (GA4, Meta Pixel, LinkedIn, etc).",
+                        "required": 0,
+                        "conditional_logic": [
+                            [
+                                {
+                                    "field": "field_63ee5561514f5",
+                                    "operator": "==",
+                                    "value": "1"
+                                },
+                                {
+                                    "field": "field_66e83e6d86134",
                                     "operator": "==",
                                     "value": "1"
                                 }
@@ -318,10 +420,7 @@
                         "placeholder": "",
                         "new_lines": ""
                     }
-                ],
-                "acfe_group_modal_close": 0,
-                "acfe_group_modal_button": "",
-                "acfe_group_modal_size": "large"
+                ]
             }
         ],
         "location": [
@@ -342,13 +441,13 @@
         "active": false,
         "description": "",
         "show_in_rest": 0,
-        "acfe_display_title": "",
         "acfe_autosync": [
             "json"
         ],
         "acfe_form": 0,
+        "acfe_display_title": "",
         "acfe_meta": "",
         "acfe_note": "",
-        "modified": 1686167310
+        "modified": 1726500381
     }
 ]

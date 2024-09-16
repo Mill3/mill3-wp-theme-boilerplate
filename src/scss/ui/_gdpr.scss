@@ -17,10 +17,12 @@
   --gdpr-wrap-background-color: var(--color-white);
   --gdpr-title-color: var(--color-black);
   --gdpr-accent-color: var(--gray-800);
-  --gdpr-input-background-color: var(--gray-500);
-  --gdpr-input-bullet-color: var(--gray-200);
+  --gdpr-input-background-color: var(--gray-600);
+  --gdpr-input-bullet-color: var(--color-white);
   --gdpr-input-checked-background-color: var(--gray-800);
   --gdpr-input-checked-bullet-color: var(--color-white);
+  --gdpr-input-disabled-background-color: var(--gray-400);
+  --gdpr-input-disabled-bullet-color: var(--gray-600);
 
 
   @include breakpoints.media-breakpoint-up(md) {
@@ -127,9 +129,18 @@
 
       &::before {
         animation: gdprInputChecked 250ms 0ms easings.$easeOutExpo both;
-        &::before {
-          background-color: var(--gdpr-input-checked-bullet-color);
-        }
+        background-color: var(--gdpr-input-checked-bullet-color);
+      }
+    }
+
+    > input:disabled + #{$self}__input__toggle {
+      background-color: var(--gdpr-input-disabled-background-color);
+      cursor: auto;
+
+      &::before {
+        animation: none;
+        transform: translateX(16px);
+        background-color: var(--gdpr-input-disabled-bullet-color);
       }
     }
 

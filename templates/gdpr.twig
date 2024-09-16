@@ -26,6 +26,9 @@
   {% set gdpr_consent_ads = gdpr.consent_ads %}
   {% set gdpr_consent_ads_title = gdpr.consent_ads_title|default("Accept marketing cookies ?") %}
   {% set gdpr_consent_ads_text = gdpr.consent_ads_text|default("") %}
+  {% set gdpr_consent_necessary = gdpr.consent_necessary %}
+  {% set gdpr_consent_necessary_title = gdpr.consent_necessary_title|default("Necessary cookies") %}
+  {% set gdpr_consent_necessary_text = gdpr.consent_necessary_text|default("") %}
   <div
     id="gdpr"
     class="gdpr position-fixed t-0 l-0 z-7000 w-100 vh-100 d-flex align-items-end justify-content-end overflow-hidden pointer-events-none"
@@ -105,18 +108,28 @@
         </div>
 
         <div class="flex-grow-0 d-flex flex-column grid-gap-10 grid-gap-md-30">
+          {% if gdpr_consent_necessary %}
+            {{ _self.option('consent_necessary',
+                gdpr_consent_necessary_title,
+                gdpr_consent_necessary_text,
+                true,
+                true
+            ) }}
+          {% endif %}
           {% if gdpr_consent_analytics %}
             {{ _self.option('consent_analytics',
-                true,
                 gdpr_consent_analytics_title,
-                gdpr_consent_analytics_text
+                gdpr_consent_analytics_text,
+                true,
+                false
             ) }}
           {% endif %}
           {% if gdpr_consent_ads %}
             {{ _self.option('consent_ads',
-                true,
                 gdpr_consent_ads_title,
-                gdpr_consent_ads_text
+                gdpr_consent_ads_text,
+                true,
+                false
             ) }}
           {% endif %}
         </div>
@@ -135,10 +148,10 @@
   </div>
 {% endif %}
 
-{% macro option(name, checked = true, label, text) %}
+{% macro option(name, label, text, checked = true, disabled = true) %}
   <div class="gdpr__option">
     <label class="gdpr__input d-flex align-items-center position-relative">
-      <input type="checkbox" class="position-absolute t-0 l-0 visibility-hidden pointer-events-none" {% if checked %}checked{% endif %} name="{{ name }}" value="granted">
+      <input type="checkbox" class="position-absolute t-0 l-0 visibility-hidden pointer-events-none"{% if disabled %} disabled{% endif %} {% if checked %} checked{% endif %} name="{{ name }}" value="granted">
 
       <span class="gdpr__input__toggle" aria-hidden="true"></span>
       <span class="gdpr__input__text fz-16 fz-md-base lh-relaxed fw-300">{{ label }}</span>
