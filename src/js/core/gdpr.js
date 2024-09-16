@@ -20,7 +20,7 @@ class GDPR {
     if( consent_analytics ) this._consent_analytics = this._validateConsent(consent_analytics);
     if( consent_ads ) this._consent_ads = this._validateConsent(consent_ads);
     if( consent_status ) this._consent_status = this._validateStatus(consent_status);
-    if( consent_user_id ) this._consent_user_id = this._validateStatus(consent_user_id);
+    if( consent_user_id ) this._consent_user_id = this._validateUserID(consent_user_id);
 
     this._pushDataLayer(false);
   }
@@ -65,6 +65,10 @@ class GDPR {
   }
   _validateStatus(status) {
     if(status === CONSENT_CLOSED ) return CONSENT_CLOSED;
+    else return CONSENT_PENDING;
+  }
+  _validateUserID(id) {
+    if( id ) return id;
     else return CONSENT_PENDING;
   }
   _createUserID() {

@@ -5,7 +5,6 @@ Our WP theme boilerplate using Timber/Twig templates
 ## Requirements
 
 - npm / yarn
-- [Timber WP plugin](https://github.com/timber/timber/)
 - [Advanced Custom Fields](https://www.advancedcustomfields.com/)
 
 ## How to use for local development

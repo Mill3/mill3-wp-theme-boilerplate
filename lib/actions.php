@@ -1,4 +1,35 @@
 <?php
+/*
+ * Change the login logo image
+ */
+
+function mill3wp_admin_login_logo()
+{
+?>
+    <style type="text/css">
+        #login h1 a,
+        .login h1 a {
+            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/logo-login.png);
+            width: 100%;
+            height: auto;
+            aspect-ratio: 111/32;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+    </style>
+<?php
+}
+
+add_action('login_enqueue_scripts', 'mill3wp_admin_login_logo');
+
+/*
+ * Change the login logo URL
+ */
+function mill3wp_admin_login_logo_url() {
+    return home_url();
+}
+add_filter( 'login_headerurl', 'mill3wp_admin_login_logo_url' );
 
 /*
  * WP_AJAX for requesting transitions routes
@@ -15,11 +46,11 @@ function action_transitions_routes() {
         'fields' => 'ids'
     );
     $posts = (new \WP_Query($data))->posts;
-    
+
     foreach( $posts as $post) {
         $bg = get_field('bg-color', $post);
         if( !$bg ) continue;
-        
+
         $url = get_permalink($post);
         $regex = str_replace('/', '\/', $url);
 

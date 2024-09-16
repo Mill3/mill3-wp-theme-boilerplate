@@ -70,7 +70,7 @@ class GDPR {
 
   start() {
     // find togglers and bind click event
-    this.toggleBtns = [...$$(`[aria-controls="${SELECTOR}"]`)];
+    this.toggleBtns = [...$$(`[aria-controls="${this.el.id}"]`)];
     if (this.toggleBtns) on(this.toggleBtns, "click", this._openBnd);
     ResizeOrientation.add(this._onResize);
   }

@@ -7,7 +7,7 @@ import "@core/hello";
 //import "@core/power-mode";
 //import "@core/gdpr";
 import windmill from "@core/windmill";
-import WindmillFluidTypography from "@core/windmill.fluid-typography";
+//import WindmillFluidTypography from "@core/windmill.fluid-typography";
 import WindmillImgLazyload from "@core/windmill.img-lazyload";
 import WindmillPrefetch from "@core/windmill.prefetch";
 import WindmillScripts from "@core/windmill.scripts";

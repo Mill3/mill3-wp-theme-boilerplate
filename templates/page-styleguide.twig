@@ -340,6 +340,11 @@
                       {% set ui_clipboard_label_params = ui_clipboard_label_params|merge({ 'variation': ui.variation|join(' ') })%}
                     {% endif %}
 
+                    {% if ui.icon %}
+                      {% set ui_params = ui_params|merge({ 'icon': ui.icon })%}
+                      {% set ui_clipboard_label_params = ui_clipboard_label_params|merge({ 'icon': ui.icon })%}
+                    {% endif %}
+
                     {% set ui_clipboard_label = '{% include \'partial/'~ ui.type ~'.twig\' with {'~ ui_clipboard_label_params|map((value, key) => "'" ~ key ~ "' : '" ~ value ~ "'")|join(', ') ~ '} only %}' %}
 
                     {% set ui_attr = ['data-label="'~ ui_label ~ '"', 'data-clipboard-label="'~ ui_clipboard_label ~ '"'] %}

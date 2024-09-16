@@ -69,7 +69,12 @@ class GForm extends EventEmitter2 {
     this.id = parseInt( getFormId(this.form) );
     this.body = $(".gform_body", this.el);
     this.submit = $(SUBMIT_SELECTOR, this.el);
-    this.fields = [...$$(".gfield:not(.gsection)", this.body)].map((field) => new GFormField(field));
+    this.fields = [...$$(".gfield:not(.gsection)", this.body)].map((field) => {
+      const f = new GFormField(field);
+      f.on('resize', this._onResize);
+
+      return f;
+    });
 
     if (this.submit) on(this.submit, "click", this._onSubmit);
   }
@@ -289,8 +294,9 @@ class GFieldTextArea extends GFieldInput {
     // Reset height
     this.el.style.height = "inherit";
 
-    // Calculate the height
+    // Calculate the height & update textarea's height
     const height = this.el.scrollHeight;
+    this.el.style.height = `${height}px`;
 
     // if height has changed from previous value (except for initial update)
     if (this._currentHeight !== height && this._currentHeight !== null) {
@@ -298,8 +304,8 @@ class GFieldTextArea extends GFieldInput {
       //window.dispatchEvent(new Event("resize"));
     }
 
+    // Save height
     this._currentHeight = height;
-    this.el.style.height = `${this._currentHeight}px`;
   }
 
   _bindEvents() {
