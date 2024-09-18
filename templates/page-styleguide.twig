@@ -290,7 +290,7 @@
           <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Stylings & Font-sizes</h2>
           <div class="d-flex flex-column grid-gap-30">
             {% for styling_group in stylings %}
-              <div class="d-flex flex-column grid-gap-20">
+              <div class="d-flex flex-column grid-gap-20 {{ styling_group.classname }}">
                 <h3 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 gray-600 m-0">{{ styling_group.label }}</h3>
                 <div class="d-flex flex-column grid-gap-20">
                   {% for styling in styling_group.stylings %}
