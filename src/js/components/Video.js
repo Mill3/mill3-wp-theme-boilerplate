@@ -1,5 +1,6 @@
 import PowerMode from "@core/power-mode";
 import Breakpoint from "@utils/breakpoint";
+import { firefox } from "@utils/browser";
 import Viewport from "@utils/viewport";
 
 const BREAKPOINTS = ["(min-width: 768px)", "(min-width: 1200px)"];
@@ -7,6 +8,14 @@ const BREAKPOINTS = ["(min-width: 768px)", "(min-width: 1200px)"];
 class Video {
   constructor(el, ignorePowerMode = false) {
     this.el = el;
+
+    // remove autoplay for Firefox because it browser will start playback of video even if is out of viewport
+    if( firefox() && this.el.hasAttribute('autoplay') ) {
+      this.el.removeAttribute('autoplay');
+
+      // if preload attribute doesn't exist, set to preload=metadata
+      if( !this.el.hasAttribute('preload') ) this.el.setAttribute('preload', 'metadata');
+    }
     
     this._action = this.el.paused ? "pause" : "play";
     this._src = this.el.dataset.src || this.el.src;
