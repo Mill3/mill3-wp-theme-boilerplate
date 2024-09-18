@@ -318,6 +318,7 @@
                     {% set ui_label = ui.classname  ~ ' --' ~ ui.style %}
                     {% set ui_clipboard_label_params = {} %}
                     {% set ui_params = {} %}
+                    {% set ui_attr = ui.attrs|default([]) %}
 
                     {% if ui.title %}
                       {% set ui_params = ui_params|merge({ 'title': ui.title })%}
@@ -347,7 +348,7 @@
 
                     {% set ui_clipboard_label = '{% include \'partial/'~ ui.type ~'.twig\' with {'~ ui_clipboard_label_params|map((value, key) => "'" ~ key ~ "' : '" ~ value ~ "'")|join(', ') ~ '} only %}' %}
 
-                    {% set ui_attr = ['data-label="'~ ui_label ~ '"', 'data-clipboard-label="'~ ui_clipboard_label ~ '"'] %}
+                    {% set ui_attr = ui_attr|merge(['data-label="'~ ui_label ~ '"', 'data-clipboard-label="'~ ui_clipboard_label ~ '"']) %}
 
                     {% set ui_params = ui_params|merge({ 'attributes': ui_attr })%}
 
