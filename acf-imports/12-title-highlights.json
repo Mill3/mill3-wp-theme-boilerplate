@@ -1,0 +1,112 @@
+[
+    {
+        "key": "group_6387c6b218da5",
+        "title": "title-highlights (cloned)",
+        "fields": [
+            {
+                "key": "field_6387c6b2cf03b",
+                "label": "Title Highlights",
+                "name": "title-highlights",
+                "aria-label": "",
+                "type": "repeater",
+                "instructions": "How to use : match exact words or sentence parts from the title field above and paste here any content that you want to highlight.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "acfe_repeater_stylised_button": 1,
+                "layout": "block",
+                "pagination": 0,
+                "min": 0,
+                "max": 0,
+                "collapsed": "field_6387c6f9cf03c",
+                "button_label": "Add Highlight",
+                "rows_per_page": 20,
+                "sub_fields": [
+                    {
+                        "key": "field_6387c6f9cf03c",
+                        "label": "Text",
+                        "name": "text",
+                        "aria-label": "",
+                        "type": "text",
+                        "instructions": "",
+                        "required": 1,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "default_value": "",
+                        "required_message": "",
+                        "maxlength": "",
+                        "placeholder": "",
+                        "prepend": "",
+                        "append": "",
+                        "parent_repeater": "field_6387c6b2cf03b"
+                    },
+                    {
+                        "key": "field_6387c71acf03d",
+                        "label": "Type",
+                        "name": "type",
+                        "aria-label": "",
+                        "type": "checkbox",
+                        "instructions": "",
+                        "required": 1,
+                        "conditional_logic": 0,
+                        "wrapper": {
+                            "width": "",
+                            "class": "",
+                            "id": ""
+                        },
+                        "choices": {
+                            "color-secondary": "Red",
+                            "highlighted": "Highlighted"
+                        },
+                        "default_value": [],
+                        "return_format": "value",
+                        "min": "",
+                        "max": "",
+                        "translations": "copy_once",
+                        "required_message": "",
+                        "allow_custom": 0,
+                        "layout": "vertical",
+                        "toggle": 0,
+                        "save_custom": 0,
+                        "custom_choice_button_text": "Add new choice",
+                        "parent_repeater": "field_6387c6b2cf03b"
+                    }
+                ]
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "post_type",
+                    "operator": "==",
+                    "value": "post"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "left",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": false,
+        "description": "",
+        "show_in_rest": 0,
+        "acfe_autosync": [
+            "json"
+        ],
+        "acfe_form": 0,
+        "acfe_display_title": "",
+        "acfe_meta": "",
+        "acfe_note": "",
+        "modified": 1712946855
+    }
+]
