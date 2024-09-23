@@ -91,7 +91,11 @@ class Twig_Title_Highlights {
             $type = $highlight['type'];
 
             // set classnames
-            if ($type) $this->set_classname("--{$type}");
+            if (isset($type)) {
+                foreach ($type as $_type) {
+                    $this->set_classname("--{$_type}");
+                }
+            }
 
             // set styles
             $this->set_style("--highlight-index: {$key}");
