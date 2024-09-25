@@ -80,7 +80,7 @@ class ResizeOrientation {
 
     // if was listening to window's resize event AND
     // if list of listeners is empty
-    if( this._listeners && this._listeners.length === 0 ) this._unbindEvents();
+    if( this._listening && this._listeners.length === 0 ) this._unbindEvents();
   }
   trigger() {
     if( this._tick ) return;
@@ -91,10 +91,16 @@ class ResizeOrientation {
   }
 
   _bindEvents() {
+    if( this._listening ) return;
+    this._listening = true;
+
     on(window, mobile ? "orientationchange" : "resize", this._getThrottleBnd);
   }
   _unbindEvents() {
+    if( !this._listening ) return;
+
     off(window, mobile ? "orientationchange" : "resize", this._getThrottleBnd);
+    this._listening = false;
   }
 
   _exists(callback) {
