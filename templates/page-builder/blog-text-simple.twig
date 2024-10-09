@@ -2,9 +2,9 @@
 {#
   Title: Blog Text Simple
   Description: Simple text with optional title
-  Category: text
+  Category: blog
   Icon: editor-paragraph
-  Keywords: text simple
+  Keywords: blog text simple
   Mode: edit
   PostTypes: post
   SupportsAlign: false
@@ -15,7 +15,7 @@
 
 {% set classname = classname|default('') %}
 {% set attributes = attributes|default([]) %}
-{% set udid = udid|default('pb_row_text-simple-' ~ random()) %}
+{% set udid = udid|default('blog-text-simple-' ~ random()) %}
 
 {% set text = fields.text %}
 
