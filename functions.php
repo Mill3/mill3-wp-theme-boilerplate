@@ -78,6 +78,7 @@ $includes = [
     'lib/actions.php',
     'lib/admin-status.php',
     'lib/assets.php',
+    'lib/cache.php',
     'lib/class-walker-nav-menu-edit.php',
     'lib/editor.php',
     'lib/filters.php',
