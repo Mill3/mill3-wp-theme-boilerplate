@@ -44,3 +44,10 @@
     @content;
   }
 }
+
+// Media query when user's preferred higher level of constrast
+@mixin highContrast() {
+  @media (prefers-contrast: more) {
+    @content;
+  }
+}
