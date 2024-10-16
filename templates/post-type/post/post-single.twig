@@ -16,11 +16,16 @@
     </p>
 
     {% include 'partial/sharing.twig' with {'post': post} only %}
-
-    <div class="post-single__body">
-      {{ post.content }}
-    </div>
   </header>
+
+  {% include 'partial/table-of-contents.twig' with {
+    'anchors': get_table_of_contents(post.ID),
+    'classname': 'container-fluid'
+  } only %}
+
+  <div class="post-single__body">
+    {{ post.content }}
+  </div>
 
   {% if previous_posts %}
   <footer class="post-single__footer container-fluid pt-50">

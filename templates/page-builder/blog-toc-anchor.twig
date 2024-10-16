@@ -1,0 +1,32 @@
+{#
+  Title: Blog Table of Content Anchor
+  Description: Create a clickable entry in Table of Content.
+  Category: blog
+  Icon: admin-links
+  Keywords: blog table of content toc anchor
+  Mode: edit
+  PostTypes: post
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Blog Table of Content Anchor" }
+#}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+
+{% set title = fields.title|default('blog-toc-anchor' ~ random()) %}
+
+<div
+  id="{{ title|slugify }}"
+  class="blog-toc-anchor w-0 h-0 {{ classname }}"
+  aria-hidden="true"
+  data-title="{{ title|e('html') }}"
+  {{ attributes|join(' ') }}
+>
+  {% if is_preview %}
+  <p style="border: 2px dashed rgba(255,0,0,0.2); color: rgba(0,0,0,0.5); font-size: 12px; margin: 0; padding: 5px 10px;">
+    {{ __('Table of Content Anchor: %s')|format('<b>' ~ title ~ '</b>') }}
+  </p>
+  {% endif %}
+</div>

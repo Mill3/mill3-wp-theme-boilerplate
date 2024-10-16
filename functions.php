@@ -107,6 +107,7 @@ $includes = [
     'lib/timber/Mill3Timber.php',
     // twig
     'lib/twig/extra-timber-filters.php',
+    'lib/twig/extra-timber-functions.php',
     'lib/twig/file-filters.php',
     'lib/twig/sharing-filters.php',
     'lib/twig/title-highlights.php',
@@ -249,6 +250,7 @@ class Mill3WP extends Timber\Site
         $functions['get_context'] = ['callable' => function () { return Timber::context(); }];
         $functions['get_options'] = ['callable' => function () { return get_fields('options'); }];
         $functions['is_menu_item'] = ['callable' => function ($item) { return ($item instanceof Timber\MenuItem); }];
+        $functions['get_table_of_contents'] = ['callable' => 'Mill3\Twig\get_table_of_contents'];
 
         return $functions;
     }

@@ -1,0 +1,24 @@
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set anchors = anchors %}
+
+{% if anchors %}
+<aside class="table-of-contents {{ classname }}" {{ attributes|join(' ') }}>
+  <h3>{{ __('Table of Contents', 'mill3wp') }}</h3>
+  {{ _self.toc(anchors) }}
+</aside>
+{% endif %}
+
+{% macro toc(anchors) %}
+  <ol>
+    {% for anchor in anchors %}
+    <li>
+      <a href="#{{ anchor.ID }}" data-scroll-to="#{{ anchor.ID }}">{{ anchor.title }}</a>
+
+      {% if anchor.children %}
+        {{ _self.toc(anchor.children) }}
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ol>
+{% endmacro %}
