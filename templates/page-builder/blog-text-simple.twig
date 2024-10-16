@@ -20,15 +20,15 @@
 {% set text = fields.text %}
 
 {% block blog_row_wrapper %}
-  <div
-    class="blog-text-simple {{ classname }}"
-    data-scroll
-    data-scroll-offset="100px,0"
-    id="{{ udid }}"
-    {{ attributes|join(' ') }}
-  >
-    <div class="blog-text-simple__text fz-16 fz-md-18 fz-lg-19 lh-relaxed wysiwyg">
-      {{ text }}
-    </div>
+<div
+  id="{{ udid }}"
+  class="blog-text-simple {{ classname }}"
+  data-scroll
+  data-scroll-offset="100px,0"
+  {{ attributes|join(' ') }}
+>
+  <div class="blog-text-simple__text fz-16 fz-md-18 fz-lg-19 lh-relaxed wysiwyg">
+    {{ text }}
   </div>
+</div>
 {% endblock %}
