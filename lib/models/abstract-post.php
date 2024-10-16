@@ -61,6 +61,9 @@ class Mill3AbstractPost extends Timber\Post {
             $args['posts_per_page'] = $difference;
             $args['post__not_in'] = $exclude;
 
+            // remove date query
+            unset($args['date_query']);
+
             // run query and merge results to output
             $posts = array_merge($posts, Timber::get_posts($args)->getArrayCopy());
         }
