@@ -10,7 +10,7 @@ module.exports = {
   },
   parser: "babel-eslint",
   parserOptions: {
-    ecmaVersion: 2019,
+    ecmaVersion: "latest",
     sourceType: "module",
     parser: "babel-eslint",
     allowImportExportEverywhere: true

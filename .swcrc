@@ -1,5 +1,5 @@
 {
   "env": {
-    "targets": "> 0.25%, not dead"
+    "targets": "last 2 iOS major versions"
   }
 }
