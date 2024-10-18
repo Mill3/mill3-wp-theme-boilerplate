@@ -6,6 +6,7 @@ $font-directory: "../fonts/";
 //       url('#{$font-directory}MadrasRegular.woff') format('woff');
 //   font-weight: 400;
 //   font-style: normal;
+//   font-display: swap;
 // }
 
 /* Basel Grotesk */
@@ -15,6 +16,7 @@ $font-directory: "../fonts/";
       url('#{$font-directory}BaselGrotesk-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Basel Grotesk';
@@ -22,6 +24,7 @@ $font-directory: "../fonts/";
       url('#{$font-directory}BaselGrotesk-Italic.woff') format('woff');
   font-weight: 400;
   font-style: italic;
+  font-display: swap;
 }
 
 /* Times Now */
@@ -31,6 +34,7 @@ $font-directory: "../fonts/";
       url('#{$font-directory}TimesNow-Light.woff') format('woff');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Times Now';
@@ -38,6 +42,7 @@ $font-directory: "../fonts/";
       url('#{$font-directory}TimesNow-LightItalic.woff') format('woff');
   font-weight: 400;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
@@ -46,6 +51,7 @@ $font-directory: "../fonts/";
       url('#{$font-directory}TimesNow-SemiLight.woff') format('woff');
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Times Now';
@@ -53,4 +59,5 @@ $font-directory: "../fonts/";
       url('#{$font-directory}TimesNow-SemiLightItalic.woff') format('woff');
   font-weight: 500;
   font-style: italic;
+  font-display: swap;
 }
