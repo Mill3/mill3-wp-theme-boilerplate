@@ -17,7 +17,7 @@ if ( DATA["SENTRY_DSN"] ) {
     dsn: DATA["SENTRY_DSN"],
     environment: DATA["SENTRY_ENV"],
     release: DATA["RELEASE"],
-    tracesSampleRate: 1, // change this to 0.2 once the site is launched to public
+    tracesSampleRate: 0.2,
     integrations: [
       Sentry.browserTracingIntegration()
     ]
