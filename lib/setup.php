@@ -96,23 +96,24 @@ function assets()
         wp_enqueue_script(
             'mill3wp/webpack',
             "http://localhost:{$_ENV['WEBPACK_DEV_SERVER_PORT']}/js/app.bundle.js",
-            null,
-            null,
-            true
+            [],
+            false,
+            array('strategy' => 'defer', 'in_footer' => true)
         );
     } else {
         wp_enqueue_style(
             'mill3wp/css',
             Assets\Asset_File_path('style', 'css'),
+            [],
             false,
-            null
+            'all'
         );
         wp_enqueue_script(
             'mill3wp/js',
             Assets\Asset_File_path('app', 'js'),
             [],
-            null,
-            true
+            false,
+            array('strategy' => 'defer', 'in_footer' => true)
         );
     }
 
@@ -131,6 +132,7 @@ function assets()
     remove_action('wp_head', 'print_emoji_detection_script', 7);
     remove_action('wp_print_styles', 'print_emoji_styles');
 
+    wp_dequeue_style('classic-theme-styles');
     wp_dequeue_style('wp-emoji-styles');
     
     wp_deregister_script('wp-polyfill');
@@ -142,9 +144,6 @@ add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 
 // Remove wp-embed.min.js
 add_action('wp_footer', function(){ wp_deregister_script( 'wp-embed' ); });
-
-// Remove classic-themes.css
-add_action('wp_enqueue_scripts', function(){ wp_dequeue_style( 'classic-theme-styles' ); }, 20 );
 
 /*
  * Modify TinyMCE editor to remove H1.
