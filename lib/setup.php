@@ -142,6 +142,15 @@ function assets()
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 
 
+// add link preload for mill3/css in <head>
+add_action('wp_head', function() {
+    if( WEBPACK_DEV_SERVER === true ) return;
+
+    $src = get_site_url() . Assets\Asset_File_path('style', 'css');
+    echo "<link rel='preload' href='{$src}' as='style'>";
+}, 5);
+
+
 // Remove wp-embed.min.js
 add_action('wp_footer', function(){ wp_deregister_script( 'wp-embed' ); });
 
