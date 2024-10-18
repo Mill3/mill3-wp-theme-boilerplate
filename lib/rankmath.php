@@ -65,3 +65,9 @@ add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs, $class) {
 add_filter('rank_math/opengraph/slack_enhanced_data', function() {
     return [];
 });
+
+
+// remove useless inline css from frontend
+add_action('wp_enqueue_scripts', function() {
+    wp_dequeue_style('rank-math-toc-block-style');
+}, 100);

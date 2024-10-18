@@ -130,6 +130,8 @@ function assets()
     // remove core scripts and freaking emoji
     remove_action('wp_head', 'print_emoji_detection_script', 7);
     remove_action('wp_print_styles', 'print_emoji_styles');
+
+    wp_dequeue_style('wp-emoji-styles');
     
     wp_deregister_script('wp-polyfill');
     wp_deregister_script('regenerator-runtime');
