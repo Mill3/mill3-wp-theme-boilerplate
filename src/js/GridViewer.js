@@ -1,6 +1,5 @@
 import { body, removeAllChilds } from '@utils/dom';
 import { on } from '@utils/listener';
-import ResizeOrientation, { BEFORE_SCROLL_UPDATE } from '@utils/resize';
 import Viewport from '@utils/viewport';
 
 
@@ -75,7 +74,7 @@ class GridViewer {
   }
 
   _bindEvents() {
-    ResizeOrientation.add(this._onResize, BEFORE_SCROLL_UPDATE);
+    on(window, 'resize', this._onResize);
     on(this.button, 'click', this._onClick);
   }
 
