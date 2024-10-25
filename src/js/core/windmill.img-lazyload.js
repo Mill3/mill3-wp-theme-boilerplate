@@ -17,7 +17,7 @@ import Viewport from "@utils/viewport";
 const CLIP_ATTRIBUTE = "data-lazyload-clip";
 const TARGET_ATTRIBUTE = "data-lazyload-target";
 
-const SELECTOR = "img[loading=lazy]:not([aria-hidden=true])";
+const SELECTOR = "img[loading=lazy]:not([data-lazyload-ignore])";
 const ROOT_MARGIN = "0px 0px 100%";
 const CLIP_MARGIN = "500px 0px 0px";
 
