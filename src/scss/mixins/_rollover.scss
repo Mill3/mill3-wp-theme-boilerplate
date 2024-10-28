@@ -1,7 +1,7 @@
 @use "@mill3-sass-mixins/mq";
 @use "@mill3-sass-vars/easings";
 
-@mixin underlineDrawing($height: 1px, $bottom: 0) {
+@mixin underlineDrawing($height: 1px, $bottom: 0px) {
   @include underlineDrawingBase($height, $bottom);
 
   &:hover,
