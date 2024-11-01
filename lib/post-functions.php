@@ -7,7 +7,7 @@ use Timber;
  * Wrap any embeded with a responsive wrapper
  */
 function responsive_embed($html, $url, $attr) {
-    return $html !== '' ? '<div class="embed-responsive box box-widescreen"><div class="box-content">' . filter_embeded_settings($html) . '</div></div>' : '';
+    return $html !== '' ? '<div class="embed-responsive box-widescreen position-relative"><div class="position-absolute t-0 l-0 w-100 h-100">' . filter_embeded_settings($html) . '</div></div>' : '';
 }
 
 add_filter('embed_oembed_html', __NAMESPACE__ . '\\responsive_embed', 10, 3);
