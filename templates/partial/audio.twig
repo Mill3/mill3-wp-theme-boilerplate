@@ -1,0 +1,21 @@
+{# To learn about ?? operator, read https://twig.symfony.com/doc/3.x/templates.html#other-operators #}
+
+{% set classname = classname|default(null) %}
+{% set attributes = attributes|default([]) %}
+
+{% set src = src|default(null) %}
+{% set muted = muted ?? false %}
+{% set autoplay = autoplay ?? false %}
+{% set preload = preload|default('metadata') %}
+{% set loop = loop ?? false %}
+{% set disableRemotePlayback = disableRemotePlayback ?? true %}
+
+<audio
+  class="{{ classname }}"
+  src="{{ src.url }}"
+  {% if muted %}muted{% endif %}
+  {% if autoplay %}autoplay{% else %}preload="{{ preload }}"{% endif %}
+  {% if loop %}loop{% endif %}
+  {% if disableRemotePlayback %}disableRemotePlayback{% endif %}
+  {{ attributes|join(' ') }}
+></audio>
