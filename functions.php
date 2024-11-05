@@ -110,6 +110,7 @@ $includes = [
     'lib/twig/extra-timber-functions.php',
     'lib/twig/file-filters.php',
     'lib/twig/sharing-filters.php',
+    'lib/twig/splitting.php',
     'lib/twig/title-highlights.php',
     'lib/twig/title-replacements.php',
     // custom field type

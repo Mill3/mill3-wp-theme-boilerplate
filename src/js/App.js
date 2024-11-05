@@ -7,6 +7,7 @@ import "@core/hello";
 //import "@core/power-mode";
 //import "@core/gdpr";
 import windmill from "@core/windmill";
+import WindmillCutter from "@core/windmill.cutter";
 //import WindmillFluidTypography from "@core/windmill.fluid-typography";
 import WindmillImgLazyload from "@core/windmill.img-lazyload";
 import WindmillPrefetch from "@core/windmill.prefetch";
@@ -69,6 +70,7 @@ class App {
     windmill.use( new WindmillWebpackChunks(Modules) );
     //windmill.use( new WindmillDomController({ modules: Modules, ui: UI }) );
     windmill.use( new WindmillScroll() );
+    windmill.use( new WindmillCutter() );
     windmill.use( new WindmillSplitting() );
     windmill.use( new WindmillImgLazyload() );
     windmill.use( new WindmillPrefetch() );
