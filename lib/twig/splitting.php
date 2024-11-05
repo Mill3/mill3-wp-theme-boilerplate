@@ -5,8 +5,8 @@ namespace Mill3\Twig;
 class Splitting {
 
     // Regex pour matcher chaque mot en dehors des balises HTML
-    // Regex pour capturer les mots avec apostrophes internes et ponctuation terminale, sans la perdre
-    private static $WORD_REGEX = '/(<[^>]+>)|(\b[\w\p{L}]+(?:[\'’][\w\p{L}]+)*[.,;:!?]?\b|[.,;:!?]+)/u';
+    // Regex pour capturer les mots avec apostrophes internes, trait d'union et ponctuation terminale, sans la perdre
+    private static $WORD_REGEX = '/(<[^>]+>)|(\b[\w\p{L}]+(?:[\'’\-][\w\p{L}]+)*[.,;:!?]?\b|[.,;:!?]+)/u';
 
     public static function init(): void {
         $self = new self();
