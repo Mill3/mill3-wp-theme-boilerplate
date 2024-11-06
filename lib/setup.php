@@ -97,7 +97,7 @@ function assets()
             'mill3wp/webpack',
             "http://localhost:{$_ENV['WEBPACK_DEV_SERVER_PORT']}/js/app.bundle.js",
             [],
-            false,
+            null,
             array('strategy' => 'defer', 'in_footer' => true)
         );
     } else {
@@ -105,14 +105,14 @@ function assets()
             'mill3wp/css',
             Assets\Asset_File_path('style', 'css'),
             [],
-            false,
+            null,
             'all'
         );
         wp_enqueue_script(
             'mill3wp/js',
             Assets\Asset_File_path('app', 'js'),
             [],
-            false,
+            null,
             array('strategy' => 'defer', 'in_footer' => true)
         );
     }
@@ -142,12 +142,15 @@ function assets()
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 
 
-// add link preload for mill3/css in <head>
+// add link preload for primary fonts and mill3/css in <head>
 add_action('wp_head', function() {
     if( WEBPACK_DEV_SERVER === true ) return;
 
-    $src = get_site_url() . Assets\Asset_File_path('style', 'css');
-    echo "<link rel='preload' href='{$src}' as='style'>";
+    $stylesheet = get_site_url() . Assets\Asset_File_path('style', 'css');
+    $fonts = get_template_directory_uri() . '/dist/fonts/';
+
+    //echo "<link rel='preload' href='{$fonts}UntitledSans-Regular.woff2' crossorigin='anonymous' as='font' type='font/woff2'>";
+    echo "<link rel='preload' href='{$stylesheet}' as='style'>";
 }, 5);
 
 
