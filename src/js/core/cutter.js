@@ -6,7 +6,7 @@ import { $$, body } from "@utils/dom";
  * 
  * @param {Element} el : DOM Element to perform calculations.
  */
-const wordsMask = (el) => {
+const words = (el) => {
   let rows = {};
   const words = [ ...$$('.word', el) ];
 
@@ -33,9 +33,9 @@ const wordsMask = (el) => {
 export default (el = body) => {
   [ ...$$('[data-cutter]', el) ].forEach(el => {
     switch( el.dataset.cutter ) {
-      case "wordsMask": wordsMask(el);
-      default: wordsMask(el);
-      break;
+      case "words": 
+      case "wordsMask": 
+      default: words(el);
     }
   });
 }
