@@ -1,6 +1,0 @@
-// Fluid Paddings
-@include generate-fluid-spacers("padding", $spacers, "pf");
-@include generate-fluid-spacers("padding-top", $spacers, "ptf");
-@include generate-fluid-spacers("padding-bottom", $spacers, "pbf");
-// @include generate-fluid-spacers("padding-left", $spacers, "plf");
-// @include generate-fluid-spacers("padding-right", $spacers, "prf");
