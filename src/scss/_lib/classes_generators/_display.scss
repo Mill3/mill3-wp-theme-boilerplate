@@ -18,5 +18,3 @@
 
 // note: keep this line below for SassDoc
 // .d-[size] { ... }
-
-@include variants.generate-variants("display", vars.$display, "d");

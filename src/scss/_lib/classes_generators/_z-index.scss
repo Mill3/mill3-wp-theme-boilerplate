@@ -1,4 +1,0 @@
-@use "../mixins/variants";
-@use "../vars/zindex" as vars;
-
-@include variants.generate-variants("z-index", vars.$z-index, "z");

@@ -37,15 +37,6 @@
   @return $value;
 }
 
-/// color-css-variables
-@mixin ff-css-variables($ff: vars.$font-family) {
-  :root {
-    @each $key, $value in $ff {
-      --ff-#{$key}: #{$value};
-    }
-  }
-}
-
 
 @function font-family($key) {
   $value: map-get(typography.$font-family, $key);
@@ -100,10 +91,10 @@
 }
 
 /// generate-fluid-font-size
-@mixin generate-fluid-font-size($values, $classname: "ffz") {
+@mixin generate-fluid-font-size($values, $classname: "ffz", $breakpoint: "xs") {
   // Loop over each breakpoint
-  @each $breakpoint in grid-breakpoints.$ffz_breakpoints {
-    @include breakpoints.media-breakpoint-up($breakpoint) {
+  //@each $breakpoint in grid-breakpoints.$ffz_breakpoints {
+  //  @include breakpoints.media-breakpoint-up($breakpoint) {
       $infix: breakpoints.breakpoint-infix($breakpoint, grid-breakpoints.$grid-breakpoints);
 
       // Loop over each values in map
@@ -121,6 +112,15 @@
           }
         }
       }
+  //  }
+  //}
+}
+
+/// color-css-variables
+@mixin ff-css-variables($ff: vars.$font-family) {
+  :root {
+    @each $key, $value in $ff {
+      --ff-#{$key}: #{$value};
     }
   }
 }

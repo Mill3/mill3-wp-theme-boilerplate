@@ -1,15 +1,108 @@
-@import "base-elements",
-  "colors",
-  "boxes",
-  "display",
-  "flex",
-  "grid",
-  "list",
-  "overflow",
-  "pointer-events",
-  "position",
-  "sizes",
-  "spacers",
-  "typography",
-  "visibility",
-  "z-index";
+@use "../mixins/boxes";
+@use "../mixins/breakpoints";
+@use "../mixins/grid";
+@use "../mixins/typography";
+@use "../mixins/variants";
+@use "../vars" as vars;
+
+// generate non-responsive utilities
+@import "base-elements", "colors", "list", "typography";
+
+
+@mixin generate-utils($breakpoint) {
+  // Boxes: 3kb
+  @include boxes.generate-boxes($breakpoint);
+
+  // Display: 2kb
+  @include variants.generate-variants("display", vars.$display, "d", $breakpoint);
+
+  // Flexbox: 14kb
+  @include variants.generate-variants("flex-direction", vars.$flex-direction, "flex", $breakpoint);
+  @include variants.generate-variants("justify-content", vars.$justify-content, "justify-content", $breakpoint);
+  @include variants.generate-variants("justify-items", vars.$justify-content, "justify-items", $breakpoint);
+  @include variants.generate-variants("align-content", vars.$align-content, "align-content", $breakpoint);
+  @include variants.generate-variants("align-items", vars.$align-items, "align-items", $breakpoint);
+  @include variants.generate-variants("align-self", vars.$align-self, "align-self", $breakpoint);
+  @include variants.generate-variants("justify-self", vars.$align-self, "justify-self", $breakpoint);
+  @include variants.generate-variants("flex-wrap", vars.$flex-wrap, "flex", $breakpoint, "", true);
+  @include variants.generate-variants("flex-grow", vars.$flex-grow, "flex-grow", $breakpoint);
+  @include variants.generate-variants("flex-shrink", vars.$flex-shrink, "flex-shrink", $breakpoint);
+  @include variants.generate-variants("order", vars.$order, "order", $breakpoint);
+
+  // Grid: 20kb
+  @include grid.grid-template-columns(vars.$grid-columns, $breakpoint);
+  @include grid.grid-template-rows(vars.$grid-rows, $breakpoint);
+  @include variants.generate-variants("grid-gap", vars.$grid-gaps, "grid-gap", $breakpoint);
+  @include variants.generate-variants("row-gap", vars.$grid-gaps, "row-gap", $breakpoint);
+  @include variants.generate-variants("column-gap", vars.$grid-gaps, "column-gap", $breakpoint);
+
+  // Overflow: 1kb
+  @include variants.generate-variants("overflow", vars.$overflow, "overflow", $breakpoint);
+
+  // Pointer-events: 0.5kb
+  @include variants.generate-variants("pointer-events", vars.$pointer-events, "pointer-events", $breakpoint);
+
+  // Positions: 3kb
+  @include variants.generate-variants("position", vars.$position, "position", $breakpoint);
+  @include variants.generate-variants("top", vars.$sizes, "t", $breakpoint, "%");
+  @include variants.generate-variants("bottom", vars.$sizes, "b", $breakpoint, "%");
+  @include variants.generate-variants("left", vars.$sizes, "l", $breakpoint, "%");
+  @include variants.generate-variants("right", vars.$sizes, "r", $breakpoint, "%");
+
+  // Widths: 2.3kb
+  @include variants.generate-variants("width", vars.$sizes, "w", $breakpoint, "%");
+  @include variants.generate-variants("width", vars.$sizes, "vw", $breakpoint, "vw");
+  // @include variants.generate-variants("min-width", vars.$sizes, "min-w", $breakpoint, "%");
+  // @include variants.generate-variants("max-width", vars.$sizes, "max-w", $breakpoint, "%");
+  @include variants.generate-variants("min-width", vars.$sizes, "min-vw", $breakpoint, "vw");
+  @include variants.generate-variants("max-width", vars.$sizes, "max-vw", $breakpoint, "vw");
+
+  // Heights: 2.4kb
+  @include variants.generate-variants("height", vars.$sizes, "h", $breakpoint, "%");
+  @include variants.generate-variants("height", vars.$sizes, "vh", $breakpoint, "vh");
+  // @include variants.generate-variants("min-height", vars.$sizes, "min-h", $breakpoint, "%");
+  // @include variants.generate-variants("max-height", vars.$sizes, "max-h", $breakpoint, "%");
+  @include variants.generate-variants("min-height", vars.$sizes, "min-vh", $breakpoint, "vh");
+  @include variants.generate-variants("max-height", vars.$sizes, "max-vh", $breakpoint, "vh");
+
+  // Spacers: 42.7kb
+  @include variants.generate-variants("margin", vars.$spacers, "m", $breakpoint);
+  @include variants.generate-variants("margin-top", vars.$spacers, "mt", $breakpoint);
+  @include variants.generate-variants("margin-bottom", vars.$spacers, "mb", $breakpoint);
+  @include variants.generate-variants("margin-left", vars.$spacers, "ml", $breakpoint);
+  @include variants.generate-variants("margin-right", vars.$spacers, "mr", $breakpoint);
+  //@include variants.generate-variants(("margin-top", "margin-bottom"), vars.$spacers, "my", $breakpoint);
+  //@include variants.generate-variants(("margin-left", "margin-right"), vars.$spacers, "mx", $breakpoint);
+  @include variants.generate-variants("padding", vars.$spacers, "p", $breakpoint);
+  @include variants.generate-variants("padding-top", vars.$spacers, "pt", $breakpoint);
+  @include variants.generate-variants("padding-bottom", vars.$spacers, "pb", $breakpoint);
+  @include variants.generate-variants("padding-left", vars.$spacers, "pl", $breakpoint);
+  @include variants.generate-variants("padding-right", vars.$spacers, "pr", $breakpoint);
+  //@include variants.generate-variants(("padding-top", "padding-bottom"), vars.$spacers, "py", $breakpoint);
+  //@include variants.generate-variants(("padding-left", "padding-right"), vars.$spacers, "px", $breakpoint);
+
+  // Typography: 14kb
+  @include variants.generate-variants("font-family", vars.$font-family, "ff", $breakpoint);
+  @include variants.generate-variants("font-weight", vars.$font-weight, "fw", $breakpoint);
+  @include variants.generate-variants("text-align", vars.$text-align, "ta", $breakpoint);
+  @include variants.generate-variants("font-size", vars.$font-size, "fz", $breakpoint);
+  @include variants.generate-variants("font-style", vars.$font-style, "fs", $breakpoint);
+  @include variants.generate-variants("line-height", vars.$line-height, "lh", $breakpoint);
+  @include variants.generate-variants("text-transform", vars.$text-transform, "tt", $breakpoint);
+  @include variants.generate-variants("text-decoration", vars.$text-decoration, "td", $breakpoint);
+  @include variants.generate-variants("letter-spacing", vars.$letter-spacing, "ls", $breakpoint);
+  @include typography.generate-fluid-font-size(vars.$font-size, "ffz", $breakpoint);
+
+  // Visibility: 0.5kb
+  @include variants.generate-variants("visibility", vars.$visiblity, "visibility", $breakpoint);
+
+  // Z-index: 2kb
+  @include variants.generate-variants("z-index", vars.$z-index, "z", $breakpoint);
+}
+
+// generate responsive utilities
+@each $breakpoint in map-keys(vars.$grid-breakpoints) {
+  @include breakpoints.media-breakpoint-up($breakpoint) {
+    @include generate-utils($breakpoint);
+  }
+}

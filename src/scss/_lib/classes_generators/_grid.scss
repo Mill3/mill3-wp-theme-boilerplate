@@ -23,31 +23,6 @@
 // .col-start-[size] { ... }
 // .col-span-[size] { ... }
 
-// @include generate-variants(
-//   "grid-template-columns",
-//   $grid-columns,
-//   "grid-column"
-// );
-
-@each $breakpoint in map-keys(breakpoints.$grid-breakpoints) {
-  @include bp.media-breakpoint-up($breakpoint) {
-    $infix: bp.breakpoint-infix($breakpoint, breakpoints.$grid-breakpoints);
-
-    @for $i from 1 through grid.$grid-columns {
-      .grid-column#{$infix}-#{$i} {
-        grid-template-columns: repeat($i, minmax(0, 1fr));
-      }
-
-      .col-start#{$infix}-#{$i} {
-        grid-column-start: #{$i};
-      }
-
-      .col-span#{$infix}-#{$i} {
-        grid-column-end: span #{$i};
-      }
-    }
-  }
-}
 
 /// Set grid gap
 ///
@@ -63,10 +38,6 @@
 // .grid-gap-[size] { ... }
 // .row-gap-[size] { ... }
 // .column-gap-[size] { ... }
-
-@include variants.generate-variants("grid-gap", grid.$grid-gaps);
-@include variants.generate-variants("row-gap", grid.$grid-gaps, 'row-gap');
-@include variants.generate-variants("column-gap", grid.$grid-gaps, 'column-gap');
 
 
 /// Set grid template rows
@@ -84,22 +55,3 @@
 // .grid-row-[size] { ... }
 // .row-start-[size] { ... }
 // .row-span-[size] { ... }
-@each $breakpoint in map-keys(breakpoints.$grid-breakpoints) {
-  @include bp.media-breakpoint-up($breakpoint) {
-    $infix: bp.breakpoint-infix($breakpoint, breakpoints.$grid-breakpoints);
-
-    @for $i from 1 through grid.$grid-rows {
-      .grid-row#{$infix}-#{$i} {
-        grid-template-rows: repeat($i, 1fr);
-      }
-
-      .row-start#{$infix}-#{$i} {
-        grid-row-start: #{$i};
-      }
-
-      .row-span#{$infix}-#{$i} {
-        grid-row-end: span #{$i};
-      }
-    }
-  }
-}

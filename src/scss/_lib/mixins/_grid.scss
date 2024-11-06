@@ -1,0 +1,37 @@
+@use "sass:string";
+@use "../vars/breakpoints" as vars;
+@use "../mixins/breakpoints";
+@use "./units";
+
+
+
+@mixin grid-template-columns($values, $breakpoint: "xs") {
+  // Loop over each breakpoint
+  //@each $breakpoint in map-keys(vars.$grid-breakpoints) {
+    //@include breakpoints.media-breakpoint-up($breakpoint) {
+      $infix: breakpoints.breakpoint-infix($breakpoint, vars.$grid-breakpoints);
+
+      @for $i from 1 through $values {
+        .grid-column#{$infix}-#{$i} { grid-template-columns: repeat($i, minmax(0, 1fr)); }
+        .col-start#{$infix}-#{$i} { grid-column-start: #{$i}; }
+        .col-span#{$infix}-#{$i} { grid-column-end: span #{$i}; }
+      }
+    //}
+  //}
+}
+
+
+@mixin grid-template-rows($values, $breakpoint: "xs") {
+  // Loop over each breakpoint
+  //@each $breakpoint in map-keys(vars.$grid-breakpoints) {
+    //@include breakpoints.media-breakpoint-up($breakpoint) {
+      $infix: breakpoints.breakpoint-infix($breakpoint, vars.$grid-breakpoints);
+
+      @for $i from 1 through $values {
+        .grid-row#{$infix}-#{$i} { grid-template-rows: repeat($i, 1fr); }
+        .row-start#{$infix}-#{$i} { grid-row-start: #{$i}; }
+        .row-span#{$infix}-#{$i} { grid-row-end: span #{$i}; }
+      }
+    //}
+  //}
+}
