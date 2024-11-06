@@ -22,7 +22,7 @@ module.exports = (DEV = false) => {
         test: /\.(woff|woff2)$/,
         type: "asset/resource",
         generator: {
-          filename: "fonts/font-[hash][ext][query]"
+          filename: "fonts/[name][ext]"
         }
       },
       {
