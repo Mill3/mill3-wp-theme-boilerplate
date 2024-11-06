@@ -1,5 +1,5 @@
 import { getOffset } from "@scroll/utils";
-import { $$, rect } from "@utils/dom";
+import { $$, body, rect } from "@utils/dom";
 import { getTranslate } from "@utils/transform";
 import Viewport from "@utils/viewport";
 
@@ -25,10 +25,10 @@ export const inViewport = (el) => {
 //   <h1>Hello World</h1>
 // </div>
 //-------------------------------------------------------------------------//
-export const moduleDelays = (incrementDelay = 100, baseDelay = 0) => {
+export const moduleDelays = (incrementDelay = 100, baseDelay = 0, target = body) => {
   let delay = baseDelay;
 
-  [ ...$$(`[data-module-delay]`) ].forEach(el => {
+  [ ...$$(`[data-module-delay]`, target) ].forEach(el => {
     const isInViewport = inViewport(el);
 
     // set in-view status & delay
