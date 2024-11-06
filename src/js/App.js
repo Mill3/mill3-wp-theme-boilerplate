@@ -42,15 +42,19 @@ class App {
     // remove no-js classname
     html.classList.remove('no-js');
 
-    // add browser vendor classnames on <html>
-    if( chrome() ) html.classList.add('chrome');
-    if( edge() ) html.classList.add('edge');
-    if( firefox() ) html.classList.add('firefox');
-    if( safari() ) html.classList.add('safari');
-    if( ios() ) html.classList.add('ios');
-    if( iphone() ) html.classList.add('iphone');
-    if( ipad() ) html.classList.add('ipad');
-    if( android() ) html.classList.add('android');
+    const browsers = [];
+
+    if( chrome() ) browsers.push('chrome');
+    if( edge() ) browsers.push('edge');
+    if( firefox() ) browsers.push('firefox');
+    if( safari() ) browsers.push('safari');
+    if( ios() ) browsers.push('ios');
+    if( iphone() ) browsers.push('iphone');
+    if( ipad() ) browsers.push('ipad');
+    if( android() ) browsers.push('android');
+
+    // add browsers classnames on <html> in a single operation
+    html.classList.add(...browsers);
 
     // set scrollbar width in css variables
     const updateScrollbarWidth = () => {
