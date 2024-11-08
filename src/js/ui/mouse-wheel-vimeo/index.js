@@ -10,8 +10,6 @@ const STATUS_INITIALIZED = 1;
 const STATUS_STOPPED = 2;
 const STATUS_STARTED = 3;
 
-let Player;
-
 class MouseWheelVimeo {
   constructor(el, emitter) {
     this.el = el;

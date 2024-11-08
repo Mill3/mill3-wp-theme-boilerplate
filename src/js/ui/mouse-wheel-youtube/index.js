@@ -1,6 +1,5 @@
 import YoutubePlayer from "@components/YoutubePlayer";
 import { $$ } from "@utils/dom";
-import { limit } from "@utils/math";
 import { mobile } from "@utils/mobile";
 import YoutubeAPI from "@utils/youtube-api";
 
@@ -10,11 +9,6 @@ const STATUS_DESTROYED = 0;
 const STATUS_INITIALIZED = 1;
 const STATUS_STOPPED = 2;
 const STATUS_STARTED = 3;
-
-const GA_VIDEO_PROGRESS_STEPS = [0.1, 0.25, 0.5, 0.75]; // track progress event at 10%, 25%, 50% and 75% of playback
-const GA_VIDEO_PROGRESS_INTERVAL = 1000; // how often we check for video progression (in milliseconds)
-
-let UDID = 1;
 
 class MouseWheelYoutube {
   constructor(el, emitter) {
@@ -33,7 +27,7 @@ class MouseWheelYoutube {
     if (mobile) return;
 
     // query all elements that will turn into MouseWheelYoutubeItem later
-    this._elements = Array.from($$(SELECTOR, this.el));
+    this._elements = [ ...$$(SELECTOR, this.el) ];
 
     // if there is no elements, skip here
     if( !this._elements || this._elements.length === 0 ) return;
