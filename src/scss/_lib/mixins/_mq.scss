@@ -53,11 +53,15 @@
 }
 
 // Media query for landscape orientation
-@media (orientation: landscape) {
-  @content;
+@mixin orientationLandscape {
+  @media (orientation: landscape) {
+    @content;
+  }
 }
 
 // Media query for portrait orientation
-@media (orientation: portrait) {
-  @content;
+@mixin orientationPortrait {
+  @media (orientation: portrait) {
+    @content;
+  }
 }
