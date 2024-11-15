@@ -29,6 +29,7 @@ export class WindmillImgLazyload {
     this._ios = null;
     this._targets = null;
     this._images = null;
+    this._windmill = null;
 
     this._onIO = this._onIO.bind(this);
   }
@@ -37,6 +38,7 @@ export class WindmillImgLazyload {
    * Plugin installation.
    */
   install(windmill) {
+    this._windmill = windmill;
     this._rootIO = new IntersectionObserver(this._onIO, { rootMargin: ROOT_MARGIN });
     this._ios = new Map();
     this._targets = new Map();
@@ -59,14 +61,15 @@ export class WindmillImgLazyload {
       const offset = this._getOffset(img);
       const offsetTop = offset ? offset[0] : 0;
       const offsetBottom = offset && offset.length > 1 ? offset[1] : 0;
-      const { top, bottom } = rect(target);
+      const { top, bottom, left, right } = rect(target);
 
-      return top - scrollY + offsetTop < Viewport.height && bottom - scrollY - offsetBottom > 0;
+      return top - scrollY + offsetTop < Viewport.height && bottom - scrollY - offsetBottom > 0 && left < Viewport.width && right > 0;
     });
 
     if( !images || images.length < 1 ) return;
 
-    //console.log(`force load ${images.length} lazyloading images`);
+    // output debug informations
+    if( this._windmill.debug ) console.log(`force load ${images.length} lazyloading images`);
 
     // remove loading attribute of all images who are visible in viewport
     // they will be load during Windmill's next step
