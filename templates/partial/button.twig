@@ -8,10 +8,13 @@
   {% set attributes = attributes|merge(['id="'~ id ~'"']) %}
 {% endif %}
 
-{% if aria_label %}
-  {% set attributes = attributes|merge(['aria-label="'~ aria_label ~'"']) %}
-{% else %}
-  {% set attributes = attributes|merge(['aria-label="'~ title ~'"']) %}
+{# aria-label can't be used with these HTML tags #}
+{% if tagname not in ['p'] %}
+  {% if aria_label %}
+    {% set attributes = attributes|merge(['aria-label="'~ aria_label ~'"']) %}
+  {% else %}
+    {% set attributes = attributes|merge(['aria-label="'~ title ~'"']) %}
+  {% endif %}
 {% endif %}
 
 {% if style and style in ['cta', 'link', 'social'] %}
