@@ -1,6 +1,5 @@
-import anime from "animejs";
-
 import { $ } from "@utils/dom";
+import { once } from "@utils/listener";
 import { moduleDelays } from "./utils";
 
 const SELECTOR = "[data-site-transition]";
@@ -12,38 +11,28 @@ class SiteTransition {
 
 
   exit() {
-    this.el.classList.remove("pointer-events-none");
+    return new Promise(resolve => {
+      once(this.el, 'transitionend', resolve);
 
-    return new Promise((resolve) => {
-      anime({
-        targets: this.el,
-        opacity: [0, 1],
-        delay: 150,
-        duration: 450,
-        easing: "linear",
-        complete: () => resolve()
-      });
-
-      this.el.classList.remove("visibility-hidden");
+      this.el.classList.remove("pointer-events-none", "visibility-hidden");
+      this.el.classList.add('--js-exit');
     });
   }
 
-  entering() {    
+  entering() {
     moduleDelays(350, 450);
   }
 
   enter() {
-    return new Promise((resolve) => {
-      anime({
-        targets: this.el,
-        opacity: [1, 0],
-        duration: 250,
-        easing: "linear",
-        complete: () => {
-          this.el.classList.add("visibility-hidden", "pointer-events-none");
-          resolve();
-        }
+    return new Promise(resolve => {
+      once(this.el, 'transitionend', () => {
+        this.el.classList.remove('--js-exit', '--js-enter');
+        this.el.classList.add("visibility-hidden", "pointer-events-none");
+
+        resolve();
       });
+
+      this.el.classList.add('--js-enter');
     });
   }
 }

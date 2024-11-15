@@ -2,4 +2,15 @@
   $self: &;
 
   height: 100lvh;
+  opacity: 0;
+  will-change: opacity;
+
+  &.--js-exit {
+    opacity: 1;
+    transition: opacity 450ms 150ms linear;
+  }
+  &.--js-enter {
+    opacity: 0;
+    transition: opacity 250ms linear;
+  }
 }
