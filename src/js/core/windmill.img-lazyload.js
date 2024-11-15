@@ -12,6 +12,7 @@
 */
 
 import { $, $$, rect } from "@utils/dom";
+import { mobile } from "@utils/mobile";
 import Viewport from "@utils/viewport";
 
 const CLIP_ATTRIBUTE = "data-lazyload-clip";
@@ -55,9 +56,12 @@ export class WindmillImgLazyload {
     // query images and filter the one who are in viewport
     const images = [ ...$$(SELECTOR, container) ].filter(img => {
       const target = (img.hasAttribute(TARGET_ATTRIBUTE) ? $(img.getAttribute(TARGET_ATTRIBUTE), container) : img) || img;
+      const offset = this._getOffset(img);
+      const offsetTop = offset ? offset[0] : 0;
+      const offsetBottom = offset && offset.length > 1 ? offset[1] : 0;
       const { top, bottom } = rect(target);
 
-      return top - scrollY < Viewport.height && bottom - scrollY > 0;
+      return top - scrollY + offsetTop < Viewport.height && bottom - scrollY - offsetBottom > 0;
     });
 
     if( !images || images.length < 1 ) return;
@@ -152,6 +156,31 @@ export class WindmillImgLazyload {
       // if target is an image, remove lazyload to start loading immediately
       if( target.tagName.toLowerCase() === 'img' ) target.removeAttribute('loading');
     });
+  }
+
+
+  _getOffset(img) {
+    // if image doesn't have [data-lazyload-offset] attribute, return null
+    if( !img.hasAttribute('data-lazyload-offset') ) return null;
+  
+    // get value from [data-lazyload-offset] attribute or [data-lazyload-offset-native] and split into array
+    const offset = (mobile && img.hasAttribute('data-lazyload-offset-native') ? img.dataset.lazyloadOffsetNative : img.dataset.lazyloadOffset ).split(',');
+  
+    // if offset is empty after splitting, return null
+    if( !offset ) return null;
+  
+    // loop through each values in offset to transform into readable values
+    offset.forEach((value, index) => {
+      // if offset is not a string, continue to next value
+      if( typeof value != 'string' ) return;
+  
+      // if value is in percentage, convert to pixels from vh
+      if( value.includes('%') ) offset[index] = parseInt( (value.replace('%', '') * Viewport.height) / 100 );
+      // otherwise, parse as integer
+      else offset[index] = parseInt(value);
+    });
+    
+    return offset;
   }
 }
 
