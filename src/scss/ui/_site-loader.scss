@@ -2,4 +2,11 @@
   $self: &;
 
   height: 100lvh;
+  opacity: 1;
+  will-change: opacity;
+  
+  &.--js-ready {
+    opacity: 0;
+    transition: opacity 250ms linear;
+  }
 }

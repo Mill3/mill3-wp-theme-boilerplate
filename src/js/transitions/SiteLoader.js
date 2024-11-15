@@ -1,6 +1,5 @@
-import anime from "animejs";
-
 import { $, body } from "@utils/dom";
+import { on, off } from "@utils/listener";
 import { moduleDelays } from "./utils";
 
 const SELECTOR = "[data-site-loader]";
@@ -8,6 +7,9 @@ const SELECTOR = "[data-site-loader]";
 class SiteLoader {
   constructor() {
     this.el = $(SELECTOR);
+    
+    this._resolve = null;
+    this._onReadyCompleted = this._onReadyCompleted.bind(this);
   }
 
   loaded() {
@@ -16,23 +18,25 @@ class SiteLoader {
 
   ready() {
     return new Promise((resolve) => {
-      anime({
-        targets: this.el,
-        opacity: 0,
-        duration: 250,
-        easing: "linear",
-        complete: () => {
-          // remove from DOM when completed
-          if( this.el ) this.el.remove();
+      this._resolve = resolve;
 
-          // add class on body when transition is ready
-          body.classList.add("--js-ready");
-
-          // resolve transition
-          resolve();
-        }
-      });
+      on(this.el, 'transitionend', this._onReadyCompleted);
+      this.el.classList.add('--js-ready');
     });
+  }
+
+  _onReadyCompleted() {
+    off(this.el, 'transitionend', this._onReadyCompleted);
+
+    // remove from DOM when completed
+    if( this.el ) this.el.remove();
+
+    // add class on body when transition is ready
+    body.classList.add("--js-ready");
+
+    // resolve transition
+    this._resolve();
+    this._resolve = null;
   }
 }
 
