@@ -65,6 +65,7 @@ class Theme_CustomTaxonomies
         $update_item = __('Modify', 'mill3wp');
         $add_new_item = __('Add', 'mill3wp');
         $new_item_name = __('New', 'mill3wp');
+        $back_to_items = sprintf(__('← Go to %s', 'mill3wp'), $name);
 
         return array(
             'name' => $name,
@@ -77,6 +78,7 @@ class Theme_CustomTaxonomies
             'update_item' => $update_item,
             'add_new_item' => $add_new_item,
             'new_item_name' => $new_item_name,
+            'back_to_items' => $back_to_items,
             'menu_name' => $name
         );
     }
