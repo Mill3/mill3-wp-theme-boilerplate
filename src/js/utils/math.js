@@ -78,6 +78,22 @@ export const radToDegree = radians => radians * 180 / Math.PI;
  */
 export const lerp = (s, e, m) => s * (1 - m) + e * m;
 
+
+/**
+ * Frame Rate independant lerp
+ * 
+ * lerp2(start, end, multiplier, delta, fps);
+ * lerp2(0, 100, 0.12, 1 / 60, 60);
+ */
+export const lerp2 = (s, e, m, delta, fps = 60) => {
+  if( delta === undefined ) return lerp(s, e, m);
+
+  const relativeDelta = delta / (1 / fps);
+  const smoothing = 1 - m;
+
+  return lerp(s, e, 1 - Math.pow(smoothing, relativeDelta));
+};
+
 /**
  * Limit value between minimum and maximum
  * limit(-1, 1, -0.35);
@@ -97,6 +113,7 @@ export default {
   degreeToRad,
   radToDegree,
   lerp,
+  lerp2,
   limit,
   map
 };

@@ -133,7 +133,7 @@ import EMITTER from "@core/emitter";
 import { OUTVIEW_CLASSNAME, INVIEW_CLASSNAME, INVIEW_ENTER, INVIEW_EXIT } from "@scroll/constants";
 import { getCall, getDelay, getOffset, getPosition, getProgress, getRepeat, getSpeed, getTarget } from "@scroll/utils";
 import { $$, body, rect } from "@utils/dom";
-import { lerp, limit } from "@utils/math";
+import { lerp2, limit } from "@utils/math";
 import { mobile } from "@utils/mobile";
 import { getTranslate } from "@utils/transform";
 import Viewport from "@utils/viewport";
@@ -317,7 +317,8 @@ class ScrollIntersection {
     // apply delay if not ignored
     if( obj.delay && !ignoreDelay ) {
       // calculate linear interpolation
-      const lerpY = lerp(obj.y, y, obj.delay * this._delta);
+      //const lerpY = lerp(obj.y, y, obj.delay * this._delta);
+      const lerpY = lerp2(obj.y, y, obj.delay, this._delta);
       
       // check if delay is completed
       const delayCompleted = Math.abs(y - lerpY) < this._options.threshold;

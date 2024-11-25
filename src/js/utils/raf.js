@@ -9,7 +9,7 @@ RequestAnimationFrame (rAF)
 import RAF from '@utils/raf';
 
 function callback(delta) {
-  this._current = lerp(this._current, this._target, 0.2 * delta);
+  this._current = lerp2(this._current, this._target, 0.2, delta);
   this.el.style.transform = `scale(${this._current})`;
 }
 
@@ -106,8 +106,9 @@ class RAF {
 
     this._rafID = null;
     this._running = false;
+    this._lastTime = null;
   }
-  _run() {
+  _run(timestamp) {
     // destroy previous RAF ID
     this._rafID = null;
 
@@ -116,10 +117,12 @@ class RAF {
 
     let rafRequired = false;
 
-    const time = performance.now();
-    const delta = this._lastTime ? Math.min(Math.ceil((time - this._lastTime) / FPS * 10) / 10, 1) : 1;
+    //const time = performance.now();
+    //const delta = this._lastTime ? Math.min(Math.ceil((time - this._lastTime) / FPS * 10) / 10, 1) : 1;
 
-    this._lastTime = time;
+    if( !this._lastTime ) this._lastTime = timestamp;
+    const delta = (timestamp - this._lastTime) / 1000;
+    this._lastTime = timestamp;
 
     // execute all callbacks
     this._listeners.forEach(item => {

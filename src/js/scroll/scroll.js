@@ -5,7 +5,7 @@ import { DIRECTION_DOWN, DIRECTION_UP, SCROLL_TO_OPTIONS } from "@scroll/constan
 import { firefox } from "@utils/browser";
 import { $, html, body, rect } from "@utils/dom";
 import { on, off } from "@utils/listener";
-import { lerp, limit } from "@utils/math";
+import { lerp2, limit } from "@utils/math";
 import { mobile } from "@utils/mobile";
 import { getTranslate } from "@utils/transform";
 import Viewport from "@utils/viewport";
@@ -68,7 +68,8 @@ class Scroll {
     if( !this._data.started || !this._data.isMouseWheeling ) return;
 
     // lerp mouseWheel
-    this._data.lastScroll = lerp(this._data.lastScroll, this._data.targetScroll, this._options.lerp * delta);
+    //this._data.lastScroll = lerp(this._data.lastScroll, this._data.targetScroll, this._options.lerp * delta);
+    this._data.lastScroll = lerp2(this._data.lastScroll, this._data.targetScroll, this._options.lerp, delta);
 
     // if target reached, mouse wheel is done
     this._data.isMouseWheeling = Math.abs(this._data.scroll - this._data.targetScroll) > this._options.threshold;

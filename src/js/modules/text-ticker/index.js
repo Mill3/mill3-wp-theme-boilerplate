@@ -1,7 +1,7 @@
 import { INVIEW_ENTER } from "@scroll/constants";
 import { $, $$, rect } from "@utils/dom";
 import ImagesLoaded from "@utils/imagesloaded";
-import { lerp } from "@utils/math";
+import { lerp2 } from "@utils/math";
 import { mobile } from "@utils/mobile";
 import RAF from "@utils/raf";
 import ResizeOrientation from "@utils/resize";
@@ -169,7 +169,8 @@ class TextTicker {
     }
 
     // lerp velocity
-    this._velocity.current = lerp(this._velocity.current, this._velocity.target, 0.2 * delta);
+    //this._velocity.current = lerp(this._velocity.current, this._velocity.target, 0.2 * delta);
+    this._velocity.current = lerp2(this._velocity.current, this._velocity.target, 0.2, delta);
 
     // update position
     this._position += this._velocity.current;
