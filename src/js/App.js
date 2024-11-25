@@ -16,7 +16,6 @@ import WindmillScroll from "@core/windmill.scroll";
 import WindmillSplitting from "@core/windmill.splitting";
 import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 //import WindmillDomController from "@core/windmill.dom-controller";
-//import MobileViewportUnit from "@core/mobile-vh";
 import scrollbarWidth from "@core/scrollbar-width";
 import { SCROLLBAR_HIDDEN_CLASSNAME } from "@scroll/constants";
 import { chrome, edge, firefox, safari, ios, iphone, ipad, android } from "@utils/browser";
