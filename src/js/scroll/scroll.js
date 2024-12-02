@@ -3,7 +3,7 @@ import anime from "animejs";
 import EMITTER from "@core/emitter";
 import { DIRECTION_DOWN, DIRECTION_UP, SCROLL_TO_OPTIONS } from "@scroll/constants";
 import { firefox } from "@utils/browser";
-import { $, html, body, rect } from "@utils/dom";
+import { $, $$, html, body, rect } from "@utils/dom";
 import { on, off } from "@utils/listener";
 import { lerp2, limit } from "@utils/math";
 import { mobile } from "@utils/mobile";
@@ -12,6 +12,7 @@ import Viewport from "@utils/viewport";
 import smoothScrollToPolyfill from "@vendors/smooth-scroll-polyfill";
 
 const WINDOWS = (navigator?.userAgentData?.platform || navigator?.platform || 'unknown').includes('Win');
+const PREVENT_SCROLL_SELECTOR = '[data-scroll-prevent]';
 const DEFAULT_OPTIONS = {
   lerp: 0.1,
   threshold: 0.5,
@@ -41,11 +42,15 @@ class Scroll {
       y: 0,
       deltaX: 0,
       deltaY: 0,
+      prevent: false,
     };
+
+    this._preventingElements = null;
 
     this._onScroll = this._onScroll.bind(this);
     this._onWheel = this._onWheel.bind(this);
     this._onMouseWheel = this._onMouseWheel.bind(this);
+    this._preventMouseWheel = this._preventMouseWheel.bind(this);
 
     smoothScrollToPolyfill();
     html.classList.add('has-scroll-init', mobile ? 'has-scroll-native' : 'has-scroll-smooth');
@@ -201,7 +206,13 @@ class Scroll {
 
 
   _bindEvents() {
+    this._preventingElements = $$(PREVENT_SCROLL_SELECTOR);
     on(window, 'scroll', this._onScroll);
+
+    if( this._preventingElements ) {
+      on(this._preventingElements, 'wheel', this._preventMouseWheel, {passive: false});
+      on(this._preventingElements, 'mousewheel', this._preventMouseWheel, {passive: true});
+    }
 
     //if( !mobile ) {
       // copied from https://github.com/ayamflow/virtual-scroll
@@ -211,6 +222,13 @@ class Scroll {
   }
   _unbindEvents() {
     off(window, 'scroll', this._onScroll);
+    
+    if( this._preventingElements ) {
+      off(this._preventingElements, 'wheel', this._preventMouseWheel);
+      off(this._preventingElements, 'mousewheel', this._preventMouseWheel);
+
+      this._preventingElements = null;
+    }
 
     window.removeEventListener('wheel', this._onWheel);
     window.removeEventListener('mousewheel', this._onMouseWheel);
@@ -243,6 +261,11 @@ class Scroll {
     }
   }
   _onWheel(event) {
+    if( this._mousewheel.prevent ) {
+      this._mousewheel.prevent = false;
+      return;
+    }
+
     // In Chrome and in Firefox (at least the new one)
     this._mousewheel.deltaX = event.wheelDeltaX || event.deltaX * -1;
     this._mousewheel.deltaY = event.wheelDeltaY || event.deltaY * -1;
@@ -260,6 +283,11 @@ class Scroll {
     this._handleMouseWheel(event);
   }
   _onMouseWheel(event) {
+    if( this._mousewheel.prevent ) {
+      this._mousewheel.prevent = false;
+      return;
+    }
+
     // In Safari, IE and in Chrome if 'wheel' isn't defined
     this._mousewheel.deltaX = event.wheelDeltaX ? event.wheelDeltaX : 0;
     this._mousewheel.deltaY = event.wheelDeltaY ? event.wheelDeltaY : event.wheelDelta;
@@ -290,6 +318,9 @@ class Scroll {
     // set targetScroll
     this._data.isMouseWheeling = true;
     this._data.targetScroll = limit(0, this._data.max, this._data.targetScroll - this._mousewheel.deltaY);
+  }
+  _preventMouseWheel() {
+    this._mousewheel.prevent = true;
   }
 
 
