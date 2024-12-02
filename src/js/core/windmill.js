@@ -206,6 +206,7 @@ const DEFAULT_OPTIONS = {
   runningClassname: 'windmill-is-running',
   scrollRestoration: false,
   timeout: 5000,
+  transform: (url) => url,
   transitions: [],
   wrapper: '[data-windmill="wrapper"]',
 };
@@ -606,16 +607,20 @@ class Windmill {
     }
     
     const url = window.location.href;
+    const transformedURL = this._options.transform(url);
     
     // check prevent & force URL for these scenarios
-    switch( this._checkPrevent(url, window, event) ) {
+    switch( this._checkPrevent(transformedURL, window, event) ) {
       case PREVENT_RUNNING:
       case PREVENT_CUSTOM: 
-      this.force(url);
+      this.force(transformedURL);
       return;
     }
+
+    // if url has been transformed externally, replace URL
+    if( url !== transformedURL ) history.replaceState({ scroll: this._scrollY | 0 }, '', transformedURL);
     
-    this._run(url, window, event);
+    this._run(transformedURL, window, event);
   }
   _onLinkClick(event) {
     // get nearest link from event.target
@@ -625,7 +630,7 @@ class Windmill {
     if (!link) return;
     
     // get href from link
-    const href = getHref(link);
+    const href = this._options.transform( getHref(link) );
     
     // if same URL as window.location or url is prevented, follow link default behavior
     if( sameURL(href) || this._checkPrevent(href, link, event) !== false ) return;
