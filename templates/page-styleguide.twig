@@ -256,14 +256,14 @@
 
       {% for family in ff %}
         <div class="d-grid grid-column-xl-2 grid-gap-20">
-          <aside class="d-flex flex-column grid-gap-20">
+          <aside class="d-flex flex-column align-items-start grid-gap-20">
             <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-family</h2>
             <div class="{% if family.type %}ff-{{ family.type }} {% endif %}{{ family.classname }}"{% if family.type %} data-label="ff-{{ family.type }}"{% endif %}>{{ family.family }}</div>
           </aside>
           {% if family.weights %}
             <aside class="d-flex flex-column grid-gap-20">
               <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Font-weights</h2>
-              <div class="styleguide-row d-flex flex-column grid-gap-20 {% if family.type %}ff-{{ family.type }} {% endif %}{{ family.classname }}">
+              <div class="styleguide-row d-flex flex-column align-items-start grid-gap-20 {% if family.type %}ff-{{ family.type }} {% endif %}{{ family.classname }}">
               {% for weight in family.weights %}
                 <div class="{{ weight.classname }}" data-label="{% if family.type %}ff-{{ family.type }} {% endif %}{{ weight.classname }}">{{ weight.label }}</div>
               {% endfor %}
@@ -282,7 +282,7 @@
             {% for styling_group in stylings %}
               <div class="d-flex flex-column grid-gap-20 {{ styling_group.classname }}">
                 <h3 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 gray-600 m-0">{{ styling_group.label }}</h3>
-                <div class="d-flex flex-column grid-gap-20">
+                <div class="d-flex flex-column align-items-start grid-gap-20">
                   {% for styling in styling_group.stylings %}
                     <div class="{{ styling.classname }}" data-label="{{ styling.classname }}"><div class="styleguide-font">{{ styling.text }}</div></div>
                   {% endfor %}
