@@ -1,3 +1,12 @@
+/*
+// more performant than undeclared custom property but loose inheritance (can be a deal breaker in some cases)
+@property --scroll-progress {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+*/
+
 [data-scroll-progress] {
   --scroll-progress: 0;
 }
