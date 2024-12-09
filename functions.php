@@ -235,6 +235,8 @@ class Mill3WP extends Timber\Site
         $filters['slugify'] = $filters['sanitize'];
 
         $filters['embeded_settings'] = ['callable' => 'filter_embeded_settings'];
+        $filters['line_breaks_to'] = ['callable' => 'filter_line_breaks'];
+        $filters['line_breaks_to_array'] = ['callable' => 'filter_split_line_breaks'];
         $filters['group_by_key'] = ['callable' => 'filter_group_by_key'];
         $filters['add_scroll_to'] = ['callable' => 'filter_add_scroll_to'];
 
