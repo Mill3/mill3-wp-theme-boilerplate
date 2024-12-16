@@ -19,11 +19,16 @@ class MouseWheelVimeo {
     this._elements = null;
     this._promise = null;
     this._status = STATUS_DESTROYED;
+
+    this._initChildren = this._initChildren.bind(this);
+    this._onAdd = this._onAdd.bind(this);
   }
 
   init() {
     // do nothing for mobile
     if (mobile) return;
+
+    this._bindEvents();
 
     // query all elements that will turn into MouseWheelVimeoItem later
     this._elements = Array.from($$(SELECTOR, this.el));
@@ -47,6 +52,8 @@ class MouseWheelVimeo {
     });
   }
   destroy() {
+    this._unbindEvents();
+
     if (this.items) this.items.forEach(el => el.destroy());
 
     this.el = null;
@@ -55,6 +62,9 @@ class MouseWheelVimeo {
 
     this._elements = null;
     this._status = STATUS_DESTROYED;
+
+    this._initChildren = null;
+    this._onAdd = null;
   }
 
   start() {
@@ -110,6 +120,19 @@ class MouseWheelVimeo {
   _initChildren() {
     this.items = this._elements.map(el => new VimeoPlayer(el));
     this._elements = null;
+  }
+  _bindEvents() {
+    this.emitter.on('oEmbed.add', this._onAdd);
+  }
+  _unbindEvents() {
+    this.emitter.off('oEmbed.add', this._onAdd);
+  }
+  _onAdd(iframe) {
+    // if mobile or iframe isn't from Vimeo, stop here
+    if( mobile || !iframe.src.includes('vimeo.com') ) return;
+
+    // add iFrame to queue
+    this.add(iframe);
   }
 }
 

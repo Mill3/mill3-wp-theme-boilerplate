@@ -20,11 +20,14 @@ class MouseWheelYoutube {
     this._status = STATUS_DESTROYED;
 
     this._initChildren = this._initChildren.bind(this);
+    this._onAdd = this._onAdd.bind(this);
   }
 
   init() {
     // do nothing for mobile
     if (mobile) return;
+
+    this._bindEvents();
 
     // query all elements that will turn into MouseWheelYoutubeItem later
     this._elements = [ ...$$(SELECTOR, this.el) ];
@@ -48,6 +51,8 @@ class MouseWheelYoutube {
     });
   }
   destroy() {
+    this._unbindEvents();
+
     if (this.items) this.items.forEach(el => el.destroy());
 
     this.el = null;
@@ -56,6 +61,9 @@ class MouseWheelYoutube {
 
     this._elements = null;
     this._status = STATUS_DESTROYED;
+
+    this._initChildren = null;
+    this._onAdd = null;
   }
 
   start() {
@@ -111,6 +119,19 @@ class MouseWheelYoutube {
   _initChildren() {
     this.items = this._elements.map(el => new YoutubePlayer(el));
     this._elements = null;
+  }
+  _bindEvents() {
+    this.emitter.on('oEmbed.add', this._onAdd);
+  }
+  _unbindEvents() {
+    this.emitter.off('oEmbed.add', this._onAdd);
+  }
+  _onAdd(iframe) {
+    // if mobile or iframe isn't from Youtube, stop here
+    if( mobile || !iframe.src.includes('youtube.com') ) return;
+
+    // add iFrame to queue
+    this.add(iframe);
   }
 }
 
