@@ -142,8 +142,12 @@ class Twig_Title_Highlights {
             $match_type = 'exact';
         }
 
-        // preg_quote() will escape special characters like (){}-,etc.
+        // preg_quote() will escape special characters like . \ + * ? [ ^ ] $ ( ) { } = ! < > | : - #
+        // https://www.php.net/manual/en/function.preg-quote.php
         $word = preg_quote($word);
+
+        // escape / (which is not escape by preg_quote)
+        $word = str_replace("/", "\/", $word);
 
         //
         // The following regex should matches words by boundaries, including special characters
