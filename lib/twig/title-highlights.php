@@ -89,6 +89,7 @@ class Twig_Title_Highlights {
             $output = null;
             $word = $highlight['text'];
             $type = $highlight['type'];
+            $match_type = $highlight['match_type'];
 
             // set classnames
             if (isset($type)) {
@@ -103,13 +104,13 @@ class Twig_Title_Highlights {
             // get markup for word
             $output = $this->markup_wrapper($word);
 
-            // This will match a dot next to a word, for example : 'bonjour' AND 'bonjour.' should match on the same $highlight value
-            // The '/b' modifier for word bondaries matching, 'bonjourno' should NOT match.
+            // set regex based on match type
+            $re = $this->determine_regex($match_type, $word);
 
-            if( str_ends_with($word, '.') ) $re = "/(?:\b{$word})/imu";
-            else $re = "/(?:\b{$word}\b)/imu";
-
+            // replace word with the generated UDID
             $text = preg_replace($re, $udid, $text, 1);
+
+            // save UDID and output
             array_push($replacements, array('udid' => $udid, 'output' => $output));
 
             // reset class on loop run
@@ -123,6 +124,57 @@ class Twig_Title_Highlights {
 
         // return transformed text
         return $text;
+    }
+
+    /**
+     * Decide which regex to use for matching words
+     *
+     * @param string $match_type (exact|loose)
+     * @param string $word
+     * @return string regex
+     */
+    private function determine_regex($match_type = 'exact', $word = "") {
+        // set possible match types
+        $modes = ['exact' => null, 'loose' => null];
+
+        // making sure match_type is valid
+        if (!in_array($match_type, array_keys($modes))) {
+            $match_type = 'exact';
+        }
+
+        // preg_quote() will escape special characters like (){}-,etc.
+        $word = preg_quote($word);
+
+        //
+        // The following regex should matches words by boundaries, including special characters
+        //
+        // Examples with sentence : the quick brown fox (jumps) over the lazy dog.
+        //
+        // "(jumps)" = match
+        // "fox (jumps)" = match
+        // "dog." = match
+        // "ox (jumps)" = does *not* match
+        // "brown fo" = does *not* match
+        //
+        // Tester here : https://regex101.com/r/8NYRHg/1
+        //
+        $modes['exact'] = "/(?<!\w){$word}(?!\w)/imu";
+
+
+        //
+        // The following regex should matches words loosely, without boundaries
+        //
+        // Examples with sentence : the quick brown fox (jumps) over the lazy dog.
+        //
+        // "bro" = match (word part)
+        // "brown" = match
+        // "dog" = match (word with end punctuation)
+        // "over the l" = match (part of a sentence)
+        //
+        $modes['loose'] = "/(?:{$word})/imu";
+
+        // return regex
+        return $modes[$match_type];
     }
 
     /**
