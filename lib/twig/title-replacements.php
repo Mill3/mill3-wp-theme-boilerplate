@@ -37,21 +37,21 @@ class Twig_Title_Replacements {
     /**
      * array holder for attributes
      *
-     * @var array
+     * @var array<string>
      */
-    private $attributes = [];
+    private array $attributes = [];
 
     /**
      * array holder for classnames, with default
      *
-     * @var array
+     * @var array<string>
      */
-    private $classnames = ['title-replacement'];
+    private array $classnames = ['title-replacement'];
 
     /**
      * array holder for styles
      *
-     * @var array
+     * @var array<string>
      */
     private $styles = [];
 
@@ -65,7 +65,7 @@ class Twig_Title_Replacements {
     /**
      * Adds filters to Twig.
      */
-    public function add_timber_filters(array $filters): array
+    public function add_timber_filters(object $filters): object
     {
         $filters['title_replacements'] = ['callable' => [$this, 'title_replacements']];
 
@@ -76,11 +76,13 @@ class Twig_Title_Replacements {
      * Main filter method
      *
      * @param string $text
-     * @param array $highlights
+     *
+     * @param array<array{'type': string, 'image'?: array{'url': string, 'mime_type': string}, 'menu'?: int, 'border_radius'?: int, 'icon'?: string}> $replacements
+     *
      * @return string
      */
     public function title_replacements(string $text, array $replacements): string {
-        if( !$replacements ) return $text;
+        if( $replacements == null ) return $text;
 
         $total_replacements = substr_count($text, '%s');
 
@@ -116,9 +118,16 @@ class Twig_Title_Replacements {
         return vsprintf($text, $data);
     }
 
+    /**
+     * Build image replacement
+     *
+     * @param array{'image'?: array{'url': string, 'mime_type': string}, 'border_radius'?: int} $replacement
+     *
+     * @return string
+     */
     private function replacement_image(array $replacement): string {
-        $image = $replacement['image'];
-        $border_radius = $replacement['border_radius'];
+        $image = isset($replacement['image']) ? $replacement['image'] : null;
+        $border_radius = isset($replacement['border_radius']) ? $replacement['border_radius'] : null;
 
         if($image) {
             $is_svg = $image['mime_type'] === 'image/svg+xml';
@@ -139,8 +148,15 @@ class Twig_Title_Replacements {
         }
     }
 
+    /**
+     * Build icon replacement
+     *
+     * @param array{'icon'?: string} $replacement
+     *
+     * @return string
+     */
     private function replacement_icon(array $replacement): string {
-        $icon = $replacement['title_replacements_icon'];
+        $icon = isset($replacement['icon']) ? $replacement['icon'] : null;
 
         if($icon) {
             $image_url = get_stylesheet_directory_uri() . '/src/svg/' . $icon . '.svg';
@@ -158,8 +174,15 @@ class Twig_Title_Replacements {
         }
     }
 
+    /**
+     * Build menu replacement
+     *
+     * @param array{'menu'?: int} $replacement
+     *
+     * @return string
+     */
     private function replacement_menu(array $replacement): string {
-        $menu = $replacement['menu'];
+        $menu = isset($replacement['menu']) ? $replacement['menu'] : null;
 
         if($menu) {
             $menu_instance = Timber::get_menu($menu);

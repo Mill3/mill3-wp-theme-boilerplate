@@ -3,9 +3,9 @@ parameters:
   paths:
     - lib
     - functions.php
-  excludePaths:
-    - vendor
   ignoreErrors:
     - '#Magic constant __NAMESPACE__ is always empty in global namespace#'
+    - '#^Call to static method get_menu\(\) on an unknown class Timber\.$#'
+    - '#^Call to static method compile\(\) on an unknown class Timber\.$#'
 includes:
   - vendor/szepeviktor/phpstan-wordpress/extension.neon
