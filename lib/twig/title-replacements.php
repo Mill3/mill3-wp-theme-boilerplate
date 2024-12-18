@@ -65,7 +65,7 @@ class Twig_Title_Replacements {
     /**
      * Adds filters to Twig.
      */
-    public function add_timber_filters($filters)
+    public function add_timber_filters(array $filters): array
     {
         $filters['title_replacements'] = ['callable' => [$this, 'title_replacements']];
 
@@ -79,7 +79,7 @@ class Twig_Title_Replacements {
      * @param array $highlights
      * @return string
      */
-    public function title_replacements($text, $replacements) {
+    public function title_replacements(string $text, array $replacements): string {
         if( !$replacements ) return $text;
 
         $total_replacements = substr_count($text, '%s');
@@ -116,7 +116,7 @@ class Twig_Title_Replacements {
         return vsprintf($text, $data);
     }
 
-    private function replacement_image($replacement) {
+    private function replacement_image(array $replacement): string {
         $image = $replacement['image'];
         $border_radius = $replacement['border_radius'];
 
@@ -139,7 +139,7 @@ class Twig_Title_Replacements {
         }
     }
 
-    private function replacement_icon($replacement) {
+    private function replacement_icon(array $replacement): string {
         $icon = $replacement['title_replacements_icon'];
 
         if($icon) {
@@ -158,7 +158,7 @@ class Twig_Title_Replacements {
         }
     }
 
-    private function replacement_menu($replacement) {
+    private function replacement_menu(array $replacement): string {
         $menu = $replacement['menu'];
 
         if($menu) {
@@ -170,25 +170,25 @@ class Twig_Title_Replacements {
         }
     }
 
-    private function set_attribute($value) {
+    private function set_attribute(string $value): void {
         $this->attributes[] = $value;
     }
 
-    private function set_classname($value) {
+    private function set_classname(string $value): void {
         $this->classnames[] = $value;
     }
 
-    private function set_style($value) {
+    private function set_style(string $value): void {
         $this->styles[] = $value;
     }
 
     /**
      * contruct html string for each element
      *
-     * @param string $value
+     * @param string $content
      * @return string
      */
-    private function markup_wrapper($content) {
+    private function markup_wrapper(string $content): string {
         $classnames = join(" ", $this->classnames);
         $styles = join(";", $this->styles);
         $attributes = join(" ", $this->attributes);
