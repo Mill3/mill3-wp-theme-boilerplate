@@ -1,0 +1,35 @@
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set module = module ?? 'rive-animation' %}
+
+{% set animations = animations|default(false) %}
+{% set artboard = artboard|default(false) %}
+{% set stateMachines = stateMachines|default(false) %}
+{% set maxDPR = maxDPR|default(null) %}
+{% set playOnEnter = playOnEnter ?? false %}
+{% set pauseOnExit = pauseOnExit ?? true %}
+
+{% if playOnEnter or pauseOnExit %}
+  {% set attributes = attributes|merge(['data-scroll', 'data-scroll-call="rive"']) %}
+{% endif %}
+
+{% if pauseOnExit %}
+  {% set attributes = attributes|merge(['data-scroll-repeat="true"']) %}
+{% endif %}
+
+{% if module %}
+  {% set attributes = attributes|merge(['data-module="' ~ module ~ '"',]) %}
+{% endif %}
+
+<canvas 
+  class="rive-animation {{ classname }}"
+  data-src="{{ src.url }}"
+  {% if src_mobile %}data-src-mobile="{{ src_mobile.url }}"{% endif %}
+  {% if src_tablet %}data-src-tablet="{{ src_tablet.url }}"{% endif %}
+  {% if src_touch %}data-src-touch="{{ src_touch.url }}"{% endif %}
+  {% if animations %}data-animations="{{ animations }}"{% endif %}
+  {% if artboard %}data-artboard="{{ artboard }}"{% endif %}
+  {% if stateMachines %}data-state-machines="{{ stateMachines }}"{% endif %}
+  {% if maxDPR %}data-max-dpr="{{ maxDPR }}"{% endif %}
+  {{ attributes|join(" ") }}
+></canvas>
