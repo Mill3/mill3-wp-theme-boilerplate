@@ -63,12 +63,14 @@ class Twig_Title_Highlights {
     /**
      * Adds filters to Twig.
      *
-     * @param object $filters
+     * @param array<string, mixed> $filters
+     *
+     * @return array<string, mixed>
      *
      */
-    public function add_timber_filters(object $filters): object
+    public function add_timber_filters(array $filters): array
     {
-        $filters['title_highlights'] = ['callable' => [$this, 'title_highlights']];
+        $filters['title_replacements'] = ['callable' => [$this, 'title_replacements']];
 
         return $filters;
     }

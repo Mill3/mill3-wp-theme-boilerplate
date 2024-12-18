@@ -32,7 +32,8 @@ use Timber;
  */
 
 
-class Twig_Title_Replacements {
+class Twig_Title_Replacements
+{
 
     /**
      * array holder for attributes
@@ -65,10 +66,12 @@ class Twig_Title_Replacements {
     /**
      * Adds filters to Twig.
      *
-     * @param object $filters
+     * @param array<string, mixed> $filters
+     *
+     * @return array<string, mixed>
      *
      */
-    public function add_timber_filters(object $filters): object
+    public function add_timber_filters(array $filters): array
     {
         $filters['title_replacements'] = ['callable' => [$this, 'title_replacements']];
 
@@ -84,8 +87,9 @@ class Twig_Title_Replacements {
      *
      * @return string
      */
-    public function title_replacements(string $text, array $replacements): string {
-        if( $replacements == null ) return $text;
+    public function title_replacements(string $text, array $replacements): string
+    {
+        if ($replacements == null) return $text;
 
         $total_replacements = substr_count($text, '%s');
 
@@ -128,14 +132,15 @@ class Twig_Title_Replacements {
      *
      * @return string
      */
-    private function replacement_image(array $replacement): string {
+    private function replacement_image(array $replacement): string
+    {
         $image = isset($replacement['image']) ? $replacement['image'] : null;
         $border_radius = isset($replacement['border_radius']) ? $replacement['border_radius'] : null;
 
-        if($image) {
+        if ($image) {
             $is_svg = $image['mime_type'] === 'image/svg+xml';
 
-            if($is_svg) {
+            if ($is_svg) {
                 // attach SvgPathLength JS module to attributes
                 $this->set_attribute("data-module='svg-path-length'");
                 $image_system_path = Timber\URLHelper::url_to_file_system($image['url']);
@@ -158,10 +163,11 @@ class Twig_Title_Replacements {
      *
      * @return string
      */
-    private function replacement_icon(array $replacement): string {
+    private function replacement_icon(array $replacement): string
+    {
         $icon = isset($replacement['icon']) ? $replacement['icon'] : null;
 
-        if($icon) {
+        if ($icon) {
             $image_url = get_stylesheet_directory_uri() . '/src/svg/' . $icon . '.svg';
             $image_system_path = Timber\URLHelper::url_to_file_system($image_url);
             $img_tag = file_get_contents($image_system_path);
@@ -184,10 +190,11 @@ class Twig_Title_Replacements {
      *
      * @return string
      */
-    private function replacement_menu(array $replacement): string {
+    private function replacement_menu(array $replacement): string
+    {
         $menu = isset($replacement['menu']) ? $replacement['menu'] : null;
 
-        if($menu) {
+        if ($menu) {
             $menu_instance = Timber::get_menu($menu);
             $menu_tag = Timber::compile('menu.twig', ['menu' => $menu_instance->items()]);
             return $this->markup_wrapper($menu_tag);
@@ -196,15 +203,18 @@ class Twig_Title_Replacements {
         }
     }
 
-    private function set_attribute(string $value): void {
+    private function set_attribute(string $value): void
+    {
         $this->attributes[] = $value;
     }
 
-    private function set_classname(string $value): void {
+    private function set_classname(string $value): void
+    {
         $this->classnames[] = $value;
     }
 
-    private function set_style(string $value): void {
+    private function set_style(string $value): void
+    {
         $this->styles[] = $value;
     }
 
@@ -214,14 +224,13 @@ class Twig_Title_Replacements {
      * @param string $content
      * @return string
      */
-    private function markup_wrapper(string $content): string {
+    private function markup_wrapper(string $content): string
+    {
         $classnames = join(" ", $this->classnames);
         $styles = join(";", $this->styles);
         $attributes = join(" ", $this->attributes);
         return "<span class='{$classnames}' style='{$styles}' $attributes><span class='title-replacement__wrap'>{$content}</span></span>";
     }
-
-
 }
 
 
