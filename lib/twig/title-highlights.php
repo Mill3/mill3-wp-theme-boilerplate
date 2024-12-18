@@ -34,23 +34,23 @@ class Twig_Title_Highlights {
     /**
      * array holder for attributes
      *
-     * @var array
+     * @var array<string>
      */
-    private $attributes = [];
+    private array $attributes = [];
 
     /**
      * array holder for classnames, with default
      *
-     * @var array
+     * @var array<string>
      */
-    private $classnames = [self::CLASSNAME_BASE];
+    private array $classnames = [self::CLASSNAME_BASE];
 
     /**
      * array holder for styles
      *
-     * @var array
+     * @var array<string>
      */
-    private $styles = [];
+    private array $styles = [];
 
 
     public static function init(): void
@@ -62,8 +62,11 @@ class Twig_Title_Highlights {
 
     /**
      * Adds filters to Twig.
+     *
+     * @param object $filters
+     *
      */
-    public function add_timber_filters($filters)
+    public function add_timber_filters(object $filters): object
     {
         $filters['title_highlights'] = ['callable' => [$this, 'title_highlights']];
 
@@ -74,10 +77,12 @@ class Twig_Title_Highlights {
      * Main filter method
      *
      * @param string $text
-     * @param array $highlights
+     *
+     * @param array<array{'text': string, 'type'?: object, 'match_type'?: string}> $highlights
+     *
      * @return string
      */
-    public function title_highlights($text, $highlights) {
+    public function title_highlights($text, $highlights): string {
         if( !$highlights ) return $text;
 
         $replacements = [];
@@ -92,7 +97,7 @@ class Twig_Title_Highlights {
             $match_type = $highlight['match_type'];
 
             // set classnames
-            if (isset($type)) {
+            if (is_iterable($type)) {
                 foreach ($type as $_type) {
                     $this->set_classname("--{$_type}");
                 }
@@ -130,10 +135,13 @@ class Twig_Title_Highlights {
      * Decide which regex to use for matching words
      *
      * @param string $match_type (exact|loose)
+     *
      * @param string $word
+     *
      * @return string regex
+     *
      */
-    private function determine_regex($match_type = 'exact', $word = "") {
+    private function determine_regex(string $match_type = 'exact', string $word = ""): string {
         // set possible match types
         $modes = ['exact' => null, 'loose' => null];
 
@@ -181,15 +189,15 @@ class Twig_Title_Highlights {
         return $modes[$match_type];
     }
 
-    /**
-     * append html attributes
-     *
-     * @param string $value
-     * @return void
-     */
-    private function set_attribute($value) {
-        $this->attributes[] = $value;
-    }
+    // /**
+    //  * append html attributes
+    //  *
+    //  * @param string $value
+    //  * @return void
+    //  */
+    // private function set_attribute($value) {
+    //     $this->attributes[] = $value;
+    // }
 
     /**
      * append a classname
@@ -197,7 +205,7 @@ class Twig_Title_Highlights {
      * @param string $value
      * @return void
      */
-    private function set_classname($value) {
+    private function set_classname(string $value): void {
         $this->classnames[] = $value;
     }
 
@@ -207,21 +215,22 @@ class Twig_Title_Highlights {
      * @param string $value
      * @return void
      */
-    private function set_style($value) {
+    private function set_style(string $value): void {
         $this->styles[] = $value;
     }
 
     /**
      * contruct html string for each element
      *
-     * @param string $value
+     * @param string $content
+     *
      * @return string
      */
-    private function markup_wrapper($content) {
+    private function markup_wrapper(string $content): string {
         $classnames = join(" ", $this->classnames);
         $styles = join(";", $this->styles);
         $attributes = join(" ", $this->attributes);
-        
+
         return "<span class='title-highlight__word {$classnames}' style='{$styles}' $attributes>{$content}</span>";
     }
 

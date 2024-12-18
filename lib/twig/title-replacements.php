@@ -64,6 +64,9 @@ class Twig_Title_Replacements {
 
     /**
      * Adds filters to Twig.
+     *
+     * @param object $filters
+     *
      */
     public function add_timber_filters(object $filters): object
     {
