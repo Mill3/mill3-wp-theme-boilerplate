@@ -9,5 +9,9 @@
             "php-http/discovery": false,
             "composer/installers": false
         }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.0",
+        "szepeviktor/phpstan-wordpress": "^2.0"
     }
 }

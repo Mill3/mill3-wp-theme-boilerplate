@@ -1,0 +1,11 @@
+parameters:
+  level: 6
+  paths:
+    - lib
+    - functions.php
+  excludePaths:
+    - vendor
+  ignoreErrors:
+    - '#Magic constant __NAMESPACE__ is always empty in global namespace#'
+includes:
+  - vendor/szepeviktor/phpstan-wordpress/extension.neon

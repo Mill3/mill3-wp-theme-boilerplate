@@ -5,7 +5,7 @@ use Mill3WP\Cache\CacheInstance;
 /*
  * WP_AJAX for requesting a list of URLs to prefetch by windmill.js
  */
-function windmill_prefetch() {
+function windmill_prefetch(): void {
     // create cache key
     $cache = new CacheInstance();
     $cache_key = $cache->cache_key('windmill', 'prefetch');
@@ -25,7 +25,7 @@ function windmill_prefetch() {
     }
 
     // get ACF options page
-    $options = get_fields('options');
+    $options = function_exists('get_fields') ? get_fields('options') : null;
 
     // if ACF options page doesn't exist OR prefetching field is empty, stop here
     if( !$options || !$options['prefetching'] ) {
@@ -38,7 +38,7 @@ function windmill_prefetch() {
     $urls = $options['prefetching'];
 
     // if textarea value is empty, stop here
-    if( empty($urls) ) {
+    if( count($urls) > 0 ) {
         $cache->save_cache($cache_key, json_encode(NULL), MONTH_IN_SECONDS);
         echo json_encode(NULL);
         exit;
