@@ -59,6 +59,7 @@
     "yargs-parser": "^21.1.1"
   },
   "dependencies": {
+    "@rive-app/canvas-lite": "^2.25.1",
     "@sentry/browser": "8.25.0",
     "@vimeo/player": "2.23.0",
     "animejs": "3.2.2",
