@@ -28,8 +28,13 @@ class Twig_Sharing_Filters {
 
     /**
      * Adds filters to Twig.
+     *
+     * @param array<string, mixed> $filters
+     *
+     * @return array<string, mixed>
+     *
      */
-    public function add_timber_filters($filters)
+    public function add_timber_filters($filters): array
     {
         $filters['facebook_share'] = ['callable' => [$this, 'facebook_share']];
         $filters['twitter_share'] = ['callable' => [$this, 'twitter_share']];
@@ -45,7 +50,8 @@ class Twig_Sharing_Filters {
      * @param string $url : URL to share
      * @return string
      */
-    public function facebook_share($url) {
+    public function facebook_share(string $url): string
+    {
         return 'https://www.facebook.com/sharer.php?u=' . urlencode($url);
     }
 
@@ -54,18 +60,19 @@ class Twig_Sharing_Filters {
      *
      * @param string $url : URL to share
      * @param string $url : Tweet's title (optional)
-     * @param string $hastags : Comma separated list, example : 'tag1,tag2,tag3' (optional)
+     * @param string $hashtags : Comma separated list, example : 'tag1,tag2,tag3' (optional)
      * @param string $via_user : User ID (optional)
      * @return string
      */
-    public function twitter_share($url, $title = NULL, $hashtags = NULL, $via_user =  NULL) {
+    public function twitter_share(string $url, string $title = NULL, string $hashtags = NULL, string $via_user =  NULL): string
+    {
         $attrs = [];
-    
+
         if ($url) $attrs[] = 'url=' . urlencode($url);
         if ($title) $attrs[] = 'text=' . urlencode(html_entity_decode($title));
         if ($via_user) $attrs[] = 'via=' . $via_user; // User ID
         if ($hashtags) $attrs[] = 'hashtags=' . $hashtags; // Comma separated list, example : 'tag1,tag2,tag3'
-    
+
         return 'https://twitter.com/intent/tweet?' . implode('&', $attrs);
     }
 
@@ -75,10 +82,11 @@ class Twig_Sharing_Filters {
      * @param string $url : URL to share
      * @return string
      */
-    public function linkedin_share($url) {
+    public function linkedin_share(string $url): string
+    {
         return 'https://www.linkedin.com/sharing/share-offsite/?url=' . urlencode($url);
     }
-    
+
     /**
      * email_share filter method
      *
@@ -86,11 +94,12 @@ class Twig_Sharing_Filters {
      * @param string $subject : Email's subject (optional)
      * @return string
      */
-    public function email_share($url, $subject = NULL) {
+    public function email_share(string $url, string $subject = NULL): string
+    {
         $attrs = [];
         if ($subject) $attrs[] = 'subject=' . rawurlencode(htmlspecialchars_decode($subject));
         if ($url) $attrs[] = 'body=' . urlencode($url);
-    
+
         return 'mailto:?' . implode('&', $attrs);
     }
 

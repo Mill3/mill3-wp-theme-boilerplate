@@ -31,8 +31,13 @@ class Twig_File_Filters {
 
     /**
      * Adds filters to Twig.
+     *
+     * @param array<string, mixed> $filters
+     *
+     * @return array<string, mixed>
+     *
      */
-    public function add_timber_filters($filters)
+    public function add_timber_filters($filters): array
     {
         $filters['is_image'] = ['callable' => [$this, 'is_image']];
         $filters['is_json'] = ['callable' => [$this, 'is_json']];
@@ -43,9 +48,23 @@ class Twig_File_Filters {
         return $filters;
     }
 
-    private function check_extension($file, $allowed_extensions) {
-        // ACF blocks can refers to deleted IDs from media library and returns a boolean instead of array|id, this prevent PHP error
-        if(is_bool($file)) return false;
+    /**
+     * Check if file is an image.
+     *
+     * @param mixed $file File data, can be:
+     *                    - An array with file information.
+     *                    - An integer (file ID).
+     *                    - A boolean (if the file is deleted).
+     * @param string[] $allowed_extensions Array of allowed file extensions.
+     *
+     * @return bool True if the file extension is allowed, false otherwise.
+     */
+    private function check_extension(mixed $file, array $allowed_extensions): bool
+    {
+        // ACF blocks can refer to deleted IDs from the media library and return a boolean.
+        if (is_bool($file)) {
+            return false;
+        }
 
         $ID = is_int($file) ? $file : (array_key_exists('ID', $file) ? $file['ID'] : $file->ID);
         $src = wp_get_attachment_url($ID);
@@ -58,10 +77,12 @@ class Twig_File_Filters {
     /**
      * is_image filter method
      *
-     * @param array $file : File array object
+     * @param object $file : File array object
+     *
      * @return boolean
      */
-    public function is_image($file) {
+    public function is_image(object $file): bool
+    {
         return $this->check_extension($file, array( 'gif', 'jpg', 'jpeg', 'jpe', 'png', 'webp' ));
     }
 
@@ -69,10 +90,11 @@ class Twig_File_Filters {
     /**
      * is_json filter method
      *
-     * @param array $file : File array object
+     * @param object $file : File array object
      * @return boolean
      */
-    public function is_json($file) {
+    public function is_json(object $file): bool
+    {
         return $this->check_extension($file, array('json'));
     }
 
@@ -80,10 +102,11 @@ class Twig_File_Filters {
     /**
      * is_svg filter method
      *
-     * @param array $file : File array object
+     * @param object $file : File array object
      * @return boolean
      */
-    public function is_svg($file) {
+    public function is_svg(object $file): bool
+    {
         return $this->check_extension($file, array('svg'));
     }
 
@@ -91,10 +114,11 @@ class Twig_File_Filters {
     /**
      * is_video filter method
      *
-     * @param array $file : File array object
+     * @param object $file : File array object
      * @return boolean
      */
-    public function is_video($file) {
+    public function is_video(object $file): bool
+    {
         return $this->check_extension($file, array('mp4'));
     }
 
@@ -102,10 +126,12 @@ class Twig_File_Filters {
     /**
      * video_aspect_ratio filter method
      *
-     * @param array $file : File array object
+     * @param object $file : File array object
+     *
      * @return float
      */
-    public function video_aspect_ratio($file) {
+    public function video_aspect_ratio(object $file): float
+    {
         if( !$this->is_video($file) ) return 0;
 
         $meta = wp_get_attachment_metadata($file['ID']);
