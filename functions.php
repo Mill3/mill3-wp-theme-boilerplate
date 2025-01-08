@@ -145,8 +145,8 @@ class Mill3WP extends Timber\Site
     /* Add timber support. */
     public function __construct()
     {
-        add_action('init', array($this, 'register_post_types'));
         add_action('init', array($this, 'register_taxonomies'));
+        add_action('init', array($this, 'register_post_types'));
         add_filter('timber/context', array($this, 'add_to_context'));
         add_filter('timber/twig/filters', array($this, 'add_filters'));
         add_filter('timber/twig/functions', array($this, 'add_functions'));
