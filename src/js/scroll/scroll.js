@@ -30,6 +30,7 @@ class Scroll {
       targetScroll: window.scrollY,
       lastScroll: window.scrollY,
       max: 0,
+      zoom: 1,
       direction: null,
       scrollTo: null,
       started: false,
@@ -325,7 +326,8 @@ class Scroll {
 
 
   _calcScrollHeight() {
-    this._data.max = Math.max(0, body.scrollHeight - Viewport.height);
+    this._data.zoom = parseFloat( getComputedStyle(body).getPropertyValue('zoom') );
+    this._data.max = Math.max(0, body.scrollHeight * this._data.zoom - Viewport.height);
   }
   _updateDirection(y = window.scrollY) {
     // calculation scroll direction
@@ -374,6 +376,7 @@ class Scroll {
   get progress() { return this._data.scroll / this._data.max; }
   get velocity() { return this._data.targetScroll - this._data.lastScroll; }
   get y() { return this._data.scroll; }
+  get zoom() { return this._data.zoom; }
 }
 
 export default Scroll;
