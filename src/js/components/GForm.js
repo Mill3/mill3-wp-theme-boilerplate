@@ -21,6 +21,7 @@ class GForm extends EventEmitter2 {
     this._onRender = this._onRender.bind(this);
     this._onSubmit = this._onSubmit.bind(this);
     this._onResize = this._onResize.bind(this);
+    this._onConfirmation = this._onConfirmation.bind(this);
     this._onConditionalLogic = this._onConditionalLogic.bind(this);
 
     this.reset();
@@ -29,10 +30,12 @@ class GForm extends EventEmitter2 {
 
   init() {
     jQuery(document).on("gform_post_render", this._onRender);
+    jQuery(document).on("gform_confirmation_loaded", this._onConfirmation);
     gform.addAction("gform_post_conditional_logic_field_action", this._onConditionalLogic);
   }
   destroy() {
     jQuery(document).off("gform_post_render", this._onRender);
+    jQuery(document).off("gform_confirmation_loaded", this._onConfirmation);
     gform.removeAction("gform_post_conditional_logic_field_action", this._onConditionalLogic);
 
     if (this.fields) {
@@ -53,6 +56,7 @@ class GForm extends EventEmitter2 {
     this._onRender = null;
     this._onSubmit = null;
     this._onResize = null;
+    this._onConfirmation = null;
     this._onConditionalLogic = null;
   }
 
@@ -98,6 +102,13 @@ class GForm extends EventEmitter2 {
     if( this.el ) this.el.classList.add(SUBMITING_CLASSNAME);
   }
   _onResize() {
+    this.emit("resize");
+  }
+  _onConfirmation(event, formId) {
+    // if event is not for this form, stop here
+    if (formId !== this.id) return;
+
+    this.emit("success", this.id);
     this.emit("resize");
   }
   _onConditionalLogic(formId, action, targetId) {

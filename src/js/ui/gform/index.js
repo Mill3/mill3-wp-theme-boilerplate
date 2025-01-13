@@ -12,6 +12,7 @@ class GFormFactory {
     this.throttle = null;
 
     this._onFormResize = this._onFormResize.bind(this);
+    this._onFormSuccess = this._onFormSuccess.bind(this);
     this._onThrottle = this._onThrottle.bind(this);
   }
 
@@ -32,6 +33,7 @@ class GFormFactory {
     this.throttle = null;
 
     this._onFormResize = null;
+    this._onFormSuccess = null;
     this._onThrottle = null;
   }
 
@@ -44,15 +46,28 @@ class GFormFactory {
   }
 
   _bindEvents() {
-    if( this.items ) this.items.forEach(gform => gform.on('resize', this._onFormResize));
+    if( this.items ) {
+      this.items.forEach(gform => {
+        gform.on('resize', this._onFormResize);
+        gform.on('success', this._onFormSuccess);
+      });
+    }
   }
   _unbindEvents() {
-    if( this.items ) this.items.forEach(gform => gform.off('resize', this._onFormResize));
+    if( this.items ) {
+      this.items.forEach(gform => {
+        gform.off('resize', this._onFormResize);
+        gform.off('success', this._onFormSuccess);
+      });
+    }
   }
 
   _onFormResize() {
     // throttle for 200ms before SiteScroll.update
     this.throttle.init();
+  }
+  _onFormSuccess(formID) {
+    if( this.emitter ) this.emitter.emit('GForm.success', formID);
   }
   _onThrottle() {
     if( this.emitter ) this.emitter.emit("SiteScroll.update");
