@@ -65,6 +65,9 @@
   @include variants.generate-variants("min-height", vars.$sizes, "min-vh", $breakpoint, "vh");
   @include variants.generate-variants("max-height", vars.$sizes, "max-vh", $breakpoint, "vh");
 
+  // Inset: 0.2kb
+  @include variants.generate-variants("inset", vars.$insets, "inset", $breakpoint);
+
   // Spacers: 42.7kb
   @include variants.generate-variants("margin", vars.$spacers, "m", $breakpoint);
   @include variants.generate-variants("margin-top", vars.$spacers, "mt", $breakpoint);

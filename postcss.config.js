@@ -11,6 +11,7 @@ module.exports = {
         'clamp': false,
         'hwb-function': false,
         'lab-function': false,
+        'logical-properties-and-values': false,
         'trigonometric-functions': false
       }
     }
