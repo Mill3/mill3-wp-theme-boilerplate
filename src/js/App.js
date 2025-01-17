@@ -38,9 +38,6 @@ class App {
   }
 
   init() {
-    // remove no-js classname
-    html.classList.remove('no-js');
-
     const browsers = [];
 
     if( chrome() ) browsers.push('chrome');

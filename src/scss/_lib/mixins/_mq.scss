@@ -65,3 +65,10 @@
     @content;
   }
 }
+
+// Media query for browser not supporting Javascript
+@mixin jsDisabled {
+  @media (scripting: none) {
+    @content;
+  }
+}
