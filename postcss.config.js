@@ -9,6 +9,9 @@ module.exports = {
       },
       features: {
         'clamp': false,
+        'hwb-function': false,
+        'lab-function': false,
+        'trigonometric-functions': false
       }
     }
   }
