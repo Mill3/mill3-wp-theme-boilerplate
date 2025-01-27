@@ -91,7 +91,7 @@
                     "id": ""
                 },
                 "default_value": "",
-                "translations": "translate",
+                "translations": "copy_once",
                 "maxlength": "",
                 "placeholder": "",
                 "prepend": "",

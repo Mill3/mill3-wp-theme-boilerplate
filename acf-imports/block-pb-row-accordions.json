@@ -54,7 +54,7 @@
                     "id": ""
                 },
                 "default_value": "",
-                "translations": "translate",
+                "translations": "copy_once",
                 "maxlength": "",
                 "placeholder": "",
                 "prepend": "",
@@ -101,7 +101,7 @@
                             "id": ""
                         },
                         "default_value": "",
-                        "translations": "translate",
+                        "translations": "copy_once",
                         "required_message": "",
                         "maxlength": "",
                         "placeholder": "",
@@ -138,7 +138,7 @@
                         "acfe_wysiwyg_transparent": 0,
                         "acfe_wysiwyg_merge_toolbar": 0,
                         "acfe_wysiwyg_custom_toolbar": 0,
-                        "translations": "translate",
+                        "translations": "copy_once",
                         "tabs": "all",
                         "toolbar": "basic",
                         "media_upload": 0,
