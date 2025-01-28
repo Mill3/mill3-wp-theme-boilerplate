@@ -21,30 +21,6 @@
           "append": "",
           "maxlength": "",
           "translations": "translate"
-      },
-      {
-          "key": "field_6246ffa8fb155",
-          "label": "Effect",
-          "name": "effect",
-          "type": "select",
-          "instructions": "",
-          "required": 0,
-          "conditional_logic": 0,
-          "wrapper": {
-              "width": "",
-              "class": "",
-              "id": ""
-          },
-          "choices": {
-              "reveal": "Reveal Panel"
-          },
-          "default_value": false,
-          "allow_null": 1,
-          "multiple": 0,
-          "ui": 0,
-          "return_format": "value",
-          "placeholder": "",
-          "ajax": 0
       }
   ],
   "location": [
