@@ -278,13 +278,13 @@
       {% if stylings %}
         <div class="d-flex flex-column grid-gap-20">
           <h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">Stylings & Font-sizes</h2>
-          <div class="d-flex flex-column grid-gap-30">
+          <div class="d-flex flex-column grid-gap-40">
             {% for styling_group in stylings %}
-              <div class="d-flex flex-column grid-gap-20 {{ styling_group.classname }}">
+              <div class="d-flex flex-column grid-gap-40 {{ styling_group.classname }}">
                 <h3 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 gray-600 m-0">{{ styling_group.label }}</h3>
-                <div class="d-flex flex-column align-items-start grid-gap-20">
+                <div class="d-flex flex-column align-items-start grid-gap-40">
                   {% for styling in styling_group.stylings %}
-                    <div class="{{ styling.classname }}" data-label="{{ styling.classname }}"><div class="styleguide-font">{{ styling.text }}</div></div>
+                    <div class="{{ styling.classname }}{% if styling.additional_classname %} {{ styling.additional_classname }}{% endif %}" data-label="{{ styling.classname }}"><div class="styleguide-font">{{ styling.text }}</div></div>
                   {% endfor %}
                 </div>
               </div>
