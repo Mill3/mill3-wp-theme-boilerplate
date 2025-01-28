@@ -13,7 +13,7 @@ export const inViewport = (el) => {
   const top = bcr.top - translate.y + offset[0];
   const bottom = bcr.top - translate.y + bcr.height - offset[1];
   const left = bcr.left - translate.x;
-  const right = bcr.left - translate.y + bcr.width;
+  const right = bcr.left - translate.x + bcr.width;
 
   return top < Viewport.height && bottom > 0 && left < Viewport.width && right > 0;
 }
