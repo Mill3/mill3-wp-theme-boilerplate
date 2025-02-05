@@ -35,6 +35,7 @@ class Twig_File_Filters {
     public function add_timber_filters($filters)
     {
         $filters['is_image'] = ['callable' => [$this, 'is_image']];
+        $filters['is_gif'] = ['callable' => [$this, 'is_gif']];
         $filters['is_json'] = ['callable' => [$this, 'is_json']];
         $filters['is_svg'] = ['callable' => [$this, 'is_svg']];
         $filters['is_video'] = ['callable' => [$this, 'is_video']];
@@ -63,6 +64,17 @@ class Twig_File_Filters {
      */
     public function is_image($file) {
         return $this->check_extension($file, array( 'gif', 'jpg', 'jpeg', 'jpe', 'png', 'webp' ));
+    }
+
+
+    /**
+     * is_gif filter method
+     *
+     * @param array $file : File array object
+     * @return boolean
+     */
+    public function is_gif($file) {
+        return $this->check_extension($file, array( 'gif' ));
     }
 
 
