@@ -1,0 +1,22 @@
+{% if promo %}
+
+{% set title = promo.real_title %}
+{% set text = promo.text %}
+
+<dialog 
+  class="site-super-promo"
+  data-ui="site-super-promo"
+  data-super-promotion-id="{{ promo.ID }}"
+>
+  <article class="site-super-promo__wrap align-self-center justify-self-center">
+    {% include 'partial/button.twig' with {
+      'title': __('Close', 'mill3wp'),
+      'classname': 'site-super-promo__closeBtn',
+      'attributes': [
+        'autofocus'
+      ]
+    } only %}
+  </article>
+</dialog>
+
+{% endif %}
