@@ -50,6 +50,34 @@ export const getOffset = (el) => {
   return offset;
 };
 
+export const getRootMargin = (el) => {
+  // if element doesn't have [data-scroll-offset] attribute, return null
+  if( !el.hasAttribute('data-scroll-offset') ) return null;
+
+  // get value from [data-scroll-offset] attribute or [data-scroll-offset-native] and split into array
+  const offset = (mobile && el.hasAttribute('data-scroll-offset-native') ? el.dataset.scrollOffsetNative : el.dataset.scrollOffset ).split(',');
+
+  // if offset is empty after splitting, return null
+  if( !offset ) return null;
+
+  // loop through each values in offset to transform into readable values
+  offset.forEach((value, index) => {
+    // if offset is not a string, continue to next value
+    if( typeof value != 'string' ) return;
+
+    if( value.includes('%') ) offset[index] = `${parseInt(value) * -1}%`;
+    else offset[index] = `${parseInt(value) * -1}px`;
+  });
+
+  // if offset has only one value, duplicate it
+  if( offset.length < 2 ) offset[1] = offset[0];
+
+  if( offset[0] === '0px' ) offset[0] = '-1px';
+  if( offset[1] === '0px' ) offset[1] = '-1px';
+  
+  return offset;
+};
+
 export const getPosition = (el) => {
   return el.getAttribute('data-scroll-position');
 };
@@ -111,6 +139,7 @@ export default {
   getCall,
   getDelay,
   getOffset,
+  getRootMargin,
   getPosition,
   getProgress,
   getRepeat,
