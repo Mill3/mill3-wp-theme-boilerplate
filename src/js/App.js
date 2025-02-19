@@ -12,7 +12,7 @@ import WindmillCutter from "@core/windmill.cutter";
 import WindmillImgLazyload from "@core/windmill.img-lazyload";
 import WindmillPrefetch from "@core/windmill.prefetch";
 import WindmillScripts from "@core/windmill.scripts";
-import WindmillScroll from "@core/windmill.scroll-NEW";
+import WindmillScroll from "@core/windmill.scroll";
 import WindmillSplitting from "@core/windmill.splitting";
 import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 //import WindmillDomController from "@core/windmill.dom-controller";
