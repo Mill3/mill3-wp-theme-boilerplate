@@ -5,13 +5,28 @@ import { on, off } from "@utils/listener";
 import Accordion from "@components/Accordion";
 import ResizeOrientation from '@utils/resize';
 
-export const SELECTOR = "#gdpr";
-
 class GDPR {
-  constructor(init = false) {
-    this.initialized = false;
-    this.el = null;
+  constructor(el, emitter) {
+    this.el = el;
+    this.emitter = emitter;
+    this.container = $(".gdpr__container", this.el);
+    this.acceptBtn = $(".gdpr__acceptBtn", this.el);
+    this.rejectBtn = $(".gdpr__rejectBtn", this.el);
+    this.saveCloseBtn = $(".gdpr__saveCloseBtn", this.el);
+    this.inputs = [...$$('.gdpr__input input[type="checkbox"]', this.el)];
+    this.moreBtn = $(".gdpr__moreBtn", this.el);
+    this.backBtn = $(".gdpr__backBtn", this.el);
+    this.homeWrap = $(".gdpr__homeWrap", this.el);
+    this.optionsWrap = $(".gdpr__optionsWrap", this.el);
+    this.userId = $(".gdpr__userId", this.el);
+    this.accordionBtn = $(".gdpr__accordion__btn", this.el);
+    this.accordionPanel = $(".gdpr__accordion__panel", this.el);
+    this.wraps = [this.homeWrap, this.optionsWrap];
+    this.accordion =
+    this.accordionBtn && this.accordionPanel ? new Accordion(this.accordionBtn, this.accordionPanel) : null;
+    this.toggleBtns = null;
 
+    this._initialized = false;
     this._opened = false;
     this._expanded = false;
 
@@ -23,35 +38,11 @@ class GDPR {
     this._openBnd = this.open.bind(this);
     this._setHeight = this._setHeight.bind(this);
     this._onResize = this._onResize.bind(this);
-
-    init ? this.init() : null;
-  }
-
-  get name() {
-    return `GDPR`;
   }
 
   init() {
-    if (this.initialized) return;
-    this.initialized = true;
-
-    this.el = $(SELECTOR);
-    this.container = $(".gdpr__container", this.el);
-    this.acceptBtn = $(".gdpr__acceptBtn", this.el);
-    this.rejectBtn = $(".gdpr__rejectBtn", this.el);
-    this.saveCloseBtn = $(".gdpr__saveCloseBtn", this.el);
-    this.inputs = [...$$('.gdpr__input input[type="checkbox"]', this.el)];
-    this.moreBtn = $(".gdpr__moreBtn", this.el);
-    this.backBtn = $(".gdpr__backBtn", this.el);
-    this.homeWrap = $(".gdpr__homeWrap", this.el);
-    this.optionsWrap = $(".gdpr__optionsWrap", this.el);
-    this.wraps = [this.homeWrap, this.optionsWrap];
-    this.userId = $(".gdpr__userId", this.el);
-    this.accordionBtn = $(".gdpr__accordion__btn", this.el);
-    this.accordionPanel = $(".gdpr__accordion__panel", this.el);
-    this.accordion =
-    this.accordionBtn && this.accordionPanel ? new Accordion(this.accordionBtn, this.accordionPanel) : null;
-    this.toggleBtns = null;
+    if( this._initialized ) return;
+    this._initialized = true;
 
     // set initial state on check inputs
     this.initInputs();
@@ -74,7 +65,6 @@ class GDPR {
     if (this.toggleBtns) on(this.toggleBtns, "click", this._openBnd);
     ResizeOrientation.add(this._onResize);
   }
-
   stop() {
     // unbind click event on togglers
     if (this.toggleBtns) off(this.toggleBtns, "click", this._openBnd);
@@ -106,6 +96,9 @@ class GDPR {
     if(this._expanded) this._onBackClick();
 
     this._unbindEvents();
+
+    // emit event
+    if( this.emitter ) this.emitter.emit("GDPR.close");
   }
 
   initInputs() {

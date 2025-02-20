@@ -1,12 +1,13 @@
+import GDPR, { CONSENT_CLOSED } from "@core/gdpr";
 import { $ } from "@utils/dom";
 import { on, off } from "@utils/listener";
 import { mobile } from "@utils/mobile";
 
-const STORAGE_KEY = "mill3-wp-theme-boilerplate_superPromo";
+const STORAGE_KEY = "scores.ca_superPromos";
 
 const EXIT_INTENTION = true; // detect if user try to close window OR go back (false to disable this feature) do not work on mobile
-const INACTIVITY_DELAY = 10000; // in milliseconds (false to disable this feature)
-const NO_SCROLL_DELAY = 1000; // delay before showing modal when user is at top of page and don't scroll for x milliseconds (false to disable this feature)
+const INACTIVITY_DELAY = 15000; // inactivity delay (anywhere in page) before showing modal in milliseconds (false to disable this feature)
+const NO_SCROLL_DELAY = 5000; // delay before showing modal when user is at top of page and don't scroll for x milliseconds (false to disable this feature)
 const SCROLL_REQUIRED = 0.5; // percentage (0 to 1) of scrolling required to show modal (false to disable this feature)
 const SHOW_AFTER_ENOUGH_PAGE_VIEWS = 3; // force show modal after X pages are visited (false to disable this feature)
 const SHOW_AFTER_ENOUGH_PAGE_VIEWS_DELAY = 2000; // in milliseconds
@@ -41,6 +42,7 @@ class SiteSuperPromo {
     this._onDialogClosed = this._onDialogClosed.bind(this);
     this._onClickOutside = this._onClickOutside.bind(this);
     this._onCloseClick = this._onCloseClick.bind(this);
+    this._onGDPRClose = this._onGDPRClose.bind(this);
     this._onScroll = this._onScroll.bind(this);
     this._onShowAfterEnoughPageViews = this._onShowAfterEnoughPageViews.bind(this);
     this._onVisibilityChange = this._onVisibilityChange.bind(this);
@@ -62,21 +64,25 @@ class SiteSuperPromo {
     if( SHOW_AFTER_ENOUGH_PAGE_VIEWS !== false ) this._numPageViews++;
     this._detectNoScroll = NO_SCROLL_DELAY !== false;
 
-    this._startWatching();
+    // if GPDR is not detected or already accepted/declined from previous visit, start watching
+    // otherwise, wait for GPDR to be close before start watching
+    if( !$('#gdpr') || GDPR.consent_status === CONSENT_CLOSED ) this._startWatching();
   }
   stop() {
     this._stopWatching();
   }
 
   _bindEvents() {
-    on(this.el, 'click', this._onClickOutside);
     on(this.el, 'toggle', this._onDialogToggle);
+    on(this.el, 'click', this._onClickOutside);
     on(this.closeBtn, 'click', this._onCloseClick);
+    this.emitter.on('GDPR.close', this._onGDPRClose);
   }
   _unbindEvents() {
-    off(this.el, 'click', this._onClickOutside);
     off(this.el, 'toggle', this._onDialogToggle);
+    off(this.el, 'click', this._onClickOutside);
     off(this.closeBtn, 'click', this._onCloseClick);
+    this.emitter.off('GDPR.close', this._onGDPRClose);
   }
 
   _startWatching() {
@@ -140,7 +146,7 @@ class SiteSuperPromo {
 
       this._viewed = true;
       this._viewedPromos.push(this._id);
-      //localStorage.setItem(STORAGE_KEY, this._viewedPromos.join(','));
+      localStorage.setItem(STORAGE_KEY, this._viewedPromos.join(','));
     } else {
       this._unbindEvents();
       on(this.el, 'transitionend', this._onDialogClosed);
@@ -162,6 +168,12 @@ class SiteSuperPromo {
     }
 
     this.el.close();
+  }
+  _onGDPRClose() {
+    this.emitter.off('GDPR.close', this._onGDPRClose);
+    if( this._viewed ) return;
+
+    this._startWatching();
   }
   _onScroll({ progress }) {
     if( progress > SCROLL_REQUIRED ) this._showModal();
