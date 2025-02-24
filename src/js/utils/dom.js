@@ -6,7 +6,7 @@ export const body = document.body;
 
 export const $ = (query, target = html) => {
   if (isString(query)) return target.querySelector(query);
-  else if (query === window) return query;
+  else if (query === window || query instanceof Animation) return query;
   else if (isDomNode(query)) return query;
   else if (isArray(query) || isNodeList(query) || isHTMLCollection(query)) return query[0];
 
@@ -14,7 +14,7 @@ export const $ = (query, target = html) => {
 };
 export const $$ = (query, target = html) => {
   if (isString(query)) return target.querySelectorAll(query);
-  else if (query === window) return [query];
+  else if (query === window || query instanceof Animation) return [query];
   else if (isDomNode(query)) return [query];
   else if (isArray(query) || isNodeList(query) || isHTMLCollection(query)) return query;
 
