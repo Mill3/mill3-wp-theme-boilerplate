@@ -11,7 +11,7 @@ class Splitting {
      *  OR 
      * - Match all following characters until whitespace.
      */
-    private static $WORD_REGEX = '/(<[^>]+>)|([^\s]+)/um';
+    private static $WORD_REGEX = '/(<[^>]+>)|([^\s<>]+)/um';
 
     public static function init(): void {
         $self = new self();
