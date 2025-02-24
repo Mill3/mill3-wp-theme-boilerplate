@@ -55,7 +55,7 @@
                 },
                 "default_value": "",
                 "acfe_textarea_code": 0,
-                "translations": "translate",
+                "translations": "copy_once",
                 "required_message": "",
                 "maxlength": "",
                 "rows": "",

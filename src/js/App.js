@@ -5,7 +5,6 @@ import domready from "domready";
 
 import "@core/hello";
 //import "@core/power-mode";
-//import "@core/gdpr";
 import windmill from "@core/windmill";
 import WindmillCutter from "@core/windmill.cutter";
 //import WindmillFluidTypography from "@core/windmill.fluid-typography";

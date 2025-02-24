@@ -96,7 +96,9 @@
         </div>
       </section>
 
+      {#
       {{ PageSection('stacked-sections-demo', '--effect-stacked') }}
+      #}
 
       <section class="mill3-scroll-demo__sticky pt-60 pt-lg-120 pb-60 pb-lg-120">
         <div class="container-fluid d-grid grid-column-md-2 grid-gap-60">
@@ -131,6 +133,7 @@
         </div>
       </section>
 
+      {#
       {% set text %}
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus lectus, scelerisque eget ultrices non, consectetur quis justo. Etiam dapibus justo in maximus gravida. Sed et quam eu libero congue accumsan. Sed bibendum metus a consectetur gravida. Praesent aliquam pulvinar libero, ut pellentesque massa tincidunt nec. Vestibulum eget imperdiet neque. Quisque euismod massa ut ullamcorper ullamcorper. Suspendisse potenti. Duis nisl ligula, sagittis sed consequat a, luctus et sapien. Aenean mollis convallis egestas. Vestibulum sed ornare felis, ut porttitor massa. Donec porttitor tempus urna. Suspendisse sed lorem bibendum, ornare mi eu, vestibulum mi. Vestibulum in massa sed augue finibus molestie.</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed metus lectus, scelerisque eget ultrices non, consectetur quis justo. Etiam dapibus justo in maximus gravida. Sed et quam eu libero congue accumsan. Sed bibendum metus a consectetur gravida. Praesent aliquam pulvinar libero, ut pellentesque massa tincidunt nec. Vestibulum eget imperdiet neque. Quisque euismod massa ut ullamcorper ullamcorper. Suspendisse potenti. Duis nisl ligula, sagittis sed consequat a, luctus et sapien. Aenean mollis convallis egestas. Vestibulum sed ornare felis, ut porttitor massa. Donec porttitor tempus urna. Suspendisse sed lorem bibendum, ornare mi eu, vestibulum mi. Vestibulum in massa sed augue finibus molestie.</p>
@@ -156,6 +159,7 @@
         },
         'slug': 'pb-row-text-simple'
       } only %}
+      #}
 
       <section id="delays" class="mill3-scroll-demo__delay pt-60 pt-lg-120 pb-60 pb-lg-120">
         <div class="container-fluid">
@@ -199,6 +203,7 @@
         </div>
       </section>
 
+      {#
       <section class="mill3-scroll-demo__timeline pt-60 pt-lg-120 pb-60 pb-lg-120">
         <div class="container-fluid">
           <h2
@@ -223,6 +228,38 @@
             } only %}
           </div>
       </section>
+      #}
+
+      <section id="scrollProgress" class="mill3-scroll-demo__progress container-fluid pt-60 pt-lg-120 pb-60 pb-lg-120 bg-color-black color-white">
+        <h2
+          class="lh-none m-0 mb-30 p-0"
+          data-scroll
+          data-scroll-repeat="true"
+          data-splitting
+          data-text-animation="slidein-by-words"
+          style="--line-height: 1;"
+        >Scroll Progress</h2>
+
+        <p 
+          class="mill3-scroll-demo__progressOutput fz-base lh-none m-0" 
+          data-scroll
+          data-scroll-target="#scrollProgress"
+          data-scroll-progress
+          data-scroll-progress-event
+          style="font-variant-numeric: tabular-nums;"
+        >0%</p>
+      </section>
+
+      <script id="mill3-scroll-demo__progress">
+        (function() {
+          const progressOutput = document.querySelector('.mill3-scroll-demo__progressOutput');
+          if( !progressOutput ) return;
+
+          progressOutput.addEventListener('scroll:progress', (event) => {
+            progressOutput.textContent = `${event.detail.data.progress * 100 >> 0}%`;
+          });
+        })();
+      </script>
 
       <div class="container-fluid d-flex align-items-end grid-gap-20 vh-100 pb-120">
         <button data-scroll-to="top">Scroll to Top</button>

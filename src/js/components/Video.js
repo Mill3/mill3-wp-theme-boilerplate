@@ -28,7 +28,7 @@ class Video {
 
     if( !this._powerModeLow ) {
       // listen to css breakpoints change
-      if (this._src && (this._src_mobile || this._src_tablet)) this._bp = new Breakpoint(BREAKPOINTS, this._onBreakpointChange);
+      if (this._src && (this._src_mobile || this._src_tablet)) this._bp = Breakpoint(BREAKPOINTS, this._onBreakpointChange);
     }
 
     this.init();

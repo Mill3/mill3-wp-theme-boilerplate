@@ -1,15 +1,24 @@
 @import "~swiper/css/";
 @import "~swiper/css/pagination";
 
-/*
+.swiper {
+  --swiper-pagination-bottom: 0;
+  --swiper-pagination-bullet-gap: 8px;
+  --swiper-pagination-bullet-size: 8px;
+  --swiper-pagination-bullet-border-radius: 4px;
+  --swiper-pagination-color: var(--color-black);
+  --swiper-pagination-bullet-inactive-opacity: 0.1;
+}
+
 .swiper-pagination-bullets {
+  display: flex;
+  grid-gap: var(--swiper-pagination-bullet-gap);
+  justify-content: center;
+
   .swiper-pagination-bullet {
-    //background: #D8D6D0;
-    //width: 10px;
-    //height: 10px;
+    margin: 0 !important;
   }
   .swiper-pagination-bullet-active {
     background: currentColor;
   }
 }
-*/
