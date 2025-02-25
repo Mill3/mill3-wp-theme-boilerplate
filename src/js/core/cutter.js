@@ -28,6 +28,17 @@ const words = (el) => {
   // add words and lines total to element
   el.style.setProperty('--word-total', words.length);
   el.style.setProperty('--line-total', lines.length);
+
+  let target = el.dataset.cutterTarget;
+  if( !target ) return;
+
+  // try to find target element
+  target = $(target);
+  if( !target ) return;
+
+  // pass total vars to target element
+  target.style.setProperty('--word-total', words.length);
+  target.style.setProperty('--line-total', lines.length);
 };
 
 export default (el = body) => {
