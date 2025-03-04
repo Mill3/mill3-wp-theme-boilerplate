@@ -4,12 +4,14 @@
 {% set icon = icon|default(null) %}
 {% set tagname = tagname|default('button') %}
 
+{% set aria_roles = ['p', 'span', 'div'] %}
+
 {% if id %}
   {% set attributes = attributes|merge(['id="'~ id ~'"']) %}
 {% endif %}
 
 {# aria-label can't be used with these HTML tags #}
-{% if tagname not in ['p'] %}
+{% if tagname not in aria_roles %}
   {% if aria_label %}
     {% set attributes = attributes|merge(['aria-label="'~ aria_label ~'"']) %}
   {% else %}
@@ -31,5 +33,9 @@
 
   {% if icon %}
   <span class="btn__icon --{{ icon }}" aria-hidden="true">{{ source('src/svg/' ~ icon ~ '.svg') }}</span>
+  {% endif %}
+
+  {% if tagname in aria_roles %}
+  <span class="visually-hidden">{{ aria_label|default(title) }}</span>
   {% endif %}
 </{{ tagname }}>
