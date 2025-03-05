@@ -34,9 +34,10 @@ export class WindmillWebpackChunks {
   }
 
   install(windmill) {
-    // before windmill ready transition, parse & import chunks
-    // when importation is finished, init modules
-    windmill.on('ready', this._importChunks, this);
+    // when it's time to import scripts, parse & import chunks
+    windmill.on('scripts', this._importChunks, this);
+
+    // before windmill ready transition, create modules instances and init modules
     windmill.on('ready', this._createInstances, this);
     windmill.on('ready', this._initModules, this);
 

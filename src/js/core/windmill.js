@@ -279,6 +279,7 @@ class Windmill {
     this._emit('init')
       .then(() => this._preloadImages())
       .then(() => this._emit('loaded'))
+      .then(() => this._emit('scripts'))
       .then(() => this._emit('ready'))
       .then(() => this._emit('done'));
   }
