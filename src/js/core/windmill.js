@@ -577,6 +577,16 @@ class Windmill {
         
         resolve();
       });
+
+      if( this.debug && this._imgLoader.images.length > 0 ) {
+        console.log(`preload ${this._imgLoader.images.length} images`);
+        console.table(this._imgLoader.images.map(loader => {
+          return {
+            el: loader.img,
+            src: loader.img.currentSrc || loader.img.src,
+          }
+        }));
+      }
     });
   }
   _restoreScroll() {
