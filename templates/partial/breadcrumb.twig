@@ -1,5 +1,6 @@
 {% set classname = classname|default() %}
+{% set attributes = attributes|default([]) %}
 
-<nav class="breadcrumb {{ classname }}">
+<nav class="breadcrumb {{ classname }}" {{ attributes|join(' ') }}>
   {{ breadcrumb() }}
 </nav>

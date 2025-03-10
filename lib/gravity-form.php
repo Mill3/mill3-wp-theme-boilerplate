@@ -137,5 +137,5 @@ add_filter( 'gform_enable_legacy_markup', '__return_false' );
 add_filter( 'gform_confirmation_anchor', '__return_false' );
 
 // output basic GForm JS, this is necessary for windmill.scripts to work propertly
-//add_filter( 'gform_force_hooks_js_output', '__return_true' );
+add_filter( 'gform_force_hooks_js_output', '__return_true' );
 
