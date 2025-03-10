@@ -12,52 +12,31 @@
 
 
 // FADE IN
-@mixin fadeInInitial(){
-  opacity: 0.001;
+@mixin fadeInitial(){
+  opacity: 0.0001;
 }
-@mixin fadeIn($duration: 350ms, $delay: 0ms){
-  opacity: 0.999;
+@mixin fade($duration: 300ms, $delay: 0ms){
+  opacity: 1.0001;
   transition: opacity $duration $delay linear;
 }
 
-
-// SLIDE VERTICALLY (y axis)
-@mixin slideYInitial($y: 90px) {
-  transform: translate3d(0,$y,0);
-}
-@mixin slideY($duration: 850ms, $delay: 0ms, $easing: easings.$easeOutCubic) {
-  transform: translate3d(0,0,0);
-  transition: transform $duration $delay $easing;
-}
-
-
-// SLIDE HORIZONTALLY (x axis)
-@mixin slideXInitial($x: 90px) {
-  transform: translate3d($x,0,0);
-}
-@mixin slideX($duration: 850ms, $delay: 0ms, $easing: easings.$easeOutCubic) {
-  transform: translate3d(0,0,0);
-  transition: transform $duration $delay $easing;
-}
-
-
 // SLIDE VERTICALLY + HORIZONTALLY (x & y axis)
-@mixin slideInitial($x: 90, $y: 90px) {
-  transform: translate3d(0,$y,0);
+@mixin slideInitial($x: 0px, $y: 90px) {
+  translate: $x $y;
 }
-@mixin slide($duration: 850ms, $delay: 0ms, $easing: easings.$easeOutCubic) {
-  transform: translate3d(0,0,0);
-  transition: transform $duration $delay $easing;
+@mixin slide($duration: 1s, $delay: 0ms, $easing: easings.$easeOutCubic) {
+  translate: 0px 0px;
+  transition: translate $duration $delay $easing;
 }
 
 
 // SLIDE VERTICALLY + FADE IN
-@mixin slideFadeUpInitial($y: 90px) {
-  opacity: 0.001;
-  transform: translate3d(0,$y,0);
+@mixin slideFadeInitial($x: 0px, $y: 90px) {
+  opacity: 0.0001;
+  translate: $x $y;
 }
-@mixin slideFadeUp($duration: 1050ms, $delay: 0ms, $easing: easings.$easeOutCubic, $opacityDuration: 450ms) {
-  opacity: 0.999;
-  transform: translate3d(0,0,0);
-  transition: opacity $opacityDuration $delay linear, transform $duration $delay easings.$easeOutCubic;
+@mixin slideFade($duration: 1s, $delay: 0ms, $easing: easings.$easeOutCubic, $opacityDuration: 300ms) {
+  opacity: 1.0001;
+  translate: 0px 0px;
+  transition: opacity $opacityDuration $delay linear, translate $duration $delay easings.$easeOutCubic;
 }
