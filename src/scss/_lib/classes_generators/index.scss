@@ -34,7 +34,7 @@
   @include grid.grid-template-rows(vars.$grid-rows, $breakpoint);
   @include variants.generate-variants("grid-gap", vars.$grid-gaps, "grid-gap", $breakpoint);
   @include variants.generate-variants("row-gap", vars.$grid-gaps, "row-gap", $breakpoint);
-  @include variants.generate-variants("column-gap", vars.$grid-gaps, "column-gap", $breakpoint);
+  @include variants.generate-variants("column-gap", vars.$grid-gaps, "col-gap", $breakpoint);
 
   // Overflow: 1kb
   @include variants.generate-variants("overflow", vars.$overflow, "overflow", $breakpoint);
