@@ -46,7 +46,6 @@ add_filter('upload_mimes', function ($mimes) {
 /**
  * Extract Rive (.riv) dimension and attach to attachment metadata
  */
-
 add_filter('wp_generate_attachment_metadata', function ($metadata, $attachment_id) {
     $file = get_attached_file($attachment_id);
     $pathinfo = pathinfo($file);
@@ -70,87 +69,29 @@ add_filter('wp_generate_attachment_metadata', function ($metadata, $attachment_i
 
 
 /**
- * Extract Rive (.riv) artboard dimensions from file by reading binary data
- *
- * - width and height are stored as float values in the file
- * - width property ID is 7
- * - height property ID is 8
- *
- * Specs taken from https://github.com/rive-app/rive-runtime/blob/main/dev/defs/layout_component.json
- *
+ * Extract Rive (.riv) primary artboard dimensions from file by reading binary data
  */
-function rive_extract_dimensions($file)
-{
-    $widhts = [];
-    $heights = [];
+function rive_extract_dimensions($file) {
+    if( !$file || !file_exists($file) ) return null;
 
-    // Some extracted width/height values are extremely small or large number, like 1.401298464324817e-45 or 1.7014118346046923e+38
-    // we need to filter out these values and only keep values between 1 and 10000 as a safe range
-    $minvalue = 1;
-    $maxValue = 10000;
+    $data = file_get_contents($file);
+    if( $data === false ) return null;
 
-    // Open the file
-    $file = fopen($file, 'r');
+    include_once 'rive-reader.php';
 
-    if (!$file) {
-        return null;
-    }
+    $reader = new RiveBinaryReader( $data );
+    $header = RiveRuntimeHeader::read($reader);
+    $rive = RiveFile::read($reader, $header);
 
-    // Read the first 4 bytes and check if it's 'RIVE'
-    $byte = fread($file, 4);
-    if ($byte !== 'RIVE') {
-        return null;
-    }
+    if( !$rive ) return null;
 
-    // Read the next byte (TOC)
-    $byte = fread($file, 1);
+    $artboard = $rive->artboard;
+    if( !$artboard || !$artboard->width || !$artboard->height ) return null;
 
-    // Read all objects until the returned byte is 0, which should be the last property
-    while (!feof($file)) {
-        // Advance the byte by 1
-        $byte = fread($file, 1);
-
-        if (!$byte) {
-            break;  // Exit if end of file or empty byte
-        }
-
-        // Grab the property type
-        $property = ord($byte);  // Convert the byte to an integer
-
-        // Next 4 bytes are the property value
-        if ($property == 7) { // width
-            $value = unpack('f', fread($file, 4))[1]; // Read 4 bytes as a float
-            if($value >= $minvalue && $value <= $maxValue) $widhts[] = intval($value); // only keep values between 1 and 10000
-        } elseif ($property == 8) { // height
-            $value = unpack('f', fread($file, 4))[1]; // Read 4 bytes as a float
-            if($value >= $minvalue && $value <= $maxValue) $heights[] = intval($value); // only keep values between 1 and 10000
-        }
-    }
-
-    // make sure all values are rounded integers
-    $widhts = array_map('round', $widhts);
-    $heights = array_map('round', $heights);
-
-    // make sure all values are positive integers
-    $widhts = array_map('abs', $widhts);
-    $heights = array_map('abs', $heights);
-
-    // sort all values descending
-    rsort($widhts, SORT_NUMERIC);
-    rsort($heights, SORT_NUMERIC);
-
-    // Close the file
-    fclose($file);
-
-    // pick the first value of each array, only both arrays have values
-    if (isset($widhts[0]) && isset($heights[0])) {
-        return [
-            'width' => $widhts[0],
-            'height' => $heights[0]
-        ];
-    } else {
-        return null;
-    }
+    return [
+        'width' => $artboard->width,
+        'height' => $artboard->height,
+    ];
 }
 
 add_filter('timber/twig', __NAMESPACE__ . '\\add_to_twig');
