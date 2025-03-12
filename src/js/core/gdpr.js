@@ -15,7 +15,6 @@ class GDPR {
     const consent_analytics = Cookies.get('consent_analytics');
     const consent_ads = Cookies.get('consent_ads');
     const consent_status = Cookies.get('consent_status');
-    const consent_user_id = Cookies.get('consent_user_id');
 
     if( consent_analytics ) this._consent_analytics = this._validateConsent(consent_analytics);
     if( consent_ads ) this._consent_ads = this._validateConsent(consent_ads);
