@@ -1,0 +1,90 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Sticky Content
+  Description: Collection of content blocks (title, text, cta & media) that stack of top of each other during scroll.
+  Category: theme
+  Icon: images-alt
+  Keywords: text media content sticky
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Sticky Content" }
+#}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_sticky_content-' ~ random()) %}
+
+{% set items = fields.items %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-sticky-content container-fluid d-grid grid-gap-24 grid-gap-md-0 {{ classname }}"
+  {{ attributes|join(' ') }}
+>
+  {% for item in items %}
+  {% set paragraph_styles = ["--index:" ~ loop.index, "--revindex:" ~ loop.revindex0] %}
+
+  {% if item.bg_color %}{% set paragraph_styles = paragraph_styles|merge(["--bg-color:" ~ item.bg_color]) %}{% endif %}
+  {% if item.text_color %}{% set paragraph_styles = paragraph_styles|merge(["--text-color:" ~ item.text_color]) %}{% endif %}
+  <article 
+    id="{{ udid }}--paragraph{{ loop.index }}"
+    class="pb-row-sticky-content__paragraph col-start-1 position-xl-sticky d-grid grid-column-md-12 grid-gap-md-16 grid-gap-xl-30"
+    data-scroll
+    data-scroll-offset="100px,0"
+    data-scroll-offset-native="200px,0"
+    data-module-delay
+    data-module-delay-increment="250"
+    {% if paragraph_styles %}style="{{ paragraph_styles|join(';') }}"{% endif %}
+  >
+    <figure 
+      class="pb-row-sticky-content__paragraph__media order-md-2 z-md-1 col-span-md-6 w-100 box-auto m-0 position-relative overflow-clip"
+      {% if not item.media %}inert{% endif %}
+    >
+      {% if item.media %}
+        {% if item.media|is_video %}
+          {% include 'partial/video.twig' with {
+            'src': item.media,
+            'is_preview': is_preview,
+            'playOnEnter': true,
+            'pauseOnExit': true,
+            'classname': 'pb-row-sticky-content__paragraph__video video-as-background',
+          } only %}
+        {% else %}
+          {% include 'partial/image.twig' with {
+            'image': item.media,
+            'sizes': ['100vw', null, '50vw'],
+            'lazyload': true,
+            'classname': 'pb-row-sticky-content__paragraph__img image-as-background',
+            'attributes': [
+              'data-lazyload-target="#' ~ udid ~ '--paragraph' ~ loop.index ~ '"'
+            ]
+          } only %}
+        {% endif %}
+      {% endif %}
+    </figure>
+
+    <div class="pb-row-sticky-content__paragraph__content order-md-1 col-span-md-6 d-flex flex-column align-items-start justify-content-md-center grid-gap-10 grid-gap-xl-20">
+      {% if item.title %}
+      <h2 class="pb-row-sticky-content__paragraph__title m-0">{{ item.title }}</h2>
+      {% endif %}
+
+      {% if item.text %}
+      <div class="pb-row-sticky-content__paragraph__text wysiwyg">{{ item.text }}</div>
+      {% endif %}
+
+      {% include 'partial/links-nav.twig' with {
+        'buttons': item.buttons,
+        'layout_mobile': 'vertical',
+        'layout_tablet': 'horizontal',
+        'layout': 'horizontal',
+        'classname': 'pb-row-sticky-content__paragraph__nav',
+      } only %}
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% endblock %}
