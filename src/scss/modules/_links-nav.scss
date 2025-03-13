@@ -3,6 +3,9 @@
 .links-nav {
   $self: &;
 
+  // default styles
+  &:not([class*=" grid-gap-"]) { grid-gap: 10px; }
+
   // LAYOUT MOBILE
   @include breakpoints.media-breakpoint-down(xs) {
     &.--layout-mobile-horizontal {
@@ -20,7 +23,24 @@
     }
   }
 
-  // LAYOUT
+  // LAYOUT TABLET
+  @include breakpoints.media-breakpoint-between(md, lg) {
+    &.--layout-tablet-horizontal {
+      flex-direction: row;
+      align-items: center;
+      justify-content: start;
+    }
+    &.--layout-tablet-vertical {
+      flex-direction: column;
+
+      #{$self}__link.--link {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+
+  // LAYOUT DESKTOP
   @include breakpoints.media-breakpoint-up(md) {
     &.--layout-horizontal {
       flex-direction: row;
