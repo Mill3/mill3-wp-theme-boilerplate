@@ -1,7 +1,7 @@
 import GDPR, { CONSENT_CLOSED } from "@core/gdpr";
 import { $ } from "@utils/dom";
 import { on, off } from "@utils/listener";
-import { mobile } from "@utils/mobile";
+import { mobile, motion_reduced } from "@utils/mobile";
 
 const STORAGE_KEY = "scores.ca_superPromos";
 
@@ -150,6 +150,8 @@ class SiteSuperPromo {
     } else {
       this._unbindEvents();
       on(this.el, 'transitionend', this._onDialogClosed);
+
+      if( motion_reduced ) this._onDialogClosed({ target: this.el });
     }
   }
   _onDialogClosed(event) {

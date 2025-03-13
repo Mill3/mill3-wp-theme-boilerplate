@@ -1,6 +1,6 @@
-{% set label = label|default('Design & Dev') %}
+{% set label = label|default('Credits') %}
 <a
-  class="mill3 {{ classname }}"
+  class="mill3 d-grid td-none overflow-clip color-current {{ classname }}"
   href="https://mill3.studio/"
   target="_blank"
   rel="noopener"
@@ -8,9 +8,6 @@
   aria-label="{{ label }} - MILL3"
   data-windmill-prevent
 >
-  <span class="mill3__logo" aria-hidden="true">{{ source('src/svg/mill3.svg') }}</span>
-  <span class="mill3__wrap d-block position-relative overflow-clip" aria-hidden="true">
-    <span class="mill3__label">{{ label }}</span>
-    <span class="mill3__credits">MILL3</span>
-  </span>
+  <span class="mill3__label" aria-hidden="true">{{ label }}</span>
+  <span class="mill3__credits" aria-hidden="true">MILL3</span>
 </a>

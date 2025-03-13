@@ -6,7 +6,7 @@ import { firefox } from "@utils/browser";
 import { $, $$, html, body, rect } from "@utils/dom";
 import { on, off } from "@utils/listener";
 import { lerp2, limit } from "@utils/math";
-import { mobile } from "@utils/mobile";
+import { mobile, motion_reduced } from "@utils/mobile";
 import { getTranslate } from "@utils/transform";
 import Viewport from "@utils/viewport";
 import smoothScrollToPolyfill from "@vendors/smooth-scroll-polyfill";
@@ -157,7 +157,7 @@ class Scroll {
     this._data.isMouseWheeling = false;
 
     // get scrollTo duration
-    const duration = options.duration ? options.duration : false;
+    const duration = options.duration && !motion_reduced ? options.duration : false;
 
     // trigger scrollTo
     if( duration ) {
@@ -174,7 +174,7 @@ class Scroll {
     } else {
       window.scrollTo({
         top: offset,
-        behavior: options.smooth === true ? 'smooth' : 'auto'
+        behavior: options.smooth === true && !motion_reduced ? 'smooth' : 'auto'
       });
     }
   }
@@ -215,11 +215,11 @@ class Scroll {
       on(this._preventingElements, 'mousewheel', this._preventMouseWheel, {passive: true});
     }
 
-    //if( !mobile ) {
+    if( !motion_reduced ) {
       // copied from https://github.com/ayamflow/virtual-scroll
       window.addEventListener('wheel', this._onWheel, {passive: false});
       window.addEventListener('mousewheel', this._onMouseWheel, {passive: true});
-    //}
+    }
   }
   _unbindEvents() {
     off(window, 'scroll', this._onScroll);

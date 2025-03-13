@@ -1,4 +1,5 @@
 @use "@mill3-sass-mixins/breakpoints";
+@use "@mill3-sass-mixins/mq";
 @use "@mixins/animations";
 
 .pb-row-medias {
@@ -6,8 +7,10 @@
 
   &__parallax[data-scroll-speed] {
     html.has-scroll-smooth & {
-      top: -6%;
-      bottom: -6%;
+      @include mq.motionNoPref {
+        top: -6%;
+        bottom: -6%;
+      }
     }
   }
 
