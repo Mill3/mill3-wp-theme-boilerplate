@@ -65,6 +65,7 @@ import { EVENT_PROGRESS } from "@scroll/constants";
 import { getDelay, getOffset, getPosition, getProgress, getSpeed, getTarget } from "@scroll/utils";
 import { $$, body, rect } from "@utils/dom";
 import { lerp2, limit } from "@utils/math";
+import { motion_reduced } from "@utils/mobile";
 import { getTranslate } from "@utils/transform";
 import Viewport from "@utils/viewport";
 
@@ -230,7 +231,7 @@ class ScrollParallax {
     }
     
     obj.y = y;
-    obj.el.style.transform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${y},0,1)`;
+    if( !motion_reduced ) obj.el.style.transform = `matrix3d(1,0,0.00,0,0.00,1,0.00,0,0,0,1,0,0,${y},0,1)`;
   }
   
   _checkElements() {

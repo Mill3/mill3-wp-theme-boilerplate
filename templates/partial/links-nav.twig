@@ -4,8 +4,14 @@
 {% set attributes = attributes|default([]) %}
 {% set layout = layout|default('horizontal') %}
 {% set layout_mobile = layout_mobile|default('horizontal') %}
+{% set layout_tablet = layout_tablet|default('horizontal') %}
+{% set layout = layout|default('horizontal') %}
 
-{% set classname = classname|split(' ')|merge(['--layout-' ~ layout, '--layout-mobile-' ~ layout_mobile])|join(' ') %}
+{% set classname = classname|split(' ')|merge([
+  '--layout-mobile-' ~ layout_mobile,
+  '--layout-tablet-' ~ layout_tablet,
+  '--layout-' ~ layout, 
+])|join(' ') %}
 
 <nav
   class="links-nav d-flex {{ classname }}"

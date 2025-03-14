@@ -1,6 +1,7 @@
 import { STATE } from "@core/state";
 import { $, $$, html } from "@utils/dom";
 import { on, off } from "@utils/listener";
+import { motion_reduced } from "@utils/mobile";
 
 export const CLASSNAME = "--js-site-nav-opened";
 
@@ -113,7 +114,7 @@ class SiteNav {
     this.emitter.emit('SiteScroll.update');
     this.emitter.emit("SiteNav.close");
 
-    this._onCloseCompleted();
+    if( motion_reduced ) this._onCloseCompleted();
   }
   toggle() {
     // regular SiteNav toggle handling

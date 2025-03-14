@@ -1,0 +1,171 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+{#
+  Title: Rich Scrolling Content
+  Description: Rich Scrolling Content
+  Category: theme
+  Icon: format-image
+  Keywords: content scroll scrolling rich text
+  Mode: edit
+  PostTypes: page page_section
+  SupportsAlign: false
+  SupportsMode: true
+  SupportsMultiple: true
+  Example: { "title": "Rich Scrolling Content" }
+#}
+
+{% set classname = classname|default('')|split(' ') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb-row-rich-scrolling-content-' ~ random()) %}
+
+{% set title = fields.title %}
+{% set contents = fields.contents|default([]) %}
+
+{% set row_md = 1 %}
+{% set row_xl = 0 %}
+
+{% set classname = classname|merge(['--content-fz-' ~ content_font_size]) %}
+{% set styles = ['--length:' ~ (contents|length + (title ? 1 : 0))] %}
+
+{% if contents|length < 2 %}
+  {% set classname = classname|merge(['--singular']) %}
+{% endif %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-rich-scrolling-content container-fluid d-grid grid-column-md-2 column-gap-md-10 column-gap-xl-20 {{ classname|join(' ') }}"
+  {% if contents %}
+  data-module="pb-row-rich-scrolling-content"
+  data-module-backend
+  data-scroll
+  data-scroll-call="pb-row-rich-scrolling-content"
+  data-scroll-repeat="true"
+  {% endif %}
+  style="{{ styles|join(';') }}"
+  {{ attributes|join(' ') }}
+> 
+  {% if title %}
+  <header 
+    class="pb-row-rich-scrolling-content__header col-start-1 col-span-md-2 col-span-xl-1 row-start-1 --js-active"
+    data-scroll
+    data-scroll-offset="100px,0"
+    data-module-delay
+    data-module-delay-increment="100"
+  >
+    <h2 class="pb-row-rich-scrolling-content__title m-0">{{ title }}</h2>
+  </header>
+  {% set row_md = 2 %}
+  {% set row_xl = 1 %}
+  {% endif %}
+
+  {% for content in contents %}
+  {% set media_classnames = ['col-start-xl-2', 'mb-20', 'mb-xl-0', loop.first ? '--js-active' : null] %}
+  {% set content_classnames = [
+    'col-start-xl-1',
+    loop.last ? 'mb-0' : 'mb-40',
+    loop.last or (loop.index0 is even and loop.revindex0 == 1) ? 'mb-md-0' : 'mb-md-40',
+    loop.last ? 'mb-xl-200' : 'mb-xl-80',
+    loop.first ? '--js-active' : null,
+  ] %}
+
+  {% set media_styles = [
+    '--column-md:' ~ (loop.index0 % 2 + 1), 
+    '--row-md:' ~ row_md,
+  ] %}
+
+  {# put content on next row #}
+  {% set row_md = row_md + 1 %}
+  {% set row_xl = row_xl + 1 %}
+
+  {% set content_styles = [
+    '--column-md:' ~ (loop.index0 % 2 + 1), 
+    '--row-md:' ~ row_md,
+    '--row-xl:' ~ row_xl
+  ] %}
+
+  {# if we are at second column, go to next row. otherwise, go back to previous row #}
+  {% set row_md = loop.index0 is even ? row_md - 1 : row_md + 1 %}
+
+  <figure 
+    id="{{ udid }}--media-{{ loop.index }}"
+    class="pb-row-rich-scrolling-content__media {{ media_classnames|join(' ') }}"
+    {% if content.media %}
+    data-scroll
+    data-scroll-offset="100px,0"
+    data-module-delay
+    data-module-delay-increment="150"
+    {% endif %}
+    style="{{ media_styles|join(';') }}"
+  >
+    <div class="pb-row-rich-scrolling-content__media__inner position-relative position-xl-sticky w-100 overflow-clip">
+      {% if content.media %}
+        {% if content.media|is_rive %}
+          {% include 'partial/rive-animation.twig' with {
+            'src': content.media,
+            'stateMachines': 'State Machine 1',
+            'module': false,
+            'playOnEnter': false,
+            'pauseOnExit': false,
+            'classname': 'pb-row-rich-scrolling-content__media__animation position-absolute t-0 l-0 w-100 h-100',
+            'attributes': [
+              'data-scroll',
+              'data-scroll-call="pb-row-rich-scrolling-content__media"',
+              'data-scroll-repeat="true"',
+              'data-scroll-target="#' ~ udid ~ '--media-' ~ loop.index ~ '"',
+            ] 
+          } only %}
+        {% elseif content.media|is_video %}
+          {% include 'partial/video.twig' with {
+            'src': content.media,
+            'is_preview': is_preview,
+            'module': false,
+            'playOnEnter': false,
+            'pauseOnExit': false,
+            'classname': 'pb-row-rich-scrolling-content__media__video video-as-background',
+            'attributes': [
+              'data-scroll',
+              'data-scroll-call="pb-row-rich-scrolling-content__media"',
+              'data-scroll-repeat="true"',
+              'data-scroll-target="#' ~ udid ~ '--media-' ~ loop.index ~ '"',
+            ]
+          } only %}
+        {% else %}
+          {% include 'partial/image.twig' with {
+            'image': content.media,
+            'sizes': ['100vw', null, '50vw'],
+            'lazyload': true,
+            'classname': 'pb-row-rich-scrolling-content__media__img image-as-background',
+            'attributes': [
+              'data-lazyload-target="#' ~ udid ~ '--media-' ~ loop.index ~ '"',
+            ]
+          } only %}
+        {% endif %}
+      {% endif %}
+    </div>
+  </figure>
+
+  <div 
+    class="pb-row-rich-scrolling-content__content {{ content_classnames|join(' ') }}"
+    data-scroll
+    data-scroll-call="pb-row-rich-scrolling-content__content"
+    data-scroll-offset="50%,50%"
+    data-scroll-repeat="true"
+    style="{{ content_styles|join(';') }}"
+  >
+    <div 
+      class="pb-row-rich-scrolling-content__contentWrap d-flex flex-column grid-gap-20 grid-gap-xl-40"
+      data-scroll
+      data-scroll-offset="100px,0"
+      data-module-delay
+      data-module-delay-increment="150"
+    >
+      {% if content.subtitle %}
+      <h3 class="pb-row-rich-scrolling-content__subtitle m-0">{{ content.subtitle }}</h3>
+      {% endif %}
+
+      <div class="pb-row-rich-scrolling-content__text wysiwyg">{{ content.text }}</div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

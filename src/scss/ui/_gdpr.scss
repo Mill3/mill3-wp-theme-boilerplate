@@ -181,7 +181,7 @@
     &[aria-hidden="true"] { display: none; }
   }
 
-  &[aria-hidden="true"] {
+  &[inert] {
     display: none;
   }
 

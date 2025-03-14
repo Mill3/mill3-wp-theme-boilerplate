@@ -1,4 +1,5 @@
 @use "@mill3-sass-mixins/breakpoints";
+@use "@mill3-sass-mixins/mq";
 
 .sharing {
   $self: &;
@@ -21,7 +22,10 @@
 
     &[aria-hidden="false"] {
       opacity: 1;
-      transition: opacity 450ms linear;
+
+      @include mq.motionNoPref {
+        transition: opacity 450ms linear;
+      }
     }
   }
 }

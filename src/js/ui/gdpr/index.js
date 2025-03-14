@@ -48,7 +48,7 @@ class GDPR {
     this.initInputs();
 
     // Check first is Consent is initialized at all
-    // - we can't use cookie for controlling the 'aria-hidden="true/false"' in production because of page cache
+    // - we can't use cookie for controlling the '[inert]' data-attribute in production because of page cache
     // - if set to CONSENT_PENDING, we can assume user haven't seen to panel yet, then force opening it
     if (Consent.consent_status === CONSENT_PENDING) this.open();
 
@@ -80,7 +80,7 @@ class GDPR {
     this._updateUserId();
 
     if (this.el) {
-      this.el.setAttribute("aria-hidden", false);
+      this.el.removeAttribute("inert");
       this._setHeight();
     }
   }
@@ -88,7 +88,7 @@ class GDPR {
     if (!this._opened) return;
     this._opened = false;
 
-    if (this.el) this.el.setAttribute("aria-hidden", true);
+    if (this.el) this.el.setAttribute("inert", true);
     if (this.optionsWrap) this.optionsWrap.setAttribute("aria-hidden", true);
     if (this.homeWrap) this.homeWrap.setAttribute("aria-hidden", false);
 
@@ -193,8 +193,8 @@ class GDPR {
     Consent.save(CONSENT_DENIED, CONSENT_DENIED);
 
     // force inputs to unchecked
-    this.inputs.find((input) => input.name === "consent_analytics").removeAttribute("checked");
-    this.inputs.find((input) => input.name === "consent_ads").removeAttribute("checked");
+    this.inputs.find((input) => input.name === "consent_analytics")?.removeAttribute("checked");
+    this.inputs.find((input) => input.name === "consent_ads")?.removeAttribute("checked");
 
     // close UI & update user id
     this.close();

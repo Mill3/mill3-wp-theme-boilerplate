@@ -120,18 +120,10 @@ button {
     }
 
     // rollover
-    @include rollover.linkRollover;
-    // @include mq.hoverDevice {
-    //   &:not(.pointer-events-none) {
-    //     // styling only applied for button who can received hover events
-
-    //     &:hover,
-    //     &:focus,
-    //     &:active {
-    //       // do stuff here
-    //     }
-    //   }
-    // }
+    &:not(.pointer-events-none) {
+      // styling only applied for button who can received hover events
+      @include rollover.linkRollover;
+    }
 
     // variations
     &.--link-white {

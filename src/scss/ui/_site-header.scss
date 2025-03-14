@@ -1,11 +1,14 @@
-@use "@mill3-sass-vars/easings";
 @use "@mill3-sass-mixins/breakpoints";
+@use "@mill3-sass-mixins/mq";
+@use "@mill3-sass-vars/easings";
 
 .site-header {
   $self: &;
 
   &__wrap {
-    transition: opacity 200ms linear, color 0ms 200ms linear;
+    @include mq.motionNoPref {
+      transition: opacity 200ms linear, color 0ms 200ms linear;
+    }
   }
 
   // &__logo,
@@ -28,7 +31,9 @@
     height: 12px;
 
     > span {
-      transition: transform 650ms easings.$easeInOutCubic;
+      @include mq.motionNoPref {
+        transition: transform 650ms easings.$easeInOutCubic;
+      }
 
       &::before {
         content: '';
@@ -36,7 +41,10 @@
         width: 100%;
         height: 1px;
         background: currentColor;
-        transition: transform 450ms easings.$easeInOutCubic;
+
+        @include mq.motionNoPref {
+          transition: transform 450ms easings.$easeInOutCubic;
+        }
       }
 
       &:nth-child(2) {

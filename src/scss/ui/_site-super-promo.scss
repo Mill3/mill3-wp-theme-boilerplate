@@ -1,5 +1,6 @@
 @use "@mill3-sass-mixins/breakpoints";
 @use "@mill3-sass-mixins/colors";
+@use "@mill3-sass-mixins/mq";
 @use "@mill3-sass-vars/easings";
 
 .site-super-promo {
@@ -13,12 +14,18 @@
   max-width: 100vw;
   max-height: 100vh;
   overflow: hidden;
-  transition: display 551ms allow-discrete, overlay 551ms allow-discrete;
+
+  @include mq.motionNoPref {
+    transition: display 551ms allow-discrete, overlay 551ms allow-discrete;
+  }
 
   &::backdrop {
     background-color: colors.color("color-black");
-    opacity: 0;
-    transition: opacity 350ms 200ms linear;
+
+    @include mq.motionNoPref {
+      opacity: 0;
+      transition: opacity 350ms 200ms linear;
+    }
   }
 
 
@@ -27,10 +34,13 @@
 
     &::backdrop {
       opacity: 0.4;
-      transition: opacity 450ms linear;
 
-      @starting-style {
-        opacity: 0;
+      @include mq.motionNoPref {
+        transition: opacity 450ms linear;
+  
+        @starting-style {
+          opacity: 0;
+        }
       }
     }
   }

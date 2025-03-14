@@ -72,3 +72,17 @@
     @content;
   }
 }
+
+// Media query when user prefer reduced motion
+@mixin motionReduced() {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+// Media query when user has no motion preferences
+@mixin motionNoPref() {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}

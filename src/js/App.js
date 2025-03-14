@@ -111,6 +111,7 @@ domready(() => {
       setTimeout(() => {
         new App();
         import("./GridViewer");
+        import("./FPSTracker");
       }, 500);
     });
   } else new App();

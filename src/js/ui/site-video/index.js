@@ -1,5 +1,6 @@
 import { $, removeAllChilds } from "@utils/dom";
 import { on, off } from "@utils/listener";
+import { motion_reduced } from "@utils/mobile";
 
 const ANIMATE_IN_CLASSNAME = '--js-animate-in';
 const ANIMATE_OUT_CLASSNAME = '--js-animate-out';
@@ -96,6 +97,8 @@ class SiteVideo {
 
     // trigger this._onStopComplete when background animate-out is completed
     this.el.classList.add(ANIMATE_OUT_CLASSNAME);
+
+    if( motion_reduced ) this._onStopComplete({ target: this.bg, propertyName: 'opacity' });
   }
   oembed(script) {
     // remove video from DOM

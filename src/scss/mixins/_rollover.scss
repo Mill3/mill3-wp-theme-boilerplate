@@ -17,10 +17,13 @@
   text-decoration: none;
   // only on device with :hover state
   @include mq.hoverDevice {
-    transition: background-size 0.5s easings.$easeOutCubic 0s;
     background-image: linear-gradient(transparent calc(100% - var(--height)), currentColor var(--height));
     background-repeat: no-repeat;
     background-size: 0% calc(100% - var(--bottom));
+
+    @include mq.motionNoPref {
+      transition: background-size 0.5s easings.$easeOutCubic 0s;
+    }
   }
 }
 
@@ -53,6 +56,8 @@
 }
 
 @mixin linkRolloverHover() {
-  animation: linkRedraw 750ms cubic-bezier(.645,.045,.355,1) both;
+  @include mq.motionNoPref {
+    animation: linkRedraw 750ms cubic-bezier(.645,.045,.355,1) both;
+  }
 }
 

@@ -1,0 +1,155 @@
+@use "@mill3-sass-mixins/breakpoints";
+@use "@mill3-sass-vars/easings";
+@use "@mixins/animations";
+
+.pb-row-rich-scrolling-content {
+  $self: &;
+  
+  --length: 0;
+
+  &__header,
+  &__content {
+    @include breakpoints.media-breakpoint-up(xl) {
+      opacity: 0.2;
+      transition: opacity 250ms linear;
+    }
+
+    &.--js-active {
+      @include breakpoints.media-breakpoint-up(xl) {
+        opacity: 1.0001;
+      }
+    }
+  }
+
+  &__media {
+    --column-delay: 0ms;
+    --column-md: 1;
+    --row-md: 1;
+
+    @include breakpoints.media-breakpoint-between(md, lg) {
+      grid-column: var(--column-md) / span 1;
+      grid-row: var(--row-md) / span 1;
+
+      &[data-module-delay=false] {
+        --column-delay: calc(var(--column-md) * 150ms - 150ms);
+      }
+    }
+    @include breakpoints.media-breakpoint-up(xl) {
+      grid-row: 1 / span var(--length);
+      width: calc(100% + var(--container-fluid-diff-margin));
+      opacity: 0.0001;
+      pointer-events: none;
+    }
+
+    &__inner {
+      aspect-ratio: 345 / 450;
+
+      @include breakpoints.media-breakpoint-up(xl) {
+        top: 20px;
+        min-height: calc(100lvh - 40px);
+        max-height: calc(100lvh - 40px);
+      }
+    }
+
+    &.--js-active {
+      @include breakpoints.media-breakpoint-up(xl) {
+        opacity: 1.0001;
+        pointer-events: auto;
+      }
+    }
+
+    @include inView {
+      @include breakpoints.media-breakpoint-down(lg) {
+        #{$self}__media__inner { @include animations.fadeInInitial; }
+        #{$self}__media__img { transform: scale(1.2); }
+
+        &.is-inview {
+          #{$self}__media__inner { @include animations.fadeIn($delay: var(--module-delay)); }
+          #{$self}__media__img {
+            transform: scale(1);
+            transition: transform 1250ms var(--module-delay) easings.$easeOutExpo;
+          }
+        }
+      }
+    }
+  }
+
+  &__content {
+    --column-md: 1;
+    --row-md: 1;
+    --row-xl: 1;
+
+    @include breakpoints.media-breakpoint-between(md, lg) {
+      grid-column: var(--column-md) / span 1;
+      grid-row: var(--row-md) / span 1;
+    }
+    @include breakpoints.media-breakpoint-up(xl) {
+      grid-row: var(--row-xl) / span 1;
+    }
+  }
+  &__contentWrap {
+    --column-delay: 0ms;
+
+    &[data-module-delay=false] {
+      @include breakpoints.media-breakpoint-up(md) {
+        --column-delay: calc(var(--column-md) * 150ms - 150ms);
+      }
+    }
+
+    &:nth-child(1) { --self-delay: 0ms; }
+    &:nth-child(2) { --self-delay: 100ms; }
+
+    @include inView {
+      @include breakpoints.media-breakpoint-down(lg) {
+        #{$self}__subtitle,
+        #{$self}__text { @include animations.slideFadeUpInitial; }
+
+        &.is-inview {
+          #{$self}__subtitle,
+          #{$self}__text { @include animations.slideFadeUp($delay: calc(var(--self-delay) + var(--column-delay) + var(--module-delay))); }
+        }
+      }
+    }
+  }
+  &__subtitle {
+    color: var(--subtitle-color);
+  }
+
+  // IF THERE IS ONLY ONE CONTENT
+  &.--singular {
+    @include breakpoints.media-breakpoint-between(md, lg) {
+      #{$self}__bg { width: calc(50% - var(--default-column-gap) / 2); }
+      #{$self}__header { grid-column-end: span 1; }
+      #{$self}__media {
+        grid-column-start: 2;
+        grid-row-start: 1;
+        margin-bottom: 0;
+        width: calc(100% + var(--container-fluid-margin));
+      }
+      #{$self}__content {
+        align-self: center;
+        grid-row-start: 1;
+      }
+
+      &:has(.pb-row-rich-scrolling-content__header) {
+        grid-template-rows: 1fr auto auto 1fr;
+
+        #{$self}__header { grid-row-start: 2; }
+        #{$self}__media { grid-row: 1 / span 4; }
+        #{$self}__content { grid-row-start: 3; }
+      }
+    }
+  }
+
+
+  @include acfPreview {
+    #{$self}__media {
+      &__inner {  
+        @include breakpoints.media-breakpoint-up(xl) {
+          min-height: 0;
+          max-height: 500px;
+        }
+      }
+    }
+  }
+}
