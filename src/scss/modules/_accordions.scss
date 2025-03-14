@@ -28,7 +28,8 @@
 
     grid-template-columns: 1fr auto;
 
-    &::marker { content: ''; }
+    &::marker,
+    &::-webkit-details-marker { display: none; }
 
     @include mq.hoverDevice {
       &:hover {
