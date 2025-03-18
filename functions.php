@@ -96,6 +96,7 @@ $includes = [
     'lib/recaptcha.php',
     //'lib/rive.php',
     'lib/search.php',
+    'lib/security.php',
     'lib/sentry.php',
     'lib/setup.php',
     'lib/shortcodes.php',

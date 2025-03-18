@@ -1,140 +1,274 @@
 [
-  {
-      "key": "group_636e692b210fc",
-      "title": "Theme Options",
-      "fields": [
+	{
+			"key": "group_636e692b210fc",
+			"title": "Theme Options",
+			"fields": [
+					{
+							"key": "field_636e692b72621",
+							"label": "Tracking",
+							"name": "",
+							"aria-label": "",
+							"type": "tab",
+							"instructions": "",
+							"required": 0,
+							"conditional_logic": 0,
+							"wrapper": {
+									"width": "",
+									"class": "",
+									"id": ""
+							},
+							"placement": "top",
+							"endpoint": 0,
+							"no_preference": 0,
+							"selected": 0
+					},
+					{
+							"key": "field_636e6945ca7cc",
+							"label": "Google Tag Manager code",
+							"name": "gtm_code",
+							"aria-label": "",
+							"type": "text",
+							"instructions": "Example: GTM-XXXXXX",
+							"required": 0,
+							"conditional_logic": 0,
+							"wrapper": {
+									"width": "",
+									"class": "",
+									"id": ""
+							},
+							"default_value": "",
+							"maxlength": "",
+							"placeholder": "",
+							"prepend": "",
+							"append": ""
+					},
+					{
+							"key": "field_648241d7a7928",
+							"label": "gdpr_options",
+							"name": "gdpr_options",
+							"aria-label": "",
+							"type": "clone",
+							"instructions": "",
+							"required": 0,
+							"conditional_logic": 0,
+							"wrapper": {
+									"width": "",
+									"class": "",
+									"id": ""
+							},
+							"clone": [
+									"group_6480cb33bfc46"
+							],
+							"display": "seamless",
+							"layout": "block",
+							"prefix_label": 0,
+							"prefix_name": 0,
+							"acfe_seamless_style": 0,
+							"acfe_clone_modal": 0,
+							"acfe_clone_modal_close": 0,
+							"acfe_clone_modal_button": "",
+							"acfe_clone_modal_size": "large"
+					},
+					{
+						"key": "field_67d8784c537e6",
+						"label": "Security",
+						"name": "",
+						"aria-label": "",
+						"type": "tab",
+						"instructions": "",
+						"required": 0,
+						"conditional_logic": 0,
+						"wrapper": {
+								"width": "",
+								"class": "",
+								"id": ""
+						},
+						"placement": "top",
+						"endpoint": 0,
+						"no_preference": 0,
+						"selected": 0
+					},
+					{
+						"key": "field_67d8785c537e7",
+						"label": "CSP img-src",
+						"name": "csp_img_src",
+						"aria-label": "",
+						"type": "textarea",
+						"instructions": "One URL per line.",
+						"required": 0,
+						"conditional_logic": 0,
+						"wrapper": {
+								"width": "",
+								"class": "",
+								"id": ""
+						},
+						"default_value": "https:\/\/www.googletagmanager.com\r\nhttps:\/\/www.google-analytics.com\r\nhttps:\/\/*.google.com\r\nhttps:\/\/*.google.ca\r\nhttps:\/\/*.linkedin.com\r\nhttps:\/\/*.adsymptotic.com\r\nhttps:\/\/*.facebook.com\r\nhttps:\/\/*.facebook.net\r\nhttps:\/\/*.ytimg.com\r\nhttps:\/\/*.youtube.com",
+						"acfe_textarea_code": 0,
+						"translations": "copy_once",
+						"maxlength": "",
+						"allow_in_bindings": 1,
+						"rows": "",
+						"placeholder": "",
+						"new_lines": ""
+					},
+					{
+							"key": "field_67d8797a537e8",
+							"label": "CSP script-src",
+							"name": "csp_script_src",
+							"aria-label": "",
+							"type": "textarea",
+							"instructions": "One URL per line.",
+							"required": 0,
+							"conditional_logic": 0,
+							"wrapper": {
+									"width": "",
+									"class": "",
+									"id": ""
+							},
+							"default_value": "https:\/\/www.googletagmanager.com\r\nhttps:\/\/www.google-analytics.com\r\nhttps:\/\/*.facebook.com\r\nhttps:\/\/*.facebook.net\r\nhttps:\/\/*.licdn.com\r\nhttps:\/\/*.youtube.com",
+							"acfe_textarea_code": 0,
+							"translations": "copy_once",
+							"maxlength": "",
+							"allow_in_bindings": 1,
+							"rows": "",
+							"placeholder": "",
+							"new_lines": ""
+					},
           {
-              "key": "field_636e692b72621",
-              "label": "Tracking",
-              "name": "",
-              "aria-label": "",
-              "type": "tab",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "placement": "top",
-              "endpoint": 0,
-              "no_preference": 0,
-              "selected": 0
+            "key": "field_67d879bf937e9",
+            "label": "CSP font-src",
+            "name": "csp_font_src",
+            "aria-label": "",
+            "type": "textarea",
+            "instructions": "One URL per line.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "acfe_textarea_code": 0,
+            "translations": "copy_once",
+            "maxlength": "",
+            "allow_in_bindings": 1,
+            "rows": "",
+            "placeholder": "",
+            "new_lines": ""
           },
-          {
-              "key": "field_636e6945ca7cc",
-              "label": "Google Tag Manager code",
-              "name": "gtm_code",
-              "aria-label": "",
-              "type": "text",
-              "instructions": "Example: GTM-XXXXXX",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "default_value": "",
-              "maxlength": "",
-              "placeholder": "",
-              "prepend": "",
-              "append": ""
-          },
-          {
-              "key": "field_648241d7a7928",
-              "label": "gdpr_options",
-              "name": "gdpr_options",
-              "aria-label": "",
-              "type": "clone",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "clone": [
-                  "group_6480cb33bfc46"
-              ],
-              "display": "seamless",
-              "layout": "block",
-              "prefix_label": 0,
-              "prefix_name": 0,
-              "acfe_seamless_style": 0,
-              "acfe_clone_modal": 0,
-              "acfe_clone_modal_close": 0,
-              "acfe_clone_modal_button": "",
-              "acfe_clone_modal_size": "large"
-          },
-          {
-              "key": "field_666764d2733a6",
-              "label": "Advanced Features",
-              "name": "",
-              "aria-label": "",
-              "type": "tab",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "placement": "top",
-              "endpoint": 0,
-              "no_preference": 0,
-              "selected": 0
-          },
-          {
-              "key": "field_666764e5733a7",
-              "label": "Prefetching",
-              "name": "prefetching",
-              "aria-label": "",
-              "type": "textarea",
-              "instructions": "One URL per line.",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "default_value": "",
-              "acfe_textarea_code": 0,
-              "translations": "copy_once",
-              "maxlength": "",
-              "rows": "",
-              "placeholder": "",
-              "new_lines": ""
-          }
-      ],
-      "location": [
-          [
-              {
-                  "param": "options_page",
-                  "operator": "==",
-                  "value": "theme-options"
-              }
-          ]
-      ],
-      "menu_order": 0,
-      "position": "normal",
-      "style": "default",
-      "label_placement": "left",
-      "instruction_placement": "label",
-      "hide_on_screen": "",
-      "active": true,
-      "description": "",
-      "show_in_rest": 0,
-      "acfe_autosync": [
-          "json"
-      ],
-      "acfe_form": 0,
-      "acfe_display_title": "",
-      "acfe_meta": "",
-      "acfe_note": ""
-  }
+					{
+							"key": "field_67d879bf537e9",
+							"label": "CSP frame-src",
+							"name": "csp_frame_src",
+							"aria-label": "",
+							"type": "textarea",
+							"instructions": "One URL per line.",
+							"required": 0,
+							"conditional_logic": 0,
+							"wrapper": {
+									"width": "",
+									"class": "",
+									"id": ""
+							},
+							"default_value": "https:\/\/*.youtube.com\r\nhttps:\/\/*.facebook.com\r\nhttps:\/\/*.facebook.net",
+							"acfe_textarea_code": 0,
+							"translations": "copy_once",
+							"maxlength": "",
+							"allow_in_bindings": 1,
+							"rows": "",
+							"placeholder": "",
+							"new_lines": ""
+					},
+					{
+							"key": "field_67d879e2537ea",
+							"label": "CSP form-src",
+							"name": "csp_form_src",
+							"aria-label": "",
+							"type": "textarea",
+							"instructions": "One URL per line.",
+							"required": 0,
+							"conditional_logic": 0,
+							"wrapper": {
+									"width": "",
+									"class": "",
+									"id": ""
+							},
+							"default_value": "https:\/\/*.facebook.com",
+							"acfe_textarea_code": 0,
+							"translations": "copy_once",
+							"maxlength": "",
+							"allow_in_bindings": 1,
+							"rows": "",
+							"placeholder": "",
+							"new_lines": ""
+					},
+					{
+							"key": "field_666764d2733a6",
+							"label": "Advanced Features",
+							"name": "",
+							"aria-label": "",
+							"type": "tab",
+							"instructions": "",
+							"required": 0,
+							"conditional_logic": 0,
+							"wrapper": {
+									"width": "",
+									"class": "",
+									"id": ""
+							},
+							"placement": "top",
+							"endpoint": 0,
+							"no_preference": 0,
+							"selected": 0
+					},
+					{
+							"key": "field_666764e5733a7",
+							"label": "Prefetching",
+							"name": "prefetching",
+							"aria-label": "",
+							"type": "textarea",
+							"instructions": "One URL per line.",
+							"required": 0,
+							"conditional_logic": 0,
+							"wrapper": {
+									"width": "",
+									"class": "",
+									"id": ""
+							},
+							"default_value": "",
+							"acfe_textarea_code": 0,
+							"translations": "copy_once",
+							"maxlength": "",
+							"rows": "",
+							"placeholder": "",
+							"new_lines": ""
+					}
+			],
+			"location": [
+					[
+							{
+									"param": "options_page",
+									"operator": "==",
+									"value": "theme-options"
+							}
+					]
+			],
+			"menu_order": 0,
+			"position": "normal",
+			"style": "default",
+			"label_placement": "left",
+			"instruction_placement": "label",
+			"hide_on_screen": "",
+			"active": true,
+			"description": "",
+			"show_in_rest": 0,
+			"acfe_autosync": [
+					"json"
+			],
+			"acfe_form": 0,
+			"acfe_display_title": "",
+			"acfe_meta": "",
+			"acfe_note": ""
+	}
 ]
