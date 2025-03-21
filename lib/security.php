@@ -23,11 +23,11 @@ add_action('wp_head', function() {
         array_push($fonts, "http://localhost:" . $_ENV['WEBPACK_DEV_SERVER_PORT']);
     }
 
-    if( array_key_exists('csp_img_src', $options) ) $imgs = merge_array_with_options($imgs, $options['csp_img_src']);
-    if( array_key_exists('csp_script_src', $options) ) $scripts = merge_array_with_options($scripts, $options['csp_script_src']);
-    if( array_key_exists('csp_font_src', $options) ) $fonts = merge_array_with_options($fonts, $options['csp_font_src']);
-    if( array_key_exists('csp_frame_src', $options) ) $frames = merge_array_with_options($frames, $options['csp_frame_src']);
-    if( array_key_exists('csp_form_src', $options) ) $forms = merge_array_with_options($forms, $options['csp_form_src']);
+    if( $options && array_key_exists('csp_img_src', $options) ) $imgs = merge_array_with_options($imgs, $options['csp_img_src']);
+    if( $options && array_key_exists('csp_script_src', $options) ) $scripts = merge_array_with_options($scripts, $options['csp_script_src']);
+    if( $options && array_key_exists('csp_font_src', $options) ) $fonts = merge_array_with_options($fonts, $options['csp_font_src']);
+    if( $options && array_key_exists('csp_frame_src', $options) ) $frames = merge_array_with_options($frames, $options['csp_frame_src']);
+    if( $options && array_key_exists('csp_form_src', $options) ) $forms = merge_array_with_options($forms, $options['csp_form_src']);
 
     $contents = [
         "base-uri 'self' $base_url",
