@@ -32,8 +32,9 @@
     --padding: 20px;
   }
 
-  // main container padding
+  // main container padding and dynamic vh height
   padding: var(--padding);
+  height: 100dvh;
 
   &__container {
     max-width: var(--width);
