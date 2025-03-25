@@ -91,14 +91,6 @@
   ]) %}
 {% endif %}
 
-{% if fields['bg-color'] %}
-  {% set row_classname = row_classname|merge(['--has-bg']) %}
-{% endif %}
-
-{% if fields['text-color'] %}
-  {% set row_classname = row_classname|merge(['--has-text-color']) %}
-{% endif %}
-
 {% if slug %}
   {% set row_classname = row_classname|merge(['--layout-' ~ slug]) %}
 {% endif %}
