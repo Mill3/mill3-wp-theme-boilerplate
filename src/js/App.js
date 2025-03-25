@@ -1,6 +1,10 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable no-undef */
 
+// glob import all modules and UIs
+const module_chunks = import.meta.glob('./modules/**/index.js');
+const ui_chunks = import.meta.glob('./ui/**/index.js');
+
 import domready from "domready";
 
 import "@core/hello";
@@ -23,6 +27,10 @@ import transitions from "@transitions";
 
 // ONLY FOR WINDMILL WEBPACK CHUNKS : registry of all modules
 import Modules from '@modules/index.webpack-chunks.js';
+
+// Store this for later use by your DOMLoader
+window.DOMModules = module_chunks;
+window.DOMUI = ui_chunks;
 
 // ONLY FOR WINDMILL DOM CONTROLLER : load all UI and modules classes
 //import Modules from '@modules/index.dom-controller';
@@ -105,6 +113,9 @@ class App {
 }
 
 domready(() => {
+  // import("../scss/App.scss");
+  // console.log("App.js loaded");
+
   // import main styles in dev mode only
   if (process.env.NODE_ENV === "development") {
     import("../scss/App.scss").then(() => {

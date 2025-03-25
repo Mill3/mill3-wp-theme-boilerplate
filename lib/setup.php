@@ -93,13 +93,29 @@ function assets()
 
     // webpack dev
     if (WEBPACK_DEV_SERVER === true) {
-        wp_enqueue_script(
-            'mill3wp/webpack',
-            "http://localhost:{$_ENV['WEBPACK_DEV_SERVER_PORT']}/js/app.bundle.js",
+        $vite_url = 'http://localhost:5173';
+
+        wp_enqueue_script_module(
+            'mill3wp/vitejs',
+            "{$vite_url }/@vite/client",
             [],
             null,
             array('strategy' => 'defer', 'in_footer' => true)
         );
+        wp_enqueue_script_module(
+            'mill3wp/vitejs_app',
+            "{$vite_url }/src/js/App.js",
+            [],
+            null,
+            array('strategy' => 'defer', 'in_footer' => true)
+        );
+        // wp_enqueue_script_module(
+        //     'mill3wp/app',
+        //     "http://localhost:5173/@vite/client",
+        //     [],
+        //     null,
+        //     array('strategy' => 'defer', 'in_footer' => true)
+        // );
     } else {
         wp_enqueue_style(
             'mill3wp/css',
@@ -134,7 +150,7 @@ function assets()
 
     wp_dequeue_style('classic-theme-styles');
     wp_dequeue_style('wp-emoji-styles');
-    
+
     wp_deregister_script('wp-polyfill');
     wp_deregister_script('regenerator-runtime');
 }
