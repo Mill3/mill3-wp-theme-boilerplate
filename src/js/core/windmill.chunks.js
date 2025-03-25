@@ -1,7 +1,16 @@
 /**
-* @core/windmill.webpack-chunks
-* <br><br>
-* ## Windmill Webpack Chunks.
+* @core/windmill.chunks
+*
+* ## Windmill ViteJS Chunks.
+*
+* How to load chunks references:
+*
+* const module_chunks = import.meta.glob("./modules/(star)(star)/index.js")
+* const ui_chunks = import.meta.glob('./ui/(star)(star)/index.js');
+*
+* windmill.use( new WindmillChunks(Modules, {...module_chunks, ...ui_chunks }) );
+*
+* References are stored by ViteJS as import function calls : { 'modules/my-module/index.js': () => import('./modules/my-module/index.js') }
 *
 * - Load webpack-chunks from [data-module] & [data-ui] attributes
 * - Start, stop and destroy module during Windmill's page transition
@@ -20,9 +29,10 @@ import { mobile } from "@utils/mobile";
 const MODULES_SELECTOR = `[data-module]`;
 const UI_SELECTOR = `[data-ui]`;
 
-export class WindmillWebpackChunks {
-  constructor(registry = []) {
+export class WindmillChunks {
+  constructor(registry = [], references = {}) {
     this._registry = new Set(registry);
+    this._references = references;
     this._chunks = new Map();
     this._modules = [];
     this._uis = [];
@@ -115,9 +125,16 @@ export class WindmillWebpackChunks {
 
     return Promise.all(promises);
   }
+
+  // Note: references are stored by ViteJS as import function calls.
+  // example: { './modules/my-module/index.js': () => import('./modules/my-module/index.js') }
   _importChunk(name) {
-    // import module with webpack
-    const promise = import(`../${name}/`);
+    const moduleName = `./${name}/index.js`; // must append index.js to name for matching ViteJS reference
+    let promise = null;
+
+    if(this._references[moduleName]) promise = this._references[moduleName]();
+
+    if(!promise) return Promise.reject(`Error loading webpack chunk ${name}`);
 
     // save promise in chunks map
     this._chunks.set(name, promise);
@@ -225,4 +242,4 @@ class ChunkData {
   }
 }
 
-export default WindmillWebpackChunks;
+export default WindmillChunks;
