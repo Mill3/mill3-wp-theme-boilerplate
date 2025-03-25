@@ -9,7 +9,7 @@ use Mill3WP\Assets;
 add_action('wp_enqueue_scripts', function() {
     if( VITE_DEV_SERVER === true || !defined('SENTRY_DSN_JS') || empty(SENTRY_DSN_JS) ) return;
 
-    wp_enqueue_script(
+    wp_enqueue_script_module(
         'mill3wp/js-sentry',
         Assets\Asset_File_path('src/js/Sentry.js'),
         [],

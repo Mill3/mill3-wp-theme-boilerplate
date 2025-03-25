@@ -38,4 +38,11 @@ domready(() => {
   windmill.use( new WindmillChunks(null, {...module_chunks, ...ui_chunks}) );
   windmill.init();
 
+  // import main styles in dev mode only then resize
+  if (process.env.NODE_ENV === "development") {
+    import("../scss/ACF-preview.scss").then(() => {
+      resize();
+    });
+  }
+
 });

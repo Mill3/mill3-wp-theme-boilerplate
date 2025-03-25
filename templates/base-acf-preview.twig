@@ -33,6 +33,10 @@
   {% if body_styles %}style="{{ body_styles|join(';') }}"{% endif %}
 >
   {{ content }}
-  <script src="{{ js }}"></script>
+  {% if dev %}
+    <script type="module" src="{{ vite_js }}"></script>
+  {% else %}
+    <script type="module" src="{{ js }}"></script>
+  {% endif %}
 </body>
 </html>
