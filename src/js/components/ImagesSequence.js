@@ -67,6 +67,10 @@ import { requestInterval } from "@utils/interval";
 import { isNumber, isString } from "@utils/is";
 import Viewport from "@utils/viewport";
 
+export const FIT_COVER = 'cover';
+export const FIT_CONTAIN = 'contain';
+export const FIT_STRETCH = 'stretch';
+
 const DEFAULT_OPTIONS = {
   path: null,
   digits: 4,
@@ -74,6 +78,7 @@ const DEFAULT_OPTIONS = {
   end: null,
   fps: 12,
   loop: false,
+  fit: FIT_STRETCH,
   canvas: null,
 };
 
@@ -198,9 +203,39 @@ class ImagesSequence extends EventEmitter2 {
     if( !frame.loaded ) return;
 
     const { width, height, dpr } = this._viewport;
+    let sx, sy, x, y, iw = frame.img.width, ih = frame.img.height;
+
+    switch( this._options.fit ) {
+      case FIT_COVER:
+        sx = sy = Math.max( width * dpr / iw, height * dpr / ih );
+        x  = (width * dpr - sx * iw) / 2;
+        y  = (height * dpr - sy * ih) / 2;
+      break;
+
+      case FIT_CONTAIN: 
+        sx = sy = Math.min( width * dpr / iw, height * dpr / ih );
+        x  = (width * dpr - sx * iw) / 2;
+        y  = (height * dpr - sy * ih) / 2;
+      break;
+
+      default:
+        sx = width * dpr / frame.img.width;
+        sy = height * dpr / frame.img.height;
+        x  = 0;
+        y  = 0;
+      break;
+    }
 
     this._ctx.clearRect(0, 0, width * dpr, height * dpr);
-    this._ctx.drawImage(frame.img, 0, 0, width * dpr, height * dpr);
+    this._ctx.setTransform(
+      /*     scale x */ sx,
+      /*      skew x */ 0,
+      /*      skew y */ 0,
+      /*     scale y */ sy,
+      /* translate x */ x,
+      /* translate y */ y,
+    );
+    this._ctx.drawImage(frame.img, 0, 0);
   }
 
   _onLoadProgress(loader, img, elem) {
