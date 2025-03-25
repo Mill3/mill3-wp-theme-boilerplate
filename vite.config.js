@@ -14,9 +14,11 @@ export default {
     rollupOptions: {
       input: {
         app: path.resolve(SRC_PATH, 'js/App.js'),
-        // admin: path.resolve(SRC_PATH, 'admin.js'),
+        acf_preview: path.resolve(SRC_PATH, 'js/ACF-Preview.js'),
         app_style: path.resolve(SRC_PATH, 'scss/App.scss'),
-        acf_preview: path.resolve(SRC_PATH, 'scss/ACF-preview.scss'),
+        acf_preview_style: path.resolve(SRC_PATH, 'scss/ACF-preview.scss'),
+        editor_style: path.resolve(SRC_PATH, 'scss/Editor-style.scss'),
+        sentry: path.resolve(SRC_PATH, 'js/Sentry.js')
       },
     }
   },

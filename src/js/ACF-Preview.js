@@ -1,10 +1,16 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable no-undef */
+
+// ViteJS glob import all Modules and UIs
+const module_chunks = import.meta.glob('./modules/**/index.js');
+const ui_chunks = import.meta.glob('./ui/**/index.js');
+
+
 import domready from "domready";
 
 import windmill from "@core/windmill";
-import WindmillFluidTypography from "@core/windmill.fluid-typography";
-import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
+// import WindmillFluidTypography from "@core/windmill.fluid-typography";
+import WindmillChunks from "@core/windmill.chunks";
 
 import ACF from '@utils/acf';
 import { body } from '@utils/dom';
@@ -29,7 +35,7 @@ domready(() => {
   windmill.on('done', resize);
 
   //windmill.use( new WindmillFluidTypography() );
-  windmill.use( new WindmillWebpackChunks() );
+  windmill.use( new WindmillChunks(null, {...module_chunks, ...ui_chunks}) );
   windmill.init();
 
 });

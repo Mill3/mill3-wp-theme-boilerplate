@@ -66,8 +66,8 @@ function acf_block_preview($content)
 
     $context = Mill3Timber::context();
     $context['post'] = Mill3Timber::get_post($post);
-    $context['stylesheet'] = Mill3WP\Assets\Asset_File_path('acfPreview', 'css');
-    $context['js'] = Mill3WP\Assets\Asset_File_path('acfPreviewIframe', 'js');
+    $context['stylesheet'] = Mill3WP\Assets\Asset_File_path('src/scss/ACF-preview.scss');
+    $context['js'] = Mill3WP\Assets\Asset_File_path('src/js/ACF-Preview.js');
     $context['content'] = $content;
     $context['is_preview'] = true;
 
