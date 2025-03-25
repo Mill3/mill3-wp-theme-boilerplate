@@ -92,8 +92,16 @@ function assets()
     // *****
 
     // webpack dev
-    if (WEBPACK_DEV_SERVER === true) {
-        $vite_url = 'http://localhost:5173';
+    if (VITE_DEV_SERVER === true) {
+        $vite_url = "http://localhost:{$_ENV['VITE_DEV_SERVER_PORT']}";
+
+        wp_enqueue_script(
+            'mill3wp/dev',
+            get_template_directory_uri() . '/src/js/dev.js',
+            [],
+            null,
+            array('strategy' => 'defer', 'in_footer' => true)
+        );
 
         wp_enqueue_script_module(
             'mill3wp/vitejs',
@@ -109,13 +117,6 @@ function assets()
             null,
             array('strategy' => 'defer', 'in_footer' => true)
         );
-        // wp_enqueue_script_module(
-        //     'mill3wp/app',
-        //     "http://localhost:5173/@vite/client",
-        //     [],
-        //     null,
-        //     array('strategy' => 'defer', 'in_footer' => true)
-        // );
     } else {
         wp_enqueue_style(
             'mill3wp/css',
@@ -142,7 +143,7 @@ function assets()
         //'nonce' => wp_create_nonce('tdp_nonce'),
     );
 
-    wp_add_inline_script(WEBPACK_DEV_SERVER === true ? 'mill3wp/webpack' : 'mill3wp/js', 'window.MILL3WP = '.json_encode($wp_endpoints).';', 'before');
+    wp_add_inline_script(VITE_DEV_SERVER === true ? 'mill3wp/dev' : 'mill3wp/js', 'window.MILL3WP = ' . json_encode($wp_endpoints) . ';', 'before');
 
     // remove core scripts and freaking emoji
     remove_action('wp_head', 'print_emoji_detection_script', 7);
@@ -160,7 +161,7 @@ add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 
 // add link preload for primary fonts and mill3/css in <head>
 add_action('wp_head', function() {
-    if( WEBPACK_DEV_SERVER === true ) return;
+    if( VITE_DEV_SERVER === true ) return;
 
     $stylesheet = get_site_url() . Assets\Asset_File_path('style', 'css');
     $fonts = get_template_directory_uri() . '/dist/fonts/';

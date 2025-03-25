@@ -1,12 +1,12 @@
 import path from 'path';
+import pkg from './package.json';
 
+const THEME_NAME = pkg.name;
 const SRC_PATH = path.resolve(__dirname, 'src');
-
-// detect if we're in dev mode
 const DEV = process.env.NODE_ENV !== "production";
 
 export default {
-  base: DEV ? '/' : '/wp-content/themes/mill3-wp-theme/dist/',
+  base: DEV ? `/` :` /wp-content/themes/${THEME_NAME}}/dist/`,
   build: {
     outDir: './dist',
     emptyOutDir: true,

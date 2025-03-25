@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Mill3WP\Security;
 
@@ -18,9 +18,9 @@ add_action('wp_head', function() {
         return array_merge($array, explode("\r\n", $option));
     }
 
-    if( WEBPACK_DEV_SERVER === true ) {
-        array_push($scripts, "http://localhost:" . $_ENV['WEBPACK_DEV_SERVER_PORT']);
-        array_push($fonts, "http://localhost:" . $_ENV['WEBPACK_DEV_SERVER_PORT']);
+    if( VITE_DEV_SERVER === true ) {
+        array_push($scripts, "http://localhost:" . $_ENV['VITE_DEV_SERVER_PORT']);
+        array_push($fonts, "http://localhost:" . $_ENV['VITE_DEV_SERVER_PORT']);
     }
 
     if( $options && array_key_exists('csp_img_src', $options) ) $imgs = merge_array_with_options($imgs, $options['csp_img_src']);

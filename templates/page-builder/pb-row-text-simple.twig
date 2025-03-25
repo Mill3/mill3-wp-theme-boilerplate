@@ -26,12 +26,19 @@
 {% block row_wrapper %}
 <div
   id="{{ udid }}"
-  class="pb-row pb-row-text-simple container-fluid --position-{{ position }} --width-{{ width }} {{ classname }}"
+  class="pb-row pb-row-text-simple container-fluid --position-{{ position }} --width-{{ width }} {{ classname }} mt-100 mb-100"
   {{ attributes|join(' ') }}
   data-scroll
   data-scroll-offset="100px,0"
   data-module-delay
+  data-module="accordions"
 >
+
+  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus fuga consequatur maiores, error tenetur voluptatum commodi doloribus eveniet excepturi saepe quisquam quos corporis, placeat eum culpa illo quam, nihil eius.
+  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus fuga consequatur maiores, error tenetur voluptatum commodi doloribus eveniet excepturi saepe quisquam quos corporis, placeat eum culpa illo quam, nihil eius.
+  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus fuga consequatur maiores, error tenetur voluptatum commodi doloribus eveniet excepturi saepe quisquam quos corporis, placeat eum culpa illo quam, nihil eius.
+  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus fuga consequatur maiores, error tenetur voluptatum commodi doloribus eveniet excepturi saepe quisquam quos corporis, placeat eum culpa illo quam, nihil eius.
+  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus fuga consequatur maiores, error tenetur voluptatum commodi doloribus eveniet excepturi saepe quisquam quos corporis, placeat eum culpa illo quam, nihil eius.
 
   {% if title %}
   <header class="pb-row-text-simple__header mb-50">

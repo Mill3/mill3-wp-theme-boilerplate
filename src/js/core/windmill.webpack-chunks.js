@@ -86,10 +86,10 @@ export class WindmillWebpackChunks {
         if( moduleSelector ) {
           moduleSelector.split(",").forEach(m => {
             const name = `modules/${m}`;
-            
+
             // if this chunk as never been imported before, import it
             if( !this._chunks.has(name) ) promises.push( this._importChunk(name) );
-            
+
             // add element to modules
             this._modules.push(new ChunkData(el, name));
           });
@@ -102,10 +102,10 @@ export class WindmillWebpackChunks {
         if( uiSelector ) {
           uiSelector.split(",").forEach(m => {
             const name = `ui/${m}`;
-            
+
             // if this chunk as never been imported before, import it
             if( !this._chunks.has(name) ) promises.push( this._importChunk(name) );
-            
+
             // add element to uis
             this._uis.push(new ChunkData(el, name));
           });

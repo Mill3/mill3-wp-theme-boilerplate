@@ -113,9 +113,6 @@ class App {
 }
 
 domready(() => {
-  // import("../scss/App.scss");
-  // console.log("App.js loaded");
-
   // import main styles in dev mode only
   if (process.env.NODE_ENV === "development") {
     import("../scss/App.scss").then(() => {
