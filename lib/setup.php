@@ -95,22 +95,14 @@ function assets()
     if (VITE_DEV_SERVER === true) {
         $vite_url = "http://localhost:{$_ENV['VITE_DEV_SERVER_PORT']}";
 
-        wp_enqueue_script(
-            'mill3wp/dev',
-            get_template_directory_uri() . '/src/js/dev.js',
-            [],
-            null,
-            array('strategy' => 'defer', 'in_footer' => true)
-        );
-
         wp_enqueue_script_module(
-            'mill3wp/vitejs',
+            'mill3wp/vitejs_client',
             "{$vite_url }/@vite/client",
             [],
             null,
             array('strategy' => 'defer', 'in_footer' => true)
         );
-        wp_enqueue_script_module(
+        wp_enqueue_script(
             'mill3wp/vitejs_app',
             "{$vite_url }/src/js/App.js",
             [],
@@ -120,14 +112,15 @@ function assets()
     } else {
         wp_enqueue_style(
             'mill3wp/css',
-            Assets\Asset_File_path('style', 'css'),
+            Assets\Asset_File_path('src/scss/App.scss'),
             [],
             null,
             'all'
         );
-        wp_enqueue_script(
+
+        wp_enqueue_script_module(
             'mill3wp/js',
-            Assets\Asset_File_path('app', 'js'),
+            Assets\Asset_File_path('src/js/App.js'),
             [],
             null,
             array('strategy' => 'defer', 'in_footer' => true)
@@ -139,11 +132,12 @@ function assets()
         'locale' => function_exists('pll_current_language') ? pll_current_language() : get_locale(),
         'current_site' => get_site_url(),
         'admin_ajax' => admin_url('admin-ajax.php'),
+        'dist_directory' => VITE_DEV_SERVER  ? '/' : get_template_directory_uri() . '/dist/',
         //'rest-api' => get_rest_url(null, 'wp/v2/'),
         //'nonce' => wp_create_nonce('tdp_nonce'),
     );
 
-    wp_add_inline_script(VITE_DEV_SERVER === true ? 'mill3wp/dev' : 'mill3wp/js', 'window.MILL3WP = ' . json_encode($wp_endpoints) . ';', 'before');
+    wp_add_inline_script(VITE_DEV_SERVER ? 'mill3wp/vitejs_app' : 'mill3wp/js', 'window.MILL3WP = ' . json_encode($wp_endpoints) . ';', 'before');
 
     // remove core scripts and freaking emoji
     remove_action('wp_head', 'print_emoji_detection_script', 7);
@@ -157,6 +151,16 @@ function assets()
 }
 
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
+
+// Add type="module" attribute using wp_script_attributes filter
+// wp_enqueue_script_module() is not compatible with wp_add_inline_script()
+add_filter('script_loader_tag', function($tag, $handle) {
+    // echo $tag;
+    if ('mill3wp/vitejs_app' === $handle) {
+        $tag = str_replace('<script ', '<script type="module" ', $tag);
+    }
+    return $tag;
+}, 10, 2);
 
 
 // add link preload for primary fonts and mill3/css in <head>

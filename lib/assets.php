@@ -52,12 +52,19 @@ class JsonManifest
  *
  * @return string
  */
-function Asset_File_path($entry = 'app', $type = 'css', $relative = false)
+function Asset_File_path($entry = 'src/js/App.js', $include_site_url = true)
 {
-    $manifest_path = get_template_directory() . '/dist/' . 'assets.json';
+    $dist_dir = '/dist/';
+    $base_uri = $include_site_url ? get_stylesheet_directory_uri() . $dist_dir : $dist_dir;
+
+    $manifest_path = get_template_directory() . $dist_dir . '.vite/manifest.json';
     $manifest = new JsonManifest($manifest_path);
-    if ($entry && $manifest->get()) {
-        return $manifest->get()[$entry][$type];
+
+    // has manifest and entry exists
+    $has_entry = $manifest->get() && isset($manifest->get()[$entry]);
+
+    if ($has_entry) {
+        return $base_uri . $manifest->get()[$entry]['file'];
     } else {
         return null;
     }

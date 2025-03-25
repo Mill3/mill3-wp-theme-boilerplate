@@ -6,7 +6,7 @@ const SRC_PATH = path.resolve(__dirname, 'src');
 const DEV = process.env.NODE_ENV !== "production";
 
 export default {
-  base: DEV ? `/` :` /wp-content/themes/${THEME_NAME}}/dist/`,
+  base: DEV ? `/` :` /wp-content/themes/${THEME_NAME}/dist/`,
   build: {
     outDir: './dist',
     emptyOutDir: true,

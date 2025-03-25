@@ -30,7 +30,7 @@ function add_editor_stylesheet()
     add_editor_style($cleaned_filename);
 }
 
-add_action('after_setup_theme', __NAMESPACE__ . '\\add_editor_stylesheet');
+// add_action('after_setup_theme', __NAMESPACE__ . '\\add_editor_stylesheet');
 
 /**
  * Enqueue custom Gutenberg script for our theme
