@@ -37,8 +37,7 @@
   {{ content }}
   {% if dev %}
     <script type="module" src="{{ vite_js }}"></script>
-  {% else %}
-    <script type="module" src="{{ js }}"></script>
   {% endif %}
+  <script type="module" src="{{ js }}"></script>
 </body>
 </html>

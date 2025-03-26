@@ -14,8 +14,8 @@ export default {
     rollupOptions: {
       input: {
         app: path.resolve(SRC_PATH, 'js/App.js'),
-        acf_preview: path.resolve(SRC_PATH, 'js/ACF-Preview.js'),
         app_style: path.resolve(SRC_PATH, 'scss/App.scss'),
+        acf_preview: path.resolve(SRC_PATH, 'js/ACF-Preview.js'),
         acf_preview_style: path.resolve(SRC_PATH, 'scss/ACF-preview.scss'),
         editor_style: path.resolve(SRC_PATH, 'scss/Editor-style.scss'),
         sentry: path.resolve(SRC_PATH, 'js/Sentry.js')
@@ -36,6 +36,14 @@ export default {
       "@mill3-sass-mixins": path.resolve(SRC_PATH, `scss/_lib/mixins/`),
       "@mill3-sass-vars": path.resolve(SRC_PATH, `scss/_lib/vars/`),
       "@mixins": path.resolve(SRC_PATH, `scss/mixins/`)
+    }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler',
+        quietDeps: true
+      }
     }
   },
   server: {
