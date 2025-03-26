@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../vars/breakpoints" as vars;
 @use "./units";
 
@@ -21,7 +22,7 @@
 @function breakpoint-next(
   $name,
   $breakpoints: vars.$grid-breakpoints,
-  $breakpoint-names: map-keys($breakpoints)
+  $breakpoint-names: map.keys($breakpoints)
 ) {
   $n: index($breakpoint-names, $name);
   @if not $n {
@@ -39,7 +40,7 @@
 ///    >> breakpoint-min(sm, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px))
 ///    576px
 @function breakpoint-min($name, $breakpoints: vars.$grid-breakpoints) {
-  $min: map-get($breakpoints, $name);
+  $min: map.get($breakpoints, $name);
   @return if($min != 0, $min, null);
 }
 

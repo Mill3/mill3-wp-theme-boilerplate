@@ -1,3 +1,6 @@
+@use "sass:math";
+@use "sass:meta";
+@use "sass:map";
 @use "sass:string";
 @use "../vars/spacers" as vars;
 @use "./units";
@@ -5,7 +8,7 @@
 /// color-css-variables
 
 @function spacer($key) {
-  $value: map-get(vars.$spacers, $key);
+  $value: map.get(vars.$spacers, $key);
 
   @if not $value {
     @error "spacer `#{$key}` not found in $spacers";
@@ -13,8 +16,8 @@
     $unit: "";
 
     // get value unit if is a number
-    @if type-of($value) == "number" {
-      $unit: unit($value);
+    @if meta.type-of($value) == "number" {
+      $unit: math.unit($value);
     }
 
     // if $unit is empty, force value unit to px

@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "sass:color";
 @use "sass:math";
 @use "../vars/colors" as vars;
@@ -39,7 +40,7 @@
 }
 
 @function color($key) {
-  $color: map-get(vars.$colors, $key);
+  $color: map.get(vars.$colors, $key);
 
   @if not $color {
     @error "Color `#{$key}` not found in colors";

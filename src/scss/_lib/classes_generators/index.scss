@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../mixins/boxes";
 @use "../mixins/breakpoints";
 @use "../mixins/grid";
@@ -104,7 +105,7 @@
 }
 
 // generate responsive utilities
-@each $breakpoint in map-keys(vars.$grid-breakpoints) {
+@each $breakpoint in map.keys(vars.$grid-breakpoints) {
   @include breakpoints.media-breakpoint-up($breakpoint) {
     @include generate-utils($breakpoint);
   }
