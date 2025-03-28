@@ -1,9 +1,9 @@
-import ImagesSequence from "@components/ImagesSequence";
+import ImagesSequence, { FIT_COVER } from "@components/ImagesSequence";
 import { INVIEW_ENTER } from "@scroll/constants";
-import { $ } from "@utils/dom";
+import { $, rect } from "@utils/dom";
 import { limit } from "@utils/math";
 import RAF from "@utils/raf";
-import ResizeOrientation from "@utils/resize";
+import ResizeOrientation, { BEFORE_SCROLL_UPDATE } from "@utils/resize";
 import Viewport from "@utils/viewport";
 
 const DEFAULT_OPTIONS = {
@@ -23,6 +23,7 @@ class ScrollingImagesSequence {
       start: 1,
       end: 150,
       fps: 30,
+      fit: FIT_COVER,
       canvas: this.canvas,
     });
 
@@ -35,8 +36,8 @@ class ScrollingImagesSequence {
     
     this._options = { ...DEFAULT_OPTIONS, ...options };
     this._inView = false;
-    this._intersections = null;
     this._raf = null;
+    this._rect = { top: 0, bottom: 0 };
     this._targetFrame = this.imagesSequence.start;
 
     this._onResize = this._onResize.bind(this);
@@ -46,10 +47,11 @@ class ScrollingImagesSequence {
   }
 
   init() {
-    this.imagesSequence.once('complete', () => console.log('ready'));
-    this.imagesSequence.load();
-    this.imagesSequence.resize();
+    // remove image from DOM since it's not necessary anymore
+    this.img.remove();
+    this.img = null;
 
+    this._onResize();
     this._bindEvents();
   }
   destroy() {
@@ -65,8 +67,8 @@ class ScrollingImagesSequence {
 
     this._options = null;
     this._inView = null;
-    this._intersections = null;
     this._raf = null;
+    this._rect = null;
     this._targetFrame = null;
 
     this._onResize = null;
@@ -74,9 +76,15 @@ class ScrollingImagesSequence {
     this._onScroll = null;
     this._onRAF = null;
   }
+  start() {
+    //this.imagesSequence.once('complete', () => console.log('ready'));
+    //this.imagesSequence.on('progress', (e, progress) => { console.log(progress); });
+    this.imagesSequence.load();
+    //this.imagesSequence.resize();
+  }
 
   _bindEvents() {
-    ResizeOrientation.add(this._onResize);
+    ResizeOrientation.add(this._onResize, BEFORE_SCROLL_UPDATE);
     this._raf = RAF.add(this._onRAF);
 
     this.emitter.on('SiteScroll.scrolling-images-sequence', this._onScrollCall);
@@ -90,11 +98,17 @@ class ScrollingImagesSequence {
     this.emitter.off('SiteScroll.scroll', this._onScroll);
   }
 
-  _onResize() { this.imagesSequence.resize(); }
+  _onResize() {
+    const { top, height } = rect(this.el);
+
+    this._rect.top = top + window.scrollY;
+    this._rect.bottom = Math.min(Infinity, top + height);
+
+    this.imagesSequence.resize();
+  }
   _onScrollCall(direction, obj) {
     if( obj.el !== this.el ) return;
 
-    this._intersections = obj;
     this._inView = direction === INVIEW_ENTER;
 
     // if we accept to skip frames when scrolling very fast, stop here
@@ -108,7 +122,7 @@ class ScrollingImagesSequence {
     }
   }
   _onScroll({ y }) {
-    if( !this._intersections ) return;
+    if( !this._inView ) return;
 
     const { top, bottom } = this._intersections;
     const { start, length } = this.imagesSequence;

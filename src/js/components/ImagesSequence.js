@@ -62,9 +62,9 @@
 import EventEmitter2 from "eventemitter2";
 
 import { rect } from "@utils/dom";
-import ImagesLoaded from "@utils/imagesloaded";
 import { requestInterval } from "@utils/interval";
 import { isNumber, isString } from "@utils/is";
+import { on, off } from "@utils/listener";
 import Viewport from "@utils/viewport";
 
 export const FIT_COVER = 'cover';
@@ -79,6 +79,7 @@ const DEFAULT_OPTIONS = {
   fps: 12,
   loop: false,
   fit: FIT_STRETCH,
+  loading: 4,
   canvas: null,
 };
 
@@ -94,11 +95,14 @@ class ImagesSequence extends EventEmitter2 {
     if( !this._options.path.includes('%s') ) throw new Error('ImagesSequence options.path must contains a %s replacements.');
     if( !isNumber(this._options.start) ) throw new Error('ImagesSequence options.start must be a number.');
     if( !isNumber(this._options.end) ) throw new Error('ImagesSequence options.end must be a number.');
+    if( !isNumber(this._options.loading) ) throw new Error('ImagesSequence options.loading must be a number.');
     if( this._options.start === this._options.end ) throw new Error('ImagesSequence options.start and options.end must be different.');
     if( this._options.start > this._options.end ) throw new Error('ImagesSequence options.start must be smaller than options.end.');
+    if( this._options.loading < 1 ) throw new Error('ImagesSequence options.loading must be bigger than 0.');
 
     this._ctx = this.canvas.getContext('2d');
     this._frames = new Map();
+    this._priorities = [];
     this._currentFrame = this._options.start;
     this._length = this._options.end - this._options.start;
     this._loader = null;
@@ -110,7 +114,6 @@ class ImagesSequence extends EventEmitter2 {
     };
 
     this._onLoadProgress = this._onLoadProgress.bind(this);
-    this._onLoadCompleted = this._onLoadCompleted.bind(this);
     this._onInterval = this._onInterval.bind(this);
 
     this.init();
@@ -119,26 +122,65 @@ class ImagesSequence extends EventEmitter2 {
   init() {
     const { start, end, path } = this._options;
 
+    // sort images loading priority, lower get priority (example: 0001 - 0100)
+    // - first and last image (0001) should always load first
+    // - then middle frame (0050)
+    // - then you pick the middle frame of each group until all frames are loaded
+    //    - 0050
+    //    - 0025, 0075
+    //    - 0013, 00
+    // - you perform previous operation until you reached end frame with a middle value of 1
+
+    const priorities = [];
+          priorities[start] = -100;
+          priorities[end] = -100;
+
+    let priority = 1;
+    let middle = this._length / 2;
+    let index = start;
+
+    while( true ) {
+      // jump to next middle child
+      index += middle;
+
+      // if child priority doesn't exists, set priority for this child
+      if( !priorities[Math.ceil(index)] ) priorities[Math.ceil(index)] = priority;
+
+      // if we reach frames end
+      if( index >= end ) {
+        // if we reached end with middle value of one, all frames are prioritized
+        if( middle === 1 ) break;
+
+        // divise middle child for next round, cannot go under 1
+        middle = Math.max(middle / 2, 1);
+
+        // restart index
+        index = start;
+
+        // downcrease priority
+        priority++;
+      }
+    }
+
     // populate frames Map
     for(let i = start, n = end; i<=n; i++) {
       const src = path.replace('%s', i.toString().padStart(this._options.digits, '0'));
-      const frame = new Frame(i, src);
+      const frame = new Frame(i, src, priorities[i]);
+            frame.on('load', this._onLoadProgress);
 
       this._frames.set(i, frame);
     }
   }
   load() {
-    // create an array with all images
-    const images = [];
-    this._frames.forEach(frame => images.push(frame.img));
+    this._frames.forEach(frame => {
+      this._priorities.push(frame);
+    });
 
-    // create images loader
-    this._loader = new ImagesLoaded(images);
-    this._loader.on('progress', this._onLoadProgress);
-    this._loader.on('always', this._onLoadCompleted);
+    // sort frames by loading prority and save results for later
+    this._priorities.sort((a, b) => a.priority - b.priority);
 
     // start images loading
-    this._frames.forEach(frame => frame.load());
+    this._loadNext(this._options.loaded);
   }
   destroy() {
     if( this._interval ) {
@@ -146,15 +188,11 @@ class ImagesSequence extends EventEmitter2 {
       this._interval = null;
     }
 
-    if( this._loader ) {
-      this._loader.off('progress', this._onLoadProgress);
-      this._loader.off('always', this._onLoadCompleted);
-      this._loader.destroy();
-      this._loader = null;
-    }
-
     if( this._frames ) {
-      this._frames.forEach(frame => frame.destroy());
+      this._frames.forEach(frame => {
+        frame.off('load', this._onLoadProgress);
+        frame.destroy();
+      });
       this._frames.clear();
       this._frames = null;
     }
@@ -163,12 +201,12 @@ class ImagesSequence extends EventEmitter2 {
 
     this._ctx = null;
     this._currentFrame = null;
+    this._priorities = null;
     this._length = null;
     this._options = null;
     this._viewport = null;
     
     this._onLoadProgress = null;
-    this._onLoadCompleted = null;
     this._onInterval = null;
   }
   resize() {
@@ -196,6 +234,22 @@ class ImagesSequence extends EventEmitter2 {
   }
 
 
+  _loadNext(quantity = 1) {
+    for( let i = 0; i < quantity; i++ ) {
+      if( !this._priorities ) return;
+
+      if( this._priorities.length === 0 ) {
+        this._priorities = null;
+        this.emit('complete', this);
+
+        return;
+      }
+
+      const frame = this._priorities.shift();
+            frame.load();
+    }
+    
+  }
   _update() {
     const frame = this._frames.get(this._currentFrame);
 
@@ -238,32 +292,17 @@ class ImagesSequence extends EventEmitter2 {
     this._ctx.drawImage(frame.img, 0, 0);
   }
 
-  _onLoadProgress(loader, img, elem) {
-    // find frame related to image loading event
-    let frame;
-    for(const f of this._frames.values()) {
-      if( f.img === elem ){
-        frame = f;
-        break;
-      }
-    }
-
-    // update frame's loading status
-    if( frame ) frame.loaded = img.isLoaded;
+  _onLoadProgress(frame) {
+    if( !this._frames ) return;
 
     // emit progress event
-    this.emit('progress', this, loader.percentage);
+    this.emit('progress', this, (this._frames.size - this._priorities.length) / this._frames.size);
 
     // draw active frame as soon as possible
     if( frame.id === this._currentFrame ) this._update();
-  }
-  _onLoadCompleted() {
-    this.emit('complete', this);
 
-    this._loader.off('progress', this._onLoadProgress);
-    this._loader.off('always', this._onLoadCompleted);
-    this._loader.destroy();
-    this._loader = null;
+    // load next frame
+    this._loadNext();
   }
   _onInterval() {
     const { start, end, loop } = this._options;
@@ -297,22 +336,65 @@ class ImagesSequence extends EventEmitter2 {
 };
 
 
-class Frame {
-  constructor(id, src) {
+class Frame extends EventEmitter2 {
+  constructor(id, src, priority = 0) {
+    super();
+
     this.id = id;
     this.src = src;
-    this.loaded = false;
-
+    this.priority = priority;
     this.img = new Image();
+
+    this._loaded = false;
+
+    this._onLoad = this._onLoad.bind(this);
+    this._onError = this._onError.bind(this);
   }
 
-  load() { this.img.src = this.src; }
+  load() {
+    this._bindEvents();
+    this.img.src = this.src;
+
+    //console.log('load', this.id);
+  }
   destroy() {
+    this._unbindEvents();
+
     this.id = null;
     this.src = null;
-    this.loaded = null;
+    this.priority = null;
     this.img = null;
+
+    this._loaded = null;
+
+    this._onLoad = null;
+    this._onError = null;
   }
+
+  _bindEvents() {
+    on(this.img, 'load', this._onLoad);
+    on(this.img, 'error', this._onError);
+  }
+  _unbindEvents() {
+    off(this.img, 'load', this._onLoad);
+    off(this.img, 'error', this._onError);
+  }
+  _confirm(loaded) {
+    this._loaded = loaded;
+    this.emit('load', this);
+  }
+
+  _onLoad() {
+    this._unbindEvents();
+    this._confirm(true);
+  }
+  _onError() {
+    this._unbindEvents();
+    this._confirm(false);
+  }
+
+  // getter - setter
+  get loaded() { return this._loaded; }
 }
 
 export default ImagesSequence;
