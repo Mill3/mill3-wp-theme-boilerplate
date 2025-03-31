@@ -46,9 +46,9 @@ class JsonManifest
 /**
  * Return asset filename path from its scope (css/js)
  *
- * @param string $entry : webpack entry name defined in assets.json
+ * @param string $entry : ViteJS entry name defined in .vite/manifest.json
  *
- * @param string $type : asset name defined in assets.json
+ * @param string $include_site_url : determine if the site_url should be included, default is true
  *
  * @return string
  */
