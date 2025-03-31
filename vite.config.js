@@ -9,6 +9,7 @@ export default {
   base: DEV ? `/` :` /wp-content/themes/${THEME_NAME}/dist/`,
   build: {
     outDir: './dist',
+    assetsInlineLimit: 0, // disables inlining of all assets
     emptyOutDir: true,
     manifest: true,
     rollupOptions: {

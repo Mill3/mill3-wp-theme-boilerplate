@@ -132,7 +132,6 @@ function assets()
         'locale' => function_exists('pll_current_language') ? pll_current_language() : get_locale(),
         'current_site' => get_site_url(),
         'admin_ajax' => admin_url('admin-ajax.php'),
-        'dist_directory' => VITE_DEV_SERVER  ? '/' : get_template_directory_uri() . '/dist/',
         //'rest-api' => get_rest_url(null, 'wp/v2/'),
         //'nonce' => wp_create_nonce('tdp_nonce'),
     );
