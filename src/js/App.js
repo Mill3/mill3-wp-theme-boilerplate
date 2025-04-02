@@ -10,6 +10,7 @@ import WindmillCutter from "@core/windmill.cutter";
 //import WindmillFluidTypography from "@core/windmill.fluid-typography";
 import WindmillImgLazyload from "@core/windmill.img-lazyload";
 import WindmillPrefetch from "@core/windmill.prefetch";
+//import WindmillRive from "@core/windmill.rive";
 import WindmillScripts from "@core/windmill.scripts";
 import WindmillScroll from "@core/windmill.scroll";
 import WindmillSplitting from "@core/windmill.splitting";
@@ -64,6 +65,7 @@ class App {
     windmill.on('entering', updateScrollbarWidth);
 
     // install Windmill's plugins
+    windmill.use( new WindmillRive() );
     //windmill.use( new WindmillFluidTypography() );
     windmill.use( new WindmillScripts() );
     windmill.use( new WindmillWebpackChunks(Modules) );

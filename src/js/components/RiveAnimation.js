@@ -54,6 +54,14 @@ class RiveAnimation extends EventEmitter2 {
 
     // set limit around dpr
     if( this._dpr ) this._dpr = limit(1, Math.min(MAX_DEVICE_PIXEL_RATIO, Viewport.devicePixelRatio), this._dpr);
+
+    // create layout from options
+    if( this.el.hasAttribute('data-fit') || this.el.hasAttribute('data-alignment') ) {
+      this._options.layout = new Layout({
+        fit: this.el.hasAttribute('data-fit') ? this.el.dataset.fit : DEFAULT_OPTIONS.layout.fit, 
+        alignment: this.el.hasAttribute('data-alignment') ? this.el.dataset.alignment : DEFAULT_OPTIONS.layout.alignment, 
+      });
+    }
  
     this._onLoad = this._onLoad.bind(this);
     this._onResize = this._onResize.bind(this);
