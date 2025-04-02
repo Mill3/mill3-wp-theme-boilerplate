@@ -29,6 +29,7 @@ button {
   touch-action: manipulation;
 
   &:focus { outline: none; }
+  &:has(.btn__a11y):not([class*=" position-"]) { position: relative; }
 
 
   // CTA
