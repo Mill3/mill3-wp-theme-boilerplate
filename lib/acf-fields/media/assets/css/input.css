@@ -1,0 +1,9 @@
+.mill3-acf-spacer-wrap {
+  display: flex;
+  justify-content: flex-start;
+}
+.mill3-acf-spacer-wrap input[type="text"] {
+  flex: 0 0 50px;
+  width: 80px;
+  margin-left: 10px;
+}

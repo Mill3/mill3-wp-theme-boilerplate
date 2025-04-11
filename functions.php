@@ -116,6 +116,7 @@ $includes = [
     'lib/twig/title-highlights.php',
     'lib/twig/title-replacements.php',
     // custom field type
+    'lib/acf-fields/media/index.php',
     'lib/acf-fields/spacer/index.php',
     'lib/acf-fields/row-title/index.php',
     // model class per post-type
