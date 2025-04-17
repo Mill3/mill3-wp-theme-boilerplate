@@ -65,7 +65,7 @@ class App {
     windmill.on('entering', updateScrollbarWidth);
 
     // install Windmill's plugins
-    windmill.use( new WindmillRive() );
+    //windmill.use( new WindmillRive() );
     //windmill.use( new WindmillFluidTypography() );
     windmill.use( new WindmillScripts() );
     windmill.use( new WindmillWebpackChunks(Modules) );
