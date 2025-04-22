@@ -1,14 +1,14 @@
 // 1. we need some mixins loaded globally
-@import "@mill3-sass/mixins/globals";
+@use "@mill3-sass/mixins/globals" as globals;
 
 // 2. then import all sass files at once
-@import "@mill3-sass",
-  "cssvars",
-  "vendors",
-  "commons",
-  "ui",
-  "modules",
-  "page-builder",
-  "layouts",
-  "post-type",
-  "taxonomy";
+@use "@mill3-sass" as mill3sass;
+@use "cssvars";
+@use "vendors";
+@use "commons";
+@use "ui";
+@use "modules";
+@use "page-builder";
+@use "layouts";
+@use "post-type";
+@use "taxonomy";

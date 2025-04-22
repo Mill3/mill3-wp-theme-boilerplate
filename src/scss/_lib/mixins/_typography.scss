@@ -1,3 +1,5 @@
+@use "sass:meta";
+@use "sass:map";
 @use "sass:math";
 @use "sass:string";
 @use "../vars/breakpoints" as grid-breakpoints;
@@ -6,7 +8,7 @@
 @use "./units";
 
 @function font-size($key) {
-  $value: map-get(typography.$font-size, $key);
+  $value: map.get(typography.$font-size, $key);
 
   @if not $value {
     @error "font-size `#{$key}` not found in $font-size";
@@ -14,8 +16,8 @@
     $unit: "";
 
     // get value unit if is a number
-    @if type-of($value) == "number" {
-      $unit: unit($value);
+    @if meta.type-of($value) == "number" {
+      $unit: math.unit($value);
     }
 
     // if $unit is empty, force value unit to px
@@ -25,7 +27,7 @@
 
     // if value is in vw, use our custom vw function
     @if $unit == "vw" {
-      $value: units.vw($value);
+      $value: mathunits.vw($value);
     }
 
     // if value is in vh, use our custom vh function
@@ -39,7 +41,7 @@
 
 
 @function font-family($key) {
-  $value: map-get(typography.$font-family, $key);
+  $value: map.get(typography.$font-family, $key);
 
   @if not $value {
     @error "font-family `#{$key}` not found in $font-family";
@@ -49,7 +51,7 @@
 }
 
 @function line-height($key) {
-  $value: map-get(typography.$line-height, $key);
+  $value: map.get(typography.$line-height, $key);
 
   @if not $value {
     @error "line-height `#{$key}` not found in $line-height";
@@ -59,7 +61,7 @@
 }
 
 @function heading($key) {
-  $value: map-get(typography.$heading, $key);
+  $value: map.get(typography.$heading, $key);
 
   @if not $value {
     @error "headings-font-size `#{$key}` not found in $heading";
@@ -67,8 +69,8 @@
     $unit: "";
 
     // get value unit if is a number
-    @if type-of($value) == "number" {
-      $unit: unit($value);
+    @if meta.type-of($value) == "number" {
+      $unit: math.unit($value);
     }
 
     // if $unit is empty, force value's unit to px
@@ -106,7 +108,7 @@
           @else if $breakpoint == "md" {
             font-size: units.vw(math.div(units.strip($value), grid-breakpoints.$FIGMA_TABLET_WIDTH) * 100);
           }
-          @else if $breakpoint == "lg" {
+          @else if $breakpoint == "xl" {
             $vw: units.vw(math.div(units.strip($value), grid-breakpoints.$FIGMA_DESKTOP_WIDTH) * 100);
             font-size: min($vw, $value);
           }

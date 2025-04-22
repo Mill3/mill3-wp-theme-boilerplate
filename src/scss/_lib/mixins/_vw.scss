@@ -1,8 +1,9 @@
+@use "sass:map";
 @use "sass:math";
 @use "./units";
 
 @function vw-spacer($key, $viewport: 375) {
-  $value: map-get($spacers, $key);
+  $value: map.get($spacers, $key);
 
   @if not $value {
     @error "spacer `#{$key}` not found in `#{$spacers}`";
