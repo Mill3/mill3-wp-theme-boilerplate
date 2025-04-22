@@ -17,7 +17,7 @@ Timber\Timber::init();
 // Define various constants
 //
 defined('THEME_ENV') or define('THEME_ENV', 'production');
-defined('WEBPACK_DEV_SERVER') or define('WEBPACK_DEV_SERVER', THEME_ENV === 'development');
+defined('VITE_DEV_SERVER') or define('VITE_DEV_SERVER', THEME_ENV === 'development');
 defined('SENTRY_DSN_PHP') or define('SENTRY_DSN_PHP', null);
 defined('SENTRY_DSN_JS') or define('SENTRY_DSN_JS', null);
 defined('SENTRY_ENV') or define('SENTRY_ENV', null);
@@ -215,7 +215,7 @@ class Mill3WP extends Timber\Site
         $context['social_links'] = Timber::get_menu('social_links');
 
         $context['THEME_ENV'] = THEME_ENV;
-        $context['WEBPACK_DEV_SERVER'] = WEBPACK_DEV_SERVER;
+        $context['VITE_DEV_SERVER'] = VITE_DEV_SERVER;
         $context['SENTRY_DSN_PHP'] = SENTRY_DSN_PHP;
         $context['SENTRY_DSN_JS'] = SENTRY_DSN_JS;
         $context['SENTRY_ENV'] = SENTRY_ENV;

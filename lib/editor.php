@@ -10,20 +10,12 @@ LOAD EDITOR STYLES
 function add_editor_stylesheet()
 {
     // Get CSS from assets.json
-    $editor_css = Assets\Asset_File_path('editor-style', 'css');
+    $editor_css = Assets\Asset_File_path('src/scss/Editor-style.scss', false);
 
     if(!$editor_css) return;
 
-    $theme_directory_url = parse_url( get_stylesheet_directory_uri(), PHP_URL_PATH );
-
-    $css_relative = str_replace(
-        $theme_directory_url,
-        '',
-        $editor_css
-    );
-
     // clean filename without any params url
-    $cleaned_filename = explode('?', $css_relative)[0];
+    $cleaned_filename = explode('?', $editor_css)[0];
 
     // WP admin editor expect a relative path to editor file
     // ie: not the full path with 'wp-content/themes/my-themes/...'
