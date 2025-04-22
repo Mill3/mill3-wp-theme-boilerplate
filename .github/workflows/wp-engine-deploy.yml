@@ -15,9 +15,9 @@ jobs:
       PROD_SITE_URL: "https://m3boilerplastg.wpenginepowered.com/"
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - name: Copy env.production sample file to .env
