@@ -18,7 +18,7 @@ const bundle_files = [
   //'core/ajax',
   //'core/cutter',
   "core/emitter",
-  "core/gdpr",
+  // "core/gdpr",
   "core/hello",
   //'core/locales',
   //'core/power-mode',
@@ -34,7 +34,7 @@ const bundle_files = [
   "core/windmill.img-lazyload",
   "core/windmill",
   "core/windmill.prefetch",
-  "core/windmill.rive",
+  // "core/windmill.rive",
   "core/windmill.scripts",
   "core/windmill.scroll",
   "core/windmill.splitting",
@@ -99,7 +99,7 @@ const bundle_files = [
   //'utils/wp',
   //'utils/youtube-api',
 
-  "ui/gdpr",
+  // "ui/gdpr",
   "ui/gform",
   //'ui/mouse-wheel-facebook',
   //'ui/mouse-wheel-vimeo',
@@ -128,6 +128,7 @@ export default {
         chunkFileNames: (entry) => {
           const defaultName = "assets/[name]-[hash].js";
           const { facadeModuleId } = entry;
+          // console.log('facadeModuleId:', facadeModuleId)
 
           // if no facadeModuleId, return default
           if (!facadeModuleId) return defaultName;
@@ -135,13 +136,18 @@ export default {
           // skip if from node_modules
           if (facadeModuleId && facadeModuleId.includes("node_modules")) return defaultName;
 
-          // extract the name from the facadeModuleId
+          // extract entry type from facadeModuleId
+          // facadeModuleId is a path like /path/to/src/js/modules/module-name.js
+          // we want to extract the 'modules' part
+          const type = facadeModuleId.split("/").slice(-3)[0];
+
+          // extract the name from facadeModuleId
           // facadeModuleId is a path like /path/to/src/js/modules/module-name.js
           // we want to extract the module-name part
           const name = facadeModuleId.split("/").slice(-2)[0];
 
           // return the name with the hash, this will create a file like assets/module-name-[hash].js
-          return `assets/${name}-[hash].js`;
+          return `assets/${type}-${name}-[hash].js`;
         },
         manualChunks: (id) => {
           if (bundle_files.some((file) => id.includes(file))) {

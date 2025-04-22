@@ -1,6 +1,10 @@
 /* eslint-disable object-shorthand */
 /* eslint-disable no-undef */
 
+// ViteJS glob import all Modules and UIs
+const module_chunks = import.meta.glob('./modules/**/index.js');
+const ui_chunks = import.meta.glob('./ui/**/index.js');
+
 import domready from "domready";
 
 import "@core/hello";
@@ -10,11 +14,12 @@ import WindmillCutter from "@core/windmill.cutter";
 //import WindmillFluidTypography from "@core/windmill.fluid-typography";
 import WindmillImgLazyload from "@core/windmill.img-lazyload";
 import WindmillPrefetch from "@core/windmill.prefetch";
-//import WindmillRive from "@core/windmill.rive";
+// import WindmillRive from "@core/windmill.rive";
 import WindmillScripts from "@core/windmill.scripts";
 import WindmillScroll from "@core/windmill.scroll";
 import WindmillSplitting from "@core/windmill.splitting";
-import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
+import WindmillChunks from "@core/windmill.chunks";
+// import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 //import WindmillDomController from "@core/windmill.dom-controller";
 import scrollbarWidth from "@core/scrollbar-width";
 import { SCROLLBAR_HIDDEN_CLASSNAME } from "@scroll/constants";
@@ -23,7 +28,7 @@ import { html, body } from "@utils/dom";
 import transitions from "@transitions";
 
 // ONLY FOR WINDMILL WEBPACK CHUNKS : registry of all modules
-import Modules from '@modules/index.webpack-chunks.js';
+import Modules from '@modules/index.chunks.js';
 
 // ONLY FOR WINDMILL DOM CONTROLLER : load all UI and modules classes
 //import Modules from '@modules/index.dom-controller';
@@ -65,10 +70,10 @@ class App {
     windmill.on('entering', updateScrollbarWidth);
 
     // install Windmill's plugins
-    //windmill.use( new WindmillRive() );
+    // windmill.use( new WindmillRive() );
     //windmill.use( new WindmillFluidTypography() );
     windmill.use( new WindmillScripts() );
-    windmill.use( new WindmillWebpackChunks(Modules) );
+    windmill.use( new WindmillChunks(Modules, {...module_chunks, ...ui_chunks }) );
     //windmill.use( new WindmillDomController({ modules: Modules, ui: UI }) );
     windmill.use( new WindmillScroll() );
     windmill.use( new WindmillCutter() );
