@@ -60,19 +60,36 @@ function acf_block_example($slug)
  *
  */
 
-function acf_block_preview($content)
+/**
+ * ACF block preview
+ *
+ * loads an iframe containing a block-editor block row. The iFrame loads our theme CSS & JS modules
+ *
+ */
+
+ function acf_block_preview($content)
 {
     global $post;
 
     $context = Mill3Timber::context();
     $context['post'] = Mill3Timber::get_post($post);
-    $context['stylesheet'] = Mill3WP\Assets\Asset_File_path('acfPreview', 'css');
-    $context['js'] = Mill3WP\Assets\Asset_File_path('acfPreviewIframe', 'js');
     $context['content'] = $content;
+    $context['dev'] = false;
     $context['is_preview'] = true;
 
-    $doc = Mill3Timber::compile("base-acf-preview.twig", $context);
-    echo '<iframe srcdoc="' . htmlspecialchars($doc, ENT_QUOTES, 'UTF-8', true) . '" style="pointer-events: none;" width="100%" frameborder="0" scrolling="no"></iframe>';
+    if(VITE_DEV_SERVER === true) {
+        $vite_url = "http://localhost:{$_ENV['VITE_DEV_SERVER_PORT']}";
+        $context['dev'] = true;
+        $context['stylesheet'] = null;
+        $context['vite_js'] = "{$vite_url }/@vite/client";
+        $context['js'] = "{$vite_url }/src/js/ACF-Preview.js";
+    } else {
+        $context['stylesheet'] = Mill3WP\Assets\Asset_File_path('src/scss/ACF-preview.scss');
+        $context['js'] = Mill3WP\Assets\Asset_File_path('src/js/ACF-Preview.js');
+    }
+
+     $doc = Mill3Timber::compile("base-acf-preview.twig", $context);
+     echo '<iframe srcdoc="' . htmlspecialchars($doc, ENT_QUOTES, 'UTF-8', true) . '" style="pointer-events: none;" width="100%" frameborder="0" scrolling="no"></iframe>';
 }
 
 /**
