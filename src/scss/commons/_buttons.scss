@@ -31,12 +31,14 @@ button {
   &:focus { outline: none; }
   &:has(.btn__a11y):not([class*=" position-"]) { position: relative; }
 
-
   // CTA
   &.--cta {
     --btn-radius: 0px;
     --btn-bg-color: #{colors.color(color-black)};
     --btn-text-color: #{colors.color(color-white)};
+    color: var(--btn-text-color);
+    height: 30px;
+    padding: 0 10px;
 
     // default styles
     &:not([class*=" d-"]) { display: flex; }
@@ -45,17 +47,12 @@ button {
     &:not([class*=" justify-content-"]) { justify-content: center; }
     &:not([class*=" ff-"]) { font-family: typography.font-family(body); }
 
-    &:not([class*=" fz-"]) { 
-      font-size: 16px; 
-
+    &:not([class*=" fz-"]) {
+      font-size: 16px;
       @include breakpoints.media-breakpoint-up(xl) {
         font-size: 18px;
       }
     }
-
-    color: var(--btn-text-color);
-    height: 30px;
-    padding: 0 10px;
 
     #{$self}__icon, #{$self}__label {
       isolation: isolate;
@@ -111,10 +108,10 @@ button {
   // LINK
   &.--link {
     --btn-text-color: #{colors.color(color-black)};
+    color: var(--btn-text-color);
+
     // default styles
     &:not([class*=" position-"]) { position: relative;}
-
-    color: var(--btn-text-color);
 
     #{$self}__bg {
       display: none;
