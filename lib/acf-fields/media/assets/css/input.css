@@ -1,0 +1,55 @@
+.acf-media-uploader {
+  position: relative;
+}
+.acf-media-uploader p {
+  margin: 0;
+}
+.acf-media-uploader .file .acf-label {
+  margin-top: 20px;
+}
+.acf-media-uploader .file-wrap {
+  border: #ccd0d4 solid 1px;
+  min-height: 84px;
+  position: relative;
+  background: #fff;
+}
+.acf-media-uploader .file-wrap:hover .acf-actions {
+  display: block;
+}
+.acf-media-uploader .file-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 10px;
+  background: #f1f1f1;
+  border-right: #d5d9dd solid 1px;
+}
+.acf-media-uploader .file-icon img {
+  display: block;
+  padding: 0;
+  margin: 0;
+  max-width: 48px;
+}
+.acf-media-uploader .file-info {
+  padding: 10px;
+  margin-left: 69px;
+}
+.acf-media-uploader .file-info p {
+  margin: 0 0 2px;
+  font-size: 13px;
+  line-height: 1.4em;
+  word-break: break-all;
+}
+
+/* by default, hide poster and mobile field */
+.acf-media-uploader .file[data-file="poster"],
+.acf-media-uploader .file[data-file="mobile"] {
+  display: none;
+}
+
+/* if file is video, show poster and mobile field */
+.acf-media-uploader.--is-video .file[data-file="poster"],
+.acf-media-uploader.--is-video .file[data-file="mobile"] {
+  display: block;
+}
