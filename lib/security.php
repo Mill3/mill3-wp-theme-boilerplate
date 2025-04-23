@@ -8,7 +8,7 @@ add_action('wp_head', function() {
     $base_url = get_site_url();
     $options = get_fields('options');
 
-    $imgs = [$base_url];
+    $imgs = [$base_url, 'data:', 'blob:'];
     $scripts = [$base_url];
     $fonts = [$base_url, 'data:'];
     $frames = [];
