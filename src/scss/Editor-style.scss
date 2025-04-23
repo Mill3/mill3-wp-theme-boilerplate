@@ -1,3 +1,4 @@
+/* purgecss start ignore */
 @charset "utf-8";
 
 @use "@mill3-sass-mixins/spacers";
@@ -5,11 +6,11 @@
 @use "@mill3-sass-mixins/typography";
 @use "@mixins/wysiwyg";
 
-@import "@mill3-sass/cssvars";
-@import "@mill3-sass/classes_generators/_base-elements";
-@import "@mill3-sass/classes_generators/_colors";
+@use "@mill3-sass/cssvars" as *;
+@use "@mill3-sass/classes_generators/_base-elements" as *;
+@use "@mill3-sass/classes_generators/_colors" as *;
 
-@import "commons/fonts";
+@use "commons/fonts";
 
 body.mce-content-body {
   --body-text-color: #{colors.color(color-black)};
@@ -52,3 +53,4 @@ html :where(.wp-block) {
   margin-top: 10px !important;
   margin-bottom: 10px !important;
 }
+/* purgecss end ignore */

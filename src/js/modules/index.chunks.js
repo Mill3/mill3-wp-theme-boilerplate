@@ -14,5 +14,5 @@ export default [
   //"modules/sharing",
   //"modules/svg-path-length",
   //"modules/text-ticker",
-  "modules/video"
+  // "modules/video"
 ];

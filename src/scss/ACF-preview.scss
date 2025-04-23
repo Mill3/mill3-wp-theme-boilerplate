@@ -1,33 +1,20 @@
+/* purgecss start ignore */
 @charset "utf-8";
 
-@import "@mill3-sass";
+@use "@mill3-sass-mixins/globals" with ($acfPreview: true);
+@use "@mill3-sass" as mill3sass;
 
-// override acfPreview mixin because we want this code in our ACF previews
-@mixin acfPreview() {
-  @content;
-}
-
-// override in-view mixin because there is no need to include in-view animations in our ACF previews
-@mixin inView($hard: false) {
-  @if false {
-    @content;
-  }
-}
+@use "cssvars";
+@use "vendors";
+@use "commons";
+@use "modules";
+@use "page-builder";
+@use "post-type";
+@use "taxonomy";
 
 html,
 body {
   // hide scrollbar
   overflow: hidden;
 }
-
-@import "cssvars",
-  "vendors",
-  "commons",
-  "ui",
-  "modules",
-  "page-builder",
-  "layouts",
-  "post-type",
-  "taxonomy";
-
-
+/* purgecss end ignore */

@@ -1,5 +1,6 @@
-@import "~swiper/css/";
-@import "~swiper/css/pagination";
+@import "@npm/swiper/swiper.css";
+@import "@npm/swiper/modules/pagination.css";
+
 
 .swiper {
   --swiper-pagination-bottom: 0;

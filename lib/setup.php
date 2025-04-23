@@ -92,10 +92,21 @@ function assets()
     // *****
 
     // webpack dev
-    if (WEBPACK_DEV_SERVER === true) {
+
+    // webpack dev
+    if (VITE_DEV_SERVER === true) {
+        $vite_url = "http://localhost:{$_ENV['VITE_DEV_SERVER_PORT']}";
+
+        wp_enqueue_script_module(
+            'mill3wp/vitejs_client',
+            "{$vite_url }/@vite/client",
+            [],
+            null,
+            array('strategy' => 'defer', 'in_footer' => true)
+        );
         wp_enqueue_script(
-            'mill3wp/webpack',
-            "http://localhost:{$_ENV['WEBPACK_DEV_SERVER_PORT']}/js/app.bundle.js",
+            'mill3wp/vitejs_app',
+            "{$vite_url }/src/js/App.js",
             [],
             null,
             array('strategy' => 'defer', 'in_footer' => true)
@@ -103,14 +114,15 @@ function assets()
     } else {
         wp_enqueue_style(
             'mill3wp/css',
-            Assets\Asset_File_path('style', 'css'),
+            Assets\Asset_File_path('src/scss/App.scss'),
             [],
             null,
             'all'
         );
+
         wp_enqueue_script(
             'mill3wp/js',
-            Assets\Asset_File_path('app', 'js'),
+            Assets\Asset_File_path('src/js/App.js'),
             [],
             null,
             array('strategy' => 'defer', 'in_footer' => true)
@@ -126,7 +138,7 @@ function assets()
         //'nonce' => wp_create_nonce('tdp_nonce'),
     );
 
-    wp_add_inline_script(WEBPACK_DEV_SERVER === true ? 'mill3wp/webpack' : 'mill3wp/js', 'window.MILL3WP = '.json_encode($wp_endpoints).';', 'before');
+    wp_add_inline_script(VITE_DEV_SERVER ? 'mill3wp/vitejs_app' : 'mill3wp/js', 'window.MILL3WP = ' . json_encode($wp_endpoints) . ';', 'before');
 
     // remove core scripts and freaking emoji
     remove_action('wp_head', 'print_emoji_detection_script', 7);
@@ -134,7 +146,7 @@ function assets()
 
     wp_dequeue_style('classic-theme-styles');
     wp_dequeue_style('wp-emoji-styles');
-    
+
     wp_deregister_script('wp-polyfill');
     wp_deregister_script('regenerator-runtime');
 }
@@ -142,15 +154,40 @@ function assets()
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 
 
+// Add type="module" attribute using wp_script_attributes filter
+// wp_enqueue_script_module() is not compatible with wp_add_inline_script()
+add_filter('script_loader_tag', function($tag, $handle) {
+    $enabled_handles = ['mill3wp/vitejs_app', 'mill3wp/js']; // add your script handles here
+    if (in_array($handle, $enabled_handles)) {
+        $tag = str_replace('<script ', '<script type="module" ', $tag);
+    }
+    return $tag;
+}, 10, 2);
+
+
 // add link preload for primary fonts and mill3/css in <head>
 add_action('wp_head', function() {
-    if( WEBPACK_DEV_SERVER === true ) return;
+    if( VITE_DEV_SERVER === true ) return;
 
-    $stylesheet = get_site_url() . Assets\Asset_File_path('style', 'css');
-    $fonts = get_template_directory_uri() . '/dist/fonts/';
+    // get assets to preload
+    $styles = array(
+        "mill3/css" => Assets\Asset_File_path('src/scss/App.scss'),
+        // add more here
+    );
+    $fonts = array(
+        "font_basel_regular" => Assets\Asset_File_path('src/fonts/BaselGrotesk-Regular.woff2'),
+        // add more here
+    );
 
-    //echo "<link rel='preload' href='{$fonts}UntitledSans-Regular.woff2' crossorigin='anonymous' as='font' type='font/woff2'>";
-    echo "<link rel='preload' href='{$stylesheet}' as='style'>";
+    // add fonts to preload
+    foreach ($fonts as $font) {
+        echo "<link rel='preload' href='{$font}' as='font' type='font/woff2' crossorigin>";
+    }
+
+    // add styles to preload
+    foreach ($styles as $stylesheet) {
+        echo "<link rel='preload' href='{$stylesheet}' as='style'>";
+    }
 }, 5);
 
 

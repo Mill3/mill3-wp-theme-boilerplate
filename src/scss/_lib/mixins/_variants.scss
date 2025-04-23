@@ -1,3 +1,5 @@
+@use "sass:math";
+@use "sass:meta";
 @use "sass:string";
 @use "../vars/breakpoints" as vars;
 @use "../mixins/breakpoints";
@@ -20,7 +22,7 @@
 
       // Loop over each values in map
       @each $key, $value in $values {
-        @if type-of($property) != "string" {
+        @if meta.type-of($property) != "string" {
           .#{$classname}#{$infix}-#{$key} {
             @each $prop in $property {
               #{$prop}: set-unit($key, $value, $unit, $important);
@@ -33,7 +35,7 @@
             // Example : $overflow: 'hidden': 'hidden', 'clip': ("hidden", "clip")
             // Output to : .overflow-hidden { overflow: hidden };.overflow-clip { overflow: hidden; overflow: clip; }
             //
-            @if type-of($value) == "list" {
+            @if meta.type-of($value) == "list" {
               @each $k, $v in $value {
                 #{$property}: set-unit($k, $v, $unit, $important);
               }
@@ -60,8 +62,8 @@
     $value_unit: "";
 
     // get value unit if is a number
-    @if type-of($value) == "number" {
-      $value_unit: unit($value);
+    @if meta.type-of($value) == "number" {
+      $value_unit: math.unit($value);
     }
 
     // if value is in vw, use our custom vw function

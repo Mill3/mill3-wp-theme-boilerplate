@@ -1,20 +1,24 @@
 @use './mq';
 
+$acfPreview: false !default;
+
 // this mixin return nothing in App.scss because we don't need this code on front-end
 @mixin acfPreview() {
-  @if false {
+  @if $acfPreview {
     @content;
   }
 }
 
 @mixin inView($hard: false) {
-  @include mq.motionNoPref {
-    @if $hard {
-      &[data-scroll] {
+  @if not $acfPreview {
+    @include mq.motionNoPref {
+      @if $hard {
+        &[data-scroll] {
+          @content;
+        }
+      } @else {
         @content;
       }
-    } @else {
-      @content;
     }
   }
 }

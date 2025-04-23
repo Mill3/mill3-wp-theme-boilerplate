@@ -25,14 +25,19 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ACF Preview</title>
-  <link rel="stylesheet" href="{{ site.url }}{{ stylesheet }}" type="text/css" media="all">
+  {% if stylesheet %}
+  <link rel="stylesheet" href="{{ stylesheet }}" type="text/css" media="all">
+  {% endif %}
 </head>
-<body 
-  class="acf-block-preview {{ body_classname|join(" ") }}" 
+<body
+  class="acf-block-preview {{ body_classname|join(" ") }}"
   data-windmill="container"
   {% if body_styles %}style="{{ body_styles|join(';') }}"{% endif %}
 >
   {{ content }}
-  <script src="{{ site.url }}{{ js }}"></script>
+  {% if dev %}
+    <script type="module" src="{{ vite_js }}"></script>
+  {% endif %}
+  <script type="module" src="{{ js }}"></script>
 </body>
 </html>

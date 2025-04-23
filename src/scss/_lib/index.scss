@@ -1,1 +1,3 @@
-@import "vendors/normalize", "cssvars", "classes_generators";
+@use "vendors/normalize";
+@use "cssvars" as *;
+@use "classes_generators" as *;
