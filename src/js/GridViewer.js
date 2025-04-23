@@ -36,7 +36,7 @@ class GridViewer {
     this.el = document.createElement('div');
     this.el.classList.add('grid-viewer', 'position-fixed', 't-0', 'l-0', 'w-100', 'h-100', 'pointer-events-none');
     this.el.style.color = 'red';
-    this.el.style.zIndex = '99999'
+    this.el.style.zIndex = '99998';
     this.el.setAttribute('aria-hidden', true);
 
     this.grid = document.createElement('div');
