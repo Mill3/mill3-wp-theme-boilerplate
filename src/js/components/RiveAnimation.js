@@ -1,6 +1,6 @@
 import EventEmitter2 from "eventemitter2";
 
-import { Rive, EventType, Layout, Fit, Alignment } from "@rive-app/canvas-lite";
+import { Rive, EventType, Layout, Fit, Alignment } from "@rive-app/canvas";
 //import { Rive, EventType, Layout, Fit, Alignment } from "@rive-app/webgl2";
 import ACF from "@utils/acf";
 //import { firefox } from "@utils/browser";
@@ -29,6 +29,7 @@ class RiveAnimation extends EventEmitter2 {
 
     this._action = null;
     this._options = options;
+    this._loaded = false;
     this._src = this.el.dataset.src;
     this._src_mobile = this.el.dataset.srcMobile;
     this._src_tablet = this.el.dataset.srcTablet;
@@ -97,6 +98,7 @@ class RiveAnimation extends EventEmitter2 {
 
     this._action = null;
     this._dpr = null;
+    this._loaded = null;
     this._options = null;
     this._src = null;
     this._src_mobile = null;
@@ -139,6 +141,7 @@ class RiveAnimation extends EventEmitter2 {
   _onLoad() {
     if( this._rive ) this._rive.resizeDrawingSurfaceToCanvas(this._dpr);
 
+    this._loaded = true;
     this.emit("load", this);
 
     if( ACF.is_preview ) this.play();
@@ -156,6 +159,7 @@ class RiveAnimation extends EventEmitter2 {
 
 
   // getter - setter
+  get loaded() { return this._loaded; }
   get instance() { return this._rive; }
   get playing() { return this._action === ACTION_PLAY; }
   get src() {

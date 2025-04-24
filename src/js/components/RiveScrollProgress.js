@@ -53,6 +53,8 @@ class RiveScrollProgress {
     this.ref.on('load', this._onAnimationLoad);
     RiveListener.add(this._onScrollCall);
     EMITTER.on('SiteScroll.scroll', this._onScroll);
+
+    if( this.ref.loaded ) this._onAnimationLoad();
   }
   stop() {
     // stop immediatly if RiveAnimation reference doesn't exist

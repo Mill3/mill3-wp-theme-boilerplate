@@ -71,6 +71,8 @@ class RiveScrollFollow {
     RiveListener.add(this._onScrollCall);
 
     this._bindFollowEvents();
+
+    if( this.ref.loaded ) this._onAnimationLoad();
   }
   stop() {
     // stop immediatly if RiveAnimation reference doesn't exist
