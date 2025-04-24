@@ -4,7 +4,7 @@ import vars from "../sass_vars.json";
 import Wrapper from "./components/wrapper";
 
 export default {
-  title: "Flex"
+  title: "Classnames/Flex"
 };
 
 const FlexElements = ({ itemClassNames, itemsClassNames }) => {
@@ -142,14 +142,14 @@ export const FlexShrink = () => {
 
 export const Order = () => {
   return (
-    <>
-      <Wrapper note="This property works with CSS Flexbox and CSS Grid.">
-        <div className="d-flex grid-gap-10">
-        {Object.values(vars.$order).map((key) => {
-          return <div><pre>.order-{key}</pre></div>
+    <Wrapper note="This property works with CSS Flexbox and CSS Grid, inspect source to see the order of the elements.">
+      <div className="d-flex grid-gap-10 flex-column">
+        {Object.values(vars.$order).reverse().map((key) => {
+          return <div className={`order-${key} m-0`}>
+            <pre className="m-0">.order-{key} (source order {Object.values(vars.$order).length - key})</pre>
+          </div>
         })}
-        </div>
-      </Wrapper>
-    </>
+      </div>
+    </Wrapper>
   );
 };

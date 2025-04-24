@@ -4,7 +4,7 @@ import vars from "../sass_vars.json";
 import Wrapper from "./components/wrapper";
 
 export default {
-  title: "Grid"
+  title: "Classnames/Grid"
 };
 
 const fillArray = (l, startAt = 1) => Array.apply(null, Array(l)).map((y, i) => startAt + i);

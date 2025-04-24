@@ -25,7 +25,11 @@ const storeData = async (data) => {
 const files = await fs.readdir(PATHS['vars'], (err, files) => files);
 
 await Promise.all(files.map(async (file) => {
-  // const name = file.split('.')[0]
+  // skip index.scss file
+  if (file === 'index.scss') {
+    return;
+  }
+
   const contents = await fs.readFile(path.resolve(__dirname, './vars/', file), 'utf8')
   const sass = await sassVars(contents);
   Object.keys(sass).forEach((key) => {

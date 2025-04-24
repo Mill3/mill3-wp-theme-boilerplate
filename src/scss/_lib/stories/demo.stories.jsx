@@ -1,13 +1,12 @@
 import React from "react";
-import "../../index.scss";
-import "../../../commons/_images.scss";
-import vars from "../../sass_vars.json";
-import Wrapper from "../components/wrapper";
+import "../index.scss";
+import "../../commons/_images.scss";
+import vars from "../sass_vars.json";
+import Wrapper from "./components/wrapper";
 
 const Component = (props) => {
   // console.log('props:', props)
   const { fontSize, fontWeight, padding, marginTop, marginBottom, color, backgroundColor } = props;
-  console.log('fontSize:', fontSize)
 
   let classnames = [`fz-${fontSize}`, `fw-${fontWeight}`, `p-${padding}`, `mt-${marginTop}`, `mb-${marginBottom}`, color, `bg-${backgroundColor}`];
 
@@ -36,7 +35,7 @@ ComponentDemo.args = {
 };
 
 export default {
-  title: "Component Interactive demo",
+  title: "Demos/Component Interactive demo",
   component: Component,
   argTypes: {
     fontSize: {

@@ -1,8 +1,8 @@
 import React from "react";
-import "../../index.scss";
-import "../../../commons/_images.scss";
-import vars from "../../sass_vars.json";
-import Wrapper from "../components/wrapper";
+import "../index.scss";
+import "../../commons/_images.scss";
+import vars from "../sass_vars.json";
+import Wrapper from "./components/wrapper";
 
 const GridBlockPlaceholder = ({ borderColor = "gray-500", backgroundColor, opacity = 0.5 }) => {
   const style = {
@@ -78,8 +78,28 @@ const Component = (props) => {
   );
 };
 
+export const GridDemo = (props) => {
+  return <Component {...props} />;
+};
+
+
+GridDemo.args = {
+  gridColumn: 4,
+  gridRow: 2,
+  gridColumnStart: 0,
+  gridColumnEnd: 0,
+  gridColumnStartSpan: 0,
+  gridColumnFull: false,
+  gridRowStart: 0,
+  gridRowEnd: 0,
+  gridRowStartSpan: 0,
+  gridRowFull: false,
+  gridGap: 10
+};
+
+
 export default {
-  title: "Grid Interactive demo",
+  title: "Demos/Grid Interactive demo",
   component: GridDemo,
   argTypes: {
     gridColumn: {
@@ -120,22 +140,4 @@ export default {
       control: { type: "range", min: 0, max: 60, step: 10 }
     }
   }
-};
-
-export const GridDemo = (props) => {
-  return <Component {...props} />;
-};
-
-GridDemo.args = {
-  gridColumn: vars["$grid-columns"],
-  gridRow: vars["$grid-rows"],
-  gridColumnStart: 0,
-  gridColumnEnd: 0,
-  gridColumnStartSpan: 0,
-  gridColumnFull: false,
-  gridRowStart: 0,
-  gridRowEnd: 0,
-  gridRowStartSpan: 0,
-  gridRowFull: false,
-  gridGap: 10
 };

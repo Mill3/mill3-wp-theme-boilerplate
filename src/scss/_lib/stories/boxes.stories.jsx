@@ -21,7 +21,7 @@ const Box = ({ size }) => {
 };
 
 export default {
-  title: "Boxes",
+  title: "Classnames/Boxes",
   component: Box,
   argTypes: {
     sizes: {

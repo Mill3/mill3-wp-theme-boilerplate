@@ -4,7 +4,7 @@ import vars from "../sass_vars.json";
 import Wrapper from "./components/wrapper";
 
 export default {
-  title: "Sizings"
+  title: "Classnames/Sizings"
 };
 
 

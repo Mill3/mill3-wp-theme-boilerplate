@@ -5,7 +5,7 @@ import Wrapper from "./components/wrapper";
 // import CodeBlock from "./components/codeblock";
 
 export default {
-  title: "Text"
+  title: "Classnames/Text"
 };
 
 export const Headings = () => {

@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 import "../index.scss";
 import vars from "../sass_vars.json";
 import Wrapper from "./components/wrapper";
 
 export default {
-  title: "Basic"
+  title: "Classnames/Basic"
 };
 
 const DisplayElements = ({ displayClassName }) => {

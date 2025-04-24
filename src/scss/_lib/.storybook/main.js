@@ -1,22 +1,19 @@
-module.exports = {
+
+
+/** @type { import('@storybook/react-vite').StorybookConfig } */
+const config = {
   "stories": [
-    "../stories/**/*.stories.mdx",
-    "../stories/**/*.stories.@(js|jsx|ts|tsx)"
+    "../stories/**/*.mdx",
+    "../stories/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
   "addons": [
-    "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
-    "@storybook/addon-postcss",
-    {
-      name: "storybook-addon-sass-postcss",
-      options: {
-        test: /\.(scss|sass|css)$/i,
-        sassLoaderOptions: {
-          implementation: require("sass")
-        }
-      }
-    }
+    "@storybook/addon-onboarding",
+    "@storybook/addon-interactions"
   ],
-  "framework": "@storybook/react"
-}
+  "framework": {
+    "name": "@storybook/react-vite",
+    "options": {}
+  }
+};
+export default config;

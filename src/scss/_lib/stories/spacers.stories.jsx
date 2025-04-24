@@ -3,10 +3,9 @@ import "../index.scss";
 import vars from "../sass_vars.json";
 import Wrapper from "./components/wrapper";
 import CodeBlock from "./components/codeblock";
-console.log('vars:', vars)
 
 export default {
-  title: "Spacers"
+  title: "Classnames/Spacers"
 };
 
 const SpacerElementMargin = ({ direction = "", value }) => (

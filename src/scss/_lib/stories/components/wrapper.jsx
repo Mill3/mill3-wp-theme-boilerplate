@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const Wrapper = ({ children, title, note, className }) => {
   const classNames = [`wrapper m-0 p-20 bg-gray-100 mb-20`];
   if(className) classNames.push(className)
