@@ -20,3 +20,6 @@ sass_vars.json
 ._*
 *~
 .nfs*
+
+*storybook.log
+storybook-static
