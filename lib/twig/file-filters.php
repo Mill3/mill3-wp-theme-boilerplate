@@ -39,7 +39,9 @@ class Twig_File_Filters {
         $filters['is_json'] = ['callable' => [$this, 'is_json']];
         $filters['is_svg'] = ['callable' => [$this, 'is_svg']];
         $filters['is_video'] = ['callable' => [$this, 'is_video']];
+        $filters['is_rive'] = ['callable' => [$this, 'is_rive']];
         $filters['video_aspect_ratio'] = ['callable' => [$this, 'video_aspect_ratio']];
+        $filters['rive_aspect_ratio'] = ['callable' => [$this, 'rive_aspect_ratio']];
 
         return $filters;
     }
@@ -110,6 +112,16 @@ class Twig_File_Filters {
         return $this->check_extension($file, array('mp4'));
     }
 
+    /**
+     * is_rive filter method
+     *
+     * @param array $file : File array object
+     * @return boolean
+     */
+    public function is_rive($file) {
+        return $this->check_extension($file, array('riv'));
+    }
+
 
     /**
      * video_aspect_ratio filter method
@@ -126,6 +138,23 @@ class Twig_File_Filters {
 
         return $width / $height;
     }
+
+    /**
+     * rive_aspect_ratio filter method
+     *
+     * @param array $file : File array object
+     * @return float
+     */
+    public function rive_aspect_ratio($file) {
+        if( !$this->is_rive($file) ) return 0;
+
+        $meta = wp_get_attachment_metadata($file['ID']);
+        $width = intval(array_key_exists('width', $meta) ? $meta['width'] : 1);
+        $height = intval(array_key_exists('height', $meta) ? $meta['height'] : 1);
+
+        return $width / $height;
+    }
+
 
 }
 
