@@ -7,6 +7,16 @@
 @use "./breakpoints" as breakpoints;
 @use "./units";
 
+@function font-family($key) {
+  $value: map.get(typography.$font-family, $key);
+
+  @if not $value {
+    @error "font-family `#{$key}` not found in $font-family";
+  }
+
+  @return string.unquote($value);
+}
+
 @function font-size($key) {
   $value: map.get(typography.$font-size, $key);
 
@@ -39,15 +49,24 @@
   @return $value;
 }
 
-
-@function font-family($key) {
-  $value: map.get(typography.$font-family, $key);
+@function font-weight($key) {
+  $value: map.get(typography.$font-weight, $key);
 
   @if not $value {
-    @error "font-family `#{$key}` not found in $font-family";
+    @error "font-weight `#{$key}` not found in $font-weight";
   }
 
-  @return string.unquote($value);
+  @return $value;
+}
+
+@function letter-spacing($key) {
+  $value: map.get(typography.$letter-spacing, $key);
+
+  @if not $value {
+    @error "letter-spacing `#{$key}` not found in $letter-spacing";
+  }
+
+  @return $value;
 }
 
 @function line-height($key) {
@@ -108,7 +127,7 @@
           @else if $breakpoint == "md" {
             font-size: units.vw(math.div(units.strip($value), grid-breakpoints.$FIGMA_TABLET_WIDTH) * 100);
           }
-          @else if $breakpoint == "xl" {
+          @else if $breakpoint == "lg" {
             $vw: units.vw(math.div(units.strip($value), grid-breakpoints.$FIGMA_DESKTOP_WIDTH) * 100);
             font-size: min($vw, $value);
           }
