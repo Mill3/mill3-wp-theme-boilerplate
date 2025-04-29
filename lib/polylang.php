@@ -2,11 +2,21 @@
 
 namespace Mill3WP\Polylang;
 
+// Remove the ACF translation instruction added in Polylang Pro 3.7
+add_filter( 'acf/pre_render_fields', function ( $fields ) {
+	// Remove the filter that was just added
+	remove_filter( 'acf/prepare_field', array( 'WP_Syntex\Polylang_Pro\Integrations\ACF\Dispatcher', 'get_field_instructions' ) );
+
+	// Return the fields unchanged
+	return $fields;
+}, 11 ); // Priority 11 to run after Dispatcher::append_translation_instructions which uses default priority 10
+
+
 // expose Polylang's functions to Twig
 add_filter('timber/twig/functions', function($functions) {
 
     if( !function_exists('pll_current_language') ) return $functions;
-    
+
     $functions['pll__'] = ['callable' => 'pll__'];
     $functions['pll_e'] = ['callable' => 'pll_e'];
     $functions['pll_current_language'] = ['callable' => 'pll_current_language'];
@@ -77,7 +87,7 @@ if( function_exists('pll_the_languages') ){
     add_action('print_media_templates', function() {
     ?>
         <style>
-            
+
             #post .compat-attachment-fields > tbody > tr[class*="compat-field-alt_text_"] {
                 display: grid;
                 grid-template-columns: 20% 1fr;
@@ -103,5 +113,5 @@ if( function_exists('pll_the_languages') ){
         </style>
     <?php
     });
-    
+
 }
