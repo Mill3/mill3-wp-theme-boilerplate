@@ -44,6 +44,8 @@ if( !DEV ) {
           /^mb-/,
           /^char-/,
           /^grid-gap-/,
+          /^visibility-/,
+          /^pointer-events-/,
           /^bg-color-/,
           /^color-/,
           /^bg-gray-/,
