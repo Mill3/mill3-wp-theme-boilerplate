@@ -4,7 +4,6 @@
 // ViteJS glob import all Modules
 const module_chunks = import.meta.glob('./modules/**/index.js');
 
-
 import domready from "domready";
 import EventEmitter2 from "eventemitter2";
 
@@ -27,15 +26,13 @@ domready(() => {
 
 
   const resize = () => {
-    console.log('resize');
-
     const max = Math.ceil(parent.innerHeight * 2 >> 0);
-    window.frameElement.height = Math.max(25, Math.min(max, document.body.scrollHeight));
+    const height = document.body.querySelector('.pb-row-wrapper').getBoundingClientRect().height;
+
+    window.frameElement.height = Math.max(25, Math.min(max, height));
   };
 
   const importChunks = () => {
-    console.log('import chunks');
-
     const promises = [];
     const container = document.body;
 
@@ -66,7 +63,6 @@ domready(() => {
     return Promise.all(promises);
   };
   const importChunk = (name) => {
-    console.log('chunk', name);
     const moduleName = `./${name}/index.js`; // must append index.js to name for matching ViteJS reference
     let promise = null;
 
