@@ -21,7 +21,7 @@
   "scripts": {
     "test": "jest --passWithNoTests",
     "dev": "export NODE_ENV=development && vite --config vite.config.js",
-    "build": "vite build",
+    "build": "export DISTRIBUTION=theme && vite build && export DISTRIBUTION=admin && vite build",
     "preview": "vite preview",
     "prettier": "prettier ./src/js/*/*.js ./src/scss/**/*.scss --write",
     "modules-cli": "node ./_modules-cli/cli.js"
@@ -33,6 +33,7 @@
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^7.0.2",
     "chalk": "4.1.2",
+    "cssnano": "^7.0.7",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.8",
     "fs-extra": "^11.1.0",

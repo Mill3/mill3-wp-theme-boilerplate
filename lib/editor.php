@@ -10,7 +10,7 @@ LOAD EDITOR STYLES
 function add_editor_stylesheet()
 {
     // Get CSS from assets.json
-    $editor_css = Assets\Asset_File_path('src/scss/Editor-style.scss', false);
+    $editor_css = Assets\Asset_File_path('src/scss/Editor-style.scss', false, 'admin');
 
     if(!$editor_css) return;
 

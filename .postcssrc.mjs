@@ -1,5 +1,6 @@
 import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss';
 import postcssPresetEnv from 'postcss-preset-env';
+import cssnano from 'cssnano';
 
 const DEV = process.env.NODE_ENV !== "production";
 
@@ -24,6 +25,9 @@ const PLUGINS = [
 // plugins to use in production only
 if( !DEV ) {
   PLUGINS.push(
+    cssnano({
+      preset: ['default', { convertValues: { time: false } }]
+    }),
     purgeCSSPlugin({
       content: [
         './src/**/*.js',
@@ -44,6 +48,8 @@ if( !DEV ) {
           /^mb-/,
           /^char-/,
           /^grid-gap-/,
+          /^visibility-/,
+          /^pointer-events-/,
           /^bg-color-/,
           /^color-/,
           /^bg-gray-/,

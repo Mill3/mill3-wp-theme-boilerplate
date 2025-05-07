@@ -84,8 +84,8 @@ function acf_block_example($slug)
         $context['vite_js'] = "{$vite_url }/@vite/client";
         $context['js'] = "{$vite_url }/src/js/ACF-Preview.js";
     } else {
-        $context['stylesheet'] = Mill3WP\Assets\Asset_File_path('src/scss/ACF-preview.scss');
-        $context['js'] = Mill3WP\Assets\Asset_File_path('src/js/ACF-Preview.js');
+        $context['stylesheet'] = Mill3WP\Assets\Asset_File_path('src/scss/ACF-preview.scss', true, 'admin');
+        $context['js'] = Mill3WP\Assets\Asset_File_path('src/js/ACF-Preview.js', true, 'admin');
     }
 
      $doc = Mill3Timber::compile("base-acf-preview.twig", $context);

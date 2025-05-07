@@ -5,12 +5,31 @@ const THEME_NAME = pkg.name;
 const NODE_MODULE_PATH = path.resolve(__dirname, "node_modules");
 const SRC_PATH = path.resolve(__dirname, "src");
 const DEV = process.env.NODE_ENV !== "production";
+const DISTRIBUTION_SCOPES = {
+  "theme": {
+    "dist_dir": "theme",
+    "shared_bundle": true,
+    "input": {
+      app: path.resolve(SRC_PATH, "js/App.js"),
+      app_style: path.resolve(SRC_PATH, "scss/App.scss"),
+      sentry: path.resolve(SRC_PATH, "js/Sentry.js")
+    }
+  },
+  "admin": {
+    "dist_dir": "admin",
+    "shared_bundle": false,
+    "input": {
+      acf_preview: path.resolve(SRC_PATH, "js/ACF-Preview.js"),
+      acf_preview_style: path.resolve(SRC_PATH, "scss/ACF-preview.scss"),
+      editor_style: path.resolve(SRC_PATH, "scss/Editor-style.scss"),
+    }
+  }
+}
+
+// select distribution scope based on environment variable
+const DISTRIBUTION = DISTRIBUTION_SCOPES[process.env.DISTRIBUTION || "theme"];
 
 // files to include in in app-shared.bundle, edit this to split your bundle per project needs
-// ** Important note **
-// Any file included here is gonna endedup imported by any entry that refer to file in this list.
-// For example, imports in ACF-Preview.js will load all file included here like @transitions/SiteTransition.js, which is not needed in ACF-Preview.js context.
-// On the other hand, core/windmill.chunks.js is used in both entries at the root level of the entry, so it's ok to include it here
 const bundle_files = [
   "preload-helper",
   "domready",
@@ -121,9 +140,9 @@ const bundle_files = [
 ];
 
 export default {
-  base: DEV ? `/` : ` /wp-content/themes/${THEME_NAME}/dist/`,
+  base: DEV ? `/` : `/wp-content/themes/${THEME_NAME}/dist/${DISTRIBUTION.dist_dir}/`,
   build: {
-    outDir: "./dist",
+    outDir: `./dist/${DISTRIBUTION.dist_dir}`,
     assetsInlineLimit: 0, // disables inlining of all assets like <svg> as base64 in CSS
     emptyOutDir: true,
     manifest: true,
@@ -154,20 +173,15 @@ export default {
           return `assets/${type}-${name}-[hash].js`;
         },
         manualChunks: (id) => {
+          if(!DISTRIBUTION.shared_bundle) return;
+
           if (bundle_files.some((file) => id.includes(file))) {
             return "app-shared.bundle";
           }
           return null;
         }
       },
-      input: {
-        app: path.resolve(SRC_PATH, "js/App.js"),
-        app_style: path.resolve(SRC_PATH, "scss/App.scss"),
-        acf_preview: path.resolve(SRC_PATH, "js/ACF-Preview.js"),
-        acf_preview_style: path.resolve(SRC_PATH, "scss/ACF-preview.scss"),
-        editor_style: path.resolve(SRC_PATH, "scss/Editor-style.scss"),
-        sentry: path.resolve(SRC_PATH, "js/Sentry.js")
-      }
+      input: DISTRIBUTION["input"],
     }
   },
   resolve: {
