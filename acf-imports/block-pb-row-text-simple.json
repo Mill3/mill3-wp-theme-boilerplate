@@ -44,7 +44,7 @@
                 "name": "title",
                 "aria-label": "",
                 "type": "text",
-                "instructions": "Titre optionnel positionné dans la colonne inverse du texte.",
+                "instructions": "",
                 "required": 0,
                 "conditional_logic": 0,
                 "wrapper": {
