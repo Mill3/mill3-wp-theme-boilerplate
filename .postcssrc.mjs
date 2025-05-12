@@ -61,6 +61,7 @@ if( !DEV ) {
           /^wysiwyg/,
           /^btn/,
           /^gform/,
+          /^gfield/,
           /^swiper/
         ],
       }
