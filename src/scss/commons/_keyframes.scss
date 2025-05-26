@@ -68,7 +68,26 @@
   }
 }
 
-
+@keyframes color {
+  from { color: var(--color); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes translate {
+  from { translate: var(--tx) var(--ty); }
+}
+@keyframes scale {
+  from { scale: var(--sx) var(--sy); }
+}
+@keyframes clipPath {
+  from { clip-path: inset(var(--top) var(--right) var(--bottom) var(--left) round var(--radius)); }
+  to { clip-path: inset(0px 0px 0px 0px round var(--radius)); }
+}
 
 @keyframes linkRedraw {
 

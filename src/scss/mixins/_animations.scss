@@ -12,31 +12,73 @@
 
 
 // FADE IN
-@mixin fadeInitial(){
-  opacity: 0.0001;
+@mixin fade($duration: 250ms, $delay: 0ms){
+  animation: fadeIn $duration linear $delay backwards;
+  animation-play-state: paused;
 }
-@mixin fade($duration: 300ms, $delay: 0ms){
-  opacity: 1.0001;
-  transition: opacity $duration $delay linear;
-}
-
-// SLIDE VERTICALLY + HORIZONTALLY (x & y axis)
-@mixin slideInitial($x: 0px, $y: 90px) {
-  translate: $x $y;
-}
-@mixin slide($duration: 1s, $delay: 0ms, $easing: easings.$easeOutCubic) {
-  translate: 0px 0px;
-  transition: translate $duration $delay $easing;
+@mixin fadeInView {
+  animation-play-state: running;
 }
 
+// SCALE UP
+@mixin scale($x: 0, $y: 0, $duration: 1500ms, $delay: 0ms, $easing: easings.$easeInOutCubic) {
+  --sx: #{$x};
+  --sy: #{$y};
 
-// SLIDE VERTICALLY + FADE IN
-@mixin slideFadeInitial($x: 0px, $y: 90px) {
-  opacity: 0.0001;
-  translate: $x $y;
+  animation: scale $duration $easing $delay backwards;
+  animation-play-state: paused;
 }
-@mixin slideFade($duration: 1s, $delay: 0ms, $easing: easings.$easeOutCubic, $opacityDuration: 300ms) {
-  opacity: 1.0001;
-  translate: 0px 0px;
-  transition: opacity $opacityDuration $delay linear, translate $duration $delay easings.$easeOutCubic;
+@mixin scaleInView {
+  animation-play-state: running;
+}
+
+// SCALE UP + FADE IN
+@mixin scaleFade($x: 1.1, $y: 1.1, $duration: 1.4s, $delay: 0ms, $easing: easings.$easeOutQuint, $opacityDuration: 300ms) {
+  --sx: #{$x};
+  --sy: #{$y};
+
+  animation: scale $duration $easing $delay backwards, fadeIn $opacityDuration linear $delay backwards;
+  animation-play-state: paused, paused;
+}
+@mixin scaleFadeInView {
+  animation-play-state: running, running;
+}
+
+// SLIDE VERTICALLY & HORIZONTALLY
+@mixin slide($x: 0px, $y: 40px, $duration: 900ms, $delay: 0ms, $easing: easings.$easeOutCirc) {
+  --tx: #{$x};
+  --ty: #{$y};
+
+  animation: translate $duration $easing $delay backwards;
+  animation-play-state: paused;
+}
+@mixin slideInView {
+  animation-play-state: running;
+}
+
+// UNMASK THROUGH CLIP PATH
+@mixin clipPath($top: 100%, $bottom: 0%, $left: 0%, $right: 0%, $radius: 0px, $duration: 1.2s, $delay: 0ms, $easing: easings.$easeOutCubic) {
+  --top: #{$top};
+  --bottom: #{$bottom};
+  --left: #{$left};
+  --right: #{$right};
+  --radius: #{$radius};
+
+  animation: clipPath $duration $easing $delay backwards;
+  animation-play-state: paused;
+}
+@mixin clipPathInView {
+  animation-play-state: running;
+}
+
+// SLIDE VERTICALLY & HORIZONTALLY + FADE IN
+@mixin slideFade($x: 0px, $y: 40px, $duration: 900ms, $delay: 0ms, $easing: easings.$easeOutCirc, $opacityDuration: 250ms) {
+  --tx: #{$x};
+  --ty: #{$y};
+
+  animation: translate $duration $easing $delay backwards, fadeIn $opacityDuration linear $delay backwards;
+  animation-play-state: paused, paused;
+}
+@mixin slideFadeInView {
+  animation-play-state: running, running;
 }
