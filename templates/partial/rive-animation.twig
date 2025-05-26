@@ -6,9 +6,11 @@
 {% set artboard = artboard|default(false) %}
 {% set stateMachines = stateMachines|default(false) %}
 {% set maxDPR = maxDPR|default(null) %}
+{% set fit = fit|default(null) %}
+{% set alignment = alignment|default(null) %}
+{% set detectRollover = detectRollover ?? true %}
 {% set playOnEnter = playOnEnter ?? false %}
 {% set pauseOnExit = pauseOnExit ?? true %}
-{% set detectRollover = detectRollover ?? true %}
 
 {% if playOnEnter or pauseOnExit %}
   {% set attributes = attributes|merge(['data-scroll', 'data-scroll-call="rive"']) %}
@@ -22,6 +24,16 @@
   {% set attributes = attributes|merge(['data-module="' ~ module ~ '"',]) %}
 {% endif %}
 
+{# validate fit value #}
+{% if fit not in ['layout', 'cover', 'contain', 'fill', 'fitWidth', 'fitHeight', 'none', 'scaleDown'] %}
+  {% set fit = null %}
+{% endif %}
+
+{# validate alignment value #}
+{% if alignment not in ['center', 'topLeft', 'topCenter', 'topRight', 'centerLeft', 'centerRight', 'bottomLeft', 'bottomCenter', 'bottomRight'] %}
+  {% set alignment = null %}
+{% endif %}
+
 <canvas 
   class="rive-animation {{ classname }}"
   data-src="{{ src.url }}"
@@ -32,6 +44,8 @@
   {% if artboard %}data-artboard="{{ artboard }}"{% endif %}
   {% if stateMachines %}data-state-machines="{{ stateMachines }}"{% endif %}
   {% if maxDPR %}data-max-dpr="{{ maxDPR }}"{% endif %}
+  {% if fit %}data-fit="{{ fit }}"{% endif %}
+  {% if alignment %}data-alignment="{{ alignment }}"{% endif %}
   {% if detectRollover %}data-detect-rollover{% endif %}
   {{ attributes|join(" ") }}
 ></canvas>
