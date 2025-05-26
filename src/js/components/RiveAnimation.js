@@ -1,7 +1,7 @@
 import EventEmitter2 from "eventemitter2";
 
-import { Rive, EventType, Layout, Fit, Alignment } from "@rive-app/canvas";
-//import { Rive, EventType, Layout, Fit, Alignment } from "@rive-app/webgl2";
+import { Rive, EventType, RiveEventType, Layout, Fit, Alignment } from "@rive-app/canvas-lite";
+//import { Rive, EventType, RiveEventType, Layout, Fit, Alignment } from "@rive-app/webgl2";
 import ACF from "@utils/acf";
 //import { firefox } from "@utils/browser";
 import { limit } from "@utils/math";
@@ -20,6 +20,9 @@ const DEFAULT_OPTIONS = {
   maxDPR: null,
 };
 const MAX_DEVICE_PIXEL_RATIO = 2;
+const ROLLOVER_EVENT = 'Rollover';
+const ROLLOUT_EVENT = 'Rollout';
+const CURSOR_CLASSNAME = '--js-cursor';
 
 class RiveAnimation extends EventEmitter2 {
   constructor(el, options = {}) {
@@ -66,6 +69,7 @@ class RiveAnimation extends EventEmitter2 {
  
     this._onLoad = this._onLoad.bind(this);
     this._onResize = this._onResize.bind(this);
+    this._onDetectRollover = this._onDetectRollover.bind(this);
 
     // maybe add a little delay to be able to listen to "load" event
     this.init();
@@ -84,6 +88,8 @@ class RiveAnimation extends EventEmitter2 {
     this._rive = new Rive( options );
     this._rive.on(EventType.Load, this._onLoad);
 
+    if( this.el.hasAttribute('data-detect-rollover') ) this._rive.on(EventType.RiveEvent, this._onDetectRollover);
+
     this._bindEvents();
   }
   destroy() {
@@ -91,8 +97,10 @@ class RiveAnimation extends EventEmitter2 {
 
     if( this._rive ) {
       this._rive.off(EventType.Load, this._onLoad);
+      this._rive.off(EventType.RiveEvent, this._onDetectRollover);
       this._rive.cleanup();
     }
+    if( this.el ) this.el.classList.remove(CURSOR_CLASSNAME);
 
     this.el = null;
 
@@ -110,6 +118,7 @@ class RiveAnimation extends EventEmitter2 {
 
     this._onLoad = null;
     this._onResize = null;
+    this._onDetectRollover = null;
   }
 
   play() {
@@ -148,6 +157,15 @@ class RiveAnimation extends EventEmitter2 {
   }
   _onResize(){
     this._rive.resizeDrawingSurfaceToCanvas(this._dpr);
+  }
+  _onDetectRollover(event) {
+    const { type, name } = event.data;
+    if( type !== RiveEventType.General ) return;
+
+    switch( name ) {
+      case ROLLOVER_EVENT: this.el.classList.add(CURSOR_CLASSNAME); break;
+      case ROLLOUT_EVENT: this.el.classList.remove(CURSOR_CLASSNAME); break;
+    }
   }
 
   _bindEvents() {

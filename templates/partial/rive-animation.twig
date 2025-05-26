@@ -8,6 +8,7 @@
 {% set maxDPR = maxDPR|default(null) %}
 {% set playOnEnter = playOnEnter ?? false %}
 {% set pauseOnExit = pauseOnExit ?? true %}
+{% set detectRollover = detectRollover ?? true %}
 
 {% if playOnEnter or pauseOnExit %}
   {% set attributes = attributes|merge(['data-scroll', 'data-scroll-call="rive"']) %}
@@ -31,5 +32,6 @@
   {% if artboard %}data-artboard="{{ artboard }}"{% endif %}
   {% if stateMachines %}data-state-machines="{{ stateMachines }}"{% endif %}
   {% if maxDPR %}data-max-dpr="{{ maxDPR }}"{% endif %}
+  {% if detectRollover %}data-detect-rollover{% endif %}
   {{ attributes|join(" ") }}
 ></canvas>
