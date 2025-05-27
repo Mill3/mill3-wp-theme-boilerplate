@@ -90,13 +90,17 @@
     {% set decoding = null %}
   {% endif %}
 
+  {% if not sizes_attr %}
+    {% set sizes_attr = image.img_sizes %}
+  {% endif %}
+
   <img
     src="{{ image.src(size) }}"
     {% if srcset %}srcset="{{ image.srcset }}"{% endif %}
-    sizes="{{ sizes_attr|default(image.img_sizes) }}"
+    {% if sizes_attr %}sizes="{{ sizes_attr }}"{% endif %}
     alt="{{ alt }}"
-    width="{{ width }}"
-    height="{{ height }}"
+    {% if width %}width="{{ width }}"{% endif %}
+    {% if height %}height="{{ height }}"{% endif %}
     {% if lazyload %}loading="lazy"{% endif %}
     {% if priority %}fetchpriority="{{ priority }}"{% endif %}
     {% if decoding %}decoding="{{ decoding }}"{% endif %}
