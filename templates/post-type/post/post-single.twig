@@ -6,7 +6,7 @@
 
 {% block content %}
 
-<article class="post-single post-type-{{post.post_type}}" id="post-{{post.ID}}">
+<div class="post-single post-type-{{post.post_type}}" id="post-{{post.ID}}">
 
   <header class="post-single__header container-fluid">
     <h1>{{ title }}</h1>
@@ -23,9 +23,9 @@
     'classname': 'container-fluid'
   } only %}
 
-  <div class="post-single__body">
+  <article class="post-single__body">
     {{ post.content }}
-  </div>
+  </article>
 
   {% if previous_posts %}
   <footer class="post-single__footer container-fluid pt-50">
@@ -39,6 +39,6 @@
   </footer>
   {% endif %}
 
-</article>
+</div>
 
 {% endblock %}

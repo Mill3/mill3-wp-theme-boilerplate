@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<article class="container-fluid post-single post-type-{{post.post_type}}" id="post-{{post.ID}}">
+<div class="container-fluid post-single post-type-{{post.post_type}}" id="post-{{post.ID}}">
 
   <header class="post-single__header">
     <h1>{{ title }}</h1>
@@ -13,12 +13,12 @@
     {# custom attribute from model #}
     <pre>This is a custom attribute from models/dummy.php : {{ post.foo }}</pre>
 
-    <div class="post-single__body">
-      {{ post.content }}
-    </div>
-
   </header>
 
-</article>
+  <article class="post-single__body">
+    {{ post.content }}
+  </article>
+
+</div>
 
 {% endblock %}

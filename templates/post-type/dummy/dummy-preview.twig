@@ -10,9 +10,9 @@
 
   <time class="d-block">{{ post.date }}</time>
 
-  <h3 class="dummy-preview__title m-0 p-0">
+  <h2 class="dummy-preview__title m-0 p-0">
     <a href="{{ link }}" title="{{ title }}" class="td-none">{{ title }}</a>
-  </h3>
+  </h2>
 
   {% include 'partial/link.twig' with {'link': link, 'title': title} only %}
 

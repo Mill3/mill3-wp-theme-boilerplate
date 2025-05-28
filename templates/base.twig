@@ -45,7 +45,7 @@
   </div>
 
   {# {% include 'site-video.twig' %} #}
-  {% include 'gdpr.twig' %}
+  {% include 'gdpr.twig' with {'site': site, 'options': options} only %}
 
   {{ function('wp_footer') }}
 </body>
