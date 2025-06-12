@@ -51,7 +51,7 @@
                     "id": ""
                 },
                 "default_value": "",
-                "translations": "translate",
+                "translations": "copy_once",
                 "maxlength": "",
                 "allow_in_bindings": 0,
                 "placeholder": "",
