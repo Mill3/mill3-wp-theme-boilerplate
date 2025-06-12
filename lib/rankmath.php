@@ -60,40 +60,6 @@ add_filter('rank_math/frontend/breadcrumb/items', function ($crumbs, $class) {
     2
 );
 
-// modify Rank document title for custom post-type archive pages allowing translation in Polylang
-add_filter('rank_math/frontend/title', function($title) {
-    $post_type = get_queried_object();
-
-    if( !$post_type || get_class($post_type) !== "WP_Post_Type" ) return $title;
-
-    switch ($post_type->name) {
-        case 'dummy':
-            $title = __('Your dummy post-type archive %sep% %sitename%', 'mill3wp');
-            break;
-    }
-
-    $title = RankMathHelper::replace_vars($title, array());
-
-    return $title;
-}, 100);
-
-// Modify document description for custom post-type archive pages  allowing translation in Polylang
-add_filter('rank_math/frontend/description', function($description) {
-    $post_type = get_queried_object();
-
-    if( !$post_type || get_class($post_type) !== "WP_Post_Type" ) return $description;
-
-    switch ($post_type->name) {
-        case 'dummy':
-            $description = __('Lorem lipsum description', 'mill3wp');
-            break;
-    }
-
-    $description = RankMathHelper::replace_vars($description, array());
-
-    return $description;
-}, 100);
-
 
 // disable Slack enhanced data output, like "Written by : Author Name" in opengraph meta
 add_filter('rank_math/opengraph/slack_enhanced_data', function() {
