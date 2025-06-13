@@ -26,7 +26,8 @@ class Commands extends WP_CLI_Command
         'seo-by-rank-math',
         'https://plugins.mill3.dev/seo-by-rank-math-pro.zip',
         'https://plugins.mill3.dev/mill3-wp-utils-plugin.zip',
-        'webp-express'
+        'webp-express',
+        'block-visibility'
     ];
 
     //
