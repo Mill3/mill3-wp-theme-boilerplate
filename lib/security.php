@@ -5,6 +5,9 @@ namespace Mill3WP\Security;
 
 // Content-Security-Policy (CSP) <meta>
 add_action('wp_head', function() {
+    // stop here if ACF is not installed
+    if( !function_exists('get_fields') ) return;
+
     $base_url = get_site_url();
     $options = get_fields('options');
 
