@@ -26,7 +26,6 @@ class SiteTransition {
 
     // prepare current container for transition
     current.container.setAttribute('inert', '');
-    current.container.setAttribute('aria-hidden', true);
   }
 
   // this method is required for the transition to be selected by Windmill
