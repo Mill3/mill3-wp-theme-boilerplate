@@ -25,6 +25,7 @@ class SiteTransition {
     container.style.backgroundColor = bgColor;
 
     // prepare current container for transition
+    current.container.setAttribute('inert', '');
     current.container.setAttribute('aria-hidden', true);
   }
 
@@ -42,7 +43,7 @@ class SiteTransition {
       
       // set body height to prevent layout shift
       body.style.height = `${body.scrollHeight}px`;
-      next.container.parentElement.style.overflow = 'hidden';
+      next.container.parentElement.style.overflow = 'clip';
       html.style.removeProperty('cursor');
 
       const tl = anime.timeline({ autoplay: false });
