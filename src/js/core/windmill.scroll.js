@@ -62,6 +62,7 @@ export class WindmillScroll {
     windmill.on('exit', this._onPageExit, this);
 
     if( this._async ) {
+      windmill.on('added', this._onAsyncPageAdded, this);
       windmill.on('entering', this._resetScrollModules, this);
       windmill.on('enter', this._onAsyncPageEnter, this);
       windmill.on('entered', this._onAsyncPageEntered, this);
@@ -127,10 +128,12 @@ export class WindmillScroll {
     this.parallax?.resize();
   }
 
-  _onAsyncPageEnter({ next }) {
+  _onAsyncPageAdded() {
     this._unbindEvents();
     this._stopModules();
-
+    this._resetScrollModules();
+  }
+  _onAsyncPageEnter({ next }) {
     html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
 
     this.scroll?.init();
