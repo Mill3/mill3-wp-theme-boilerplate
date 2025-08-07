@@ -126,6 +126,7 @@ class Theme_CustomPostTypes {
             'show_in_menu'        => true,
             'show_in_nav_menus'   => true,
             'show_in_admin_bar'   => true,
+            'show_in_rest'        => true, // required for enabling block editor
             'menu_position'       => $this->incrementMenuPosition(),
             'can_export'          => true,
             'has_archive'         => true,
@@ -167,8 +168,7 @@ class Theme_CustomPostTypes {
             'show_in_menu'        => true,
             'show_in_nav_menus'   => false,
             'show_in_admin_bar'   => true,
-            // need this for enabling gutenberg editor
-            'show_in_rest'        => true,
+            'show_in_rest'        => true, // required for enabling block editor
             'menu_position'       => $this->incrementMenuPosition(),
             'can_export'          => true,
             'has_archive'         => false,

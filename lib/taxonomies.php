@@ -103,14 +103,16 @@ class Theme_CustomTaxonomies
             $taxonomy_name,
             array('post'),
             array(
+                'labels' => $labels,
+                'public' => true,
+                'publicly_queryable' => true,
                 'hierarchical' => true,
-                'query_var' => true,
                 'show_ui' => true,
                 'show_in_menu' => true,
                 'show_in_nav_menus' => true,
+                'show_in_rest' => true, // required for editing in block editor
                 'show_in_quick_edit' => true,
                 'show_admin_column' => true,
-                'labels' => $labels,
                 // Control the slugs used for this taxonomy
                 'rewrite' => array(
                     'slug' => $slug, // This controls the base slug that will display before each term
