@@ -6,6 +6,12 @@ export const shuffle = (arr) =>
     .sort((a, b) => a[0] - b[0])
     .map((a) => a[1]);
 
+
+export const unique = (arr) => {
+  return [ ...new Set(arr) ];
+}
+
 export default {
-  shuffle
+  shuffle,
+  unique,
 };
