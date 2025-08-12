@@ -29,8 +29,11 @@ if (is_day()) {
     $context['title'] = single_cat_title('', false);
     array_unshift($templates, 'archive-' . get_query_var('cat') . '.twig');
 } elseif (is_post_type_archive()) {
+    $post_type = get_post_type();
+    if( empty($post_type) ) $post_type = get_query_var('post_type');
+
     $context['title'] = post_type_archive_title('', false);
-    array_unshift($templates, 'archive-' . get_post_type() . '.twig');
+    array_unshift($templates, 'archive-' . $post_type . '.twig');
 }
 
 Timber::render($templates, $context);
