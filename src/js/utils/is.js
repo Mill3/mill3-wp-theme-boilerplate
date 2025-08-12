@@ -21,6 +21,7 @@ isObject( object );
 isString( string );
 isUndefined( value );
 isWindow( window );
+isCSSSelectorValid('.page-test');
 
 */
 
@@ -70,6 +71,14 @@ export const isUndefined = (v) => v === void 0;
 // is a given value window?
 export const isWindow = (v) => v != null && typeof v === "object" && "setInterval" in v;
 
+// is a given css selector is valid?
+export const isCSSSelectorValid = (dummyElement => {
+  return (selector) => {
+    try { dummyElement.querySelector(selector) } catch { return false }
+    return true
+  }
+})(document.createDocumentFragment());
+
 export default {
   isArray,
   isBoolean,
@@ -83,5 +92,6 @@ export default {
   isObject,
   isString,
   isUndefined,
-  isWindow
+  isWindow,
+  isCSSSelectorValid
 };

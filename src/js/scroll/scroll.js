@@ -4,6 +4,7 @@ import EMITTER from "@core/emitter";
 import { DIRECTION_DOWN, DIRECTION_UP, SCROLL_TO_OPTIONS } from "@scroll/constants";
 import { firefox } from "@utils/browser";
 import { $, $$, html, body, rect } from "@utils/dom";
+import { isCSSSelectorValid } from "@utils/is";
 import { on, off } from "@utils/listener";
 import { lerp2, limit } from "@utils/math";
 import { mobile, motion_reduced } from "@utils/mobile";
@@ -64,10 +65,13 @@ class Scroll {
     if( window.location.hash ) {
       // Get the hash without the '#' and find the matching element
       const id = window.location.hash.slice(1, window.location.hash.length);
-      let target = $(`#${id}`);
 
-      // If found, scroll to the element
-      if (target) this.scrollTo(target);
+      if( isCSSSelectorValid(id) ) {
+        let target = $(`#${id}`);
+
+        // If found, scroll to the element
+        if (target) this.scrollTo(target);
+      }
     }
   }
   raf(delta = 1) {
