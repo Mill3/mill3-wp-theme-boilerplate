@@ -34,7 +34,7 @@
   >
     <summary
       class="accordions__btn d-grid grid-gap-20 w-100"
-      aria-label="{{ accordion.aria_label|default(accordion.title) }}"
+      aria-label="{{ accordion.aria_label|default(accordion.title)|e('html_attr') }}"
     >
       <span class="accordions__title col-start-1 row-start-1" aria-hidden="true">{{ accordion.title }}</span>
 
