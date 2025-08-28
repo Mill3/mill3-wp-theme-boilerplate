@@ -26,7 +26,12 @@ const PLUGINS = [
 if( !DEV ) {
   PLUGINS.push(
     cssnano({
-      preset: ['default', { convertValues: { time: false } }]
+      preset: ['default',
+        {
+          convertValues: { time: false },
+          reduceTransforms: false
+        }
+      ]
     }),
     purgeCSSPlugin({
       content: [
