@@ -7,6 +7,7 @@ class PbRowOEmbed {
     this.emitter = emitter;
     this.wrapper = $('.pb-row-oembed__wrapper', this.el);
     this.preview = $('.pb-row-oembed__preview', this.el);
+    this.videoPreview = $('.pb-row-oembed__videoPreview', this.el);
     this.script = $('script', this.el);
 
     this._onClick = this._onClick.bind(this);
@@ -42,8 +43,13 @@ class PbRowOEmbed {
 
     this._unbindEvents();
 
+    if( this.videoPreview ) this.emitter.emit('Video.destroy', this.videoPreview);
+
     this.preview = null;
+    this.videoPreview = null;
     this.wrapper.innerHTML = this.script.innerHTML;
+
+    this.emitter.emit('SiteScroll.update');
     this.emitter.emit('oEmbed.add', $('iframe', this.wrapper));
   }
 }

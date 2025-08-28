@@ -12,11 +12,4 @@
     transform-origin: 50% var(--scroll-y);
     width: 100%;
   }
-
-  &[aria-hidden="true"] {
-    &,
-    * {
-      pointer-events: none !important;
-    }
-  }
 }

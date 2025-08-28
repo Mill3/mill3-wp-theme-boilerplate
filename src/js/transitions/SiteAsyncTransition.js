@@ -25,7 +25,7 @@ class SiteTransition {
     container.style.backgroundColor = bgColor;
 
     // prepare current container for transition
-    current.container.setAttribute('aria-hidden', true);
+    current.container.setAttribute('inert', '');
   }
 
   // this method is required for the transition to be selected by Windmill
@@ -42,7 +42,7 @@ class SiteTransition {
       
       // set body height to prevent layout shift
       body.style.height = `${body.scrollHeight}px`;
-      next.container.parentElement.style.overflow = 'hidden';
+      next.container.parentElement.style.overflow = 'clip';
       html.style.removeProperty('cursor');
 
       const tl = anime.timeline({ autoplay: false });

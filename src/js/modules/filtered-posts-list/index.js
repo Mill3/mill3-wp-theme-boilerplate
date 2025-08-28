@@ -3,19 +3,25 @@
  *
  * How to use in your template :
  *
- * 1. attach JS module to the container containing : SELECT element, all posts, pagination
+ * 1. attach JS module to the container containing : SELECT element, filter links, all posts, pagination
  *
- * <section data-module="filtered-posts-list" data-filtered-posts-list></section>
+ * <section data-module="filtered-posts-list"></section>
  *
- * 2. attach data-selector to SELECT element
+ * 2. attach data-selector to SELECT element AND filter links
  *
- * <select class="my-ctp-archive__filter" data-filtered-posts-list-filters >
+ * <select class="my-ctp-archive__filter" data-filtered-posts-list-filters>
  *   <option value="{{ my-ctp_archive_link }}">{{ __('Filter by', 'mill3wp') }}</option>
  *   <option value="{{ term.link }}">{{ term.name }}</option>
+ * 
+ * <nav class="my-cpt-archive__links" data-filtered-posts-list-links>
+ *   <a href="#">All</a>
+ *   <a href="#">Filter 1</a>
+ *   <a href="#">Filter 2</a>
+ * </nav>
  *
  * 3. attach data-selector to posts container
  *
- * <ol data-filtered-posts-list-results >
+ * <ol data-filtered-posts-list-results>
  * {% for post in posts %}
  * ...
  * </ol>
@@ -23,7 +29,7 @@
  * 4. attach data-selector to pagination element
  *
  * <div data-filtered-posts-list-pagination>
- *   {% include 'partial/pagination.twig' }
+ *   {% include 'partial/pagination.twig' %}
  * </div>
  *
 */
@@ -36,6 +42,7 @@ import { on, off } from "@utils/listener";
 
 const LOCKED_CLASSNAME = "--js-filtered-posts-list-locked";
 const FILTERS_SELECTOR = "[data-filtered-posts-list-filters]";
+const LINKS_SELECTOR = "[data-filtered-posts-list-links]";
 const PAGINATION_SELECTOR = "[data-filtered-posts-list-pagination]";
 const RESULTS_SELECTOR = "[data-filtered-posts-list-results]";
 
@@ -45,6 +52,7 @@ class FilteredPostsList {
     this.emitter = emitter;
 
     this.filters = $(FILTERS_SELECTOR, this.el);
+    this.links = $(LINKS_SELECTOR, this.el);
     this.pagination = $(PAGINATION_SELECTOR, this.el);
     this.results = $(RESULTS_SELECTOR, this.el);
 
@@ -54,6 +62,7 @@ class FilteredPostsList {
     this._newResultsHTML = null;
 
     this._onTypeChange = this._onTypeChange.bind(this);
+    this._onLinkClick = this._onLinkClick.bind(this);
     this._onAjaxCallback = this._onAjaxCallback.bind(this);
     this._onAjaxResponse = this._onAjaxResponse.bind(this);
     this._onAjaxError = this._onAjaxError.bind(this);
@@ -70,6 +79,7 @@ class FilteredPostsList {
     this.el = null;
     this.emitter = null;
     this.filters = null;
+    this.links = null;
     this.pagination = null;
     this.results = null;
 
@@ -79,6 +89,7 @@ class FilteredPostsList {
     this._newResultsHTML = null;
 
     this._onTypeChange = null;
+    this._onLinkClick = null;
     this._onAjaxCallback = null;
     this._onAjaxResponse = null;
     this._onAjaxError = null;
@@ -88,13 +99,48 @@ class FilteredPostsList {
 
   _bindEvents() {
     if(this.filters) on(this.filters, 'change', this._onTypeChange);
+    if(this.links) on(this.links, 'click', this._onLinkClick);
   }
   _unbindEvents() {
     if(this.filters) off(this.filters, 'change', this._onTypeChange);
+    if(this.links) off(this.links, 'click', this._onLinkClick);
   }
 
   _onTypeChange() {
     const href = this.filters.value;
+
+    // replace current history state
+    windmill.replace(href);
+
+    // block UI
+    if( this.el ) this.el.classList.add(LOCKED_CLASSNAME);
+
+    // fetch HTML
+    fetch(href)
+      .then(this._onAjaxCallback)
+      .then(this._onAjaxResponse)
+      .catch(this._onAjaxError);
+  }
+  _onLinkClick(event) {
+    if( event ) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+
+
+    let href, target = event.target;
+
+    // check all parent elements until we reach [data-filtered-posts-list-links]
+    while( target && target !== this.links ) {
+      if( target.tagName.toString().toUpperCase() === 'A' ) {
+        href = target.href;
+        break;
+      }
+
+      target = target.parentElement;
+    }
+
+    if( !href ) return;
 
     // replace current history state
     windmill.replace(href);
@@ -125,6 +171,8 @@ class FilteredPostsList {
 
     const doc = this._parser.parseFromString(html, "text/html");
     const title = $('html title', doc);
+    const filters = $(FILTERS_SELECTOR, doc);
+    const links = $(LINKS_SELECTOR, doc);
     const results = $(RESULTS_SELECTOR, doc);
     const pagination = $(PAGINATION_SELECTOR, doc);
 
@@ -133,6 +181,10 @@ class FilteredPostsList {
       this._onTimelineComplete();
       return;
     }
+
+    // update filters and links immediately
+    if( filters && this.filters ) this.filters.innerHTML = filters.innerHTML;
+    if( links && this.links ) this.links.innerHTML = links.innerHTML;
 
     // save new content
     this._newPageTitle = title.innerText;

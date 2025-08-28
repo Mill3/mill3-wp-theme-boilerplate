@@ -257,6 +257,8 @@ class Mill3WP extends Timber\Site
         $functions['get_options'] = ['callable' => function () { return get_fields('options'); }];
         $functions['is_menu_item'] = ['callable' => function ($item) { return ($item instanceof Timber\MenuItem); }];
         $functions['get_table_of_contents'] = ['callable' => 'Mill3\Twig\get_table_of_contents'];
+        $functions['get_term_by'] = ['callable' => [Timber::class, 'get_term_by']];
+        $functions['get_post_by'] = ['callable' => [Timber::class, 'get_post_by']];
 
         return $functions;
     }

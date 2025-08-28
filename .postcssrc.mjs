@@ -63,6 +63,7 @@ if( !DEV ) {
           // add more here if needed
         ],
         deep: [
+          /^body/,
           /^wysiwyg/,
           /^btn/,
           /^gform/,

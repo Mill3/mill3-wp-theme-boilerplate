@@ -27,7 +27,7 @@ domready(() => {
 
   const resize = () => {
     const max = Math.ceil(parent.innerHeight * 2 >> 0);
-    const height = document.body.querySelector('.pb-row-wrapper').getBoundingClientRect().height;
+    const height = document.body.querySelector('[class*="-row-wrapper"]').getBoundingClientRect().height;
 
     window.frameElement.height = Math.max(25, Math.min(max, height));
   };

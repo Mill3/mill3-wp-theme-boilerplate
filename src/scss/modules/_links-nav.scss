@@ -41,7 +41,7 @@
   }
 
   // LAYOUT DESKTOP
-  @include breakpoints.media-breakpoint-up(md) {
+  @include breakpoints.media-breakpoint-up(xl) {
     &.--layout-horizontal {
       flex-direction: row;
       align-items: center;
