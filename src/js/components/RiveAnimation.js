@@ -1,9 +1,10 @@
 import EventEmitter2 from "eventemitter2";
 
-import { Rive, EventType, RiveEventType, Layout, Fit, Alignment } from "@rive-app/canvas-lite";
-//import { Rive, EventType, RiveEventType, Layout, Fit, Alignment } from "@rive-app/webgl2";
+//import { Rive, EventType, RiveEventType, Layout, Fit, Alignment } from "@rive-app/canvas-lite";
+//import { Rive, EventType, RiveEventType, Layout, Fit, Alignment } from "@rive-app/canvas";
+import { Rive, EventType, RiveEventType, Layout, Fit, Alignment } from "@rive-app/webgl2";
 import ACF from "@utils/acf";
-//import { firefox } from "@utils/browser";
+import { firefox } from "@utils/browser"; // only when using webgl2
 import { limit } from "@utils/math";
 import { touch_device } from "@utils/mobile";
 import Viewport from "@utils/viewport";
@@ -15,7 +16,7 @@ const DEFAULT_OPTIONS = {
   autoplay: false,
   layout: new Layout({ fit: Fit.Cover, alignment: Alignment.Center }),
   isTouchScrollEnabled: true,
-  //useOffscreenRenderer: firefox() ? false : true,
+  useOffscreenRenderer: firefox() ? false : true,
   enableRiveAssetCDN: false,
   maxDPR: null,
 };

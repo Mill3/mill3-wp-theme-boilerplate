@@ -9,8 +9,9 @@
 * @preferred
 */
 
-import { RuntimeLoader } from "@rive-app/canvas-lite";
-//import { RuntimeLoader } from "@rive-app/webgl2";
+//import { RuntimeLoader } from "@rive-app/canvas-lite";
+//import { RuntimeLoader } from "@rive-app/canvas";
+import { RuntimeLoader } from "@rive-app/webgl2";
 
 import { getRiveWASMLink } from "@utils/rive";
 

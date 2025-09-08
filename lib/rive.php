@@ -14,13 +14,17 @@ function get_rive_wasm_href()
     $package_data = json_decode($package_json, true);
 
     // find rive package version in package.json
-    $package_version = $package_data['dependencies']['@rive-app/canvas-lite'];
+    //$package_version = $package_data['dependencies']['@rive-app/canvas-lite'];
+    //$package_version = $package_data['dependencies']['@rive-app/canvas'];
+    $package_version = $package_data['dependencies']['@rive-app/webgl2'];
 
     // remove version prefix
     $package_version = str_replace('^', '', $package_version);
 
     // return URL with version
-    return "https://unpkg.com/@rive-app/canvas-lite@{$package_version}/rive.wasm";
+    //return "https://unpkg.com/@rive-app/canvas-lite@{$package_version}/rive.wasm";
+    //return "https://unpkg.com/@rive-app/canvas@{$package_version}/rive.wasm";
+    return "https://unpkg.com/@rive-app/webgl2@{$package_version}/rive.wasm";
 }
 
 function head_inject_rive_wasm()
