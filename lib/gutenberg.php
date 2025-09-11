@@ -61,6 +61,82 @@ add_filter( 'block_categories_all' , function( $categories ) {
 } );
 
 
+
+/*
+// Create block patterns in Block Editor
+add_action('admin_init', function() {
+    $pb_row_text_simple_fields = acf_get_fields('group_633cd462eb3b1');
+
+    function format_data_for_pb_row($fields, $data) {
+        $output = array();
+        $ignored_field_types = [
+            "accordion", 
+            "flexible_content", 
+            "group", 
+            "message", 
+            "output", 
+            "row-title", 
+            "separator", 
+            "tab", 
+            "table"
+        ];
+
+        foreach($fields as $field) {
+            // skip to next field if field's type is ignored
+            if( in_array($field["type"], $ignored_field_types) ) continue;
+
+            $name = $field["name"];
+            $default_value = array_key_exists("default_value", $field) ? $field["default_value"] : "";
+
+            // set field default value & key
+            $output[$name] = $field["value"] ?? $default_value;
+            $output["_$name"] = $field["key"];
+
+            // populate custom data if provided
+            if( array_key_exists($name, $data) ) $output[$name] = $data[$name];
+        }
+
+        return $output;
+    }
+
+    $pb_row_text_simple_data = array(
+        "subtitle" => "My subtitle",
+        "title" => "My title",
+        "text" => "My text.",
+        "text_align" => "center",
+        "block_size" => "full",
+        "pt" => "40",
+        "pb" => "30",
+        "activate_md_breakpoint" => "1",
+        "pt_md" => "50",
+        "pb_md" => "30",
+        "pt_lg" => "100",
+        "pb_lg" => "80",
+        "theme" => "black",
+        "theme_boxed" => "boxed"
+    );
+    
+    $serialized_block = serialize_block(array(
+        'blockName' => 'acf/pb-row-text-simple',
+        'attrs' => array(
+            'name' => 'acf/pb-row-text-simple', 
+            'data' => format_data_for_pb_row($pb_row_text_simple_fields, $pb_row_text_simple_data)
+        ),
+        'innerBlocks' => [],
+        'innerHTML' => '',
+        'innerContent' => []
+    ));
+
+    // echo '<pre>';
+    // print_r($pb_row_text_simple_fields);
+    // echo '</pre>';
+    // exit;
+
+    register_block_pattern('mill3wp/my-custom-pattern', ['title' => 'My Custom Pattern', 'description' => 'My description', 'content' => $serialized_block]);
+});
+*/
+
+
 // This filter inject in each block context the current block order using a $GLOBAL variable.
 // Also calculating if block is first rendered and bool sent to context.
 $block_order = 0;
