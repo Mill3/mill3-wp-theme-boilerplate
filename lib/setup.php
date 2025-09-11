@@ -53,6 +53,10 @@ function setup()
         // )
     ));
 
+    // Disable features
+    remove_theme_support('core-block-patterns');
+    remove_theme_support('wp-block-styles');
+
     // Enable post thumbnails
     // http://codex.wordpress.org/Post_Thumbnails
     // http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size
