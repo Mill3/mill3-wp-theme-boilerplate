@@ -61,7 +61,7 @@
 
 {# apply margins only on frontend #}
 {% if not is_preview %}
-  {% set row_classname = row_classname|merge(['mt-' ~ mt, 'mb-' ~ mb, 'mt-md-' ~ mt_md, 'mb-md-' ~ mb_md, 'mt-xl' ~ mt_xl, 'mb-xl' ~ mb_xl]) %}
+  {% set row_classname = row_classname|merge(['mt-' ~ mt, 'mb-' ~ mb, 'mt-md-' ~ mt_md, 'mb-md-' ~ mb_md, 'mt-xl-' ~ mt_xl, 'mb-xl-' ~ mb_xl]) %}
 {% endif %}
 
 {% if slug %}
