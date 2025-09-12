@@ -1,78 +1,80 @@
-[
-    {
-        "key": "group_670fcf41ce6e2",
-        "title": "blog-toc-anchor",
-        "fields": [
-            {
-                "key": "field_670fcf4237f82",
-                "label": "Title",
-                "name": "title",
-                "aria-label": "",
-                "type": "text",
-                "instructions": "",
-                "required": 1,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "default_value": "",
-                "translations": "copy_once",
-                "required_message": "",
-                "maxlength": "",
-                "allow_in_bindings": 0,
-                "placeholder": "",
-                "prepend": "",
-                "append": ""
+{
+    "key": "group_670fcf41ce6e2",
+    "title": "blog-toc-anchor",
+    "fields": [
+        {
+            "key": "field_670fcf4237f82",
+            "label": "Title",
+            "name": "title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
+            "default_value": "",
+            "translations": "copy_once",
+            "required_message": "",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "pll_default_value": ""
+        },
+        {
+            "key": "field_670ff2bb9f74c",
+            "label": "Parent's name",
+            "name": "parent",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "If you set parent's name, this anchor will appear as child of parent in Table of Contents. <br \/>\r\nAlso note that parent should be placed BEFORE all of his children.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "translations": "copy_once",
+            "maxlength": "",
+            "allow_in_bindings": 0,
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "pll_default_value": ""
+        }
+    ],
+    "location": [
+        [
             {
-                "key": "field_670ff2bb9f74c",
-                "label": "Parent's name",
-                "name": "parent",
-                "aria-label": "",
-                "type": "text",
-                "instructions": "If you set parent's name, this anchor will appear as child of parent in Table of Contents. <br \/>\r\nAlso note that parent should be placed BEFORE all of his children.",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "default_value": "",
-                "translations": "copy_once",
-                "maxlength": "",
-                "allow_in_bindings": 0,
-                "placeholder": "",
-                "prepend": "",
-                "append": ""
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/blog-toc-anchor"
             }
-        ],
-        "location": [
-            [
-                {
-                    "param": "block",
-                    "operator": "==",
-                    "value": "acf\/blog-toc-anchor"
-                }
-            ]
-        ],
-        "menu_order": 0,
-        "position": "normal",
-        "style": "default",
-        "label_placement": "left",
-        "instruction_placement": "label",
-        "hide_on_screen": "",
-        "active": true,
-        "description": "",
-        "show_in_rest": 0,
-        "acfe_autosync": [
-            "json"
-        ],
-        "acfe_form": 0,
-        "acfe_display_title": "",
-        "acfe_meta": "",
-        "acfe_note": ""
-    }
-]
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "left",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "acfe_autosync": [
+        "json"
+    ],
+    "acfe_form": 0,
+    "acfe_display_title": "",
+    "pll_display_field_instructions": 1,
+    "acfe_meta": "",
+    "acfe_note": "",
+    "modified": 1757696532
+}

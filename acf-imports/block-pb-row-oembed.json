@@ -1,335 +1,349 @@
-[
-    {
-        "key": "group_633daa822897c",
-        "title": "pb-row-oembed",
-        "fields": [
-            {
-                "key": "field_6351a3095ae8e",
-                "label": "Embeded content",
-                "name": "embeded_content",
-                "aria-label": "",
-                "type": "row-title",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "translations": "copy_once",
-                "acfe_field_group_condition": 0
-            },
-            {
-                "key": "field_633daadbc112a",
-                "label": "Content",
-                "name": "",
-                "aria-label": "",
-                "type": "accordion",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "open": 0,
-                "multi_expand": 0,
-                "endpoint": 0,
-                "acfe_field_group_condition": 0
-            },
-            {
-                "key": "field_609ed0a1ebca8",
-                "label": "Video",
-                "name": "video",
-                "aria-label": "",
-                "type": "oembed",
-                "instructions": "",
-                "required": 1,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_permissions": "",
+{
+    "key": "group_633daa822897c",
+    "title": "pb-row-oembed",
+    "fields": [
+        {
+            "key": "field_6351a3095ae8e",
+            "label": "Embeded content",
+            "name": "embeded_content",
+            "aria-label": "",
+            "type": "row-title",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
                 "width": "",
-                "height": "",
-                "acfe_settings": "",
-                "acfe_validate": ""
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_623de14e804de",
-                "label": "Image (Preview)",
-                "name": "thumbnail",
-                "aria-label": "",
-                "type": "image",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_permissions": "",
-                "uploader": "",
-                "acfe_thumbnail": 0,
-                "return_format": "array",
-                "preview_size": "medium",
-                "min_width": "",
-                "min_height": "",
-                "min_size": "",
-                "max_width": "",
-                "max_height": "",
-                "max_size": "",
-                "mime_types": "",
-                "acfe_settings": "",
-                "acfe_validate": "",
-                "library": "all"
+            "translations": "copy_once"
+        },
+        {
+            "key": "field_633daadbc112a",
+            "label": "Content",
+            "name": "",
+            "aria-label": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_623de17e804df",
-                "label": "Video (Preview)",
-                "name": "video_preview",
-                "aria-label": "",
-                "type": "file",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "50",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_permissions": "",
-                "uploader": "",
-                "return_format": "array",
-                "min_size": "",
-                "max_size": "",
-                "mime_types": "mp4",
-                "acfe_settings": "",
-                "acfe_validate": "",
-                "library": "all"
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
+            "key": "field_609ed0a1ebca8",
+            "label": "Video",
+            "name": "video",
+            "aria-label": "",
+            "type": "oembed",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_623de19b804e0",
-                "label": "Video Mobile (Preview)",
-                "name": "video_preview_mobile",
-                "aria-label": "",
-                "type": "file",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "50",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_permissions": "",
-                "uploader": "",
-                "return_format": "array",
-                "min_size": "",
-                "max_size": "",
-                "mime_types": "mp4",
-                "acfe_settings": "",
-                "acfe_validate": "",
-                "library": "all"
+            "acfe_permissions": "",
+            "width": "",
+            "height": "",
+            "acfe_settings": "",
+            "acfe_validate": ""
+        },
+        {
+            "key": "field_623de14e804de",
+            "label": "Image (Preview)",
+            "name": "thumbnail",
+            "aria-label": "",
+            "type": "image",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_623de1b7804e1",
-                "label": "Caption",
-                "name": "caption",
-                "aria-label": "",
-                "type": "text",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_permissions": "",
-                "default_value": "",
-                "placeholder": "",
-                "prepend": "",
-                "append": "",
-                "maxlength": "",
-                "acfe_settings": "",
-                "acfe_validate": ""
+            "acfe_permissions": "",
+            "uploader": "",
+            "acfe_thumbnail": 0,
+            "return_format": "array",
+            "preview_size": "medium",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": "",
+            "acfe_settings": "",
+            "acfe_validate": "",
+            "library": "all",
+            "upload_folder": ""
+        },
+        {
+            "key": "field_623de17e804df",
+            "label": "Video (Preview)",
+            "name": "video_preview",
+            "aria-label": "",
+            "type": "file",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_633daaebc112b",
-                "label": "Padding & margin",
-                "name": "",
-                "aria-label": "",
-                "type": "accordion",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "open": 0,
-                "multi_expand": 0,
-                "endpoint": 0,
-                "acfe_field_group_condition": 0
+            "acfe_permissions": "",
+            "uploader": "",
+            "return_format": "array",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": "mp4",
+            "acfe_settings": "",
+            "acfe_validate": "",
+            "library": "all",
+            "preview_style": "default",
+            "placeholder": "Select",
+            "upload_folder": "",
+            "button_label": "Add File",
+            "stylised_button": 0,
+            "file_count": 0,
+            "multiple": 0,
+            "min": "",
+            "max": ""
+        },
+        {
+            "key": "field_623de19b804e0",
+            "label": "Video Mobile (Preview)",
+            "name": "video_preview_mobile",
+            "aria-label": "",
+            "type": "file",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_609ed0a1ebcae",
-                "label": "Default Options",
-                "name": "padding_margin",
-                "aria-label": "",
-                "type": "clone",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_permissions": "",
-                "clone": [
-                    "group_60463adacbef2"
-                ],
-                "display": "seamless",
-                "layout": "block",
-                "prefix_label": 0,
-                "prefix_name": 0,
-                "acfe_settings": "",
-                "acfe_seamless_style": 0,
-                "acfe_clone_modal": 0,
-                "acfe_clone_modal_close": 0,
-                "acfe_clone_modal_button": "",
-                "acfe_clone_modal_size": "large"
+            "acfe_permissions": "",
+            "uploader": "",
+            "return_format": "array",
+            "min_size": "",
+            "max_size": "",
+            "mime_types": "mp4",
+            "acfe_settings": "",
+            "acfe_validate": "",
+            "library": "all",
+            "preview_style": "default",
+            "placeholder": "Select",
+            "upload_folder": "",
+            "button_label": "Add File",
+            "stylised_button": 0,
+            "file_count": 0,
+            "multiple": 0,
+            "min": "",
+            "max": ""
+        },
+        {
+            "key": "field_623de1b7804e1",
+            "label": "Caption",
+            "name": "caption",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_633dab01c112c",
-                "label": "Colors",
-                "name": "",
-                "aria-label": "",
-                "type": "accordion",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "open": 0,
-                "multi_expand": 0,
-                "endpoint": 0,
-                "acfe_field_group_condition": 0
+            "acfe_permissions": "",
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "maxlength": "",
+            "acfe_settings": "",
+            "acfe_validate": "",
+            "pll_default_value": ""
+        },
+        {
+            "key": "field_633daaebc112b",
+            "label": "Padding & margin",
+            "name": "",
+            "aria-label": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_620fcd85a5c0e",
-                "label": "Colors",
-                "name": "colors",
-                "aria-label": "",
-                "type": "clone",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_permissions": "",
-                "clone": [
-                    "group_620fcc885ee5d"
-                ],
-                "display": "seamless",
-                "layout": "block",
-                "prefix_label": 0,
-                "prefix_name": 0,
-                "acfe_settings": "",
-                "acfe_seamless_style": 0,
-                "acfe_clone_modal": 0,
-                "acfe_clone_modal_close": 0,
-                "acfe_clone_modal_button": "",
-                "acfe_clone_modal_size": "large"
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
+            "key": "field_609ed0a1ebcae",
+            "label": "Default Options",
+            "name": "padding_margin",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_633dab0dc112d",
-                "label": "General Settings",
-                "name": "",
-                "aria-label": "",
-                "type": "accordion",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "open": 0,
-                "multi_expand": 0,
-                "endpoint": 0,
-                "acfe_field_group_condition": 0
+            "acfe_permissions": "",
+            "clone": [
+                "group_60463adacbef2"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "acfe_settings": "",
+            "acfe_seamless_style": 0,
+            "acfe_clone_modal": 0,
+            "acfe_clone_modal_close": 0,
+            "acfe_clone_modal_button": "",
+            "acfe_clone_modal_size": "large"
+        },
+        {
+            "key": "field_633dab01c112c",
+            "label": "Colors",
+            "name": "",
+            "aria-label": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
+            "key": "field_620fcd85a5c0e",
+            "label": "Colors",
+            "name": "colors",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "acfe_permissions": "",
+            "clone": [
+                "group_620fcc885ee5d"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "acfe_settings": "",
+            "acfe_seamless_style": 0,
+            "acfe_clone_modal": 0,
+            "acfe_clone_modal_close": 0,
+            "acfe_clone_modal_button": "",
+            "acfe_clone_modal_size": "large"
+        },
+        {
+            "key": "field_633dab0dc112d",
+            "label": "General Settings",
+            "name": "",
+            "aria-label": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
+            "key": "field_623ca20c0d205",
+            "label": "General Settings",
+            "name": "general_settings",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "acfe_permissions": "",
+            "clone": [
+                "group_623bc7b97135d"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "acfe_settings": "",
+            "acfe_seamless_style": 0,
+            "acfe_clone_modal": 0,
+            "acfe_clone_modal_close": 0,
+            "acfe_clone_modal_button": "",
+            "acfe_clone_modal_size": "large"
+        }
+    ],
+    "location": [
+        [
             {
-                "key": "field_623ca20c0d205",
-                "label": "General Settings",
-                "name": "general_settings",
-                "aria-label": "",
-                "type": "clone",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_permissions": "",
-                "clone": [
-                    "group_623bc7b97135d"
-                ],
-                "display": "seamless",
-                "layout": "block",
-                "prefix_label": 0,
-                "prefix_name": 0,
-                "acfe_settings": "",
-                "acfe_seamless_style": 0,
-                "acfe_clone_modal": 0,
-                "acfe_clone_modal_close": 0,
-                "acfe_clone_modal_button": "",
-                "acfe_clone_modal_size": "large"
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/pb-row-oembed"
             }
-        ],
-        "location": [
-            [
-                {
-                    "param": "block",
-                    "operator": "==",
-                    "value": "acf\/pb-row-oembed"
-                }
-            ]
-        ],
-        "menu_order": 0,
-        "position": "normal",
-        "style": "default",
-        "label_placement": "left",
-        "instruction_placement": "label",
-        "hide_on_screen": "",
-        "active": true,
-        "description": "",
-        "show_in_rest": 0,
-        "acfe_autosync": [
-            "json"
-        ],
-        "acfe_form": 0,
-        "acfe_display_title": "",
-        "acfe_meta": "",
-        "acfe_note": "",
-        "modified": 1666294564
-    }
-]
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "left",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "acfe_autosync": [
+        "json"
+    ],
+    "acfe_form": 0,
+    "acfe_display_title": "",
+    "pll_display_field_instructions": 1,
+    "acfe_meta": "",
+    "acfe_note": "",
+    "modified": 1757697256
+}

@@ -1,57 +1,55 @@
-[
-    {
-        "key": "group_621f8237766d4",
-        "title": "Post type : Page sections",
-        "fields": [
+{
+    "key": "group_621f8237766d4",
+    "title": "Post type : Page sections",
+    "fields": [
+        {
+            "key": "field_633da4c430a1d",
+            "label": "Page section slug",
+            "name": "post_slug",
+            "aria-label": "",
+            "type": "acfe_dynamic_render",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "render": ""
+        }
+    ],
+    "location": [
+        [
             {
-                "key": "field_633da4c430a1d",
-                "label": "Page section slug",
-                "name": "post_slug",
-                "aria-label": "",
-                "type": "acfe_dynamic_render",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_field_group_condition": 0,
-                "render": ""
+                "param": "post_type",
+                "operator": "==",
+                "value": "page_section"
             }
-        ],
-        "location": [
-            [
-                {
-                    "param": "post_type",
-                    "operator": "==",
-                    "value": "page_section"
-                }
-            ]
-        ],
-        "menu_order": 0,
-        "position": "side",
-        "style": "seamless",
-        "label_placement": "top",
-        "instruction_placement": "label",
-        "hide_on_screen": [
-            "categories",
-            "comments",
-            "the_content",
-            "discussion",
-            "format"
-        ],
-        "active": true,
-        "description": "",
-        "show_in_rest": 0,
-        "acfe_autosync": [
-            "json"
-        ],
-        "acfe_form": 0,
-        "acfe_display_title": "Page section",
-        "acfe_meta": "",
-        "acfe_note": "",
-        "modified": 1664984356
-    }
-]
+        ]
+    ],
+    "menu_order": 0,
+    "position": "side",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "categories",
+        "comments",
+        "the_content",
+        "discussion",
+        "format"
+    ],
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "acfe_autosync": [
+        "json"
+    ],
+    "acfe_form": 0,
+    "acfe_display_title": "Page section",
+    "pll_display_field_instructions": 1,
+    "acfe_meta": "",
+    "acfe_note": "",
+    "modified": 1757693723
+}

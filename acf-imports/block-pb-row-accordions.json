@@ -1,321 +1,353 @@
-[
-    {
-        "key": "group_636bb5081741b",
-        "title": "pb-row-accordions",
-        "fields": [
-            {
-                "key": "field_636bb508268e9",
-                "label": "Accordions",
-                "name": "accordions_row_title",
-                "aria-label": "",
-                "type": "row-title",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "translations": "copy_once",
-                "acfe_field_group_condition": 0
+{
+    "key": "group_636bb5081741b",
+    "title": "pb-row-accordions",
+    "fields": [
+        {
+            "key": "field_636bb508268e9",
+            "label": "Accordions",
+            "name": "accordions_row_title",
+            "aria-label": "",
+            "type": "row-title",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_636bb5082692f",
-                "label": "Content",
-                "name": "",
-                "aria-label": "",
-                "type": "accordion",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "open": 1,
-                "multi_expand": 1,
-                "endpoint": 0,
-                "acfe_field_group_condition": 0
+            "translations": "copy_once"
+        },
+        {
+            "key": "field_636bb5082692f",
+            "label": "Content",
+            "name": "",
+            "aria-label": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_636bb5082697a",
-                "label": "Title",
-                "name": "title",
-                "aria-label": "",
-                "type": "text",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "default_value": "",
-                "translations": "copy_once",
-                "maxlength": "",
-                "placeholder": "",
-                "prepend": "",
-                "append": "",
-                "acfe_field_group_condition": 0
+            "open": 1,
+            "multi_expand": 1,
+            "endpoint": 0
+        },
+        {
+            "key": "field_636bb5082697a",
+            "label": "Title",
+            "name": "title",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_636bb508269c5",
-                "label": "Accordions",
-                "name": "accordions",
-                "aria-label": "",
-                "type": "repeater",
-                "instructions": "",
-                "required": 1,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_repeater_stylised_button": 1,
-                "layout": "block",
-                "pagination": 0,
-                "required_message": "",
-                "min": 1,
-                "max": 0,
-                "collapsed": "field_636bb642d772d",
-                "button_label": "Add Accordion",
-                "acfe_field_group_condition": 0,
-                "rows_per_page": 20,
-                "sub_fields": [
-                    {
-                        "key": "field_636bb642d772d",
-                        "label": "Title",
-                        "name": "title",
-                        "aria-label": "",
-                        "type": "text",
-                        "instructions": "",
-                        "required": 1,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "",
-                        "translations": "copy_once",
-                        "required_message": "",
-                        "maxlength": "",
-                        "placeholder": "",
-                        "prepend": "",
-                        "append": "",
-                        "acfe_field_group_condition": 0,
-                        "parent_repeater": "field_636bb508269c5"
-                    },
-                    {
-                        "key": "field_636bb650d772e",
-                        "label": "Content",
-                        "name": "content",
-                        "aria-label": "",
-                        "type": "wysiwyg",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "",
-                        "delay": 0,
-                        "acfe_wysiwyg_height": 300,
-                        "acfe_wysiwyg_max_height": "",
-                        "acfe_wysiwyg_valid_elements": "",
-                        "acfe_wysiwyg_custom_style": "",
-                        "acfe_wysiwyg_disable_wp_style": 0,
-                        "acfe_wysiwyg_autoresize": 0,
-                        "acfe_wysiwyg_disable_resize": 0,
-                        "acfe_wysiwyg_remove_path": 0,
-                        "acfe_wysiwyg_menubar": 0,
-                        "acfe_wysiwyg_transparent": 0,
-                        "acfe_wysiwyg_merge_toolbar": 0,
-                        "acfe_wysiwyg_custom_toolbar": 0,
-                        "translations": "copy_once",
-                        "tabs": "all",
-                        "toolbar": "basic",
-                        "media_upload": 0,
-                        "acfe_field_group_condition": 0,
-                        "acfe_wysiwyg_auto_init": 0,
-                        "acfe_wysiwyg_min_height": 300,
-                        "acfe_wysiwyg_toolbar_buttons": [],
-                        "parent_repeater": "field_636bb508269c5"
-                    }
-                ]
+            "default_value": "",
+            "translations": "copy_once",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "pll_default_value": ""
+        },
+        {
+            "key": "field_636bb508269c5",
+            "label": "Accordions",
+            "name": "accordions",
+            "aria-label": "",
+            "type": "repeater",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_636bb50826a09",
-                "label": "Padding & Margin",
-                "name": "",
-                "aria-label": "",
-                "type": "accordion",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "open": 0,
-                "multi_expand": 0,
-                "endpoint": 0
-            },
-            {
-                "key": "field_636bb50826a4c",
-                "label": "Default Options",
-                "name": "padding_margin",
-                "aria-label": "",
-                "type": "clone",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_permissions": "",
-                "clone": [
-                    "group_60463adacbef2"
-                ],
-                "display": "seamless",
-                "layout": "block",
-                "prefix_label": 0,
-                "prefix_name": 0,
-                "acfe_settings": "",
-                "acfe_seamless_style": 0,
-                "acfe_clone_modal": 0,
-                "acfe_clone_modal_close": 0,
-                "acfe_clone_modal_button": "",
-                "acfe_clone_modal_size": "large"
-            },
-            {
-                "key": "field_636bb50826a8d",
-                "label": "Colors",
-                "name": "",
-                "aria-label": "",
-                "type": "accordion",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "open": 0,
-                "multi_expand": 0,
-                "endpoint": 0
-            },
-            {
-                "key": "field_636bb50826be4",
-                "label": "Colors",
-                "name": "colors",
-                "aria-label": "",
-                "type": "clone",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "acfe_permissions": "",
-                "clone": [
-                    "group_620fcc885ee5d"
-                ],
-                "display": "seamless",
-                "layout": "block",
-                "prefix_label": 0,
-                "prefix_name": 0,
-                "acfe_settings": "",
-                "acfe_seamless_style": 0,
-                "acfe_clone_modal": 0,
-                "acfe_clone_modal_close": 0,
-                "acfe_clone_modal_button": "",
-                "acfe_clone_modal_size": "large"
-            },
-            {
-                "key": "field_636bb50826c36",
-                "label": "General Settings",
-                "name": "",
-                "aria-label": "",
-                "type": "accordion",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "open": 0,
-                "multi_expand": 0,
-                "endpoint": 0,
-                "acfe_field_group_condition": 0
-            },
-            {
-                "key": "field_636bb50826c79",
-                "label": "General Settings",
-                "name": "general_settings",
-                "aria-label": "",
-                "type": "clone",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "clone": [
-                    "group_623bc7b97135d"
-                ],
-                "display": "seamless",
-                "layout": "block",
-                "prefix_label": 0,
-                "prefix_name": 0,
-                "acfe_field_group_condition": 0,
-                "acfe_seamless_style": 0,
-                "acfe_clone_modal": 0,
-                "acfe_clone_modal_close": 0,
-                "acfe_clone_modal_button": "",
-                "acfe_clone_modal_size": "large"
-            }
-        ],
-        "location": [
-            [
+            "acfe_repeater_stylised_button": 1,
+            "layout": "block",
+            "pagination": 0,
+            "required_message": "",
+            "min": 1,
+            "max": 0,
+            "collapsed": "field_636bb642d772d",
+            "button_label": "Add Accordion",
+            "rows_per_page": 20,
+            "sub_fields": [
                 {
-                    "param": "block",
-                    "operator": "==",
-                    "value": "acf\/pb-row-accordions"
+                    "key": "field_636bb642d772d",
+                    "label": "Title",
+                    "name": "title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "translations": "copy_once",
+                    "required_message": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_636bb508269c5",
+                    "pll_default_value": ""
+                },
+                {
+                    "key": "field_636bb650d772e",
+                    "label": "Content",
+                    "name": "content",
+                    "aria-label": "",
+                    "type": "wysiwyg",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "acfe_wysiwyg_height": 300,
+                    "acfe_wysiwyg_max_height": "",
+                    "acfe_wysiwyg_valid_elements": "",
+                    "acfe_wysiwyg_custom_style": "",
+                    "acfe_wysiwyg_disable_wp_style": 0,
+                    "acfe_wysiwyg_autoresize": 0,
+                    "acfe_wysiwyg_disable_resize": 0,
+                    "acfe_wysiwyg_remove_path": 0,
+                    "acfe_wysiwyg_menubar": 0,
+                    "acfe_wysiwyg_transparent": 0,
+                    "acfe_wysiwyg_merge_toolbar": 0,
+                    "acfe_wysiwyg_custom_toolbar": 1,
+                    "acfe_wysiwyg_toolbar_buttons": {
+                        "acfe_wysiwyg_toolbar_1": {
+                            "0": {
+                                "acfe_wysiwyg_toolbar_row": "bold"
+                            },
+                            "1": {
+                                "acfe_wysiwyg_toolbar_row": "italic"
+                            },
+                            "2": {
+                                "acfe_wysiwyg_toolbar_row": "underline"
+                            },
+                            "3": {
+                                "acfe_wysiwyg_toolbar_row": "blockquote"
+                            },
+                            "4": {
+                                "acfe_wysiwyg_toolbar_row": "strikethrough"
+                            },
+                            "5": {
+                                "acfe_wysiwyg_toolbar_row": "bullist"
+                            },
+                            "6": {
+                                "acfe_wysiwyg_toolbar_row": "numlist"
+                            },
+                            "10": {
+                                "acfe_wysiwyg_toolbar_row": "undo"
+                            },
+                            "11": {
+                                "acfe_wysiwyg_toolbar_row": "redo"
+                            },
+                            "12": {
+                                "acfe_wysiwyg_toolbar_row": "link"
+                            }
+                        },
+                        "acfe_wysiwyg_toolbar_2": "",
+                        "acfe_wysiwyg_toolbar_3": "",
+                        "acfe_wysiwyg_toolbar_4": ""
+                    },
+                    "translations": "copy_once",
+                    "allow_in_bindings": 1,
+                    "tabs": "all",
+                    "toolbar": "basic",
+                    "media_upload": 0,
+                    "delay": 0,
+                    "acfe_wysiwyg_auto_init": 0,
+                    "acfe_wysiwyg_min_height": 300,
+                    "pll_default_value": "",
+                    "parent_repeater": "field_636bb508269c5"
                 }
             ]
-        ],
-        "menu_order": 0,
-        "position": "normal",
-        "style": "default",
-        "label_placement": "left",
-        "instruction_placement": "label",
-        "hide_on_screen": "",
-        "active": true,
-        "description": "",
-        "show_in_rest": 0,
-        "acfe_form": 0,
-        "acfe_display_title": "",
-        "acfe_autosync": [
-            "json"
-        ],
-        "acfe_meta": "",
-        "acfe_note": ""
-    }
-]
+        },
+        {
+            "key": "field_636bb50826a09",
+            "label": "Padding & Margin",
+            "name": "",
+            "aria-label": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
+            "key": "field_636bb50826a4c",
+            "label": "Default Options",
+            "name": "padding_margin",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "acfe_permissions": "",
+            "clone": [
+                "group_60463adacbef2"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "acfe_settings": "",
+            "acfe_seamless_style": 0,
+            "acfe_clone_modal": 0,
+            "acfe_clone_modal_close": 0,
+            "acfe_clone_modal_button": "",
+            "acfe_clone_modal_size": "large"
+        },
+        {
+            "key": "field_636bb50826a8d",
+            "label": "Colors",
+            "name": "",
+            "aria-label": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
+            "key": "field_636bb50826be4",
+            "label": "Colors",
+            "name": "colors",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "acfe_permissions": "",
+            "clone": [
+                "group_620fcc885ee5d"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "acfe_settings": "",
+            "acfe_seamless_style": 0,
+            "acfe_clone_modal": 0,
+            "acfe_clone_modal_close": 0,
+            "acfe_clone_modal_button": "",
+            "acfe_clone_modal_size": "large"
+        },
+        {
+            "key": "field_636bb50826c36",
+            "label": "General Settings",
+            "name": "",
+            "aria-label": "",
+            "type": "accordion",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "open": 0,
+            "multi_expand": 0,
+            "endpoint": 0
+        },
+        {
+            "key": "field_636bb50826c79",
+            "label": "General Settings",
+            "name": "general_settings",
+            "aria-label": "",
+            "type": "clone",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "clone": [
+                "group_623bc7b97135d"
+            ],
+            "display": "seamless",
+            "layout": "block",
+            "prefix_label": 0,
+            "prefix_name": 0,
+            "acfe_seamless_style": 0,
+            "acfe_clone_modal": 0,
+            "acfe_clone_modal_close": 0,
+            "acfe_clone_modal_button": "",
+            "acfe_clone_modal_size": "large"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/pb-row-accordions"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "left",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "acfe_autosync": [
+        "json"
+    ],
+    "acfe_form": 0,
+    "acfe_display_title": "",
+    "pll_display_field_instructions": 1,
+    "acfe_meta": "",
+    "acfe_note": "",
+    "modified": 1757696652
+}

@@ -37,7 +37,8 @@
             },
             "choices": [],
             "default_value": 0,
-            "return_format": "value"
+            "return_format": "value",
+            "pll_default_value": 0
         },
         {
             "key": "field_604a25c96d2c2",
@@ -55,7 +56,8 @@
             },
             "choices": [],
             "default_value": 0,
-            "return_format": "value"
+            "return_format": "value",
+            "pll_default_value": 0
         },
         {
             "key": "field_620fb8315cc17",
@@ -73,7 +75,8 @@
             },
             "choices": [],
             "default_value": 0,
-            "return_format": "value"
+            "return_format": "value",
+            "pll_default_value": 0
         },
         {
             "key": "field_620fb8685cc19",
@@ -91,7 +94,8 @@
             },
             "choices": [],
             "default_value": 0,
-            "return_format": "value"
+            "return_format": "value",
+            "pll_default_value": 0
         },
         {
             "key": "field_64512a8435322",
@@ -130,7 +134,8 @@
             "default_value": 0,
             "return_format": "value",
             "translations": "copy_once",
-            "allow_in_bindings": 1
+            "allow_in_bindings": 1,
+            "pll_default_value": 0
         },
         {
             "key": "field_645136770bbf7",
@@ -150,7 +155,8 @@
             "default_value": 0,
             "return_format": "value",
             "translations": "copy_once",
-            "allow_in_bindings": 1
+            "allow_in_bindings": 1,
+            "pll_default_value": 0
         },
         {
             "key": "field_645136800bbf8",
@@ -170,7 +176,8 @@
             "default_value": 0,
             "return_format": "value",
             "translations": "copy_once",
-            "allow_in_bindings": 1
+            "allow_in_bindings": 1,
+            "pll_default_value": 0
         },
         {
             "key": "field_645136880bbf9",
@@ -190,7 +197,8 @@
             "default_value": 0,
             "return_format": "value",
             "translations": "copy_once",
-            "allow_in_bindings": 1
+            "allow_in_bindings": 1,
+            "pll_default_value": 0
         },
         {
             "key": "field_620fe7ecb2448",
@@ -229,7 +237,8 @@
             "default_value": 0,
             "return_format": "value",
             "translations": "copy_once",
-            "allow_in_bindings": 1
+            "allow_in_bindings": 1,
+            "pll_default_value": 0
         },
         {
             "key": "field_604a25e36d2c3",
@@ -249,7 +258,8 @@
             "default_value": 0,
             "return_format": "value",
             "translations": "copy_once",
-            "allow_in_bindings": 1
+            "allow_in_bindings": 1,
+            "pll_default_value": 0
         },
         {
             "key": "field_620fb85c5cc18",
@@ -269,7 +279,8 @@
             "default_value": 0,
             "return_format": "value",
             "translations": "copy_once",
-            "allow_in_bindings": 1
+            "allow_in_bindings": 1,
+            "pll_default_value": 0
         },
         {
             "key": "field_620fb87a5cc1a",
@@ -289,7 +300,8 @@
             "default_value": 0,
             "return_format": "value",
             "translations": "copy_once",
-            "allow_in_bindings": 1
+            "allow_in_bindings": 1,
+            "pll_default_value": 0
         },
         {
             "key": "field_645129d4454ab",
@@ -330,7 +342,8 @@
             "ui_on_text": "",
             "ui_off_text": "",
             "ui": 1,
-            "style": ""
+            "style": "",
+            "pll_default_value": 0
         }
     ],
     "location": [
@@ -356,7 +369,8 @@
     ],
     "acfe_form": 0,
     "acfe_display_title": "",
+    "pll_display_field_instructions": 1,
     "acfe_meta": "",
     "acfe_note": "",
-    "modified": 1757688262
+    "modified": 1757693608
 }

@@ -1,453 +1,446 @@
-[
-    {
-        "key": "group_6480cb33bfc46",
-        "title": "GDPR (cloned)",
-        "fields": [
-            {
-                "key": "field_63ee5834e8609",
-                "label": "Panneau de consentement (GDPR)",
-                "name": "",
-                "aria-label": "",
-                "type": "tab",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "placement": "top",
-                "endpoint": 0,
-                "no_preference": 0
+{
+    "key": "group_6480cb33bfc46",
+    "title": "GDPR (cloned)",
+    "fields": [
+        {
+            "key": "field_6480c99c6d294",
+            "label": "Panneau de consentement (GDPR)",
+            "name": "gdpr",
+            "aria-label": "",
+            "type": "group",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            {
-                "key": "field_6480c99c6d294",
-                "label": "Panneau de consentement (GDPR)",
-                "name": "gdpr",
-                "aria-label": "",
-                "type": "group",
-                "instructions": "",
-                "required": 0,
-                "conditional_logic": 0,
-                "wrapper": {
-                    "width": "",
-                    "class": "",
-                    "id": ""
-                },
-                "layout": "block",
-                "acfe_seamless_style": 0,
-                "acfe_group_modal": 0,
-                "acfe_group_modal_close": 0,
-                "acfe_group_modal_button": "",
-                "acfe_group_modal_size": "large",
-                "sub_fields": [
-                    {
-                        "key": "field_63ee5561514f5",
-                        "label": "Actif ?",
-                        "name": "active",
-                        "aria-label": "",
-                        "type": "true_false",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": 0,
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "message": "",
-                        "default_value": 0,
-                        "translations": "copy_once",
-                        "ui_on_text": "Oui",
-                        "ui_off_text": "Non",
-                        "ui": 1,
-                        "style": ""
-                    },
-                    {
-                        "key": "field_63ee5862e860a",
-                        "label": "Titre",
-                        "name": "title",
-                        "aria-label": "",
-                        "type": "text",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": [
-                            [
-                                {
-                                    "field": "field_63ee5561514f5",
-                                    "operator": "==",
-                                    "value": "1"
-                                }
-                            ]
-                        ],
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "",
-                        "translations": "copy_once",
-                        "maxlength": "",
-                        "placeholder": "",
-                        "prepend": "",
-                        "append": ""
-                    },
-                    {
-                        "key": "field_63ee5814e8608",
-                        "label": "Texte intro",
-                        "name": "text_intro",
-                        "aria-label": "",
-                        "type": "textarea",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": [
-                            [
-                                {
-                                    "field": "field_63ee5561514f5",
-                                    "operator": "==",
-                                    "value": "1"
-                                }
-                            ]
-                        ],
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "",
-                        "acfe_textarea_code": 0,
-                        "translations": "copy_once",
-                        "maxlength": "",
-                        "rows": "",
-                        "placeholder": "",
-                        "new_lines": ""
-                    },
-                    {
-                        "key": "field_66e83e6d86134",
-                        "label": "Consentement nécessaire ?",
-                        "name": "consent_necessary",
-                        "aria-label": "",
-                        "type": "true_false",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": [
-                            [
-                                {
-                                    "field": "field_63ee5561514f5",
-                                    "operator": "==",
-                                    "value": "1"
-                                }
-                            ]
-                        ],
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "message": "",
-                        "default_value": 0,
-                        "translations": "copy_once",
-                        "ui_on_text": "Oui",
-                        "ui_off_text": "Non",
-                        "ui": 1,
-                        "style": ""
-                    },
-                    {
-                        "key": "field_66e83e9786135",
-                        "label": "Titre consentement nécessaire",
-                        "name": "consent_necessary_title",
-                        "aria-label": "",
-                        "type": "text",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": [
-                            [
-                                {
-                                    "field": "field_63ee5561514f5",
-                                    "operator": "==",
-                                    "value": "1"
-                                },
-                                {
-                                    "field": "field_66e83e6d86134",
-                                    "operator": "==",
-                                    "value": "1"
-                                }
-                            ]
-                        ],
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "Necessary cookies",
-                        "translations": "copy_once",
-                        "maxlength": "",
-                        "placeholder": "",
-                        "prepend": "",
-                        "append": ""
-                    },
-                    {
-                        "key": "field_66e83ebc86136",
-                        "label": "Texte consentement nécessaire",
-                        "name": "consent_necessary_text",
-                        "aria-label": "",
-                        "type": "textarea",
-                        "instructions": "Courte explication des services « analytics » installés sur le site (GA4, Meta Pixel, LinkedIn, etc).",
-                        "required": 0,
-                        "conditional_logic": [
-                            [
-                                {
-                                    "field": "field_63ee5561514f5",
-                                    "operator": "==",
-                                    "value": "1"
-                                },
-                                {
-                                    "field": "field_66e83e6d86134",
-                                    "operator": "==",
-                                    "value": "1"
-                                }
-                            ]
-                        ],
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "",
-                        "acfe_textarea_code": 0,
-                        "translations": "copy_once",
-                        "maxlength": "",
-                        "rows": "",
-                        "placeholder": "",
-                        "new_lines": ""
-                    },
-                    {
-                        "key": "field_63ee5a0510aad",
-                        "label": "Consentement « analytics » ?",
-                        "name": "consent_analytics",
-                        "aria-label": "",
-                        "type": "true_false",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": [
-                            [
-                                {
-                                    "field": "field_63ee5561514f5",
-                                    "operator": "==",
-                                    "value": "1"
-                                }
-                            ]
-                        ],
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "message": "",
-                        "default_value": 0,
-                        "translations": "copy_once",
-                        "ui_on_text": "Oui",
-                        "ui_off_text": "Non",
-                        "ui": 1,
-                        "style": ""
-                    },
-                    {
-                        "key": "field_63ee6838d286f",
-                        "label": "Titre consentement « analytics »",
-                        "name": "consent_analytics_title",
-                        "aria-label": "",
-                        "type": "text",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": [
-                            [
-                                {
-                                    "field": "field_63ee5561514f5",
-                                    "operator": "==",
-                                    "value": "1"
-                                },
-                                {
-                                    "field": "field_63ee5a0510aad",
-                                    "operator": "==",
-                                    "value": "1"
-                                }
-                            ]
-                        ],
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "Accept analytical cookies ?",
-                        "translations": "copy_once",
-                        "maxlength": "",
-                        "placeholder": "",
-                        "prepend": "",
-                        "append": ""
-                    },
-                    {
-                        "key": "field_63ee5a4410aae",
-                        "label": "Texte consentement « analytics »",
-                        "name": "consent_analytics_text",
-                        "aria-label": "",
-                        "type": "textarea",
-                        "instructions": "Courte explication des services « analytics » installés sur le site (GA4, Meta Pixel, LinkedIn, etc).",
-                        "required": 0,
-                        "conditional_logic": [
-                            [
-                                {
-                                    "field": "field_63ee5561514f5",
-                                    "operator": "==",
-                                    "value": "1"
-                                },
-                                {
-                                    "field": "field_63ee5a0510aad",
-                                    "operator": "==",
-                                    "value": "1"
-                                }
-                            ]
-                        ],
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "",
-                        "acfe_textarea_code": 0,
-                        "translations": "copy_once",
-                        "maxlength": "",
-                        "rows": "",
-                        "placeholder": "",
-                        "new_lines": ""
-                    },
-                    {
-                        "key": "field_63ee5b827ecf7",
-                        "label": "Consentement « publicitaire » ?",
-                        "name": "consent_ads",
-                        "aria-label": "",
-                        "type": "true_false",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": [
-                            [
-                                {
-                                    "field": "field_63ee5561514f5",
-                                    "operator": "==",
-                                    "value": "1"
-                                }
-                            ]
-                        ],
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "message": "",
-                        "default_value": 0,
-                        "translations": "copy_once",
-                        "ui_on_text": "Oui",
-                        "ui_off_text": "Non",
-                        "ui": 1,
-                        "style": ""
-                    },
-                    {
-                        "key": "field_63ee6854d2870",
-                        "label": "Titre consentement « publicitaire »",
-                        "name": "consent_ads_title",
-                        "aria-label": "",
-                        "type": "text",
-                        "instructions": "",
-                        "required": 0,
-                        "conditional_logic": [
-                            [
-                                {
-                                    "field": "field_63ee5561514f5",
-                                    "operator": "==",
-                                    "value": "1"
-                                },
-                                {
-                                    "field": "field_63ee5b827ecf7",
-                                    "operator": "==",
-                                    "value": "1"
-                                }
-                            ]
-                        ],
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "Accept marketing cookies ?",
-                        "translations": "copy_once",
-                        "maxlength": "",
-                        "placeholder": "",
-                        "prepend": "",
-                        "append": ""
-                    },
-                    {
-                        "key": "field_63ee677820900",
-                        "label": "Texte consentement « publicitaire »",
-                        "name": "consent_ads_text",
-                        "aria-label": "",
-                        "type": "textarea",
-                        "instructions": "Courte explication des services « publicitaire » installé sur le site (Google Ads, reciblage, etc).",
-                        "required": 0,
-                        "conditional_logic": [
-                            [
-                                {
-                                    "field": "field_63ee5561514f5",
-                                    "operator": "==",
-                                    "value": "1"
-                                },
-                                {
-                                    "field": "field_63ee5b827ecf7",
-                                    "operator": "==",
-                                    "value": "1"
-                                }
-                            ]
-                        ],
-                        "wrapper": {
-                            "width": "",
-                            "class": "",
-                            "id": ""
-                        },
-                        "default_value": "",
-                        "acfe_textarea_code": 0,
-                        "translations": "copy_once",
-                        "maxlength": "",
-                        "rows": "",
-                        "placeholder": "",
-                        "new_lines": ""
-                    }
-                ]
-            }
-        ],
-        "location": [
-            [
+            "layout": "block",
+            "acfe_seamless_style": 0,
+            "acfe_group_modal": 0,
+            "acfe_group_modal_close": 0,
+            "acfe_group_modal_button": "",
+            "acfe_group_modal_size": "large",
+            "sub_fields": [
                 {
-                    "param": "post_type",
-                    "operator": "==",
-                    "value": "post"
+                    "key": "field_63ee5561514f5",
+                    "label": "Actif ?",
+                    "name": "active",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "translations": "copy_once",
+                    "ui_on_text": "Oui",
+                    "ui_off_text": "Non",
+                    "ui": 1,
+                    "style": "",
+                    "pll_default_value": 0
+                },
+                {
+                    "key": "field_63ee5862e860a",
+                    "label": "Titre",
+                    "name": "title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_63ee5561514f5",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "translations": "copy_once",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "pll_default_value": ""
+                },
+                {
+                    "key": "field_63ee5814e8608",
+                    "label": "Texte intro",
+                    "name": "text_intro",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_63ee5561514f5",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "acfe_textarea_code": 0,
+                    "translations": "copy_once",
+                    "maxlength": "",
+                    "rows": "",
+                    "placeholder": "",
+                    "new_lines": "",
+                    "pll_default_value": ""
+                },
+                {
+                    "key": "field_66e83e6d86134",
+                    "label": "Consentement nécessaire ?",
+                    "name": "consent_necessary",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_63ee5561514f5",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "translations": "copy_once",
+                    "ui_on_text": "Oui",
+                    "ui_off_text": "Non",
+                    "ui": 1,
+                    "style": "",
+                    "pll_default_value": 0
+                },
+                {
+                    "key": "field_66e83e9786135",
+                    "label": "Titre consentement nécessaire",
+                    "name": "consent_necessary_title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_63ee5561514f5",
+                                "operator": "==",
+                                "value": "1"
+                            },
+                            {
+                                "field": "field_66e83e6d86134",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Necessary cookies",
+                    "translations": "copy_once",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "pll_default_value": "Necessary cookies"
+                },
+                {
+                    "key": "field_66e83ebc86136",
+                    "label": "Texte consentement nécessaire",
+                    "name": "consent_necessary_text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Courte explication des services « analytics » installés sur le site (GA4, Meta Pixel, LinkedIn, etc).",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_63ee5561514f5",
+                                "operator": "==",
+                                "value": "1"
+                            },
+                            {
+                                "field": "field_66e83e6d86134",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "acfe_textarea_code": 0,
+                    "translations": "copy_once",
+                    "maxlength": "",
+                    "rows": "",
+                    "placeholder": "",
+                    "new_lines": "",
+                    "pll_default_value": ""
+                },
+                {
+                    "key": "field_63ee5a0510aad",
+                    "label": "Consentement « analytics » ?",
+                    "name": "consent_analytics",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_63ee5561514f5",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "translations": "copy_once",
+                    "ui_on_text": "Oui",
+                    "ui_off_text": "Non",
+                    "ui": 1,
+                    "style": "",
+                    "pll_default_value": 0
+                },
+                {
+                    "key": "field_63ee6838d286f",
+                    "label": "Titre consentement « analytics »",
+                    "name": "consent_analytics_title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_63ee5561514f5",
+                                "operator": "==",
+                                "value": "1"
+                            },
+                            {
+                                "field": "field_63ee5a0510aad",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Accept analytical cookies ?",
+                    "translations": "copy_once",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "pll_default_value": "Accept analytical cookies ?"
+                },
+                {
+                    "key": "field_63ee5a4410aae",
+                    "label": "Texte consentement « analytics »",
+                    "name": "consent_analytics_text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Courte explication des services « analytics » installés sur le site (GA4, Meta Pixel, LinkedIn, etc).",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_63ee5561514f5",
+                                "operator": "==",
+                                "value": "1"
+                            },
+                            {
+                                "field": "field_63ee5a0510aad",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "acfe_textarea_code": 0,
+                    "translations": "copy_once",
+                    "maxlength": "",
+                    "rows": "",
+                    "placeholder": "",
+                    "new_lines": "",
+                    "pll_default_value": ""
+                },
+                {
+                    "key": "field_63ee5b827ecf7",
+                    "label": "Consentement « publicitaire » ?",
+                    "name": "consent_ads",
+                    "aria-label": "",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_63ee5561514f5",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 0,
+                    "translations": "copy_once",
+                    "ui_on_text": "Oui",
+                    "ui_off_text": "Non",
+                    "ui": 1,
+                    "style": "",
+                    "pll_default_value": 0
+                },
+                {
+                    "key": "field_63ee6854d2870",
+                    "label": "Titre consentement « publicitaire »",
+                    "name": "consent_ads_title",
+                    "aria-label": "",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_63ee5561514f5",
+                                "operator": "==",
+                                "value": "1"
+                            },
+                            {
+                                "field": "field_63ee5b827ecf7",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "Accept marketing cookies ?",
+                    "translations": "copy_once",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "pll_default_value": "Accept marketing cookies ?"
+                },
+                {
+                    "key": "field_63ee677820900",
+                    "label": "Texte consentement « publicitaire »",
+                    "name": "consent_ads_text",
+                    "aria-label": "",
+                    "type": "textarea",
+                    "instructions": "Courte explication des services « publicitaire » installé sur le site (Google Ads, reciblage, etc).",
+                    "required": 0,
+                    "conditional_logic": [
+                        [
+                            {
+                                "field": "field_63ee5561514f5",
+                                "operator": "==",
+                                "value": "1"
+                            },
+                            {
+                                "field": "field_63ee5b827ecf7",
+                                "operator": "==",
+                                "value": "1"
+                            }
+                        ]
+                    ],
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "acfe_textarea_code": 0,
+                    "translations": "copy_once",
+                    "maxlength": "",
+                    "rows": "",
+                    "placeholder": "",
+                    "new_lines": "",
+                    "pll_default_value": ""
                 }
             ]
-        ],
-        "menu_order": 0,
-        "position": "normal",
-        "style": "default",
-        "label_placement": "left",
-        "instruction_placement": "label",
-        "hide_on_screen": "",
-        "active": false,
-        "description": "",
-        "show_in_rest": 0,
-        "acfe_autosync": [
-            "json"
-        ],
-        "acfe_form": 0,
-        "acfe_display_title": "",
-        "acfe_meta": "",
-        "acfe_note": "",
-        "modified": 1726500381
-    }
-]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "left",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": false,
+    "description": "",
+    "show_in_rest": 0,
+    "acfe_autosync": [
+        "json"
+    ],
+    "acfe_form": 0,
+    "acfe_display_title": "",
+    "pll_display_field_instructions": 1,
+    "acfe_meta": "",
+    "acfe_note": "",
+    "modified": 1757696324
+}

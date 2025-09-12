@@ -99,9 +99,10 @@
   >
     <div class="pb-row-rich-scrolling-content__media__inner position-relative position-xl-sticky w-100 overflow-clip">
       {% if content.media %}
-        {% if content.media|is_rive %}
+        {% if content.media.file|is_rive %}
           {% include 'partial/rive-animation.twig' with {
-            'src': content.media,
+            'src': content.media.file,
+            'src_mobile': content.media.mobile|default(content.media.file),
             'stateMachines': 'State Machine 1',
             'module': false,
             'playOnEnter': false,
@@ -114,9 +115,10 @@
               'data-scroll-target="#' ~ udid ~ '--media-' ~ loop.index ~ '"',
             ] 
           } only %}
-        {% elseif content.media|is_video %}
+        {% elseif content.media.file|is_video %}
           {% include 'partial/video.twig' with {
-            'src': content.media,
+            'src': content.media.file,
+            'src_mobile': content.media.mobile|default(content.media.file),
             'is_preview': is_preview,
             'module': false,
             'playOnEnter': false,
@@ -131,7 +133,7 @@
           } only %}
         {% else %}
           {% include 'partial/image.twig' with {
-            'image': content.media,
+            'image': content.media.file,
             'sizes': ['100vw', null, '50vw'],
             'lazyload': true,
             'classname': 'pb-row-rich-scrolling-content__media__img image-as-background',
