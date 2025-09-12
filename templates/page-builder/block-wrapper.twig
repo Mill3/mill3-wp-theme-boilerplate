@@ -19,50 +19,30 @@
 
 {% set effect = fields.effect|default(null) %}
 {% set pb_row_id = fields.pb_row_id|default(null) %}
-{% set activate_md_breakpoint = fields.activate_md_breakpoint|default(false) %}
 
 {# xs padding #}
 {% set pt = fields.pt|default(0) %}
 {% set pb = fields.pb|default(0) %}
 
-{# md padding: defaults values to smallest breakpoint #}
-{% set pt_md = pt %}
-{% set pb_md = pb %}
+{# md padding #}
+{% set pt_md = fields.pt_md|default(0) %}
+{% set pb_md = fields.pb_md|default(0) %}
 
-{# ... or set md_breakpoint when activated #}
-{% if activate_md_breakpoint == true %}
-  {% set pt_md = fields.pt_md|default(0) %}
-  {% set pb_md = fields.pb_md|default(0) %}
-{% endif %}
-
-{# lg padding #}
-{% set pt_lg = fields.pt_lg|default(0) %}
-{% set pb_lg = fields.pb_lg|default(0) %}
+{# xl padding #}
+{% set pt_xl = fields.pt_xl|default(0) %}
+{% set pb_xl = fields.pb_xl|default(0) %}
 
 {# xs margin #}
 {% set mt = fields.mt|default(0) %}
 {% set mb = fields.mb|default(0) %}
 
-{# md margin: defaults values to smallest breakpoint #}
-{% set mt_md = mt %}
-{% set mb_md = mb %}
+{# md margin #}
+{% set mt_md = fields.mt_md|default(0) %}
+{% set mb_md = fields.mb_md|default(0) %}
 
-{# ... or set md_breakpoint when activated #}
-{% if activate_md_breakpoint == true %}
-  {% set mt_md = fields.mt_md|default(0) %}
-  {% set mb_md = fields.mb_md|default(0) %}
-{% endif %}
-
-{# lg margin #}
-{% set mt_lg = fields.mt_lg|default(0) %}
-{% set mb_lg = fields.mb_lg|default(0) %}
-
-{# set lg breakpoint infix to XL when md breakpoints are activated #}
-{% if activate_md_breakpoint == true %}
-  {% set lg_breakpoint_infix = "xl" %}
-{% else %}
-  {% set lg_breakpoint_infix = "lg" %}
-{% endif %}
+{# xl margin #}
+{% set mt_xl = fields.mt_xl|default(0) %}
+{% set mb_xl = fields.mb_xl|default(0) %}
 
 {% set row_classname = [] %}
 {% set row_styles = ['--zindex:' ~ order] %}
@@ -77,18 +57,11 @@
 {% endfor %}
 
 {# paddings #}
-{% set row_paddings = ['pt-' ~ pt, 'pb-' ~ pb, 'pt-md-' ~ pt_md, 'pb-md-' ~ pb_md, 'pt-' ~ lg_breakpoint_infix ~'-' ~ pt_lg, 'pb-' ~ lg_breakpoint_infix ~'-' ~ pb_lg] %}
+{% set row_paddings = ['pt-' ~ pt, 'pb-' ~ pb, 'pt-md-' ~ pt_md, 'pb-md-' ~ pb_md, 'pt-xl-' ~ pt_xl, 'pb-xl-' ~ pb_xl] %}
 
 {# apply margins only on frontend #}
 {% if not is_preview %}
-  {% set row_classname = row_classname|merge([
-    'mt-' ~ mt,
-    'mb-' ~ mb,
-    'mt-md-' ~ mt_md,
-    'mb-md-' ~ mb_md,
-    'mt-' ~ lg_breakpoint_infix ~'-' ~ mt_lg,
-    'mb-' ~ lg_breakpoint_infix ~'-' ~ mb_lg
-  ]) %}
+  {% set row_classname = row_classname|merge(['mt-' ~ mt, 'mb-' ~ mb, 'mt-md-' ~ mt_md, 'mb-md-' ~ mb_md, 'mt-xl' ~ mt_xl, 'mb-xl' ~ mb_xl]) %}
 {% endif %}
 
 {% if slug %}

@@ -1,409 +1,362 @@
-[
-  {
-      "key": "group_60463adacbef2",
-      "title": "Page Builder Padding & Margin (cloned)",
-      "fields": [
-          {
-              "key": "field_6451297b454aa",
-              "label": "Mobile",
-              "name": "",
-              "aria-label": "",
-              "type": "tab",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "acfe_save_meta": 0,
-              "placement": "top",
-              "endpoint": 0,
-              "no_preference": 0
-          },
-          {
-              "key": "field_60463b036c6b0",
-              "label": "Padding Top (mobile)",
-              "name": "pt",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value"
-          },
-          {
-              "key": "field_604a25c96d2c2",
-              "label": "Padding Bottom (mobile)",
-              "name": "pb",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value"
-          },
-          {
-              "key": "field_620fb8315cc17",
-              "label": "Margin Top (mobile)",
-              "name": "mt",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value"
-          },
-          {
-              "key": "field_620fb8685cc19",
-              "label": "Margin Bottom (mobile)",
-              "name": "mb",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value"
-          },
-          {
-              "key": "field_64512a8435322",
-              "label": "Tablet",
-              "name": "",
-              "aria-label": "",
-              "type": "tab",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "placement": "top",
-              "endpoint": 0,
-              "no_preference": 0
-          },
-          {
-              "key": "field_64512a2f35321",
-              "label": "Activate tablets breakpoint values ?",
-              "name": "activate_md_breakpoint",
-              "aria-label": "",
-              "type": "true_false",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "acfe_save_meta": 0,
-              "message": "",
-              "default_value": 0,
-              "translations": "copy_once",
-              "ui_on_text": "",
-              "ui_off_text": "",
-              "ui": 1,
-              "style": ""
-          },
-          {
-              "key": "field_6451366b0bbf6",
-              "label": "Padding Top (tablet)",
-              "name": "pt_md",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": [
-                  [
-                      {
-                          "field": "field_64512a2f35321",
-                          "operator": "==",
-                          "value": "1"
-                      }
-                  ]
-              ],
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "acfe_save_meta": 0,
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value",
-              "translations": "copy_once"
-          },
-          {
-              "key": "field_645136770bbf7",
-              "label": "Padding Bottom (tablet)",
-              "name": "pb_md",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": [
-                  [
-                      {
-                          "field": "field_64512a2f35321",
-                          "operator": "==",
-                          "value": "1"
-                      }
-                  ]
-              ],
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "acfe_save_meta": 0,
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value",
-              "translations": "copy_once"
-          },
-          {
-              "key": "field_645136800bbf8",
-              "label": "Margin Top (tablet)",
-              "name": "mt_md",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": [
-                  [
-                      {
-                          "field": "field_64512a2f35321",
-                          "operator": "==",
-                          "value": "1"
-                      }
-                  ]
-              ],
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "acfe_save_meta": 0,
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value",
-              "translations": "copy_once"
-          },
-          {
-              "key": "field_645136880bbf9",
-              "label": "Margin Bottom (tablet)",
-              "name": "mb_md",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": [
-                  [
-                      {
-                          "field": "field_64512a2f35321",
-                          "operator": "==",
-                          "value": "1"
-                      }
-                  ]
-              ],
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "acfe_save_meta": 0,
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value",
-              "translations": "copy_once"
-          },
-          {
-              "key": "field_620fe7ecb2448",
-              "label": "Desktop",
-              "name": "",
-              "aria-label": "",
-              "type": "tab",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "placement": "top",
-              "endpoint": 0,
-              "no_preference": 0
-          },
-          {
-              "key": "field_60463b126c6b1",
-              "label": "Padding Top (desktop)",
-              "name": "pt_lg",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value"
-          },
-          {
-              "key": "field_604a25e36d2c3",
-              "label": "Padding Bottom (desktop)",
-              "name": "pb_lg",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value"
-          },
-          {
-              "key": "field_620fb85c5cc18",
-              "label": "Margin Top (desktop)",
-              "name": "mt_lg",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value"
-          },
-          {
-              "key": "field_620fb87a5cc1a",
-              "label": "Margin Bottom (desktop)",
-              "name": "mb_lg",
-              "aria-label": "",
-              "type": "spacer",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "choices": [],
-              "default_value": 0,
-              "return_format": "value"
-          },
-          {
-              "key": "field_645129d4454ab",
-              "label": "Advanced options",
-              "name": "",
-              "aria-label": "",
-              "type": "tab",
-              "instructions": "",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "placement": "top",
-              "endpoint": 0,
-              "no_preference": 0
-          },
-          {
-              "key": "field_620ff309aead1",
-              "label": "Set below previous section?",
-              "name": "zindex_below",
-              "aria-label": "",
-              "type": "true_false",
-              "instructions": "This feature is experimental. Use with caution.",
-              "required": 0,
-              "conditional_logic": 0,
-              "wrapper": {
-                  "width": "",
-                  "class": "",
-                  "id": ""
-              },
-              "acfe_save_meta": 0,
-              "message": "",
-              "default_value": 0,
-              "translations": "copy_once",
-              "ui_on_text": "",
-              "ui_off_text": "",
-              "ui": 1,
-              "style": ""
-          }
-      ],
-      "location": [
-          [
-              {
-                  "param": "post_type",
-                  "operator": "==",
-                  "value": "post"
-              }
-          ]
-      ],
-      "menu_order": 0,
-      "position": "normal",
-      "style": "default",
-      "label_placement": "left",
-      "instruction_placement": "label",
-      "hide_on_screen": "",
-      "active": false,
-      "description": "",
-      "show_in_rest": 0,
-      "acfe_autosync": [
-          "json"
-      ],
-      "acfe_form": 0,
-      "acfe_display_title": "",
-      "acfe_meta": "",
-      "acfe_note": "",
-      "modified": 1686661124
-  }
-]
+{
+    "key": "group_60463adacbef2",
+    "title": "Page Builder Padding & Margin (cloned)",
+    "fields": [
+        {
+            "key": "field_6451297b454aa",
+            "label": "Mobile",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "no_preference": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_60463b036c6b0",
+            "label": "Padding Top (mobile)",
+            "name": "pt",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value"
+        },
+        {
+            "key": "field_604a25c96d2c2",
+            "label": "Padding Bottom (mobile)",
+            "name": "pb",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value"
+        },
+        {
+            "key": "field_620fb8315cc17",
+            "label": "Margin Top (mobile)",
+            "name": "mt",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value"
+        },
+        {
+            "key": "field_620fb8685cc19",
+            "label": "Margin Bottom (mobile)",
+            "name": "mb",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value"
+        },
+        {
+            "key": "field_64512a8435322",
+            "label": "Tablet",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "no_preference": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_6451366b0bbf6",
+            "label": "Padding Top (tablet)",
+            "name": "pt_md",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value",
+            "translations": "copy_once",
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_645136770bbf7",
+            "label": "Padding Bottom (tablet)",
+            "name": "pb_md",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value",
+            "translations": "copy_once",
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_645136800bbf8",
+            "label": "Margin Top (tablet)",
+            "name": "mt_md",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value",
+            "translations": "copy_once",
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_645136880bbf9",
+            "label": "Margin Bottom (tablet)",
+            "name": "mb_md",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value",
+            "translations": "copy_once",
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_620fe7ecb2448",
+            "label": "Desktop",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "no_preference": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_60463b126c6b1",
+            "label": "Padding Top (desktop)",
+            "name": "pt_xl",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value",
+            "translations": "copy_once",
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_604a25e36d2c3",
+            "label": "Padding Bottom (desktop)",
+            "name": "pb_xl",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value",
+            "translations": "copy_once",
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_620fb85c5cc18",
+            "label": "Margin Top (desktop)",
+            "name": "mt_xl",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value",
+            "translations": "copy_once",
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_620fb87a5cc1a",
+            "label": "Margin Bottom (desktop)",
+            "name": "mb_xl",
+            "aria-label": "",
+            "type": "spacer",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": [],
+            "default_value": 0,
+            "return_format": "value",
+            "translations": "copy_once",
+            "allow_in_bindings": 1
+        },
+        {
+            "key": "field_645129d4454ab",
+            "label": "Advanced options",
+            "name": "",
+            "aria-label": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "no_preference": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_620ff309aead1",
+            "label": "Set below previous section?",
+            "name": "zindex_below",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "This feature is experimental. Use with caution.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "translations": "copy_once",
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "ui": 1,
+            "style": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "left",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": false,
+    "description": "",
+    "show_in_rest": 0,
+    "acfe_autosync": [
+        "json"
+    ],
+    "acfe_form": 0,
+    "acfe_display_title": "",
+    "acfe_meta": "",
+    "acfe_note": "",
+    "modified": 1757688262
+}
