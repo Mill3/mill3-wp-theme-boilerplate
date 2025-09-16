@@ -28,7 +28,7 @@ jobs:
         id: build
         run: npm run build
       - name: Install PHP dependencies
-        uses: "php-actions/composer@v6"
+        uses: php-actions/composer@8a65f0d3c6a1d17ca4800491a40b5756a4c164f3 # v6
         env:
           COMPOSER: "composer.json"
         with:
@@ -38,7 +38,7 @@ jobs:
           # working_dir: ${{ env.THEME_PATH }} # Uncomment if you need to run composer in a specific directory
       - name: Deploy to WPEngine
         if: ${{ success() }}
-        uses: wpengine/github-action-wpe-site-deploy@v3.1.1
+        uses: wpengine/github-action-wpe-site-deploy@55c5a1c1f35af5daa8be2bb79e837a6bf663a079 # v3.1.1
         with:
           # Deploy vars
           WPE_SSHG_KEY_PRIVATE: ${{ secrets.WPE_SSHG_KEY_PRIVATE }}
@@ -50,7 +50,7 @@ jobs:
           REMOTE_PATH: ${{ env.THEME_PATH }}
       - name: Notify to Slack
         if: ${{ success() }}
-        uses: act10ns/slack@v1
+        uses: act10ns/slack@87c73aef9f8838eb6feae81589a6b1487a4a9e08 # v1
         with:
           status: ${{ job.status }}
           channel: '#notifications'
