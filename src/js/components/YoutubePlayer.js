@@ -1,3 +1,4 @@
+import { isFunction } from "@utils/is";
 import { limit } from "@utils/math";
 import MouseWheelFrame from "./MouseWheelFrame";
 
@@ -93,7 +94,13 @@ class YoutubePlayer extends MouseWheelFrame {
    * @returns 
    */
   _trackEvent(type, percent = 0) {
-    if( !window.dataLayer || !window.dataLayer.push || !this.player ) return;
+    if( !window.dataLayer || 
+        !window.dataLayer.push || 
+        !this.player || 
+        !isFunction(this.player.getCurrentTime) ||
+        !isFunction(this.player.getDuration) ||
+        !isFunction(this.player.getVideoUrl)
+      ) return false;
 
     window.dataLayer.push({
       'event': `video_${type}`,
@@ -107,6 +114,8 @@ class YoutubePlayer extends MouseWheelFrame {
       'video_url': this.player.getVideoUrl(),
       'visible': true,
     });
+
+    return true;
   }
 
   _onClick(event) {
@@ -134,8 +143,7 @@ class YoutubePlayer extends MouseWheelFrame {
 
     // if player is playing and "start" event hasn't been triggered before
     if( event.data === YT.PlayerState.PLAYING & !this._startEventTriggered ) {
-      this._startEventTriggered = true;
-      this._trackEvent('start', 0);
+      if( this._trackEvent('start', 0) ) this._startEventTriggered = true;
     }
     
     // on pause or ended
@@ -159,7 +167,7 @@ class YoutubePlayer extends MouseWheelFrame {
   }
   _onProgress() {
     // if player don't exist, stop here
-    if( !this.player ) return;
+    if( !this.player || !isFunction(this.player.getCurrentTime) || !isFunction(this.player.getDuration) ) return;
 
     // if current progress step is null OR is outside of steps, stop here
     if( this._currentProgress === null || this._currentProgress >= GA_VIDEO_PROGRESS_STEPS.length ) return;
