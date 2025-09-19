@@ -38,7 +38,7 @@ class ScrollCallListener {
   }
   _onVideoResumeAll() {
     // resume all previously paused animations
-    this.pausedItems.forEach(({ rive }) => rive.play());
+    this.pausedItems.forEach(({ rive }) => rive.resume());
   }
   _onVideoPauseAll() {
     // store all playing animations

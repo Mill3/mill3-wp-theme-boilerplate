@@ -24,6 +24,8 @@ const MAX_DEVICE_PIXEL_RATIO = 2;
 const ROLLOVER_EVENT = 'Rollover';
 const ROLLOUT_EVENT = 'Rollout';
 const CURSOR_CLASSNAME = '--js-cursor';
+const PLAYBACK_DEFAULT = 0;
+const PLAYBACK_RESTART_WHEN_VISIBLE = 1;
 
 class RiveAnimation extends EventEmitter2 {
   constructor(el, options = {}) {
@@ -34,6 +36,7 @@ class RiveAnimation extends EventEmitter2 {
     this._action = null;
     this._options = options;
     this._loaded = false;
+    this._playedOnce = false;
     this._src = this.el.dataset.src;
     this._src_mobile = this.el.dataset.srcMobile;
     this._src_tablet = this.el.dataset.srcTablet;
@@ -41,7 +44,8 @@ class RiveAnimation extends EventEmitter2 {
 
     this._animations = this.el.dataset.animations || false;
     this._stateMachines = this.el.dataset.stateMachines || options.stateMachines;
-    this._dpr = this.el.maxDpr || options.maxDPR;
+    this._dpr = this.el.dataset.maxDpr || options.maxDPR;
+    this._playback = this.el.dataset.playback || PLAYBACK_DEFAULT;
     this._rive = null;
 
     if( this.el.dataset.artboard ) this._options.artboard = this.el.dataset.artboard;
@@ -59,6 +63,20 @@ class RiveAnimation extends EventEmitter2 {
 
     // set limit around dpr
     if( this._dpr ) this._dpr = limit(1, Math.min(MAX_DEVICE_PIXEL_RATIO, Viewport.devicePixelRatio), this._dpr);
+
+    // make sure playback value is valid
+    if( this._playback ) {
+      this._playback = parseInt(this._playback);
+
+      switch(this._playback) {
+        case PLAYBACK_RESTART_WHEN_VISIBLE: 
+          this._playback = PLAYBACK_RESTART_WHEN_VISIBLE; 
+          break;
+        
+        default: PLAYBACK_DEFAULT;
+          break;
+      }
+    }
 
     // create layout from options
     if( this.el.hasAttribute('data-fit') || this.el.hasAttribute('data-alignment') ) {
@@ -109,6 +127,8 @@ class RiveAnimation extends EventEmitter2 {
     this._dpr = null;
     this._loaded = null;
     this._options = null;
+    this._playback = null;
+    this._playedOnce = null;
     this._src = null;
     this._src_mobile = null;
     this._src_tablet = null;
@@ -126,17 +146,41 @@ class RiveAnimation extends EventEmitter2 {
     if( this._action === ACTION_PLAY ) return;
     this._action = ACTION_PLAY;
 
+    if( !this._rive ) return;
+
+    if( this._playback === PLAYBACK_RESTART_WHEN_VISIBLE && this._playedOnce ) {
+      this._rive.reset({
+        artboard: this._options.artboard ? this._options.artboard : null,
+        animations: this._animations,
+        stateMachines: this._stateMachines,
+        autoplay: false,
+      });
+    }
+
     let names = [];
+
     if( this._animations ) names = names.concat(this._animations);
     if( this._stateMachines ) names.push(this._stateMachines);
 
-    if( this._rive ) this._rive.play(names);
+    this._rive.play(names);
+    this._playedOnce = true;
+ 
   }
   pause() {
     if( this._action !== ACTION_PLAY ) return;
     this._action = ACTION_PAUSE;
 
     if( this._rive ) this._rive.pause();
+  }
+  resume() {
+    if( this._action === ACTION_PLAY ) return;
+    this._action = ACTION_PLAY;
+
+    let names = [];
+    if( this._animations ) names = names.concat(this._animations);
+    if( this._stateMachines ) names.push(this._stateMachines);
+
+    if( this._rive ) this._rive.play(names);
   }
   stop() {
     if( this._action !== ACTION_PLAY ) return;
