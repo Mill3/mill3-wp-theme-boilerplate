@@ -115,19 +115,3 @@ if( function_exists('pll_the_languages') ){
     });
 
 }
-
-
-// Fix content duplication bug in Polylang Pro
-if( function_exists('pll_the_languages') ) {
-    add_filter('get_user_metadata', function($value, $object_id, $meta_key, $single ) {
-        global $post;
-
-        if( $meta_key === \PLL_Duplicate_Action::META_NAME ) {
-            $o = array();
-            $o[ $post->post_type ] = 1;
-            $value = [ $o ];
-        }
-
-        return $value;
-    }, 10, 4);
-}
