@@ -251,6 +251,25 @@ add_filter('custom_menu_order', function() { return true; });
 add_filter('menu_order', __NAMESPACE__ . '\\mill3wp_admin_menu_order');
 
 
+// Remove menus from admin sidebar
+/*
+add_action('admin_menu', function() {
+    remove_menu_page('edit.php'); // posts
+    remove_menu_page('edit-comments.php'); // comments
+});
+*/
+
+// Remove links from admin top-nav
+/*
+add_action( 'admin_bar_menu', function() {
+    global $wp_admin_bar;
+
+    $wp_admin_bar->remove_node('comments'); // comments
+    $wp_admin_bar->remove_node('new-post'); // posts
+}, 999);
+*/
+
+
 // Set directory for Admin Columns settings
 add_filter('acp/storage/file/directory', function() {
   return get_stylesheet_directory() . '/acp-settings';
