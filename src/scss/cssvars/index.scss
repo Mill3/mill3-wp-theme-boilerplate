@@ -4,6 +4,7 @@
   --container-fluid-margin: 12px;
   --container-fluid-sm-margin: 12px;
 
+  --scrollbar-width: 0px; // this variable will be updated by src/js/App.js
   --site-header-spacer-height: 65px;
 
   --default-column-width: calc(( 100vw - var(--scrollbar-width) - ( var(--container-fluid-margin) * 2 ) - ( ( var(--default-column-count) - 1 ) * var(--default-column-gap) ) ) / var(--default-column-count) );
