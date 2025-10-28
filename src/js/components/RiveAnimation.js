@@ -20,6 +20,7 @@ const DEFAULT_OPTIONS = {
   enableRiveAssetCDN: false,
   maxDPR: null,
 };
+const MIN_DEVICE_PIXEL_RATIO = 1;
 const MAX_DEVICE_PIXEL_RATIO = 2;
 const ROLLOVER_EVENT = 'Rollover';
 const ROLLOUT_EVENT = 'Rollout';
@@ -62,7 +63,7 @@ class RiveAnimation extends EventEmitter2 {
     if( !this._dpr ) this._dpr = Viewport.devicePixelRatio;
 
     // set limit around dpr
-    if( this._dpr ) this._dpr = limit(1, Math.min(MAX_DEVICE_PIXEL_RATIO, Viewport.devicePixelRatio), this._dpr);
+    if( this._dpr ) this._dpr = limit(MIN_DEVICE_PIXEL_RATIO, Math.min(MAX_DEVICE_PIXEL_RATIO, Viewport.devicePixelRatio), this._dpr);
 
     // make sure playback value is valid
     if( this._playback ) {
