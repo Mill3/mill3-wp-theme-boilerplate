@@ -54,3 +54,19 @@ add_filter('wp_headers', function($headers) {
     $headers['Content-Security-Policy'] = "frame-ancestors 'self' https://*.mill3.studio";
     return $headers;
 });
+
+
+// Cross Origin Opener Policy (COOP)
+// https://web.dev/articles/why-coop-coep#coop
+add_filter('wp_headers', function($headers) {
+    $headers['Cross-Origin-Opener-Policy'] = "same-origin";
+    return $headers;
+});
+
+
+// HSTS policy
+// https://developer.chrome.com/docs/lighthouse/best-practices/has-hsts
+add_filter('wp_headers', function($headers) {
+    $headers['Strict-Transport-Security'] = "max-age=63072000; includeSubDomains; preload";
+    return $headers;
+});
