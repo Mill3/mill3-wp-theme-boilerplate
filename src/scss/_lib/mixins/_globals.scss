@@ -9,6 +9,14 @@ $acfPreview: false !default;
   }
 }
 
+// this mixin return nothing in ACF-preview.scss
+@mixin frontendOnly() {
+  @if not $acfPreview {
+    @content;
+  }
+}
+
+// this mixin return nothing in ACF-preview.scss because we don't need inView animations in backend
 @mixin inView($hard: false) {
   @if not $acfPreview {
     @include mq.motionNoPref {
