@@ -48,7 +48,7 @@
     "@rive-app/canvas": "^2.31.5",
     "@rive-app/canvas-lite": "^2.31.5",
     "@rive-app/webgl2": "^2.31.5",
-    "@sentry/browser": "8.25.0",
+    "@sentry/browser": "10.22.0",
     "@vimeo/player": "2.23.0",
     "animejs": "3.2.2",
     "domready": "1.0.8",

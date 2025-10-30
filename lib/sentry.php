@@ -11,7 +11,7 @@ add_action('wp_enqueue_scripts', function() {
 
     wp_enqueue_script(
         'mill3wp/js-sentry',
-        Assets\Asset_File_path('sentry', 'js'),
+        Assets\Asset_File_path('src/js/Sentry.js'),
         [],
         null,
         ['strategy' => 'async', 'in_footer' => false]

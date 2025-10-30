@@ -161,7 +161,7 @@ add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 // Add type="module" attribute using wp_script_attributes filter
 // wp_enqueue_script_module() is not compatible with wp_add_inline_script()
 add_filter('script_loader_tag', function($tag, $handle) {
-    $enabled_handles = ['mill3wp/vitejs_app', 'mill3wp/js']; // add your script handles here
+    $enabled_handles = ['mill3wp/vitejs_app', 'mill3wp/js', 'mill3wp/js-sentry']; // add your script handles here
     if (in_array($handle, $enabled_handles)) {
         $tag = str_replace('<script ', '<script type="module" ', $tag);
     }
