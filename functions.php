@@ -34,6 +34,7 @@ if (defined('SENTRY_DSN_PHP') && \function_exists('\Sentry\init')) {
     ]);
 }
 
+
 //
 // Add theme WP CLI commands.
 // note: must be invoked before Timber plugin installation status
@@ -106,6 +107,7 @@ $includes = [
     'lib/windmill-prefetch.php',
     //'lib/window-messenger.php',
     // Timber
+    'lib/timber/timber-acf-wp-blocks.php',
     'lib/timber/Mill3Timber.php',
     // twig
     'lib/twig/extra-timber-filters.php',

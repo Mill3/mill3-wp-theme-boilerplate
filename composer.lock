@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64165483a13c307ba8ff780cd62cb3ca",
+    "content-hash": "485b43d46e7361f6fd1b09de525d8db9",
     "packages": [
         {
             "name": "guzzlehttp/psr7",
@@ -181,62 +181,6 @@
                 "source": "https://github.com/Jean85/pretty-package-versions/tree/2.1.1"
             },
             "time": "2025-03-19T14:43:43+00:00"
-        },
-        {
-            "name": "palmiak/timber-acf-wp-blocks",
-            "version": "1.15",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/palmiak/timber-acf-wp-blocks.git",
-                "reference": "4d3ecfc31ba5c90964a4f0e7e10b97cb3a2ceb7e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/palmiak/timber-acf-wp-blocks/zipball/4d3ecfc31ba5c90964a4f0e7e10b97cb3a2ceb7e",
-                "reference": "4d3ecfc31ba5c90964a4f0e7e10b97cb3a2ceb7e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.6"
-            },
-            "require-dev": {
-                "dealerdirect/phpcodesniffer-composer-installer": "0.5.0",
-                "wp-coding-standards/wpcs": "2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "timber-acf-wp-blocks.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Maciej Palmowski",
-                    "email": "m.palmowski@freshpixels.pl"
-                },
-                {
-                    "name": "Michael W. Delaney",
-                    "email": "michael@michaeldelaney.me"
-                },
-                {
-                    "name": "Nico Prat"
-                }
-            ],
-            "description": "Create Gutenberg blocks from Twig templates and ACF fields.",
-            "keywords": [
-                "advanced custom fields",
-                "gutenberg",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/palmiak/timber-acf-wp-blocks/issues",
-                "source": "https://github.com/palmiak/timber-acf-wp-blocks/tree/1.15"
-            },
-            "time": "2021-08-27T09:09:45+00:00"
         },
         {
             "name": "psr/http-factory",

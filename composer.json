@@ -1,7 +1,6 @@
 {
     "require": {
       "timber/timber": "2.2.0",
-      "palmiak/timber-acf-wp-blocks": "1.15",
       "sentry/sentry": "^4.17"
     },
     "config": {
