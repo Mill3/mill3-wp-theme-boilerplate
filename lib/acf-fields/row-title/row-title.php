@@ -11,6 +11,11 @@ if( !class_exists('MILL3_acf_field_row_title') ) :
 class MILL3_acf_field_row_title extends acf_field {
 
 
+    /*
+    *  settings (array) Store plugin settings (url, path, version) as a reference for later use with assets
+    */
+    private $settings = array();
+
 	/*
 	 *  __construct
 	 *

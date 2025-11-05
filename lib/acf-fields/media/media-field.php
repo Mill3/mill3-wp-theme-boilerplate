@@ -9,8 +9,11 @@ if( !class_exists('MILL3_acf_field_media') ) :
 
 
     class MILL3_acf_field_media extends acf_field {
-        
-        
+
+
+        // environment variables for the field
+        private $env = array();
+
         /**
          * This function will setup the field type data
          *
@@ -81,16 +84,16 @@ if( !class_exists('MILL3_acf_field_media') ) :
 					'Update mobile Media' => __( 'Update mobile Media', 'mill3-acf-media' ),
 				)
 			);
-            
+
             // vars
             $url     = trailingslashit( $this->env['url'] );
             $version = $this->env['version'];
-            
-            
+
+
             // register & include JS
             wp_register_script('mill3-acf-media', "{$url}assets/js/input.js", array('acf-input'), $version);
             wp_enqueue_script('mill3-acf-media');
-            
+
             // register & include CSS
             wp_register_style('mill3-acf-media', "{$url}assets/css/input.css", array('acf-input'), $version);
             wp_enqueue_style('mill3-acf-media');
@@ -151,12 +154,12 @@ if( !class_exists('MILL3_acf_field_media') ) :
 
             ?>
             <div <?php echo acf_esc_attrs( $div ); ?>>
-            
+
                 <?php acf_hidden_input( array('name' => $field['name'], 'value' => $field['value'], 'data-name' => 'id') ); ?>
-                <?php 
+                <?php
                     // create output of each file
-                    foreach($files as $file): 
-                        
+                    foreach($files as $file):
+
                         $wrapper = array(
                             'class'     => 'file',
                             'data-file' => $file,
@@ -173,7 +176,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
                         // has value?
                         if( $field['value'] && $field['value'][$file] ) {
                             $attachment = acf_get_attachment( $field['value'][$file] );
-                            
+
                             if( $attachment ) {
                                 // has value
                                 $wrapper['class'] .= ' has-value';
@@ -229,12 +232,12 @@ if( !class_exists('MILL3_acf_field_media') ) :
                         <label><?php echo sprintf( esc_html__( '%s\'s playback', 'acf' ), $field['label']); ?></label>
                     </div>
                     <div class="acf-input">
-                        <?php 
+                        <?php
                             $rive_playback = $field['value'] && $field['value']['rive_playback'] ? $field['value']['rive_playback'] : 0;
                             $rive_playbacks = array(
                                 'Default' => 0,
                                 'Restart when visible' => 1,
-                            ) 
+                            )
                         ?>
                         <select>
                             <?php foreach($rive_playbacks as $playback => $value): ?>
@@ -499,7 +502,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
                 )
             );
 
-            // bail early if main file doesn't exists 
+            // bail early if main file doesn't exists
             if( !$value['file'] ) return false;
 
             $format_file = function($file) use ($field) {
