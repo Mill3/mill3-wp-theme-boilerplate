@@ -9,8 +9,12 @@ if( !class_exists('MILL3_acf_field_spacer') ) :
 
 
 class MILL3_acf_field_spacer extends acf_field {
-	
-	
+
+    /*
+    *  settings (array) Store plugin settings (url, path, version) as a reference for later use with assets
+    */
+    private $settings = array();
+
 	/*
 	 *  __construct
 	 *
@@ -23,54 +27,54 @@ class MILL3_acf_field_spacer extends acf_field {
 	 *  @param	n/a
 	 *  @return	n/a
 	 */
-	
+
 	function __construct( $settings ) {
-		
+
 		/*
 		 *  name (string) Single word, no spaces. Underscores allowed
 		 */
-		
+
 		$this->name = 'spacer';
-		
-		
+
+
 		/*
 		 *  label (string) Multiple words, can include spaces, visible when selecting a field type
 		 */
-		
+
 		$this->label = __('Spacer', 'mill3-acf-spacer');
-		
-		
+
+
 		/*
 		 *  category (string) basic | content | choice | relational | jquery | layout | CUSTOM GROUP NAME
 		 */
-		
+
 		$this->category = 'Mill3';
-		
-		
+
+
 		/*
 		 *  defaults (array) Array of default settings which are merged into the field object. These are used later in settings
 		 */
-		
+
 		$this->defaults = array(
             'choices' => array(),
 			'default_value'	=> '',
             'return_format' => 'value',
 		);
-		
-		
+
+
 		/*
 		 *  settings (array) Store plugin settings (url, path, version) as a reference for later use with assets
 		 */
-		
+
 		$this->settings = $settings;
-		
-		
+
+
 		// do not delete!
     	parent::__construct();
-    	
+
 	}
-	
-	
+
+
 	/*
 	 *  render_field_settings()
 	 *
@@ -83,15 +87,15 @@ class MILL3_acf_field_spacer extends acf_field {
 	 *  @param	$field (array) the $field being edited
 	 *  @return	n/a
 	 */
-	
+
 	function render_field_settings( $field ) {
-		
+
 		// encode choices (convert from array)
         $field['choices']       = acf_encode_choices( $field['choices'] );
-        
+
         // choices
 		acf_render_field_setting(
-            $field, 
+            $field,
             array(
                 'label'			=> __('Choices', 'acf'),
                 'instructions'	=> __('Enter each choice on a new line.', 'acf') . '<br /><br />' . __('For more control, you may specify both a value and label like this:', 'acf') . '<br /><br />' . __('red : Red', 'acf'),
@@ -102,7 +106,7 @@ class MILL3_acf_field_spacer extends acf_field {
 
         // default_value
         acf_render_field_setting(
-            $field, 
+            $field,
             array(
                 'label'			=> __('Default Value', 'acf'),
                 'instructions'	=> __('Appears when creating a new post', 'acf'),
@@ -128,9 +132,9 @@ class MILL3_acf_field_spacer extends acf_field {
         );
 
 	}
-	
-	
-	
+
+
+
 	/*
 	 *  render_field()
 	 *
@@ -145,7 +149,7 @@ class MILL3_acf_field_spacer extends acf_field {
 	 *  @param	$field (array) the $field being edited
 	 *  @return	n/a
 	 */
-	
+
 	function render_field( $field ) {
 
         // convert choices to an array
@@ -159,19 +163,19 @@ class MILL3_acf_field_spacer extends acf_field {
 
         // vars
         $atts  = array(
-            'id' => $field['id'] . '-range', 
-            'type' => 'range', 
-            'min' => 0, 
-            'max' => count($choices) - 1, 
-            'step' => 1, 
+            'id' => $field['id'] . '-range',
+            'type' => 'range',
+            'min' => 0,
+            'max' => count($choices) - 1,
+            'step' => 1,
             'value' => $index
         );
 
         $keys  = array('class');
         $keys2 = array('readonly', 'disabled', 'required');
         $html  = '';
-		
-		
+
+
 		// atts (class="FIELD_CLASSNAME")
         foreach ( $keys as $k ) {
             if ( isset( $field[ $k ] ) ) {
@@ -227,8 +231,8 @@ class MILL3_acf_field_spacer extends acf_field {
         // return
         echo $html;
 	}
-	
-		
+
+
 	/*
 	 *  input_admin_enqueue_scripts()
 	 *
@@ -242,23 +246,23 @@ class MILL3_acf_field_spacer extends acf_field {
 	 *  @param	n/a
 	 *  @return	n/a
 	 */
-	
+
 	function input_admin_enqueue_scripts() {
-		
+
 		// vars
 		$url = $this->settings['url'];
 		$version = $this->settings['version'];
-		
-		
+
+
 		// register & include JS
 		wp_register_script('mill3-acf-spacer', "{$url}assets/js/input.js", array('acf-input'), $version);
 		wp_enqueue_script('mill3-acf-spacer');
-		
-		
+
+
 		// register & include CSS
 		wp_register_style('mill3-acf-spacer', "{$url}assets/css/input.css", array('acf-input'), $version);
 		wp_enqueue_style('mill3-acf-spacer');
-		
+
 	}
 
 
@@ -286,8 +290,8 @@ class MILL3_acf_field_spacer extends acf_field {
         // return
         return $field;
     }
-	
-	
+
+
 	/*
 	 *  format_value()
 	 *
@@ -303,9 +307,9 @@ class MILL3_acf_field_spacer extends acf_field {
 	 *
 	 *  @return	$value (mixed) the modified value
 	 */
-	
+
 	function format_value( $value, $post_id, $field ) {
-		
+
 		// bail ealry if is empty
         if ( acf_is_empty( $value ) ) {
             return $value;
@@ -313,7 +317,7 @@ class MILL3_acf_field_spacer extends acf_field {
 
         // vars
         $label = acf_maybe_get( $field['choices'], $value, $value );
-		
+
 		// value
         if ( $field['return_format'] == 'value' ) {
 
@@ -337,7 +341,7 @@ class MILL3_acf_field_spacer extends acf_field {
         // return
         return $value;
 	}
-	
+
 
     /*
      *  translate_field
@@ -436,7 +440,7 @@ class MILL3_acf_field_spacer extends acf_field {
 
         return $valid;
     }
-	
+
 }
 
 
