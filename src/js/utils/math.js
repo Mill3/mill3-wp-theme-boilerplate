@@ -72,6 +72,21 @@ export const degreeToRad = d => d * (Math.PI/180);
 export const radToDegree = radians => radians * 180 / Math.PI;
 
 
+
+/**
+ * get angle (in radians) from point A to pointB
+ * @param {number} x1 
+ * @param {number} y1 
+ * @param {number} x2 
+ * @param {number} y2 
+ * @returns {number}
+ * 
+ * Example: 
+ * getAngle(30, 100, 50, 50)
+ */
+export const getAngle = (x1, y1, x2, y2) => Math.atan2(y1 - y2, x1 - x2);
+
+
 /**
  * lerp(start, end, multiplier);
  * lerp(0, 100, 0.12);
@@ -105,6 +120,7 @@ export const limit = (min, max, value) => Math.max(min, Math.min(max, value));
 export const map = (x, a, b, c, d) => (x - a) * (d - c) / (b - a) + c;
 
 
+
 export default {
   cover,
   contain,
@@ -112,6 +128,7 @@ export default {
   pythagore,
   degreeToRad,
   radToDegree,
+  getAngle,
   lerp,
   lerp2,
   limit,

@@ -3,6 +3,7 @@
 
   &__scroller {
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   &[aria-hidden="true"] {

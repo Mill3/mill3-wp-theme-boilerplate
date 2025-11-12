@@ -170,7 +170,16 @@
 * 
 * By default, Windmill doesn't come with built-in transition. 
 * It simply remove old content after `exited` event and add new page content before `entering` event.
-* 
+*
+* ---------------------------
+*  Click specific transition
+* ---------------------------
+* You can specify a custom transition using a [data-windmill-transition="transitionName"] data-attribute on any link or by using windmill.go(url, element-with-data-windmill-transition-attribute).
+* First, windmill check if element triggering page transition has [data-windmill-transition="transitionName"] data-attribute.
+* If so, it will grab that transition name and check if one transition with the same name exists in array of transitions provided during initialization.
+* If transition can't be found, fallback to default transition as usual.
+*
+* You can also specify a "mobile" version of the same transition by using a [data-windmill-transition-native="transitionName"] data-attribute.
 * 
 * -------------
 *  Tests suite
@@ -194,6 +203,7 @@ import { $, html, body } from "@utils/dom";
 import { isFunction } from "@utils/is";
 import { on, off } from "@utils/listener";
 import ImagesLoaded from "@utils/imagesloaded";
+import { mobile } from "@utils/mobile";
 
 const DEFAULT_OPTIONS = {
   autoStart: true,
@@ -446,8 +456,34 @@ class Windmill {
     // update running status to prevent performing two transitions simultaneously
     this._running = true;
     
-    // find first transition with exit & enter methods
-    this._transition = this._options.transitions.find(transition => isFunction(transition.exit) && isFunction(transition.enter));
+    //----------------------------------
+    // transition finding process begin
+    //----------------------------------
+
+    let transition;
+    
+    // check if event trigger has [data-windmill-transition] attribute
+    if( this._data.next.trigger && isFunction(this._data.next.trigger.hasAttribute) && this._data.next.trigger.hasAttribute('data-windmill-transition') ) {
+      // try to find request transition
+      let transitionName = this._data.next.trigger.dataset.windmillTransition;
+
+      // get native transition if exists
+      if( mobile && this._data.next.trigger.hasAttribute('data-windmill-transition-native') ) {
+        transitionName = this._data.next.trigger.dataset.windmillTransitionNative;
+      }
+      
+      transition = this._options.transitions.find(transition => transition.toString() === transitionName);
+    }
+
+    // if custom transition hasn't been found, find first transition with exit & enter methods
+    if( !transition ) transition = this._options.transitions.find(transition => isFunction(transition.exit) && isFunction(transition.enter));
+    
+    // save transition
+    this._transition = transition;
+
+    //-----------------------------------
+    // transition finding process ending
+    //-----------------------------------
     
     // add special classname to html
     html.classList.add(this._options.runningClassname);

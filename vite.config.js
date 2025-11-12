@@ -142,6 +142,7 @@ const bundle_files = [
 export default {
   base: DEV ? `/` : `/wp-content/themes/${THEME_NAME}/dist/${DISTRIBUTION.dist_dir}/`,
   build: {
+    cssMinify: false, // we use cssnano in postcss
     outDir: `./dist/${DISTRIBUTION.dist_dir}`,
     assetsInlineLimit: 0, // disables inlining of all assets like <svg> as base64 in CSS
     emptyOutDir: true,

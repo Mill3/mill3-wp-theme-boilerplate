@@ -135,7 +135,7 @@ class GFormField extends EventEmitter2 {
     this.el = el;
     this.label = $(".gfield_label", this.el);
     this.inputContainer = $(".ginput_container", this.el);
-    this.parentContainer = this.inputContainer.parentElement;
+    this.parentContainer = this.inputContainer?.parentElement;
     this.input = this._getInput();
     this.type = this._getType();
     this.id = '#' + this.el.id;

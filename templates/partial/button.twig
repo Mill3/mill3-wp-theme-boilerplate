@@ -36,6 +36,6 @@
   {% endif %}
 
   {% if tagname in aria_roles %}
-  <span class="visually-hidden">{{ aria_label|default(title) }}</span>
+  <span class="btn__a11y visually-hidden">{{ aria_label|default(title) }}</span>
   {% endif %}
 </{{ tagname }}>

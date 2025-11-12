@@ -9,6 +9,7 @@
 {% set fit = fit|default(null) %}
 {% set alignment = alignment|default(null) %}
 {% set detectRollover = detectRollover ?? true %}
+{% set playback = playback|default(0) %}
 {% set playOnEnter = playOnEnter ?? false %}
 {% set pauseOnExit = pauseOnExit ?? true %}
 
@@ -47,5 +48,6 @@
   {% if fit %}data-fit="{{ fit }}"{% endif %}
   {% if alignment %}data-alignment="{{ alignment }}"{% endif %}
   {% if detectRollover %}data-detect-rollover{% endif %}
+  {% if playback %}data-playback="{{ playback }}"{% endif %}
   {{ attributes|join(" ") }}
 ></canvas>

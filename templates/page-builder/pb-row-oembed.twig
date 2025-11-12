@@ -72,9 +72,9 @@
             </button>
           </div>
 
-          <script type="text/html">
+          <template>
             {{ video|embeded_settings({'autoplay': 1}) }}
-          </script>
+          </template>
         {% else %}
           {{ video|embeded_settings }}
         {% endif %}

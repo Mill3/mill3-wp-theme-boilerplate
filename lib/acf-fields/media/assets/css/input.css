@@ -4,7 +4,8 @@
 .acf-media-uploader p {
   margin: 0;
 }
-.acf-media-uploader .file .acf-label {
+.acf-media-uploader .file .acf-label,
+.acf-media-uploader .rive-playback .acf-label {
   margin-top: 20px;
 }
 .acf-media-uploader .file-wrap {
@@ -41,15 +42,24 @@
   line-height: 1.4em;
   word-break: break-all;
 }
+.acf-media-uploader .rive-playback {
+}
 
-/* by default, hide poster and mobile field */
+/* by default, hide poster, mobile field and Rive playback selector */
 .acf-media-uploader .file[data-file="poster"],
-.acf-media-uploader .file[data-file="mobile"] {
+.acf-media-uploader .file[data-file="mobile"],
+.acf-media-uploader .rive-playback {
   display: none;
 }
 
 /* if file is video, show poster and mobile field */
 .acf-media-uploader.--is-video .file[data-file="poster"],
 .acf-media-uploader.--is-video .file[data-file="mobile"] {
+  display: block;
+}
+
+/* if file is riv, show mobile field and Rive playback selector */
+.acf-media-uploader.--is-rive .file[data-file="mobile"],
+.acf-media-uploader.--is-rive .rive-playback {
   display: block;
 }

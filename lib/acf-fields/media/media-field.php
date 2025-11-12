@@ -9,8 +9,11 @@ if( !class_exists('MILL3_acf_field_media') ) :
 
 
     class MILL3_acf_field_media extends acf_field {
-        
-        
+
+
+        // environment variables for the field
+        private $env = array();
+
         /**
          * This function will setup the field type data
          *
@@ -39,6 +42,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
             $this->defaults      = array(
                 'show_poster'       => false,
                 'show_mobile_video' => false,
+                'show_mobile_rive'  => false,
                 'return_format'     => 'array',
 				'library'           => 'all',
 				'min_size'          => 0,
@@ -80,16 +84,16 @@ if( !class_exists('MILL3_acf_field_media') ) :
 					'Update mobile Media' => __( 'Update mobile Media', 'mill3-acf-media' ),
 				)
 			);
-            
+
             // vars
             $url     = trailingslashit( $this->env['url'] );
             $version = $this->env['version'];
-            
-            
+
+
             // register & include JS
             wp_register_script('mill3-acf-media', "{$url}assets/js/input.js", array('acf-input'), $version);
             wp_enqueue_script('mill3-acf-media');
-            
+
             // register & include CSS
             wp_register_style('mill3-acf-media', "{$url}assets/css/input.css", array('acf-input'), $version);
             wp_enqueue_style('mill3-acf-media');
@@ -135,7 +139,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
             // allowed files from field settings
             $files = array('file');
             if( $field['show_poster'] ) $files[] = 'poster';
-            if( $field['show_mobile_video'] ) $files[] = 'mobile';
+            if( $field['show_mobile_video'] || $field['show_mobile_rive'] ) $files[] = 'mobile';
 
             // file has value?
             if( $field['value'] && $field['value']['file'] ) {
@@ -143,16 +147,19 @@ if( !class_exists('MILL3_acf_field_media') ) :
 
                 // if file is a video, add classname to $controls
                 if( $attachment && $attachment['type'] == 'video' ) $div['class'] .= ' --is-video';
+
+                // if file is a Rive, add classname to $controls
+                if( $attachment && $attachment['mime_type'] == 'application/riv' ) $div['class'] .= ' --is-rive';
             }
 
             ?>
             <div <?php echo acf_esc_attrs( $div ); ?>>
-            
+
                 <?php acf_hidden_input( array('name' => $field['name'], 'value' => $field['value'], 'data-name' => 'id') ); ?>
-                <?php 
+                <?php
                     // create output of each file
-                    foreach($files as $file): 
-                        
+                    foreach($files as $file):
+
                         $wrapper = array(
                             'class'     => 'file',
                             'data-file' => $file,
@@ -169,7 +176,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
                         // has value?
                         if( $field['value'] && $field['value'][$file] ) {
                             $attachment = acf_get_attachment( $field['value'][$file] );
-                            
+
                             if( $attachment ) {
                                 // has value
                                 $wrapper['class'] .= ' has-value';
@@ -219,6 +226,26 @@ if( !class_exists('MILL3_acf_field_media') ) :
                         </div>
                     </div>
                 <?php endforeach; ?>
+
+                <div <?php echo acf_esc_attrs( array('class' => 'rive-playback') ); ?>>
+                    <div class="acf-label">
+                        <label><?php echo sprintf( esc_html__( '%s\'s playback', 'acf' ), $field['label']); ?></label>
+                    </div>
+                    <div class="acf-input">
+                        <?php
+                            $rive_playback = $field['value'] && $field['value']['rive_playback'] ? $field['value']['rive_playback'] : 0;
+                            $rive_playbacks = array(
+                                'Default' => 0,
+                                'Restart when visible' => 1,
+                            )
+                        ?>
+                        <select>
+                            <?php foreach($rive_playbacks as $playback => $value): ?>
+                            <option value="<?php echo esc_attr($value); ?>"<?php if($value === $rive_playback): ?> selected<?php endif; ?>><?php echo esc_html($playback); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
 
             </div>
             <?php
@@ -286,6 +313,22 @@ if( !class_exists('MILL3_acf_field_media') ) :
 						'field'    => 'mime_types',
 						'operator' => '==',
 						'value'    => 'mp4',
+					),
+                )
+            );
+
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'        => __( 'Show mobile Rive field ?', 'mill3-acf-media' ),
+                    'instructions' => __( 'Allow user to upload a smaller Rive animation for mobile.', 'mill3-acf-media' ),
+                    'type'         => 'true_false',
+                    'name'         => 'show_mobile_rive',
+                    'ui'           => 1,
+                    'conditions'   => array(
+						'field'    => 'mime_types',
+						'operator' => '==',
+						'value'    => 'riv',
 					),
                 )
             );
@@ -414,6 +457,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
 						'file' => false,
 						'poster' => false,
 						'mobile' => false,
+                        'rive_playback' => 0,
 					)
 				);
 			}
@@ -454,22 +498,25 @@ if( !class_exists('MILL3_acf_field_media') ) :
                     'file' => false,
                     'poster' => false,
                     'mobile' => false,
+                    'rive_playback' => 0,
                 )
             );
 
-            // bail early if main file doesn't exists 
+            // bail early if main file doesn't exists
             if( !$value['file'] ) return false;
 
-            // apply format to each values
-            $value = array_map(function($file) use ($field) {
-                if ( $field['return_format'] == 'url' ) {
-                    return wp_get_attachment_url( $file );
-                } elseif ( $field['return_format'] == 'array' ) {
-                    return acf_get_attachment( $file );
-                }
+            $format_file = function($file) use ($field) {
+                if( $field['return_format'] == 'url' ) return wp_get_attachment_url( $file );
+                elseif( $field['return_format'] == 'array' ) return acf_get_attachment( $file );
 
                 return $file;
-            }, $value);
+            };
+
+            // format each values
+            $value["file"] = $format_file($value["file"]);
+            $value["poster"] = $format_file($value["poster"]);
+            $value["mobile"] = $format_file($value["mobile"]);
+            $value["rive_playback"] = intval($value["rive_playback"]);
 
 			// return
 			return $value;
@@ -511,6 +558,9 @@ if( !class_exists('MILL3_acf_field_media') ) :
                     $value[$file] = $attachment_id;
                 }
 
+                // make sure rive_playback is integer
+                $value['rive_playback'] = intval($value['rive_playback']);
+
 				return (array) $value;
 			}
 
@@ -538,6 +588,9 @@ if( !class_exists('MILL3_acf_field_media') ) :
                 ),
                 'mobile' => array(
                     'type' => array('integer', 'null')
+                ),
+                'rive_playback' => array(
+                    'type' => array('integer')
                 )
             );
 

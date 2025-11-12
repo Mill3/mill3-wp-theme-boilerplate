@@ -53,6 +53,10 @@ function setup()
         // )
     ));
 
+    // Disable features
+    remove_theme_support('core-block-patterns');
+    remove_theme_support('wp-block-styles');
+
     // Enable post thumbnails
     // http://codex.wordpress.org/Post_Thumbnails
     // http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size
@@ -157,7 +161,7 @@ add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 // Add type="module" attribute using wp_script_attributes filter
 // wp_enqueue_script_module() is not compatible with wp_add_inline_script()
 add_filter('script_loader_tag', function($tag, $handle) {
-    $enabled_handles = ['mill3wp/vitejs_app', 'mill3wp/js']; // add your script handles here
+    $enabled_handles = ['mill3wp/vitejs_app', 'mill3wp/js', 'mill3wp/js-sentry']; // add your script handles here
     if (in_array($handle, $enabled_handles)) {
         $tag = str_replace('<script ', '<script type="module" ', $tag);
     }
@@ -245,6 +249,25 @@ add_filter('custom_menu_order', function() { return true; });
 
 // Change admin menu order
 add_filter('menu_order', __NAMESPACE__ . '\\mill3wp_admin_menu_order');
+
+
+// Remove menus from admin sidebar
+/*
+add_action('admin_menu', function() {
+    remove_menu_page('edit.php'); // posts
+    remove_menu_page('edit-comments.php'); // comments
+});
+*/
+
+// Remove links from admin top-nav
+/*
+add_action( 'admin_bar_menu', function() {
+    global $wp_admin_bar;
+
+    $wp_admin_bar->remove_node('comments'); // comments
+    $wp_admin_bar->remove_node('new-post'); // posts
+}, 999);
+*/
 
 
 // Set directory for Admin Columns settings

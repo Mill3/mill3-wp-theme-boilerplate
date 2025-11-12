@@ -1,4 +1,4 @@
-import { $ } from "@utils/dom";
+import { $, removeAllChilds } from "@utils/dom";
 import { on, off } from "@utils/listener";
 
 class PbRowOEmbed {
@@ -8,7 +8,7 @@ class PbRowOEmbed {
     this.wrapper = $('.pb-row-oembed__wrapper', this.el);
     this.preview = $('.pb-row-oembed__preview', this.el);
     this.videoPreview = $('.pb-row-oembed__videoPreview', this.el);
-    this.script = $('script', this.el);
+    this.script = $('template', this.el);
 
     this._onClick = this._onClick.bind(this);
   }
@@ -47,7 +47,9 @@ class PbRowOEmbed {
 
     this.preview = null;
     this.videoPreview = null;
-    this.wrapper.innerHTML = this.script.innerHTML;
+
+    removeAllChilds(this.wrapper);
+    this.wrapper.appendChild( this.script.content.cloneNode(true) );
 
     this.emitter.emit('SiteScroll.update');
     this.emitter.emit('oEmbed.add', $('iframe', this.wrapper));

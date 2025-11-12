@@ -45,9 +45,16 @@
   }
 }
 
-// Media query when user's preferred higher level of constrast
+// Media query when user's prefers higher level of contrast
 @mixin highContrast() {
   @media (prefers-contrast: more) {
+    @content;
+  }
+}
+
+// Media query when user's doesn't prefers higher level of contrast
+@mixin contrastNoPref() {
+  @media not (prefers-contrast: more) {
     @content;
   }
 }

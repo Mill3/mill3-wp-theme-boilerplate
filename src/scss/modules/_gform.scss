@@ -18,7 +18,7 @@
     width: 100%;
     font-size: font-size(base);
     // iOS friendly
-    border-radius: none;
+    border-radius: 0;
     &:focus {
       outline: none;
     }

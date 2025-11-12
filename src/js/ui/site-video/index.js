@@ -100,7 +100,7 @@ class SiteVideo {
 
     if( motion_reduced ) this._onStopComplete({ target: this.bg, propertyName: 'opacity' });
   }
-  oembed(script) {
+  oembed(template) {
     // remove video from DOM
     if( this._mode === MODE_INLINE ) this.video.remove();
 
@@ -111,8 +111,11 @@ class SiteVideo {
     this.emitter.emit('SiteScroll.stop', true);
     this.emitter.emit('Video.pauseAll');
 
-    // inject iframe into DOM
-    this.videoWrap.innerHTML = script.innerHTML;
+    // empty DOM element
+    removeAllChilds(this.videoWrap);
+
+    // inject iframe into DOM element
+    this.videoWrap.appendChild( template.content.cloneNode(true) );
 
     // make sure ANIMATE_OUT is removed
     this.el.classList.remove(ANIMATE_OUT_CLASSNAME);

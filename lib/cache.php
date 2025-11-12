@@ -50,7 +50,7 @@ class CacheInstance {
 trait CacheTrait
 {
 
-    public function cache_key(string $class, string $function, string $suffix = null)
+    public function cache_key(string $class, string $function, string | array | null $suffix = null)
     {
         $parts = [$class, $function, $this->current_language()];
 

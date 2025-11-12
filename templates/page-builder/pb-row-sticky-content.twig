@@ -45,9 +45,10 @@
       {% if not item.media %}inert{% endif %}
     >
       {% if item.media %}
-        {% if item.media|is_video %}
+        {% if item.media.file|is_video %}
           {% include 'partial/video.twig' with {
-            'src': item.media,
+            'src': item.media.file,
+            'src_mobile': item.media.mobile|default(item.media.file),
             'is_preview': is_preview,
             'playOnEnter': true,
             'pauseOnExit': true,
@@ -55,7 +56,7 @@
           } only %}
         {% else %}
           {% include 'partial/image.twig' with {
-            'image': item.media,
+            'image': item.media.file,
             'sizes': ['100vw', null, '50vw'],
             'lazyload': true,
             'classname': 'pb-row-sticky-content__paragraph__img image-as-background',
