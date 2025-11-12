@@ -12,14 +12,21 @@
     --index: 0;
 
     &[open] {
+      
       #{$self}__arrowDown {
         animation: AccordionArrowDownLeave 350ms easings.$easeInQuad both;
       }
       #{$self}__arrowUp {
         animation: AccordionArrowUpEnter 450ms 300ms easings.$easeOutCubic both;
       }
+
       #{$self}__content {
-        animation: AccordionContentOpen 650ms 25ms linear both;
+        opacity: 0;
+      }
+      &.--js-open {
+        #{$self}__content {
+          animation: AccordionContentOpen 650ms 25ms linear both;
+        }
       }
     }
   }

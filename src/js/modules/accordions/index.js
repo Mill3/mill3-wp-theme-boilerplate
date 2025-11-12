@@ -30,7 +30,11 @@ class Accordions {
     if( this.accordions ) off(this.accordions, 'toggle', this._onAccordionToggle);
   }
 
-  _onAccordionToggle() {
+  _onAccordionToggle(event) {
+    setTimeout(() => {
+      event.target.classList[event.target.open ? "add" : "remove"]("--js-open");
+    }, 10);
+
     this.emitter.emit('SiteScroll.update');
   }
 }
