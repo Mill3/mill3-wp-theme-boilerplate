@@ -11,6 +11,12 @@ class Accordions {
   }
 
   init() {
+    this.accordions.forEach((accordion) => {
+      if( accordion.open ) {
+        accordion.classList.add('--js-open');
+      }
+    });
+    
     this._bindEvents();
   }
   destroy() {
