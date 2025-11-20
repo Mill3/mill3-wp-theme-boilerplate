@@ -3,7 +3,7 @@
 use Mill3WP\Cache\CacheInstance;
 
 /*
- * WP_AJAX for requesting a list of URLs to prefetch by windmill.js
+ * return a JSON formatted list of URLs to prefetch by windmill.js
  */
 function windmill_prefetch() {
     // create cache key
@@ -63,10 +63,37 @@ function windmill_prefetch() {
     die();
 }
 
-// URL: /wp-admin/admin-ajax.php?action=windmill_prefetch
-add_action('wp_ajax_windmill_prefetch', __NAMESPACE__ . '\\windmill_prefetch');
-add_action('wp_ajax_nopriv_windmill_prefetch', __NAMESPACE__ . '\\windmill_prefetch');
+// create rewrite rules per languages
+add_filter('generate_rewrite_rules', function($wp_rewrite) {
+    $rules = [];
 
+    if( function_exists('pll_languages_list') ) {
+        $languages = pll_languages_list(array('hide_empty' => 0, 'fields' => 'slug'));
+
+        foreach($languages as $language) $rules["^$language/windmill-prefetch(/)?$"] = 'index.php?windmill_prefetch=1';
+    } else {
+        $rules['^windmill-prefetch(/)?$'] = 'index.php?windmill_prefetch=1';
+    }
+
+    //$rules = apply_filters( 'taigamotors_rewrite_rules', $rules );
+    $wp_rewrite->rules = array_merge( $rules, $wp_rewrite->rules );
+});
+
+// define "windmill_prefetch" query variable
+add_filter('query_vars', function($query_vars) {
+    $query_vars[] = 'windmill_prefetch';
+
+    return $query_vars;
+});
+
+// output response for windmill-prefetch permalink
+add_action('template_include', function($template) {
+    if( get_query_var( 'windmill_prefetch' ) == false || get_query_var( 'windmill_prefetch' ) == '' ) {
+        return $template;
+    }
+
+    windmill_prefetch();
+});
 
 // clear caching when Theme Options are updated
 add_action('acf/options_page/save', function($post_id, $menu_slug) {

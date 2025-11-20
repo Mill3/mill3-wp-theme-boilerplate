@@ -135,7 +135,7 @@ function assets()
 
     // inject global Wordpress variables to Javascript
     $wp_endpoints = array(
-        'locale' => function_exists('pll_current_language') ? pll_current_language() : get_locale(),
+        'locale' => function_exists('pll_current_language') ? pll_current_language() : null,
         'current_site' => get_site_url(),
         'admin_ajax' => admin_url('admin-ajax.php'),
         //'rest-api' => get_rest_url(null, 'wp/v2/'),

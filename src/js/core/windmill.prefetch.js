@@ -13,7 +13,6 @@
 * @preferred
 */
 
-import AJAX from "@core/ajax";
 import { isArray } from "@utils/is";
 
 export class WindmillPrefetch {  
@@ -40,8 +39,11 @@ export class WindmillPrefetch {
   _onDone() { requestIdleCallback(this._fetchURLs); }
 
   _fetchURLs() {
-    AJAX
-      .get("windmill_prefetch")
+    const locale = MILL3WP.locale;
+    const url = locale ? `${MILL3WP.current_site}/${locale}/windmill-prefetch/` : `${MILL3WP.current_site}/windmill-prefetch/`;
+    
+    fetch(url)
+      .then((response) => response.json())
       .then(json => {
         if( !isArray(json) || json.length < 1 ) return;
 
