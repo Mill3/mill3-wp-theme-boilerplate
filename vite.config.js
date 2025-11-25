@@ -9,6 +9,7 @@ const DISTRIBUTION_SCOPES = {
   "theme": {
     "dist_dir": "theme",
     "shared_bundle": true,
+    "sourcemap": DEV ? false : true,
     "input": {
       app: path.resolve(SRC_PATH, "js/App.js"),
       app_style: path.resolve(SRC_PATH, "scss/App.scss"),
@@ -18,6 +19,7 @@ const DISTRIBUTION_SCOPES = {
   "admin": {
     "dist_dir": "admin",
     "shared_bundle": false,
+    "sourcemap": false,
     "input": {
       acf_preview: path.resolve(SRC_PATH, "js/ACF-Preview.js"),
       acf_preview_style: path.resolve(SRC_PATH, "scss/ACF-preview.scss"),
@@ -147,6 +149,7 @@ export default {
     assetsInlineLimit: 0, // disables inlining of all assets like <svg> as base64 in CSS
     emptyOutDir: true,
     manifest: true,
+    sourcemap: DISTRIBUTION.sourcemap,
     rollupOptions: {
       output: {
         chunkFileNames: (entry) => {
