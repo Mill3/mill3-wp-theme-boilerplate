@@ -1,6 +1,6 @@
 import EMITTER from "@core/emitter";
 import { INVIEW_ENTER } from "@scroll/constants";
-import { $, $$, html, body, rect } from "@utils/dom";
+import { $, $$, getHTML, getBody, rect } from "@utils/dom";
 import Viewport from "@utils/viewport";
 import { createVertexShader, createFragmentShader, createProgram, createRectangle } from "@utils/webgl";
 
@@ -14,7 +14,7 @@ const DEBUG = false;
 class ScrollWebGL {
   constructor(scroll) {
     this.scroll = scroll;
-    this.canvas = $('.site-webgl', body);
+    this.canvas = $('.site-webgl', getBody());
     this.gl = this.canvas ? this.canvas.getContext('webgl') : null;
     this.images = null;
 
@@ -31,18 +31,20 @@ class ScrollWebGL {
 
     if( this.gl ) {
       this._createGLEssentials();
-      html.classList.add('has-scroll-webgl');
+      getHTML().classList.add('has-scroll-webgl');
     }
   }
 
-  init($target = body) {
+  init($target) {
     if( !this.gl ) return;
+    if( !$target ) $target = getBody();
 
     this.images = [ ...$$(SELECTOR, $target) ].map(img => new GLImage(img, this.gl));
     this.resize();
   }
-  update($target = body) {
+  update($target) {
     if( !this.gl ) return;
+    if( !$target ) $target = getBody();
 
     this.gl.useProgram(null);
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);

@@ -10,7 +10,7 @@
 * @preferred
 */
 
-import { head } from "@utils/dom";
+import { getHead } from "@utils/dom";
 
 export const SCRIPTS_SELECTOR = 'script:not([type="application/ld+json"]):not([type="application/json"]):not([type="text/html"])';
 
@@ -50,7 +50,7 @@ export class WindmillScripts {
       if( wrapper.contains(script) ) return;
 
       // if script has inline text and is not in <head>, do not save it into dictionnary
-      if( this._scriptHasInlineText(script) && !head.contains(script) ) return;
+      if( this._scriptHasInlineText(script) && !getHead().contains(script) ) return;
 
       // add script to dictionnary
       this._dictionnary.set(namespace, script);
@@ -127,7 +127,7 @@ export class WindmillScripts {
       script.onload = resolve;
       script.onerror = reject;
       
-      head.appendChild(script);
+      getHead().appendChild(script);
     });
   }
 
@@ -138,7 +138,7 @@ export class WindmillScripts {
    */
   _inlineScript(script) {
     return new Promise(resolve => {
-      head.appendChild(script);
+      getHead().appendChild(script);
 
       try {
         eval(script.text);

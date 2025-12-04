@@ -1,4 +1,4 @@
-import { head } from "@utils/dom";
+import { getHead } from "@utils/dom";
 
 class YoutubeAPI {
   constructor() {
@@ -25,7 +25,7 @@ class YoutubeAPI {
       this._script.onerror = e => { console.error("Error loading Youtube iFrame API :", e); };
       this._script.src = "https://www.youtube.com/iframe_api";
 
-      head.appendChild(this._script);
+      getHead().appendChild(this._script);
     }
 
     return promise;

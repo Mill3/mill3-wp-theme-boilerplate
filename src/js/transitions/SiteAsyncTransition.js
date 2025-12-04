@@ -1,6 +1,6 @@
 import anime from "animejs";
 
-import { $$, body, html } from "@utils/dom";
+import { $$, getBody, getHTML } from "@utils/dom";
 import { moduleDelays } from "./utils";
 
 const CLASSNAME = "--js-windmill-transition";
@@ -10,8 +10,8 @@ class SiteTransition {
     const { container } = current;
 
     // set body height to prevent layout shift
-    body.style.height = `${body.scrollHeight}px`;
-    html.style.cursor = 'wait';
+    getBody().style.height = `${getBody().scrollHeight}px`;
+    getHTML().style.cursor = 'wait';
 
     // remove all [data-scroll] from container
     [ ...$$('[data-scroll]', container) ].forEach(el => el.removeAttribute('data-scroll'));
@@ -29,7 +29,7 @@ class SiteTransition {
   }
 
   // this method is required for the transition to be selected by Windmill
-  exit() { html.classList.add(CLASSNAME); }
+  exit() { getHTML().classList.add(CLASSNAME); }
 
   fetched({ current, next }) {
     current.container.style.setProperty('--scroll-y', `${window.scrollY}px`);
@@ -41,9 +41,9 @@ class SiteTransition {
     return new Promise((resolve) => {
       
       // set body height to prevent layout shift
-      body.style.height = `${body.scrollHeight}px`;
+      getBody().style.height = `${getBody().scrollHeight}px`;
       next.container.parentElement.style.overflow = 'clip';
-      html.style.removeProperty('cursor');
+      getHTML().style.removeProperty('cursor');
 
       const tl = anime.timeline({ autoplay: false });
 
@@ -72,7 +72,7 @@ class SiteTransition {
   }
   entered({ next }) {
     next.container.parentElement.style.removeProperty('overflow');
-    body.style.removeProperty('height');
+    getBody().style.removeProperty('height');
   }
 }
 

@@ -3,7 +3,7 @@ import anime from "animejs";
 import EMITTER from "@core/emitter";
 import { DIRECTION_DOWN, DIRECTION_UP, SCROLL_TO_OPTIONS } from "@scroll/constants";
 import { firefox } from "@utils/browser";
-import { $, $$, html, body, rect } from "@utils/dom";
+import { $, $$, getHTML, getBody, rect } from "@utils/dom";
 import { isCSSSelectorValid } from "@utils/is";
 import { on, off } from "@utils/listener";
 import { lerp2, limit } from "@utils/math";
@@ -55,7 +55,7 @@ class Scroll {
     this._preventMouseWheel = this._preventMouseWheel.bind(this);
 
     smoothScrollToPolyfill();
-    html.classList.add('has-scroll-init', mobile ? 'has-scroll-native' : 'has-scroll-smooth');
+    getHTML().classList.add('has-scroll-init', mobile ? 'has-scroll-native' : 'has-scroll-smooth');
   }
 
   init() {
@@ -330,8 +330,8 @@ class Scroll {
 
 
   _calcScrollHeight() {
-    this._data.zoom = parseFloat( getComputedStyle(body).getPropertyValue('zoom') );
-    this._data.max = Math.max(0, body.scrollHeight * this._data.zoom - Viewport.height);
+    this._data.zoom = parseFloat( getComputedStyle(getBody()).getPropertyValue('zoom') );
+    this._data.max = Math.max(0, getBody().scrollHeight * this._data.zoom - Viewport.height);
   }
   _updateDirection(y = window.scrollY) {
     // calculation scroll direction

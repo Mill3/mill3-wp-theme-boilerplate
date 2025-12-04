@@ -1,5 +1,5 @@
 import { STATE } from "@core/state";
-import { $, $$, html } from "@utils/dom";
+import { $, $$, getHTML } from "@utils/dom";
 import { on, off } from "@utils/listener";
 import { motion_reduced } from "@utils/mobile";
 
@@ -24,7 +24,7 @@ class SiteNav {
   }
 
   destroy() {
-    html.classList.remove(CLASSNAME);
+    getHTML().classList.remove(CLASSNAME);
 
     this.el = null;
     this.emitter = null;
@@ -69,7 +69,7 @@ class SiteNav {
     if (this.bg) off(this.bg, "transitionend", this._onCloseCompleted);
 
     // inform <html> that SiteNav is opened
-    html.classList.add(CLASSNAME);
+    getHTML().classList.add(CLASSNAME);
 
     // stop page scroll & site-nav open
     this.emitter.emit("SiteScroll.stop");
@@ -105,7 +105,7 @@ class SiteNav {
     }
 
     // inform <html> that SiteNav is closed
-    html.classList.remove(CLASSNAME);
+    getHTML().classList.remove(CLASSNAME);
 
     // restore previous scrollY
     window.scrollTo({top: this._scrollY, behavior: 'auto'});

@@ -1,4 +1,4 @@
-import { $, head } from "@utils/dom";
+import { $, getHead } from "@utils/dom";
 
 // Rive status
 export const RIVE_STATUS = {
@@ -13,6 +13,6 @@ export const RIVE_STATUS = {
  * @returns string - The (rive.wasm resource URL)
  */
 export const getRiveWASMLink = () => {
-  const script = $('link[name="rive-wasm"]', head);
+  const script = $('link[name="rive-wasm"]', getHead());
   return script ? script.href : null;
 };

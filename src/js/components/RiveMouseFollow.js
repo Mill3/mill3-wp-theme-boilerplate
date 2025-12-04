@@ -2,7 +2,7 @@ import RiveAnimation from "@components/RiveAnimation";
 import MILL3_EMITTER from "@core/emitter";
 import RiveListener from "@core/rive.listener";
 import { INVIEW_ENTER } from "@scroll/constants";
-import { body, rect } from "@utils/dom";
+import { getBody, rect } from "@utils/dom";
 import { on, off } from "@utils/listener";
 import { limit, map } from "@utils/math";
 import { mobile } from "@utils/mobile";
@@ -125,13 +125,13 @@ class RiveMouseFollow {
       this.emitter.on('SiteScroll.update', this._onResize);
     }
 
-    on(body, 'mousemove', this._onMouseMove);
+    on(getBody(), 'mousemove', this._onMouseMove);
     ResizeOrientation.add(this._onResize);
   }
   _unbindFollowEvents() {
     this.emitter.off('SiteScroll.scroll', this._onScroll);
     this.emitter.off('SiteScroll.update', this._onResize);
-    off(body, 'mousemove', this._onMouseMove);
+    off(getBody(), 'mousemove', this._onMouseMove);
     ResizeOrientation.remove(this._onResize);
 
     if( this._raf ) this._raf(false);

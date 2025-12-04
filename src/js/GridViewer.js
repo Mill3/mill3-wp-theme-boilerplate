@@ -1,4 +1,4 @@
-import { body, removeAllChilds } from '@utils/dom';
+import { getBody, removeAllChilds } from '@utils/dom';
 import { on } from '@utils/listener';
 import Viewport from '@utils/viewport';
 
@@ -68,7 +68,7 @@ class GridViewer {
     this.el.appendChild(this.grid);
     this.el.appendChild(this.button);
 
-    body.appendChild(this.el);
+    getBody().appendChild(this.el);
 
     this._bindEvents();
     this._onResize();

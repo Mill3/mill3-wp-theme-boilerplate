@@ -1,4 +1,4 @@
-import { $, body } from "@utils/dom";
+import { $, getBody } from "@utils/dom";
 import { on, off } from "@utils/listener";
 import { moduleDelays } from "./utils";
 
@@ -32,7 +32,7 @@ class SiteLoader {
     if( this.el ) this.el.remove();
 
     // add class on body when transition is ready
-    body.classList.add("--js-ready");
+    getBody().classList.add("--js-ready");
 
     // resolve transition
     this._resolve();

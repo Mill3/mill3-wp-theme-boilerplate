@@ -1,10 +1,12 @@
 import { isArray, isDomNode, isHTMLCollection, isNodeList, isString } from "./is";
 
-export const html = document.documentElement;
-export const head = document.head;
-export const body = document.body;
+export const getHTML = () => document.documentElement;
+export const getHead = () => document.head;
+export const getBody = () => document.body;
 
-export const $ = (query, target = html) => {
+export const $ = (query, target = null) => {
+  if( !target ) target = getHTML();
+
   if (isString(query)) return target.querySelector(query);
   else if (query === window || query instanceof Animation) return query;
   else if (isDomNode(query)) return query;
@@ -12,7 +14,9 @@ export const $ = (query, target = html) => {
 
   return null;
 };
-export const $$ = (query, target = html) => {
+export const $$ = (query, target = null) => {
+  if( !target ) target = getHTML();
+
   if (isString(query)) return target.querySelectorAll(query);
   else if (query === window || query instanceof Animation) return [query];
   else if (isDomNode(query)) return [query];
@@ -45,9 +49,9 @@ export const innerDimensions = node => {
 };
 
 export default {
-  html,
-  head,
-  body,
+  getHTML,
+  getHead,
+  getBody,
   $,
   $$,
   rect,

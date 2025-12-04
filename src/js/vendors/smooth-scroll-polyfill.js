@@ -1,14 +1,14 @@
 // polyfill for window.scrollTo({behavior: 'smooth'});
 // inspired by https://gist.github.com/eyecatchup/d210786daa23fd57db59634dd231f341
 
-import { html } from "@utils/dom";
+import { getHTML } from "@utils/dom";
 import { isObject } from "@utils/is";
 
 let polyfillApplied = false;
 
 const polyfill = () => {
   // detect support for the behavior property in ScrollOptions
-  const supportsNativeSmoothScroll = 'scrollBehavior' in html.style;
+  const supportsNativeSmoothScroll = 'scrollBehavior' in getHTML().style;
 
   // if feature is natively supported or polyfill is already applied, do nothing
   if( supportsNativeSmoothScroll || polyfillApplied ) return;
@@ -53,7 +53,7 @@ const polyfill = () => {
     }
 
     const { top } = options;
-    const start = html.scrollTop;
+    const start = getHTML().scrollTop;
     const change = top - start;
     const startDate = +new Date();
     
@@ -62,10 +62,10 @@ const polyfill = () => {
         const currentDate = +new Date();
         const currentTime = currentDate - startDate;
 
-        html.scrollTop = parseInt(easeInOutQuad(currentTime, start, change, DURATION));
+        getHTML().scrollTop = parseInt(easeInOutQuad(currentTime, start, change, DURATION));
 
         if( currentTime < DURATION ) requestAnimationFrame(animateScroll);
-        else html.scrollTop = top;
+        else getHTML().scrollTop = top;
     };
 
     animateScroll();

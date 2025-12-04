@@ -34,7 +34,7 @@ textSelectClassname (String) : Name of the class to add to <body> when drag is a
 
 import EventEmitter2 from "eventemitter2";
 
-import { body } from "./dom";
+import { getBody } from "./dom";
 import { on, off } from "./listener";
 
 const DEFAULT_OPTIONS = {
@@ -111,7 +111,7 @@ class Drag extends EventEmitter2 {
     this.el.setPointerCapture(this._pointerId);
 
     // disable text selection
-    if( this.options.preventTextSelect ) body.classList.add(this.options.textSelectClassname);
+    if( this.options.preventTextSelect ) getBody().classList.add(this.options.textSelectClassname);
 
     // dispatch event
     this.emit('start', e);
@@ -128,7 +128,7 @@ class Drag extends EventEmitter2 {
     if( !this._dragging ) return;
 
     // enable text selection
-    if( this.options.preventTextSelect ) body.classList.remove('--js-disable-text-select');
+    if( this.options.preventTextSelect ) getBody().classList.remove('--js-disable-text-select');
 
     // release pointer capture
     if( this._pointerId ) this.el.releasePointerCapture(this._pointerId);

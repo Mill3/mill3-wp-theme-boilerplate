@@ -1,4 +1,4 @@
-import { $, head, body } from "@utils/dom";
+import { $, getHead, getBody } from "@utils/dom";
 
 class FacebookSDK {
   constructor() {
@@ -33,7 +33,7 @@ class FacebookSDK {
       this._fbRoot = document.createElement('div');
       this._fbRoot.id = 'fb-root';
 
-      body.appendChild(this._fbRoot);
+      getBody().appendChild(this._fbRoot);
     }
 
     // load Facebook SDK once
@@ -45,7 +45,7 @@ class FacebookSDK {
       this._script.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v10.0";
       //this._script.src = "https://connect.facebook.net/en_US/sdk/debug.js#xfbml=1&version=v10.0";
 
-      head.appendChild(this._script);
+      getHead().appendChild(this._script);
     }
 
     return promise;

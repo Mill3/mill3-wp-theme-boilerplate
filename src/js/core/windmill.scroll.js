@@ -8,7 +8,7 @@ import ScrollParallax from "@scroll/scroll-parallax";
 //import ScrollTimeline from "@scroll/scroll-timeline";
 import ScrollTo from "@scroll/scroll-to";
 //import ScrollWebGL from "@scroll/scroll-webgl";
-import { html } from "@utils/dom";
+import { getHTML } from "@utils/dom";
 import { mobile } from "@utils/mobile";
 import RAF, { WINDMILL_SCROLL } from "@utils/raf";
 import ResizeOrientation, { MILL3_SCROLL_PRIORITY } from "@utils/resize";
@@ -134,7 +134,7 @@ export class WindmillScroll {
     this._resetScrollModules();
   }
   _onAsyncPageEnter({ next }) {
-    html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
+    getHTML().classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
 
     this.scroll?.init();
     //this.webgl?.init(next.container);
@@ -163,13 +163,13 @@ export class WindmillScroll {
     this.scroll?.start();
     this.minimum?.start();
 
-    html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
+    getHTML().classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
   }
   _onSiteScrollStop(hideScrollbar = false) {
     this.scroll?.stop();
     this.minimum?.stop();
     
-    if( hideScrollbar ) html.classList.add(SCROLLBAR_HIDDEN_CLASSNAME);
+    if( hideScrollbar ) getHTML().classList.add(SCROLLBAR_HIDDEN_CLASSNAME);
   }
   _onSiteScrollUpdate() {
     // trigger event that scroll update will occur

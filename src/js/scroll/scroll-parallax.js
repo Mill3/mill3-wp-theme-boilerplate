@@ -63,7 +63,7 @@
 
 import { EVENT_PROGRESS } from "@scroll/constants";
 import { getDelay, getOffset, getPosition, getProgress, getSpeed, getTarget } from "@scroll/utils";
-import { $$, body, rect } from "@utils/dom";
+import { $$, getBody, rect } from "@utils/dom";
 import { lerp2, limit } from "@utils/math";
 import { motion_reduced } from "@utils/mobile";
 import { getTranslate } from "@utils/transform";
@@ -85,12 +85,16 @@ class ScrollParallax {
     this._parallaxElements = new Map();
   }
   
-  init($target = body) {
+  init($target) {
+    if( !$target ) $target = getBody();
+
     this._addElements($target);
     this._checkElementsProgress();
     this._transformElements(true);
   }
-  update($target = body) {
+  update($target) {
+    if( !$target ) $target = getBody();
+
     this._addElements($target);
     this._checkElements();
     this._transformElements(true);
@@ -124,7 +128,9 @@ class ScrollParallax {
     this._delta = 1;
   }
   
-  _addElements($target = body) {
+  _addElements($target) {
+    if( !$target ) $target = getBody();
+    
     this._elements.clear();
     this._parallaxElements.clear();
     

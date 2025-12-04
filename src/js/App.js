@@ -24,7 +24,7 @@ import WindmillChunks from "@core/windmill.chunks";
 import scrollbarWidth from "@core/scrollbar-width";
 import { SCROLLBAR_HIDDEN_CLASSNAME } from "@scroll/constants";
 import { chrome, edge, firefox, safari, ios, iphone, ipad, android } from "@utils/browser";
-import { html, body } from "@utils/dom";
+import { getHTML, getBody } from "@utils/dom";
 import transitions from "@transitions";
 
 // ONLY FOR WINDMILL WEBPACK CHUNKS : registry of all modules
@@ -55,13 +55,13 @@ class App {
     if( android() ) browsers.push('android');
 
     // add browsers classnames on <html> in a single operation
-    html.classList.add(...browsers);
+    getHTML().classList.add(...browsers);
 
     // set scrollbar width in css variables
     const updateScrollbarWidth = () => {
       // show scrollbar & update scrollbar's width
-      html.classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
-      html.style.setProperty('--scrollbar-width', `${scrollbarWidth()}px`);
+      getHTML().classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
+      getHTML().style.setProperty('--scrollbar-width', `${scrollbarWidth()}px`);
     }
 
     updateScrollbarWidth();
@@ -93,7 +93,7 @@ class App {
       async: false,
       prevent: (url, el) => {
         // if admin-bar is shown, prevent all windmill page transition
-        if ( body.classList.contains('admin-bar') ) return true;
+        if ( getBody().classList.contains('admin-bar') ) return true;
 
         if (
           /.pdf/.test(url.toLowerCase()) ||

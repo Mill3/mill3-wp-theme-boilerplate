@@ -1,8 +1,6 @@
-import { body } from "@utils/dom";
+import { getBody } from "@utils/dom";
 
-export const hasAdminBar = () => {
-  body.classList.contains("admin-bar");
-};
+export const hasAdminBar = () => getBody().classList.contains("admin-bar");
 
 export default {
   hasAdminBar

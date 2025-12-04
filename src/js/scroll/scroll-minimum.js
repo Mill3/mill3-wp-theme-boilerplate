@@ -1,7 +1,7 @@
 import EMITTER from "@core/emitter";
 import { STATE } from "@core/state";
 import { SCROLL_MINIMUM, SCROLL_MINIMUM_CLASSNAME } from "@scroll/constants";
-import { body } from "@utils/dom";
+import { getBody } from "@utils/dom";
 
 class ScrollMinimum {
   constructor(scroll) {
@@ -37,7 +37,7 @@ class ScrollMinimum {
       this._hasScrolledAboveThreshold = true;
       STATE.dispatch("SCROLL_MIN", true);
 
-      body.classList.add(SCROLL_MINIMUM_CLASSNAME);
+      getBody().classList.add(SCROLL_MINIMUM_CLASSNAME);
       EMITTER.emit("SiteScroll.scroll-min", true);
     }
     // if scroll is lower than threshold AND was previously greater than threshold
@@ -45,7 +45,7 @@ class ScrollMinimum {
       this._hasScrolledAboveThreshold = false;
       STATE.dispatch("SCROLL_MIN", false);
 
-      body.classList.remove(SCROLL_MINIMUM_CLASSNAME);
+      getBody().classList.remove(SCROLL_MINIMUM_CLASSNAME);
       EMITTER.emit("SiteScroll.scroll-min", false);
     }
   }

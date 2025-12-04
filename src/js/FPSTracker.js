@@ -1,4 +1,4 @@
-import { body } from '@utils/dom';
+import { getBody } from '@utils/dom';
 import { requestInterval } from '@utils/interval';
 import RAF from '@utils/raf';
 
@@ -24,7 +24,7 @@ class FPSTracker {
     this._onRAF = this._onRAF.bind(this);
     this._onUpdate = this._onUpdate.bind(this);
 
-    body.appendChild(this.el);
+    getBody().appendChild(this.el);
     RAF.add(this._onRAF, 100000, true);
     requestInterval(this._onUpdate, 1000 / UPDATE_PER_SECONDS);
   }

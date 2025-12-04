@@ -1,4 +1,4 @@
-import { $$, body } from "@utils/dom";
+import { $$, getBody } from "@utils/dom";
 
 /**
  * Calculate line index of each words in element.
@@ -41,7 +41,9 @@ const words = (el) => {
   target.style.setProperty('--line-total', lines.length);
 };
 
-export default (el = body) => {
+export default (el) => {
+  if( !el ) el = getBody();
+  
   [ ...$$('[data-cutter]', el) ].forEach(el => {
     switch( el.dataset.cutter ) {
       case "words": 

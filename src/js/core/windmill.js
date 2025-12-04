@@ -199,7 +199,7 @@
 * - check custom prevent method
 */
 
-import { $, html, body } from "@utils/dom";
+import { $, getHTML, getBody } from "@utils/dom";
 import { isFunction } from "@utils/is";
 import { on, off } from "@utils/listener";
 import ImagesLoaded from "@utils/imagesloaded";
@@ -269,7 +269,7 @@ class Windmill {
     // collect current data
     this._data.current.url = cleanURL();
     this._data.current.container = $(this._options.container);
-    this._data.current.html = html.innerHTML;
+    this._data.current.html = getHTML().innerHTML;
 
     // save cache for current page
     this.saveCache(this._data.current.url, this._data.current.html);
@@ -486,7 +486,7 @@ class Windmill {
     //-----------------------------------
     
     // add special classname to html
-    html.classList.add(this._options.runningClassname);
+    getHTML().classList.add(this._options.runningClassname);
     
     // restore cache is available and enabled
     if( this._options.cache === true && this._cache.has(cleanURL(url)) ) {
@@ -584,13 +584,13 @@ class Windmill {
     const title = $('title', source);
     
     // apply new classList to body
-    if( classNames ) body.classList = classNames;
+    if( classNames ) getBody().classList = classNames;
     
     // remove all previous inlined style on body
-    if( body.hasAttribute('style') ) body.removeAttribute('style');
+    if( getBody().hasAttribute('style') ) getBody().removeAttribute('style');
     
     // apply new inlined styles to body
-    if( inlinedStyles ) body.style = inlinedStyles;
+    if( inlinedStyles ) getBody().style = inlinedStyles;
 
     // update document title
     if( title ) document.title = title.innerHTML;
@@ -636,7 +636,7 @@ class Windmill {
     this._running = false;
     
     // remove special classname from html
-    html.classList.remove(this._options.runningClassname);
+    getHTML().classList.remove(this._options.runningClassname);
   }
   _switchData() {
     this._data.current.url = this._data.next.url;

@@ -75,7 +75,7 @@
 import EMITTER from "@core/emitter";
 import { OUTVIEW_CLASSNAME, INVIEW_CLASSNAME, INVIEW_ENTER, INVIEW_EXIT, EVENT_ENTER, EVENT_EXIT } from "@scroll/constants";
 import { getCall, getRepeat, getRootMargin, getTarget } from "@scroll/utils";
-import { $$, body } from "@utils/dom";
+import { $$, getBody } from "@utils/dom";
 
 const DEFAULT_OPTIONS = {
   offset: ['-1px', '-1px'],
@@ -97,10 +97,14 @@ class ScrollIO {
     this._onIO = this._onIO.bind(this);
   }
   
-  init($target = body) {
+  init($target) {
+    if( !$target ) $target = getBody();
+
     this._addElements($target);
   }
-  update($target = body) {
+  update($target) {
+    if( !$target ) $target = getBody();
+
     this._addElements($target);
     //this._checkElements();
   }
@@ -133,7 +137,9 @@ class ScrollIO {
     });
   }
   
-  _addElements($target = body) {
+  _addElements($target) {
+    if( !$target ) $target = getBody();
+    
     this._IOs.forEach(io => io.disconnect());
     this._targets.forEach(targets => targets.clear());
     this._elements.clear();

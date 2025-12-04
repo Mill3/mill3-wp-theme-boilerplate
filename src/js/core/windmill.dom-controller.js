@@ -28,7 +28,7 @@
 
 import EMITTER from "@core/emitter";
 import { STATE } from "@core/state";
-import { $$, body } from "@utils/dom";
+import { $$, getBody } from "@utils/dom";
 import { isFunction } from "@utils/is";
 import { PascalCase } from "@utils/string";
 
@@ -73,7 +73,7 @@ export class WindmillDomController {
   }
 
   _createInstances({ next }) {
-    const container = next.container || body;
+    const container = next.container || getBody();
 
     [ container, ...$$(MODULES_SELECTOR, container), ...$$(UI_SELECTOR, container) ].forEach((el) => {
       // get data and module or ui chunk type

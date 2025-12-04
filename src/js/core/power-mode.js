@@ -1,5 +1,5 @@
 import { ios } from "@utils/browser";
-import { $, html } from "@utils/dom";
+import { $, getHTML } from "@utils/dom";
 import { on, off } from "@utils/listener";
 
 export const POWER_MODE_LOW_CLASSNAME = 'power-mode-low';
@@ -31,7 +31,7 @@ class PowerMode {
 
     this._onPlay = null;
 
-    if( this.low ) html.classList.add(POWER_MODE_LOW_CLASSNAME);
+    if( this.low ) getHTML().classList.add(POWER_MODE_LOW_CLASSNAME);
   }
 
   _bindEvents() {

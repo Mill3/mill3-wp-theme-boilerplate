@@ -1,6 +1,6 @@
 import EventEmitter2 from "eventemitter2";
 
-import { html } from "@utils/dom";
+import { getHTML } from "@utils/dom";
 
 export const CLASSNAME = '--js-prefers-color-scheme--';
 export const COLOR_SCHEME_DARK = 'dark';
@@ -34,13 +34,13 @@ class PrefersColorScheme extends EventEmitter2 {
 
   toggle() {
     // remove previous value
-    html.classList.remove(CLASSNAME + this._value);
+    getHTML().classList.remove(CLASSNAME + this._value);
 
     // toggle value
     this._value = this._value === COLOR_SCHEME_DARK ? COLOR_SCHEME_LIGHT : COLOR_SCHEME_DARK;
 
     // set new value
-    html.classList.add(CLASSNAME + this._value);
+    getHTML().classList.add(CLASSNAME + this._value);
 
     // store pref in locale storage
     localStorage.setItem(COLOR_SCHEME_STORAGE, this._value);
@@ -51,7 +51,7 @@ class PrefersColorScheme extends EventEmitter2 {
 
   _onPrefersColorSchemeChange(event) {
     // remove user forced value
-    html.classList.remove(CLASSNAME + COLOR_SCHEME_DARK, CLASSNAME + COLOR_SCHEME_LIGHT);
+    getHTML().classList.remove(CLASSNAME + COLOR_SCHEME_DARK, CLASSNAME + COLOR_SCHEME_LIGHT);
 
     // set new value from mediaQuery
     this._value = event.matches ? COLOR_SCHEME_DARK : COLOR_SCHEME_LIGHT;

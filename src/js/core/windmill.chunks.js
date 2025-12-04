@@ -22,7 +22,7 @@
 import EMITTER from "@core/emitter";
 import { STATE } from "@core/state";
 import ACF from "@utils/acf";
-import { $$, body } from "@utils/dom";
+import { $$, getBody } from "@utils/dom";
 import { isFunction } from "@utils/is";
 import { mobile } from "@utils/mobile";
 
@@ -81,7 +81,7 @@ export class WindmillChunks {
 
   _importChunks({ next }) {
     const promises = [];
-    const container = next.container || body;
+    const container = next.container || getBody();
 
     [ ...$$(MODULES_SELECTOR, container), ...$$(UI_SELECTOR, container), container ].forEach(el => {
 
