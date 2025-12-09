@@ -427,7 +427,7 @@ class Windmill {
     if( el && el.port !== undefined && el.href !== undefined && getURLPort() !== getURLPort(el.href) ) return PREVENT_PORT;
     
     // check if the link has download attribute
-    if( el && el.getAttribute && el.hasAttribute('download') ) return PREVENT_DOWNLOAD;
+    if( el && el.hasAttribute && el.hasAttribute('download') ) return PREVENT_DOWNLOAD;
     
     // check if the link contains [data-windmill-prevent]
     if( el && el.hasAttribute && el.hasAttribute('data-windmill-prevent') ) return PREVENT_DATA_WINDMILL_PREVENT;
