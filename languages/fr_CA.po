@@ -28,7 +28,7 @@ msgid ""
 "We can't process your message. Please review the fields highlighted in red "
 "below."
 msgstr ""
-"Une erreur est servenue. Voir ci-dessous."
+"Une erreur est survenue. Voir ci-dessous."
 
 #: lib/menu.php:36
 msgid "Add to Menu"
