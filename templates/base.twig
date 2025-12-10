@@ -6,11 +6,7 @@
 
 <body class="{{ body_class }} {% block body_extra_class %}{% endblock %}">
 
-  {% if options.gtm_code %}
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ options.gtm_code }}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-  {% endif %}
+  {{ function('mill3wp_body_start') }}
 
   {# {% include 'power-mode.twig' %} #}
   {% include 'site-loader.twig' %}

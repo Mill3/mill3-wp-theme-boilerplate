@@ -1,4 +1,13 @@
 <?php
+
+/*
+ * Custom action to inject code at the beginning of the <body> tag
+ */
+function mill3wp_body_start() {
+    do_action('mill3wp_body_start');
+}
+
+
 /*
  * Change the login logo image
  */
