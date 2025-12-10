@@ -95,6 +95,7 @@ $includes = [
     'lib/post-type.php',
     'lib/rankmath.php',
     'lib/recaptcha.php',
+    'lib/tracking.php',
     //'lib/rive.php',
     'lib/search.php',
     'lib/security.php',
