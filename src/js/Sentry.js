@@ -8,7 +8,7 @@ const DATA = {};
 if (el) {
   DATA["SENTRY_DSN"] = el.getAttribute("value");
   DATA["SENTRY_ENV"] = el.getAttribute("data-env");
-  DATA["RELEASE"] = `js-${Package.name}@${Package.version}`;
+  DATA["RELEASE"] = __SENTRY_RELEASE__ !== undefined ? __SENTRY_RELEASE__ : `js-${Package.name}@${Package.version}`;
 }
 
 // init Sentry data was found
@@ -17,7 +17,7 @@ if ( DATA["SENTRY_DSN"] ) {
     dsn: DATA["SENTRY_DSN"],
     environment: DATA["SENTRY_ENV"],
     release: DATA["RELEASE"],
-    tracesSampleRate: 0.2,
+    tracesSampleRate: 0.1,
     integrations: [
       Sentry.browserTracingIntegration()
     ]

@@ -1,8 +1,11 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import path from "path";
 import pkg from "./package.json";
 
 const THEME_NAME = pkg.name;
+const VERSION = pkg.version;
 const NODE_MODULE_PATH = path.resolve(__dirname, "node_modules");
+const SENTRY_RELEASE_NAME = process.env.SENTRY_RELEASE_NAME || `js-${THEME_NAME}@${VERSION}`;
 const SRC_PATH = path.resolve(__dirname, "src");
 const DEV = process.env.NODE_ENV !== "production";
 const DISTRIBUTION_SCOPES = {
@@ -155,7 +158,6 @@ export default {
         chunkFileNames: (entry) => {
           const defaultName = "assets/[name]-[hash].js";
           const { facadeModuleId } = entry;
-          // console.log('facadeModuleId:', facadeModuleId)
 
           // if no facadeModuleId, return default
           if (!facadeModuleId) return defaultName;
@@ -219,5 +221,17 @@ export default {
       host: "localhost",
       protocol: "ws"
     }
-  }
+  },
+  define: {
+    __SENTRY_RELEASE__: JSON.stringify(SENTRY_RELEASE_NAME),
+  },
+  plugins: [...DISTRIBUTION.sourcemap ? [
+    sentryVitePlugin({
+      org: "mill3-studio",
+      project: "js-mill3wp",
+      release: {
+        name: SENTRY_RELEASE_NAME
+      }
+    })
+  ] : []]
 };
