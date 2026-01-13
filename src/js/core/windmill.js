@@ -53,6 +53,17 @@
 * 
 * It's also very important to note that replacing current `window.location` will not trigger a page transition.
 * It's up to you to perform AJAX request to fulfill the needs of your application.
+*
+* --------------------------------------
+* How to prevent a URL from being cached
+* --------------------------------------
+* Create a custom preventCache method when you initialize windmill.
+*
+* // windmill.init(
+* //    preventCache: (url) => {
+* //        return url.includes('user-profile');
+* //    }
+* // )
 * 
 * 
 * ----------------
@@ -109,6 +120,14 @@
 *      - el [DOMElement] : Element who triggered the action
 *      - event [Event] : Event related to action
 * 
+* - preventCache [function] : 
+*    Custom rules to prevent windmill to cache URL's html response. 
+*    Method must return a boolean (true|false). 
+*    A positive return (true) will result in not caching URL's html response.
+* 
+*    Method will received these params:
+*      - url [string] : URL of the page
+*
 * - runningClassname [string] : Classname added to <html> when Windmill is running. (default: windmill-is-running)
 * - scrollRestoration [boolean] : Use `history.scrollRestoration = "manual"` or not. (default: true)
 * - timeout [integer] : How long (in milliseconds) we should wait for AJAX response before forcing `window.location` to new URL. (default: 5000)
@@ -213,6 +232,7 @@ const DEFAULT_OPTIONS = {
   debug: false,
   preloadImages: true,
   prevent: () => false,
+  preventCache: () => false,
   runningClassname: 'windmill-is-running',
   scrollRestoration: false,
   timeout: 5000,
@@ -391,6 +411,9 @@ class Windmill {
     
     // if already in cache, stop here
     if( this._cache.has(url) ) return;
+
+    // if prevented from caching, stop here
+    if( this._options.preventCache(url) === true ) return;
     
     // save to cache 
     this._cache.set(url, html);
