@@ -69,7 +69,7 @@ function add_to_twig($twig)
             $search_link = get_search_link();
             $search_query = get_search_query();
 
-            return !empty($search_query) ? str_replace($search_query . '/', '', $search_link) : $search_link;
+            return !empty($search_query) ? str_replace(urlencode($search_query) . '/', '', $search_link) : $search_link;
         })
     );
 
