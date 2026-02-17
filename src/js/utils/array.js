@@ -11,7 +11,12 @@ export const unique = (arr) => {
   return [ ...new Set(arr) ];
 }
 
+// compare that content of each index or array are equals via strict equality
+// works only with two one dimensional arrays
+export const isEqual = (arr1, arr2) => arr1.length === arr2.length && arr1.every((val, i) => val === arr2[i]);
+
 export default {
   shuffle,
   unique,
+  isEqual,
 };
