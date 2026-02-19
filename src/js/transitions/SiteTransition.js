@@ -5,12 +5,9 @@ import { moduleDelays } from "./utils";
 const SELECTOR = "[data-site-transition]";
 
 class SiteTransition {
-  constructor() {
-    this.el = $(SELECTOR);
-  }
-
-
   exit() {
+    this.el = $(SELECTOR);
+
     return new Promise(resolve => {
       once(this.el, 'transitionend', resolve);
 

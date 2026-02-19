@@ -5,9 +5,7 @@ import { moduleDelays } from "./utils";
 const SELECTOR = "[data-site-loader]";
 
 class SiteLoader {
-  constructor() {
-    this.el = $(SELECTOR);
-    
+  constructor() {    
     this._resolve = null;
     this._onReadyCompleted = this._onReadyCompleted.bind(this);
   }
@@ -17,6 +15,8 @@ class SiteLoader {
   }
 
   ready() {
+    this.el = $(SELECTOR);
+    
     return new Promise((resolve) => {
       this._resolve = resolve;
 
