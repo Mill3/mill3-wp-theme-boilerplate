@@ -68,6 +68,7 @@ class Twig_Title_Replacements {
     public function add_timber_filters($filters)
     {
         $filters['title_replacements'] = ['callable' => [$this, 'title_replacements']];
+        $filters['title_replacements_aria'] = ['callable' => [$this, 'title_replacements_aria']];
 
         return $filters;
     }
@@ -106,6 +107,39 @@ class Twig_Title_Replacements {
                     break;
                 case 'menu':
                     $data[] = $this->replacement_menu($replacement);
+                    break;
+            }
+        }
+
+        // validate again
+        if ($total_replacements !== count($data)) return $text;
+
+        return vsprintf($text, $data);
+    }
+
+    public function title_replacements_aria($text, $replacements) {
+        if( !$replacements ) return $text;
+
+        $total_replacements = substr_count($text, '%s');
+
+        // if total replacements doesn't match array length,
+        // return text string non transformed because vsprintf or sprintf would fail
+        if ($total_replacements !== count($replacements)) return $text;
+
+        // data array holder
+        $data = [];
+
+        // build aria-label data for each replacement
+        foreach ($replacements as $key => $replacement) {
+            $type = $replacement['type'];
+
+            switch ($type) {
+                //case 'text-switcher': 
+                //    $data[] = $this->replacement_text_switcher($replacement, true);
+                //    break;
+                
+                default: 
+                    $data[] = "";
                     break;
             }
         }
