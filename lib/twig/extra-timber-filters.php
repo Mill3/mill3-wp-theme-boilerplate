@@ -42,6 +42,13 @@ function filter_split_line_breaks($text) {
     return explode("\r\n", $text);
 }
 
+function filter_line_breaks_aria($text) {
+    $text = str_replace(array("\r\n"), ' ', $text);
+    $text = preg_replace('/\s{2,}/', ' ', $text);
+
+    return $text;
+}
+
 /**
  * filter_group_by_key function
  *
