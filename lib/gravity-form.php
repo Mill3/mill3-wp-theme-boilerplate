@@ -33,7 +33,10 @@ function form_submit_button( $button, $form ) {
         'title' => $form['button']['text'],
         'style' => 'cta',
         'classname' => 'gsubmit',
-        'attributes' => array('type="submit"')
+        'attributes' => array(
+            'type="submit"',
+            'onclick="gform.submission.handleButtonClick(this);"',
+        )
     );
 
     return Timber::compile('partial/button.twig', $data);
