@@ -6,6 +6,7 @@ html {
 html,
 body {
   height: 100%;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -22,9 +23,9 @@ body {
 html.--js-scrollbar-hidden {
   overflow: hidden;
 
-  .site-header,
+  /*.site-header,
   .site-nav,
   [data-windmill="wrapper"] {
     width: calc(100vw - var(--scrollbar-width)) !important;
-  }
+  }*/
 }
