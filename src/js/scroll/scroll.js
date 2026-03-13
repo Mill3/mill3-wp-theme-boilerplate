@@ -78,14 +78,13 @@ class Scroll {
     if( !this._data.started || !this._data.isMouseWheeling ) return;
 
     // lerp mouseWheel
-    //this._data.lastScroll = lerp(this._data.lastScroll, this._data.targetScroll, this._options.lerp * delta);
     this._data.lastScroll = lerp2(this._data.lastScroll, this._data.targetScroll, this._options.lerp, delta);
 
     // if target reached, mouse wheel is done
     this._data.isMouseWheeling = Math.abs(this._data.scroll - this._data.targetScroll) > this._options.threshold;
 
     // if target reached, velocity should be 0
-    if( !this._data.isMouseWheeling ) this._data.lastScroll = this._data.scroll;
+    if( !this._data.isMouseWheeling ) this._data.lastScroll = this._data.scroll = this._data.targetScroll;
 
     // smooth scroll to new position
     window.scrollTo({ top: this._data.lastScroll, behavior: 'auto' });
