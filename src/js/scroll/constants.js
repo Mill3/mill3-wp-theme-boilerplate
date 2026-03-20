@@ -15,6 +15,7 @@ export const EVENT_PROGRESS = 'scroll:progress';
 export const SCROLL_MINIMUM = 200;
 export const SCROLL_MINIMUM_CLASSNAME = "--js-scroll-min";
 export const SCROLLBAR_HIDDEN_CLASSNAME = "--js-scrollbar-hidden";
+export const SCROLLBAR_GUTTER_RESET = "--js-scrollbar-gutter-reset";
 
 export const SCROLL_TO_OPTIONS = {
   offset: 0,
@@ -40,5 +41,6 @@ export default {
   SCROLL_MINIMUM,
   SCROLL_MINIMUM_CLASSNAME,
   SCROLLBAR_HIDDEN_CLASSNAME,
+  SCROLLBAR_GUTTER_RESET,
   SCROLL_TO_OPTIONS,
 };

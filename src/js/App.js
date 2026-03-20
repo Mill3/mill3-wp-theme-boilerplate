@@ -21,8 +21,7 @@ import WindmillScroll from "@core/windmill.scroll";
 import WindmillChunks from "@core/windmill.chunks";
 // import WindmillWebpackChunks from "@core/windmill.webpack-chunks";
 // import WindmillDomController from "@core/windmill.dom-controller";
-// import scrollbarWidth from "@core/scrollbar-width";
-// import { SCROLLBAR_HIDDEN_CLASSNAME } from "@scroll/constants";
+import scrollbarWidth from "@core/scrollbar-width";
 import { chrome, edge, firefox, safari, ios, iphone, ipad, android } from "@utils/browser";
 import { getHTML, getBody } from "@utils/dom";
 import transitions from "@transitions";
@@ -57,19 +56,8 @@ class App {
     // add browsers classnames on <html> in a single operation
     getHTML().classList.add(...browsers);
 
-    /*
-    // set scrollbar width in css variables
-    const updateScrollbarWidth = () => {
-      // show scrollbar & update scrollbar's width
-      getHTML().classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
-      getHTML().style.setProperty('--scrollbar-width', `${scrollbarWidth()}px`);
-    }
-    */
-
-    //updateScrollbarWidth();
-
-    // update scrollbar width for each page
-    //windmill.on('entering', updateScrollbarWidth);
+    // set scrollbar's width
+    getHTML().style.setProperty('--scrollbar-width', `${scrollbarWidth()}px`);
 
     // install Windmill's plugins
     // windmill.use( new WindmillRive() );

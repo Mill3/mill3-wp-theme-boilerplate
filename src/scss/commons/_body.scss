@@ -1,12 +1,12 @@
 html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  scrollbar-gutter: stable;
 }
 
 html,
 body {
   height: 100%;
-  scrollbar-gutter: stable;
 }
 
 body {
@@ -23,9 +23,16 @@ body {
 html.--js-scrollbar-hidden {
   overflow: hidden;
 
-  /*.site-header,
-  .site-nav,
-  [data-windmill="wrapper"] {
-    width: calc(100vw - var(--scrollbar-width)) !important;
-  }*/
+  &.--js-scrollbar-gutter-reset {
+    --default-column-width: calc(( 100vw - var(--scrollbar-width) - ( var(--container-fluid-margin) * 2 ) - ( ( var(--default-column-count) - 1 ) * var(--default-column-gap) ) ) / var(--default-column-count) );
+
+    scrollbar-gutter: unset;
+
+    .site-header,
+    .site-nav,
+    .site-footer,
+    [data-windmill="wrapper"] {
+      width: calc(100vw - var(--scrollbar-width)) !important;
+    }
+  }
 }

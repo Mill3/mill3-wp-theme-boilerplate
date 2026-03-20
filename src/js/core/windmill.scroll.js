@@ -1,5 +1,5 @@
 import EMITTER from "@core/emitter";
-import { SCROLLBAR_HIDDEN_CLASSNAME, SCROLL_TO_OPTIONS } from "@scroll/constants";
+import { SCROLLBAR_HIDDEN_CLASSNAME, SCROLLBAR_GUTTER_RESET, SCROLL_TO_OPTIONS } from "@scroll/constants";
 import Scroll from "@scroll/scroll";
 import ScrollDirection from "@scroll/scroll-direction";
 import ScrollIO from "@scroll/scroll-io";
@@ -134,7 +134,7 @@ export class WindmillScroll {
     this._resetScrollModules();
   }
   _onAsyncPageEnter({ next }) {
-    getHTML().classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
+    getHTML().classList.remove(SCROLLBAR_HIDDEN_CLASSNAME, SCROLLBAR_GUTTER_RESET);
 
     this.scroll?.init();
     //this.webgl?.init(next.container);
@@ -163,13 +163,14 @@ export class WindmillScroll {
     this.scroll?.start();
     this.minimum?.start();
 
-    getHTML().classList.remove(SCROLLBAR_HIDDEN_CLASSNAME);
+    getHTML().classList.remove(SCROLLBAR_HIDDEN_CLASSNAME, SCROLLBAR_GUTTER_RESET);
   }
-  _onSiteScrollStop(hideScrollbar = false) {
+  _onSiteScrollStop(hideScrollbar = false, removeStableGutter = false) {
     this.scroll?.stop();
     this.minimum?.stop();
     
-    if( hideScrollbar ) getHTML().classList.add(SCROLLBAR_HIDDEN_CLASSNAME);
+    if( hideScrollbar && removeStableGutter ) getHTML().classList.add(SCROLLBAR_HIDDEN_CLASSNAME, SCROLLBAR_GUTTER_RESET);
+    else if( hideScrollbar ) getHTML().classList.add(SCROLLBAR_HIDDEN_CLASSNAME);
   }
   _onSiteScrollUpdate() {
     // trigger event that scroll update will occur
