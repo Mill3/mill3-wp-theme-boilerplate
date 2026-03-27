@@ -616,7 +616,7 @@ class Windmill {
     if( inlinedStyles ) getBody().style = inlinedStyles;
 
     // update document title
-    if( title ) document.title = title.innerHTML;
+    if( title ) document.title = title.textContent;
     
     // add new content in DOM
     if( this._wrapper && this._data.next.container ) this._wrapper.appendChild(this._data.next.container);
