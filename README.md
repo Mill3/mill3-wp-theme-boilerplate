@@ -43,6 +43,7 @@ Add bin command to your package.json file :
 Then install NodeJS dependencies
 
 ```bash
+nvm use
 npm ci
 ```
 
