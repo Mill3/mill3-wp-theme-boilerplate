@@ -18,16 +18,6 @@
   @return string.unquote($value);
 }
 
-@function font-family($key) {
-  $value: map.get(typography.$font-family, $key);
-
-  @if not $value {
-    @error "font-family `#{$key}` not found in $font-family";
-  }
-
-  @return string.unquote($value);
-}
-
 @function font-size($key) {
   $value: map.get(typography.$font-size, $key);
 
@@ -123,6 +113,10 @@
   @return $value;
 }
 
+@mixin font-weight-variable($key) {
+  font-variation-settings: "wght" font-weight($key);
+}
+
 /// generate-fluid-font-size
 @mixin generate-fluid-font-size($values, $classname: "ffz", $breakpoint: "xs") {
   // Loop over each breakpoint
@@ -143,6 +137,23 @@
             $vw: units.vw(math.div(units.strip($value), grid-breakpoints.$FIGMA_DESKTOP_WIDTH) * 100);
             font-size: min($vw, $value);
           }
+        }
+      }
+  //  }
+  //}
+}
+
+/// generate-font-weight-variable
+@mixin generate-font-weight-variable($values, $classname: "fw", $breakpoint: "xs") {
+  // Loop over each breakpoint
+  //@each $breakpoint in grid-breakpoints.$ffz_breakpoints {
+  //  @include breakpoints.media-breakpoint-up($breakpoint) {
+      $infix: breakpoints.breakpoint-infix($breakpoint, grid-breakpoints.$grid-breakpoints);
+
+      // Loop over each values in map
+      @each $key, $value in $values {
+        .#{$classname}#{$infix}-#{$key} {
+          font-variation-settings: "wght" $key;
         }
       }
   //  }

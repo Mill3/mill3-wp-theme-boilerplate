@@ -55,16 +55,16 @@
   @include variants.generate-variants("width", vars.$sizes, "vw", $breakpoint, "vw");
   // @include variants.generate-variants("min-width", vars.$sizes, "min-w", $breakpoint, "%");
   // @include variants.generate-variants("max-width", vars.$sizes, "max-w", $breakpoint, "%");
-  @include variants.generate-variants("min-width", vars.$sizes, "min-vw", $breakpoint, "vw");
-  @include variants.generate-variants("max-width", vars.$sizes, "max-vw", $breakpoint, "vw");
+  // @include variants.generate-variants("min-width", vars.$sizes, "min-vw", $breakpoint, "vw");
+  // @include variants.generate-variants("max-width", vars.$sizes, "max-vw", $breakpoint, "vw");
 
   // Heights: 2.4kb
   @include variants.generate-variants("height", vars.$sizes, "h", $breakpoint, "%");
   @include variants.generate-variants("height", vars.$sizes, "vh", $breakpoint, "vh");
   // @include variants.generate-variants("min-height", vars.$sizes, "min-h", $breakpoint, "%");
   // @include variants.generate-variants("max-height", vars.$sizes, "max-h", $breakpoint, "%");
-  @include variants.generate-variants("min-height", vars.$sizes, "min-vh", $breakpoint, "vh");
-  @include variants.generate-variants("max-height", vars.$sizes, "max-vh", $breakpoint, "vh");
+  // @include variants.generate-variants("min-height", vars.$sizes, "min-vh", $breakpoint, "vh");
+  // @include variants.generate-variants("max-height", vars.$sizes, "max-vh", $breakpoint, "vh");
 
   // Inset: 0.2kb
   @include variants.generate-variants("inset", vars.$insets, "inset", $breakpoint);
@@ -75,19 +75,20 @@
   @include variants.generate-variants("margin-bottom", vars.$spacers, "mb", $breakpoint);
   @include variants.generate-variants("margin-left", vars.$spacers, "ml", $breakpoint);
   @include variants.generate-variants("margin-right", vars.$spacers, "mr", $breakpoint);
-  //@include variants.generate-variants(("margin-top", "margin-bottom"), vars.$spacers, "my", $breakpoint);
-  //@include variants.generate-variants(("margin-left", "margin-right"), vars.$spacers, "mx", $breakpoint);
+  // @include variants.generate-variants(("margin-top", "margin-bottom"), vars.$spacers, "my", $breakpoint);
+  // @include variants.generate-variants(("margin-left", "margin-right"), vars.$spacers, "mx", $breakpoint);
   @include variants.generate-variants("padding", vars.$spacers, "p", $breakpoint);
   @include variants.generate-variants("padding-top", vars.$spacers, "pt", $breakpoint);
   @include variants.generate-variants("padding-bottom", vars.$spacers, "pb", $breakpoint);
   @include variants.generate-variants("padding-left", vars.$spacers, "pl", $breakpoint);
   @include variants.generate-variants("padding-right", vars.$spacers, "pr", $breakpoint);
-  //@include variants.generate-variants(("padding-top", "padding-bottom"), vars.$spacers, "py", $breakpoint);
-  //@include variants.generate-variants(("padding-left", "padding-right"), vars.$spacers, "px", $breakpoint);
+  // @include variants.generate-variants(("padding-top", "padding-bottom"), vars.$spacers, "py", $breakpoint);
+  // @include variants.generate-variants(("padding-left", "padding-right"), vars.$spacers, "px", $breakpoint);
 
   // Typography: 14kb
   @include variants.generate-variants("font-family", vars.$font-family, "ff", $breakpoint);
   @include variants.generate-variants("font-weight", vars.$font-weight, "fw", $breakpoint);
+  // @include typography.generate-font-weight-variable(vars.$font-weight, "fw", $breakpoint);
   @include variants.generate-variants("text-align", vars.$text-align, "ta", $breakpoint);
   @include variants.generate-variants("font-size", vars.$font-size, "fz", $breakpoint);
   @include variants.generate-variants("font-style", vars.$font-style, "fs", $breakpoint);
@@ -95,7 +96,7 @@
   @include variants.generate-variants("text-transform", vars.$text-transform, "tt", $breakpoint);
   @include variants.generate-variants("text-decoration", vars.$text-decoration, "td", $breakpoint);
   @include variants.generate-variants("letter-spacing", vars.$letter-spacing, "ls", $breakpoint);
-  @include typography.generate-fluid-font-size(vars.$font-size, "ffz", $breakpoint);
+  // @include typography.generate-fluid-font-size(vars.$font-size, "ffz", $breakpoint);
 
   // Visibility: 0.5kb
   @include variants.generate-variants("visibility", vars.$visiblity, "visibility", $breakpoint);
