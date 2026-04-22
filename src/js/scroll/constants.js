@@ -12,7 +12,7 @@ export const EVENT_ENTER = 'scroll:enter';
 export const EVENT_EXIT = 'scroll:exit';
 export const EVENT_PROGRESS = 'scroll:progress';
 
-export const SCROLL_MINIMUM = 200;
+export const SCROLL_MINIMUM = 50;
 export const SCROLL_MINIMUM_CLASSNAME = "--js-scroll-min";
 export const SCROLLBAR_HIDDEN_CLASSNAME = "--js-scrollbar-hidden";
 export const SCROLLBAR_GUTTER_RESET = "--js-scrollbar-gutter-reset";
