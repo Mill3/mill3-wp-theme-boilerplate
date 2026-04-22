@@ -1,6 +1,8 @@
 @use "@mill3-sass-mixins/breakpoints";
 
 :root {
+  interpolate-size: allow-keywords;
+  
   --container-fluid-margin: 12px;
   --container-fluid-sm-margin: 12px;
 
