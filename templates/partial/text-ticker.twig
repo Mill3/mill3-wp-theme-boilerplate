@@ -7,6 +7,7 @@
 {% set direction = direction|default(null) %}
 {% set speed = speed|default(1) %}
 {% set playInView = playInView ?? true %}
+{% set stopOnRollover = stopOnRollover ?? false %}
 {% set inViewOffset = inViewOffset|default(-200) %}
 
 {# force mode css for ACF Preview #}
@@ -31,6 +32,11 @@
   {% set classname = classname|merge(['flex-row', 'align-items-center']) %}
 {% endif %}
 
+{# stopOnRollover only works on JS mode #}
+{% if stopOnRollover and mode != 'js' %}
+  {% set stopOnRollover = false %}
+{% endif %}
+
 {% set attributes = attributes|merge(['style="--speed: ' ~ speed ~ '"']) %}
 
 <div
@@ -43,6 +49,7 @@
   {% endif %}
   data-module="text-ticker"
   data-text-ticker="{{ mode }}"
+  {% if stopOnRollover %}data-text-ticker-stop-on-rollover{% endif %}
   {{ attributes|join(' ') }}
 >
   <{{tagname}} 

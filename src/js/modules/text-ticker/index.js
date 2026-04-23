@@ -1,6 +1,7 @@
 import { INVIEW_ENTER } from "@scroll/constants";
 import { $, $$, rect } from "@utils/dom";
 import ImagesLoaded from "@utils/imagesloaded";
+import { on, off } from "@utils/listener";
 import { lerp2 } from "@utils/math";
 import { mobile } from "@utils/mobile";
 import RAF from "@utils/raf";
@@ -32,6 +33,7 @@ class TextTicker {
     this._direction = this._getDirection();
     this._directionAxis = this._getDirectionAxis();
     this._speed = this._getSpeed();
+    this._stopOnRollover = this.el.hasAttribute('data-text-ticker-stop-on-rollover');
     this._velocity = { target: this._speed * this._direction, current: this._speed * this._direction };
     this._position = 0;
     this._maximum = 0;
@@ -41,6 +43,7 @@ class TextTicker {
     this._inView = false;
     this._paused = false;
     this._imagesLoader = null;
+    this._hovering = false;
 
     this._onScroll = this._onScroll.bind(this);
     this._onRaf = this._onRaf.bind(this);
@@ -50,6 +53,8 @@ class TextTicker {
     this._onResize = this._onResize.bind(this);
     this._onResume = this._onResume.bind(this);
     this._onPause = this._onPause.bind(this);
+    this._onMouseEnter = this._onMouseEnter.bind(this);
+    this._onMouseLeave = this._onMouseLeave.bind(this);
   }
 
   init() {
@@ -86,6 +91,7 @@ class TextTicker {
     this._direction = null;
     this._directionAxis = null;
     this._speed = null;
+    this._stopOnRollover = null;
     this._velocity = null;
     this._position = null;
     this._maximum = null;
@@ -94,6 +100,7 @@ class TextTicker {
     this._ro = null;
     this._inView = null;
     this._imagesLoader = null;
+    this._hovering = null;
 
     this._onScroll = null;
     this._onRaf = null;
@@ -101,6 +108,8 @@ class TextTicker {
     this._onScrollStop = null;
     this._onScrollCall = null;
     this._onResize = null;
+    this._onMouseEnter = null;
+    this._onMouseLeave = null;
   }
   stop() { this._unbindEvents(); }
 
@@ -109,6 +118,12 @@ class TextTicker {
     ResizeOrientation.add(this._onResize);
 
     if (this._wheel) this._wheel?.on();
+
+    if(this._mode === MODE_JS && this._stopOnRollover === true ) {
+      on(this.el, 'mouseenter', this._onMouseEnter);
+      on(this.el, 'mouseleave', this._onMouseLeave);
+    }
+
     if (this._mode === MODE_JS || this._mode === MODE_SCROLL) {
       this.emitter?.on("SiteScroll.start", this._onScrollStart);
       this.emitter?.on("SiteScroll.stop", this._onScrollStop);
@@ -129,6 +144,11 @@ class TextTicker {
       this.emitter?.off("SiteScroll.text-ticker", this._onScrollCall);
       this.emitter?.off("TextTicker.pause", this._onPause);
       this.emitter?.off("TextTicker.resume", this._onResume);
+    }
+
+    if(this._mode === MODE_JS && this._stopOnRollover === true ) {
+      off(this.el, 'mouseenter', this._onMouseEnter);
+      off(this.el, 'mouseleave', this._onMouseLeave);
     }
 
     if (this._wheel) this._wheel?.off();
@@ -169,8 +189,7 @@ class TextTicker {
     }
 
     // lerp velocity
-    //this._velocity.current = lerp(this._velocity.current, this._velocity.target, 0.2 * delta);
-    this._velocity.current = lerp2(this._velocity.current, this._velocity.target, 0.2, delta);
+    this._velocity.current = lerp2(this._velocity.current, this._hovering ? 0 : this._velocity.target, this._hovering ? 0.1 : 0.2, delta);
 
     // update position
     this._position += this._velocity.current;
@@ -232,6 +251,12 @@ class TextTicker {
       this.texts.push(copy);
       this.el.appendChild(copy);
     }
+  }
+  _onMouseEnter() {
+    this._hovering = true;
+  }
+  _onMouseLeave() {
+    this._hovering = false;
   }
 
   _getDirection() {
