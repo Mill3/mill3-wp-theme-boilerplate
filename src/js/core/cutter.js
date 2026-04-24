@@ -1,4 +1,4 @@
-import { $$, getBody } from "@utils/dom";
+import { $, $$, getBody } from "@utils/dom";
 
 /**
  * Calculate line index of each words in element.
