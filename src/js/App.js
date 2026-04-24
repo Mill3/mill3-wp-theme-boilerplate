@@ -10,6 +10,7 @@ import domready from "domready";
 import "@core/hello";
 //import "@core/power-mode";
 import windmill from "@core/windmill";
+//import WindmillButtons from "@core/windmill.buttons";
 //import WindmillCutter from "@core/windmill.cutter";
 //import WindmillFluidTypography from "@core/windmill.fluid-typography";
 import WindmillImgLazyload from "@core/windmill.img-lazyload";
@@ -67,6 +68,7 @@ class App {
     //windmill.use( new WindmillDomController({ modules: Modules, ui: UI }) );
     windmill.use( new WindmillScroll() );
     //windmill.use( new WindmillCutter() );
+    //windmill.use( new WindmillButtons() );
     //windmill.use( new WindmillSplitting() );
     windmill.use( new WindmillImgLazyload() );
     windmill.use( new WindmillPrefetch() );
