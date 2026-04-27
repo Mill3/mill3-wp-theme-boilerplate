@@ -64,6 +64,14 @@ export default class {
     this.rive = new RiveAnimation(this.el);
   }
 
+  load() {
+    if( this.el.hasAttribute('data-lazyload') ) return;
+    if( this.rive.loaded ) return;
+    
+    return new Promise(resolve => {
+      this.rive.once('load', resolve);
+    });
+  }
   init() {
     this._bindEvents();
   }

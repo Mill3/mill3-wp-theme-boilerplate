@@ -10,6 +10,7 @@
 {% set alignment = alignment|default(null) %}
 {% set detectRollover = detectRollover ?? true %}
 {% set playback = playback|default(0) %}
+{% set lazyload = lazyload ?? true %}
 {% set playOnEnter = playOnEnter ?? false %}
 {% set pauseOnExit = pauseOnExit ?? true %}
 
@@ -49,5 +50,6 @@
   {% if alignment %}data-alignment="{{ alignment }}"{% endif %}
   {% if detectRollover %}data-detect-rollover{% endif %}
   {% if playback %}data-playback="{{ playback }}"{% endif %}
+  {% if lazyload %}data-lazyload{% endif %}
   {{ attributes|join(" ") }}
 ></canvas>

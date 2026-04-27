@@ -47,8 +47,9 @@ export class WindmillChunks {
     // when it's time to import scripts, parse & import chunks
     windmill.on('scripts', this._importChunks, this);
 
-    // before windmill ready transition, create modules instances and init modules
+    // before windmill ready transition, create modules instances, load and init modules
     windmill.on('ready', this._createInstances, this);
+    windmill.on('ready', this._loadModules, this);
     windmill.on('ready', this._initModules, this);
 
     // before windmill exit, stop all modules
@@ -60,10 +61,11 @@ export class WindmillChunks {
     // if windmill is async, destroy collected modules after windmill exit
     if( !windmill.async ) windmill.on('exited', this._destroyModules, this);
 
-    // before windmill enter, reset STATE, import chunks, create instances & init modules
+    // before windmill enter, reset STATE, import chunks, create instances, load and init modules
     windmill.on('enter', this._resetState, this);
     windmill.on('enter', this._importChunks, this);
     windmill.on('enter', this._createInstances, this);
+    windmill.on('enter', this._loadModules, this);
     windmill.on('enter', this._initModules, this);
 
     // after windmill exit, destroy all modules
@@ -182,6 +184,15 @@ export class WindmillChunks {
 
 
 
+  _loadModules() {
+    const promises = [];
+
+    [ ...this._modules, ...this._uis ].forEach(({ instance }) => {
+      if( isFunction(instance.load) ) promises.push( instance.load() );
+    });
+
+    return Promise.all(promises);
+  }
   _initModules() {
     [ ...this._modules, ...this._uis ].forEach(({ instance }) => {
       if( isFunction(instance.init) ) instance.init();
