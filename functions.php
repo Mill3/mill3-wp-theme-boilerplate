@@ -260,7 +260,9 @@ class Mill3WP extends Timber\Site
         $functions['get_context'] = ['callable' => function () { return Timber::context(); }];
         $functions['get_options'] = ['callable' => function () { return get_fields('options'); }];
         $functions['is_menu_item'] = ['callable' => function ($item) { return ($item instanceof Timber\MenuItem); }];
+        $functions['get_menu_item_attributes'] = ['callable' => 'Mill3\Twig\get_menu_item_attributes'];
         $functions['get_table_of_contents'] = ['callable' => 'Mill3\Twig\get_table_of_contents'];
+        $functions['module_delay'] = ['callable' => 'Mill3\Twig\module_delay'];
         $functions['get_term_by'] = ['callable' => [Timber::class, 'get_term_by']];
         $functions['get_post_by'] = ['callable' => [Timber::class, 'get_post_by']];
 

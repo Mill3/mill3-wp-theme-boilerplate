@@ -62,3 +62,30 @@ function get_table_of_contents( $postID ) {
 
     return $anchors;
 }
+
+
+// Returns an array of HTML attribute strings for a menu item based on its link, classes, and custom attributes.
+function get_menu_item_attributes( $menuItem ) {
+    $attributes = [];
+    $classnames = $menuItem->classes ? implode(" ", $menuItem->classes) : '';
+
+    // merge custom attributes first
+    if( $menuItem->attr ) $attributes = array_merge($attributes, $menuItem->attr);
+
+    // if link is a #target, use as a scroll-to button
+    if( str_starts_with($menuItem->link, '#') && $menuItem->link !== '#' ) array_push($attributes, 'data-scroll-to="' . $menuItem->link . '"');
+
+    // if lang-item exist in classnames, add language attributes
+    if( str_contains($classnames, 'lang-item') ) array_push($attributes, 'lang="' . $menuItem->lang . '"', 'hreflang="' . $menuItem->lang . '"', 'data-windmill-prevent');
+
+    // if lang-item exist in classnames, set current-page aria
+    if( str_contains($classnames, 'current-menu-item') ) array_push($attributes, 'aria-current="page"');
+
+    return $attributes;
+}
+
+
+// Returns a staggered animation delay (ms) based on the number of truthy items plus an optional extra count.
+function module_delay($items = [], $extra = 0) {
+    return (count(array_filter($items)) + $extra) * 140;
+}
