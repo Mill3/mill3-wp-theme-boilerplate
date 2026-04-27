@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "baseUrl": ".",
+    "paths": {
+      "@npm/*": ["node_modules/*"],
+      "@components/*": ["src/js/components/*"],
+      "@core/*": ["src/js/core/*"],
+      "@modules/*": ["src/js/modules/*"],
+      "@scroll/*": ["src/js/scroll/*"],
+      "@transitions/*": ["src/js/transitions/*"],
+      "@ui/*": ["src/js/ui/*"],
+      "@utils/*": ["src/js/utils/*"],
+      "@vendors/*": ["src/js/vendors/*"]
+    }
+  }
+}
