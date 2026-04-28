@@ -37,8 +37,13 @@ const words = (el) => {
   if( !target ) return;
 
   // pass total vars to target element
-  target.style.setProperty('--word-total', words.length);
-  target.style.setProperty('--line-total', lines.length);
+  let prefix = el.dataset.cutterTargetPrefix;
+
+  if( prefix ) prefix = `${prefix}-`;
+  else prefix = '';
+
+  target.style.setProperty(`--${prefix}word-total`, words.length);
+  target.style.setProperty(`--${prefix}line-total`, lines.length);
 };
 
 export default (el) => {
