@@ -8,6 +8,8 @@ class ScrollCallListener {
   constructor() {
     this.items = new Map();
     this.pausedItems = new Map();
+    this.mutations = new Set();
+    this.mutationObserver = new MutationObserver(this._onMutation.bind(this));
 
     windmill.on('exit', this.reset, this);
 
@@ -18,13 +20,23 @@ class ScrollCallListener {
   }
 
   add(el, module) {
+    // if element has [data-lazyload] attribute but not [data-lazyload-ignore] attribute, watch for mutation to load animation
+    if( el.hasAttribute('data-lazyload') && !el.hasAttribute('data-lazyload-ignore') ) {
+      this.mutations.add(el);
+      this.mutationObserver.observe(el, { attributes: true, attributeFilter: ['data-lazyload'] });
+    }
+
     this.items.set(el, module);
   }
   remove(el) {
+    if( this.mutations.has(el) ) this.mutations.delete(el);
+
     this.items.delete(el);
     this.pausedItems.delete(el);
   }
   reset() {
+    this.mutationObserver.disconnect();
+    this.mutations.clear();
     this.items.clear();
     this.pausedItems.clear();
   }
@@ -54,6 +66,24 @@ class ScrollCallListener {
     // destroy module
     this.items.get(el).destroy();
   }
+  _onMutation(mutations) {
+    for( const mutation of mutations ) {
+      const el = mutation.target;
+
+      // if element has been removed from mutations, continue to next mutation
+      if( !this.mutations.has(el) ) continue;
+
+      // if element has [data-lazyload] attribute, continue to next mutation
+      if( el.hasAttribute('data-lazyload') ) continue;
+
+      // remove element from mutations
+      this.mutations.delete(el);
+
+      // initialize Rive animation
+      const item = this.items.get(el);
+      if( item && item.rive ) item.rive.init();
+    }
+  }
 }
 
 const SCROLL_CALL_LISTENER = new ScrollCallListener();
@@ -69,6 +99,7 @@ export default class {
     if( this.rive.loaded ) return;
     
     return new Promise(resolve => {
+      this.rive.init();
       this.rive.once('load', resolve);
     });
   }

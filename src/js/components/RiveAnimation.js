@@ -90,12 +90,12 @@ class RiveAnimation extends EventEmitter2 {
     this._onLoad = this._onLoad.bind(this);
     this._onResize = this._onResize.bind(this);
     this._onDetectRollover = this._onDetectRollover.bind(this);
-
-    // maybe add a little delay to be able to listen to "load" event
-    this.init();
   }
 
   init() {
+    // do no re-initialized if already done
+    if( this._rive ) return;
+
     const options = { 
       ...DEFAULT_OPTIONS, 
       ...this._options, 
@@ -202,7 +202,7 @@ class RiveAnimation extends EventEmitter2 {
     if( ACF.is_preview ) this.play();
   }
   _onResize(){
-    this._rive.resizeDrawingSurfaceToCanvas(this._dpr);
+    if( this._rive ) this._rive.resizeDrawingSurfaceToCanvas(this._dpr);
   }
   _onDetectRollover(event) {
     const { type, name } = event.data;
