@@ -1,4 +1,4 @@
-import { $, getBody } from "@utils/dom";
+import { $, getHTML } from "@utils/dom";
 import { on, off } from "@utils/listener";
 import { moduleDelays } from "./utils";
 
@@ -12,6 +12,7 @@ class SiteLoader {
 
   loaded() {
     moduleDelays(350, 550);
+    if( !motion_reduced ) getHTML().classList.add('--js-inview-enabled');
   }
 
   ready() {
@@ -21,6 +22,8 @@ class SiteLoader {
       this._resolve = resolve;
 
       on(this.el, 'transitionend', this._onReadyCompleted);
+
+      getHTML().classList.add('--js-ready');
       this.el.classList.add('--js-ready');
     });
   }
@@ -30,9 +33,6 @@ class SiteLoader {
 
     // remove from DOM when completed
     if( this.el ) this.el.remove();
-
-    // add class on body when transition is ready
-    getBody().classList.add("--js-ready");
 
     // resolve transition
     this._resolve();

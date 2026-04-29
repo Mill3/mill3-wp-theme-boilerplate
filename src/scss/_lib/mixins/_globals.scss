@@ -21,11 +21,13 @@ $acfPreview: false !default;
   @if not $acfPreview {
     @include mq.motionNoPref {
       @if $hard {
-        &[data-scroll] {
+        html.--js-inview-enabled &[data-scroll] {
           @content;
         }
       } @else {
-        @content;
+        html.--js-inview-enabled & {
+          @content;
+        }
       }
     }
   }
