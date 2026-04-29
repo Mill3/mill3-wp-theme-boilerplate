@@ -245,7 +245,7 @@ class TextTicker {
 
     while( this.texts.length < quantity ) {
       const copy = this.template.cloneNode(true);
-            copy.setAttribute('aria-hidden', true);
+            //copy.setAttribute('aria-hidden', true);
             copy.style.setProperty('--ticker-index', this.texts.length);
 
       this.texts.push(copy);
