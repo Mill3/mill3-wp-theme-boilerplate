@@ -29,7 +29,7 @@ domready(() => {
     const max = Math.ceil(parent.innerHeight * 2 >> 0);
     const height = document.body.querySelector('[class*="-row-wrapper"], .pb-row').getBoundingClientRect().height;
 
-    window.frameElement.height = Math.max(25, Math.min(max, height));
+    window.frameElement.height = Math.max(20, Math.min(max, height));
   };
 
   const importChunks = () => {
@@ -86,6 +86,9 @@ domready(() => {
       modules[index] = { el: module.el, instance: new klass(module.el, EMITTER) };
     });
   };
+  const loadModules = () => {
+    modules.forEach(({ instance }) => { if( isFunction(instance.load) ) instance.load(); });
+  };
   const initModules = () => {
     modules.forEach(({ instance }) => { if( isFunction(instance.init) ) instance.init(); });
   };
@@ -108,12 +111,14 @@ domready(() => {
       .then(resize)
       .then(importChunks)
       .then(createModuleInstances)
+      .then(loadModules)
       .then(initModules)
       .then(startModules)
       .then(resize);
   } else {
     importChunks()
       .then(createModuleInstances)
+      .then(loadModules)
       .then(initModules)
       .then(startModules)
       .then(resize);

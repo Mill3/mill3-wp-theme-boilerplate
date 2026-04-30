@@ -90,6 +90,8 @@ class RiveAnimation extends EventEmitter2 {
     this._onLoad = this._onLoad.bind(this);
     this._onResize = this._onResize.bind(this);
     this._onDetectRollover = this._onDetectRollover.bind(this);
+
+    if( ACF.is_preview ) this.init();
   }
 
   init() {
