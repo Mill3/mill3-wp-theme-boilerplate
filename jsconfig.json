@@ -14,6 +14,7 @@
       "@core/*": ["src/js/core/*"],
       "@modules/*": ["src/js/modules/*"],
       "@scroll/*": ["src/js/scroll/*"],
+      "@transitions": ["src/js/transitions"],
       "@transitions/*": ["src/js/transitions/*"],
       "@ui/*": ["src/js/ui/*"],
       "@utils/*": ["src/js/utils/*"],
