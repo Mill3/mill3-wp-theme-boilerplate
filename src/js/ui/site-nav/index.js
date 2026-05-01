@@ -72,7 +72,7 @@ class SiteNav {
     getHTML().classList.add(CLASSNAME);
 
     // stop page scroll & site-nav open
-    this.emitter.emit("SiteScroll.stop");
+    this.emitter.emit("SiteScroll.stop", true);
     this.emitter.emit("SiteNav.open");
 
     // inform each triggers that SiteNav is opened
