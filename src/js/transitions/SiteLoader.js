@@ -1,5 +1,6 @@
 import { $, getHTML } from "@utils/dom";
 import { on, off } from "@utils/listener";
+import { motion_reduced } from "@utils/mobile";
 import { moduleDelays } from "./utils";
 
 const SELECTOR = "[data-site-loader]";

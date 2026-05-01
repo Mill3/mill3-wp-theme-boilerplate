@@ -32,4 +32,18 @@ $acfPreview: false !default;
     }
   }
 }
-
+@mixin inViewNative($hard: false) {
+  @if not $acfPreview {
+    @include mq.motionNoPref {
+      @if $hard {
+        html.has-scroll-native.--js-inview-enabled &[data-scroll] {
+          @content;
+        }
+      } @else {
+        html.has-scroll-native.--js-inview-enabled & {
+          @content;
+        }
+      }
+    }
+  }
+}
