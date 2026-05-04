@@ -1,0 +1,11 @@
+.grid-column-default {
+  grid-template-columns: repeat(var(--default-column-count), minmax(0, 1fr));
+}
+
+.col-gap-default {
+  column-gap: var(--default-column-gap);
+}
+
+.col-span-all {
+  grid-column-end: span var(--default-column-count);
+}
