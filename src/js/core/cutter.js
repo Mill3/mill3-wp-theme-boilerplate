@@ -46,13 +46,33 @@ const words = (el) => {
   target.style.setProperty(`--${prefix}line-total`, lines.length);
 };
 
+const chars = (el) => {
+  const chars = [ ...$$('.char', el) ];
+  el.style.setProperty('--char-total', chars.length);
+
+  let target = el.dataset.cutterTarget;
+  if( !target ) return;
+
+  target = $(target);
+  if( !target ) return;
+
+  // pass total vars to target element
+  let prefix = el.dataset.cutterTargetPrefix;
+
+  if( prefix ) prefix = `${prefix}-`;
+  else prefix = '';
+
+  target.style.setProperty(`--${prefix}char-total`, chars.length);
+};
+
 export default (el) => {
   if( !el ) el = getBody();
-  
+
   [ ...$$('[data-cutter]', el) ].forEach(el => {
     switch( el.dataset.cutter ) {
-      case "words": 
-      case "wordsMask": 
+      case "chars": chars(el); break;
+      case "words":
+      case "wordsMask":
       default: words(el);
     }
   });
