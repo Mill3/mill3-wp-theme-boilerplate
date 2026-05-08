@@ -5,7 +5,3 @@
 .col-gap-default {
   column-gap: var(--default-column-gap);
 }
-
-.col-span-all {
-  grid-column-end: span var(--default-column-count);
-}

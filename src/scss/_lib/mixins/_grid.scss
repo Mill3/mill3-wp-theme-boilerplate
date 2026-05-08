@@ -16,6 +16,8 @@
         .col-start#{$infix}-#{$i} { grid-column-start: #{$i}; }
         .col-span#{$infix}-#{$i} { grid-column-end: span #{$i}; }
       }
+
+      .col-span#{$infix}-all { grid-column-end: span var(--default-column-count); }
     //}
   //}
 }
