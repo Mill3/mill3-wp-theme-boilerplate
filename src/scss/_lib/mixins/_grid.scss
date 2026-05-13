@@ -17,6 +17,7 @@
         .col-span#{$infix}-#{$i} { grid-column-end: span #{$i}; }
       }
 
+      .grid-column#{$infix}-default { grid-template-columns: repeat(var(--default-column-count), minmax(0, 1fr)); }
       .col-span#{$infix}-all { grid-column-end: span var(--default-column-count); }
     //}
   //}

@@ -10,5 +10,6 @@ $grid-gaps: (
   24: 24px,
   30: 30px,
   40: 40px,
-  50: 50px
+  50: 50px,
+  default: var(--default-column-gap)
 );
