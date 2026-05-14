@@ -41,6 +41,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
 
             $this->defaults      = array(
                 'show_poster'       => false,
+                'show_mobile_img'   => false,
                 'show_mobile_video' => false,
                 'show_mobile_rive'  => false,
                 'return_format'     => 'array',
@@ -139,11 +140,14 @@ if( !class_exists('MILL3_acf_field_media') ) :
             // allowed files from field settings
             $files = array('file');
             if( $field['show_poster'] ) $files[] = 'poster';
-            if( $field['show_mobile_video'] || $field['show_mobile_rive'] ) $files[] = 'mobile';
+            if( $field['show_mobile_img'] || $field['show_mobile_video'] || $field['show_mobile_rive'] ) $files[] = 'mobile';
 
             // file has value?
             if( $field['value'] && $field['value']['file'] ) {
                 $attachment = acf_get_attachment( $field['value']['file'] );
+
+                // if file is a image, add classname to $controls
+                if( $attachment && $attachment['type'] == 'image' ) $div['class'] .= ' --is-img';
 
                 // if file is a video, add classname to $controls
                 if( $attachment && $attachment['type'] == 'video' ) $div['class'] .= ' --is-video';
@@ -294,9 +298,26 @@ if( !class_exists('MILL3_acf_field_media') ) :
                     'name'         => 'show_poster',
                     'ui'           => 1,
                     'conditions'   => array(
-						'field'    => 'mime_types',
-						'operator' => '==',
-						'value'    => 'mp4',
+                        array('field' => 'mime_types', 'operator' => '==', 'value' => 'mp4'),
+                        array('field' => 'mime_types', 'operator' => '==', 'value' => 'webm'),
+					),
+                )
+            );
+
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'        => __( 'Show mobile image field ?', 'mill3-acf-media' ),
+                    'instructions' => __( 'Allow user to upload a different image for mobile.', 'mill3-acf-media' ),
+                    'type'         => 'true_false',
+                    'name'         => 'show_mobile_img',
+                    'ui'           => 1,
+                    'conditions'   => array(
+                        array('field' => 'mime_types', 'operator' => '==', 'value' => 'jpg'),
+                        array('field' => 'mime_types', 'operator' => '==', 'value' => 'png'),
+                        array('field' => 'mime_types', 'operator' => '==', 'value' => 'gif'),
+                        array('field' => 'mime_types', 'operator' => '==', 'value' => 'svg'),
+                        array('field' => 'mime_types', 'operator' => '==', 'value' => 'webp'),
 					),
                 )
             );
@@ -310,9 +331,8 @@ if( !class_exists('MILL3_acf_field_media') ) :
                     'name'         => 'show_mobile_video',
                     'ui'           => 1,
                     'conditions'   => array(
-						'field'    => 'mime_types',
-						'operator' => '==',
-						'value'    => 'mp4',
+                        array('field' => 'mime_types', 'operator' => '==', 'value' => 'mp4'),
+                        array('field' => 'mime_types', 'operator' => '==', 'value' => 'webm'),
 					),
                 )
             );
