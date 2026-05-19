@@ -299,7 +299,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
                     'ui'           => 1,
                     'conditions'   => array(
                         array('field' => 'mime_types', 'operator' => '==', 'value' => 'mp4'),
-                        array('field' => 'mime_types', 'operator' => '==', 'value' => 'webm'),
+                        //array('field' => 'mime_types', 'operator' => '==', 'value' => 'webm'),
 					),
                 )
             );
@@ -312,13 +312,13 @@ if( !class_exists('MILL3_acf_field_media') ) :
                     'type'         => 'true_false',
                     'name'         => 'show_mobile_img',
                     'ui'           => 1,
-                    'conditions'   => array(
+                    /*'conditions'   => array(
                         array('field' => 'mime_types', 'operator' => '==', 'value' => 'jpg'),
                         array('field' => 'mime_types', 'operator' => '==', 'value' => 'png'),
                         array('field' => 'mime_types', 'operator' => '==', 'value' => 'gif'),
                         array('field' => 'mime_types', 'operator' => '==', 'value' => 'svg'),
                         array('field' => 'mime_types', 'operator' => '==', 'value' => 'webp'),
-					),
+					),*/
                 )
             );
 
@@ -332,7 +332,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
                     'ui'           => 1,
                     'conditions'   => array(
                         array('field' => 'mime_types', 'operator' => '==', 'value' => 'mp4'),
-                        array('field' => 'mime_types', 'operator' => '==', 'value' => 'webm'),
+                        //array('field' => 'mime_types', 'operator' => '==', 'value' => 'webm'),
 					),
                 )
             );
