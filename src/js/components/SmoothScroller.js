@@ -14,6 +14,7 @@ const DEFAULT_OPTIONS = {
   threshold: 0.5,
   firefoxMultiplier: WINDOWS ? 1 : 2.25,
   mouseMultiplier: WINDOWS ? 1 : 0.4,
+  watchResize: true,
 };
 
 class SmoothScroller extends EventEmitter2 {
@@ -42,6 +43,7 @@ class SmoothScroller extends EventEmitter2 {
       prevent: false,
     };
     this._raf = null;
+    this._ro = null;
 
     this._onRAF = this._onRAF.bind(this);
     this._onResize = this._onResize.bind(this);
@@ -54,12 +56,15 @@ class SmoothScroller extends EventEmitter2 {
     this.stop();
     RAF.remove(this._onRAF);
 
+    if( this._ro ) this._ro.disconnect();
+
     this.el = null;
 
     this._data = null;
     this._options = null;
     this._mousewheel = null;
     this._raf = null;
+    this._ro = null;
 
     this._onRAF = null;
     this._onResize = null;
@@ -95,6 +100,9 @@ class SmoothScroller extends EventEmitter2 {
     this._mousewheel.x = this._mousewheel.y =
     this._mousewheel.deltaX = this._mousewheel.deltaY = 0;
   }
+  resize() {
+    this._onResize();
+  }
   scrollTo(y) {
     this.el.scrollTo({ top: y, behavior: 'instant' });
   }
@@ -108,11 +116,18 @@ class SmoothScroller extends EventEmitter2 {
       this.el.addEventListener('mousewheel', this._onMouseWheel, {passive: true});
     }
 
+    if( this._ro ) this._ro.observe(this.el);
+    else if( this._options.watchResize === true ) {
+      this._ro = new ResizeObserver(this._onResize);
+      this._ro.observe(this.el);
+    }
+
     if( this._raf ) this._raf(true);
     else this._raf = RAF.add(this._onRAF, WINDMILL_SCROLL, true);
   }
   _unbindEvents() {
     if( this._raf ) this._raf(false);
+    if( this._ro ) this._ro.unobserve(this.el);
 
     off(this.el, 'scroll', this._onScroll);
 
@@ -148,7 +163,7 @@ class SmoothScroller extends EventEmitter2 {
     this._updateScroll(this._data.lastScroll);
     this._notify();
   }
-  _onResize() {
+  _onResize(entries) {
     this._data.isMouseWheeling = false;
 
     this._calcScrollHeight();
