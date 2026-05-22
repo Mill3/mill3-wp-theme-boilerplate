@@ -31,6 +31,7 @@ class Mill3AbstractPost extends Timber\Post {
             'post_type' => $post_type,
             'posts_per_page' => $count,
             'post__not_in' => $exclude,
+            'ignore_sticky_posts' => true,
             'date_query' => array(
                 array(
                     'before' => array(
@@ -60,6 +61,7 @@ class Mill3AbstractPost extends Timber\Post {
             // update query args
             $args['posts_per_page'] = $difference;
             $args['post__not_in'] = $exclude;
+            $args['ignore_sticky_posts'] = true;
 
             // remove date query
             unset($args['date_query']);
