@@ -4,8 +4,8 @@ import { on, off } from "@utils/listener";
 class Sharing {
   constructor(el) {
     this.el = el;
-    this.copyBtn = $('.sharing__copyBtn');
-    this.copyMessage = $('.sharing__copyMessage');
+    this.copyBtn = $('.sharing__copyBtn', this.el);
+    this.copyMessage = $('.sharing__copyMessage', this.el);
 
     this._copyPromise = null;
     this._copyTick = null;
