@@ -52,6 +52,11 @@
   display: none;
 }
 
+/* if file is image, show mobile field */
+.acf-media-uploader.--is-img .file[data-file="mobile"] {
+  display: block;
+}
+
 /* if file is video, show poster and mobile field */
 .acf-media-uploader.--is-video .file[data-file="poster"],
 .acf-media-uploader.--is-video .file[data-file="mobile"] {

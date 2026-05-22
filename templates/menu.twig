@@ -1,5 +1,8 @@
 {% if menu %}
 
+{% set classname = classname|default(null) %}
+{% set attributes = attributes|default([]) %}
+
 {% set link_template = link_template|default('%s') %}
 {% set empty_link_tag = empty_link_tag|default('button') %}
 {% set ignore_divider = ignore_divider|default(false) %}
@@ -7,7 +10,7 @@
 {% set level = level|default(0) %}
 {% set max_level = max_level|default(999) %}
 
-<ul class="{{ classname }}">
+<ul class="{{ classname }}" {{ attributes|join(' ') }}>
   {% for item in menu %}
     {# if not a divider #}
     {% if item.title != '_divider_' %}

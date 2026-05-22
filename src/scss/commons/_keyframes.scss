@@ -69,7 +69,7 @@
 }
 
 @keyframes color {
-  from { color: var(--color); }
+  from { color: var(--color, currentColor); }
 }
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -79,18 +79,17 @@
   to { opacity: 0; }
 }
 @keyframes translate {
-  from { translate: var(--tx) var(--ty); }
+  from { translate: var(--tx, 0px) var(--ty, 0px); }
 }
 @keyframes scale {
-  from { scale: var(--sx) var(--sy); }
+  from { scale: var(--sx, 1) var(--sy, 1); }
 }
 @keyframes clipPath {
-  from { clip-path: inset(var(--top) var(--right) var(--bottom) var(--left) round var(--radius)); }
-  to { clip-path: inset(0px 0px 0px 0px round var(--radius)); }
+  from { clip-path: inset(var(--top, 0px) var(--right, 0px) var(--bottom, 0px) var(--left, 0px) round var(--radius, 0px)); }
+  to { clip-path: inset(0px 0px 0px 0px round var(--radius, 0px)); }
 }
 
 @keyframes linkRedraw {
-
   from {
     background-size: 0% calc(100% - var(--bottom));
   }
