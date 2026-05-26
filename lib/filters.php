@@ -46,3 +46,19 @@ add_filter( 'jpeg_quality', 'theme_jpeg_quality', 11, 2 );
 // }
 
 // add_filter( 'big_image_size_threshold', 'theme_big_image_size_threshold', 10, 4 );
+
+
+/**
+ * Remove author information from oEmbed response data.
+ */
+function disable_oembed_author( $data ) {
+    if ( isset( $data['author_name'] ) ) {
+        unset( $data['author_name'] );
+    }
+    if ( isset( $data['author_url'] ) ) {
+        unset( $data['author_url'] );
+    }
+    return $data;
+}
+
+add_filter( 'oembed_response_data', 'disable_oembed_author' );
