@@ -1,4 +1,4 @@
-import { $, removeAllChilds } from "@utils/dom";
+import { $, $$, removeAllChilds } from "@utils/dom";
 import { on, off } from "@utils/listener";
 import { motion_reduced } from "@utils/mobile";
 

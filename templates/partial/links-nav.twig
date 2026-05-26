@@ -27,10 +27,17 @@
     {% set title = btn.link.title %}
     {% set target = btn.link.target %}
 
-    {% if url starts with '#' %}
+    {% set is_video = (url ends with '.mp4' or url ends with '.webm') and function('site_url') in url %}
+
+    {% if url starts with '#' or is_video %}
       {# if url is only #, do not handle like a scroll-to button #}
-      {% if url != '#' %}
-        {% set attrs = attrs|merge(['data-scroll-to="' ~ url ~ '"']) %}
+      {% if is_video %}
+        {% set attrs = attrs|merge(['data-site-video-url="' ~ url ~ '"']) %}
+      {% else %}
+        {# if url is only #, do not handle like a scroll-to button #}
+        {% if url != '#' %}
+          {% set attrs = attrs|merge(['data-scroll-to="' ~ url ~ '"']) %}
+        {% endif %}
       {% endif %}
 
       {% include 'partial/button.twig' with {
