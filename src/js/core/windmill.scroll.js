@@ -238,6 +238,8 @@ export class WindmillScroll {
     this._started = false;
   }
   _resetScrollModules() {
+    getHTML().classList.remove(SCROLLBAR_HIDDEN_CLASSNAME, SCROLLBAR_GUTTER_RESET);
+    
     this.scroll?.reset();
     this.io?.reset();
     this.parallax?.reset();
