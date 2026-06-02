@@ -36,7 +36,7 @@
   }
 
   // default theme (we put body in front to override stylesheeet injected after our stylesheet)
-  body &.gravity-theme {
+  body &.gform-theme {
     .gform_fields {
       display: grid;
       grid-template-columns: 1fr;
@@ -127,6 +127,8 @@
 
     .gfield_label {
     }
+
+    &.hidden_label .gfield_label { display: none; }
 
     // field widths available in GF 2.5.x
     &.gfield--width-half {
