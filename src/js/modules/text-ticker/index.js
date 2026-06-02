@@ -3,7 +3,7 @@ import { $, $$, rect } from "@utils/dom";
 import ImagesLoaded from "@utils/imagesloaded";
 import { on, off } from "@utils/listener";
 import { lerp2 } from "@utils/math";
-import { mobile } from "@utils/mobile";
+import { mobile, motion_reduced } from "@utils/mobile";
 import RAF from "@utils/raf";
 import ResizeOrientation from "@utils/resize";
 import Wheel from "@utils/wheel";
@@ -271,7 +271,7 @@ class TextTicker {
     else if( this.el.classList.contains('--direction-top') || this.el.classList.contains('--direction-bottom') ) return 'y';
   }
   _getMode() {
-    if( mobile ) return MODE_CSS;
+    if( mobile || motion_reduced ) return MODE_CSS;
 
     switch( this.el.dataset.textTicker ){
       case MODE_CSS: return MODE_CSS;

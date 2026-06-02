@@ -4,7 +4,7 @@
 {% set icon = icon|default(null) %}
 {% set tagname = tagname|default('button') %}
 
-{% set aria_roles = ['p', 'span', 'div'] %}
+{% set aria_roles = ['p', 'span', 'div', 'time'] %}
 
 {% if id %}
   {% set attributes = attributes|merge(['id="'~ id ~'"']) %}
