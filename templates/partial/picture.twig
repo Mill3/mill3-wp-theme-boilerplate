@@ -52,7 +52,7 @@
   {% set img_attributes = img_attributes|default([]) %}
 
   {% set alt = alt|default('') %}
-  {% set lazyload = lazyload|default(false) %}
+  {% set lazyload = lazyload ?? true %}
 
   <picture class="{{ classname }}" {{ attributes|join(' ') }}>
     {% for src in srcs|reverse %}

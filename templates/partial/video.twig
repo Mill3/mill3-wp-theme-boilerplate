@@ -8,6 +8,7 @@
 {% set src = src|default(null) %}
 {% set src_mobile = src_mobile|default(null) %}
 {% set src_tablet = src_tablet|default(null) %}
+{% set lazyload = lazyload ?? true %}
 {% set muted = muted ?? true %}
 {% set autoplay = autoplay ?? true %}
 {% set preload = preload ?? 'metadata' %}
@@ -43,6 +44,7 @@
   {% if not module or is_preview %}src="{{ src.url }}"{% endif %}
   {% if src and src.width %}width="{{ src.width }}"{% endif %}
   {% if src and src.height %}height="{{ src.height }}"{% endif %}
+  {% if lazyload %}loading="lazy"{% endif %}
   {% if muted %}muted{% endif %}
   {% if autoplay %}autoplay{% else %}preload="{{ preload }}"{% endif %}
   {% if loop %}loop{% endif %}
