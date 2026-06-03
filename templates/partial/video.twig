@@ -4,13 +4,13 @@
 {% set attributes = attributes|default([]) %}
 {% set is_preview = is_preview|default(false) %}
 {% set module = module ?? 'video' %}
-{% set preload = preload ?? 'metadata' %}
 
 {% set src = src|default(null) %}
 {% set src_mobile = src_mobile|default(null) %}
 {% set src_tablet = src_tablet|default(null) %}
 {% set muted = muted ?? true %}
 {% set autoplay = autoplay ?? true %}
+{% set preload = preload ?? 'metadata' %}
 {% set loop = loop ?? true %}
 {% set playsInline = playsInline ?? true %}
 {% set disableRemotePlayback = disableRemotePlayback ?? true %}
