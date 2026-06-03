@@ -4,6 +4,7 @@
 {% set attributes = attributes|default([]) %}
 {% set is_preview = is_preview|default(false) %}
 {% set module = module ?? 'video' %}
+{% set preload = preload ?? 'metadata' %}
 
 {% set src = src|default(null) %}
 {% set src_mobile = src_mobile|default(null) %}
@@ -43,7 +44,7 @@
   {% if src and src.width %}width="{{ src.width }}"{% endif %}
   {% if src and src.height %}height="{{ src.height }}"{% endif %}
   {% if muted %}muted{% endif %}
-  {% if autoplay %}autoplay{% else %}preload="metadata"{% endif %}
+  {% if autoplay %}autoplay{% else %}preload="{{ preload }}"{% endif %}
   {% if loop %}loop{% endif %}
   {% if playsInline %}playsInline{% endif %}
   {% if disableRemotePlayback %}disableRemotePlayback{% endif %}
