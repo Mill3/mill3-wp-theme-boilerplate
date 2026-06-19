@@ -39,6 +39,7 @@ export class WindmillWebpackChunks {
 
     // before windmill ready transition, create modules instances and init modules
     windmill.on('ready', this._createInstances, this);
+    windmill.on('ready', this._loadModules, this);
     windmill.on('ready', this._initModules, this);
 
     // before windmill exit, stop all modules
@@ -54,6 +55,7 @@ export class WindmillWebpackChunks {
     windmill.on('enter', this._resetState, this);
     windmill.on('enter', this._importChunks, this);
     windmill.on('enter', this._createInstances, this);
+    windmill.on('enter', this._loadModules, this);
     windmill.on('enter', this._initModules, this);
 
     // after windmill exit, destroy all modules
@@ -165,6 +167,15 @@ export class WindmillWebpackChunks {
 
 
 
+  _loadModules() {
+    const promises = [];
+
+    [ ...this._modules, ...this._uis ].forEach(({ instance }) => {
+      if( isFunction(instance.load) ) promises.push( instance.load() );
+    });
+
+    return Promise.all(promises);
+  }
   _initModules() {
     [ ...this._modules, ...this._uis ].forEach(({ instance }) => {
       if( isFunction(instance.init) ) instance.init();
