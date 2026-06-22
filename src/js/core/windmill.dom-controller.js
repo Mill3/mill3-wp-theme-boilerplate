@@ -49,6 +49,7 @@ export class WindmillDomController {
   install(windmill) {
     // before windmill ready transition, create instances & init modules
     windmill.on('ready', this._createInstances, this);
+    windmill.on('ready', this._loadModules, this);
     windmill.on('ready', this._initModules, this);
 
     // before windmill exit
@@ -63,6 +64,7 @@ export class WindmillDomController {
     // before windmill enter, reset STATE, create instances & init modules
     windmill.on('enter', this._resetState, this);
     windmill.on('enter', this._createInstances, this);
+    windmill.on('enter', this._loadModules, this);
     windmill.on('enter', this._initModules, this);
 
     // after windmill exit, destroy all modules
@@ -126,7 +128,15 @@ export class WindmillDomController {
 
 
 
+  _loadModules() {
+    const promises = [];
 
+    [ ...this._modules, ...this._uis ].forEach(({ instance }) => {
+      if( isFunction(instance.load) ) promises.push( instance.load() );
+    });
+
+    return Promise.all(promises);
+  }
   _initModules() {
     [ ...this._modules, ...this._uis ].forEach(({ instance }) => {
       if( isFunction(instance.init) ) instance.init();

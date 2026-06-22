@@ -13,9 +13,9 @@
 {# aria-label can't be used with these HTML tags #}
 {% if tagname not in aria_roles %}
   {% if aria_label %}
-    {% set attributes = attributes|merge(['aria-label="'~ aria_label ~'"']) %}
+    {% set attributes = attributes|merge(['aria-label="'~ aria_label|striptags|e('html_attr') ~'"']) %}
   {% else %}
-    {% set attributes = attributes|merge(['aria-label="'~ title ~'"']) %}
+    {% set attributes = attributes|merge(['aria-label="'~ title|striptags|e('html_attr') ~'"']) %}
   {% endif %}
 {% endif %}
 
@@ -29,7 +29,7 @@
 
 <{{ tagname }} class="btn {{ classname }}" {{ attributes|join(" ") }}>
   <span class="btn__bg" aria-hidden="true"></span>
-  <span class="btn__label" aria-hidden="true">{{ title }}</span>
+  <span class="btn__label" aria-hidden="true">{{ title|auto_exponant }}</span>
 
   {% if icon %}
   <span class="btn__icon --{{ icon }}" aria-hidden="true">{{ source('src/svg/' ~ icon ~ '.svg') }}</span>

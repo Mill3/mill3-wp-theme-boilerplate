@@ -32,7 +32,7 @@
   {% set alt = alt|default(default_title)|default('') %}
   {% set attributes = attributes|default([]) %}
   {% set classname = classname|default(null) %}
-  {% set lazyload = lazyload|default(false) %}
+  {% set lazyload = lazyload ?? true %}
   {% set size = size|default('small') %}
   {% set sizes = sizes|default(null) %}
   {% set srcset = srcset ?? true %}

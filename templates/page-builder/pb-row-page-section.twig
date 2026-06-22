@@ -31,7 +31,8 @@
 {% if page_section and content %}
 <div class="pb-row-page-section {{ classname }}" {{ attributes|join(' ') }}>
   {% if is_preview %}
-    {{ function('acf_block_preview', content) }}
+    {# {{ function('acf_block_preview', content) }} #}
+    {{ content }}
   {% else %}
     {{ content }}
   {% endif %}

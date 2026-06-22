@@ -90,3 +90,19 @@ function filter_add_scroll_to($html) {
 
     return $dom->saveHTML();
 }
+
+
+
+/**
+ * Wraps French ordinal suffixes in <sup> tags.
+ * e.g. "1er" → "1<sup>er</sup>", "2ème" → "2<sup>ème</sup>"
+ *
+ * How to use: {{ my_text|auto_exponant }}
+ */
+function filter_auto_exponant(string $text): string {
+    return preg_replace(
+        '/\b(\d+)(i?èr?es?|i?er?|nd?e?s?|èmes?|emes?|e)\b/u',
+        '$1<sup>$2</sup>',
+        $text
+    );
+}

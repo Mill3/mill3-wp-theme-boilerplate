@@ -246,6 +246,7 @@ class Mill3WP extends Timber\Site
         $filters['nl2br_aria'] = ['callable' => 'filter_line_breaks_aria'];
         $filters['group_by_key'] = ['callable' => 'filter_group_by_key'];
         $filters['add_scroll_to'] = ['callable' => 'filter_add_scroll_to'];
+        $filters['auto_exponant'] = ['callable' => 'filter_auto_exponant'];
 
         return $filters;
     }
