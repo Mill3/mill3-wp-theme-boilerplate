@@ -40,7 +40,9 @@ class GridViewer {
     this.el.setAttribute('aria-hidden', true);
 
     this.grid = document.createElement('div');
-    this.grid.classList.add('grid-viewer__grid', 'd-grid', 'position-absolute', 't-0', 'l-0', 'w-100', 'h-100');
+    this.grid.classList.add('grid-viewer__grid', 'd-grid', 'w-100', 'h-100');
+    this.grid.style.maxWidth = `calc(var(--container-max-width) + var(--container-fluid-margin) * 2)`;
+    this.grid.style.margin = `0 auto`;
 
     this.button = document.createElement('button');
     this.button.classList.add('grid-viewer__btn', 'position-absolute', 't-0', 'l-0', 'pointer-events-all');

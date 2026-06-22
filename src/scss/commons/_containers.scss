@@ -1,4 +1,17 @@
 .container-fluid {
   padding-left: var(--container-fluid-margin);
   padding-right: var(--container-fluid-margin);
+
+  max-width: calc(var(--container-max-width) + var(--container-fluid-margin) * 2);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-fluid-sm {
+  padding-left: var(--container-fluid-sm-margin);
+  padding-right: var(--container-fluid-sm-margin);
+
+  max-width: calc(var(--container-max-width) + var(--container-fluid-margin) * 2);
+  margin-left: auto;
+  margin-right: auto;
 }

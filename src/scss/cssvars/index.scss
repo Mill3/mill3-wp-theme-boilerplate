@@ -9,7 +9,10 @@
   --scrollbar-width: 0px; // this variable will be updated by src/js/App.js
   --site-header-spacer-height: 65px;
 
-  --default-column-width: calc(( 100vw - ( var(--container-fluid-margin) * 2 ) - ( ( var(--default-column-count) - 1 ) * var(--default-column-gap) ) ) / var(--default-column-count) );
+  --container-max-width: 1800px;
+  --container-side-offset: max(0px, (100vw - var(--container-max-width) - var(--container-fluid-margin) * 2) / 2);
+
+  --default-column-width: calc(( min(100vw - var(--container-fluid-margin) * 2, var(--container-max-width)) - ( ( var(--default-column-count) - 1 ) * var(--default-column-gap) ) ) / var(--default-column-count) );
   --default-column-count: 4;
   --default-column-gap: 12px;
 
