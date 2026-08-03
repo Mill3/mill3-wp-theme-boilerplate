@@ -6,7 +6,7 @@ import { Rive, EventType, RiveEventType, Layout, Fit, Alignment } from "@rive-ap
 import ACF from "@utils/acf";
 import { firefox } from "@utils/browser"; // only when using webgl2
 import { limit } from "@utils/math";
-import { touch_device } from "@utils/mobile";
+import { motion_reduced, touch_device } from "@utils/mobile";
 import Viewport from "@utils/viewport";
 import ResizeOrientation from "@utils/resize";
 
@@ -165,8 +165,10 @@ class RiveAnimation extends EventEmitter2 {
     if( this._animations ) names = names.concat(this._animations);
     if( this._stateMachines ) names.push(this._stateMachines);
 
-    this._rive.play(names);
-    this._playedOnce = true;
+    if( !motion_reduced ) {
+      this._rive.play(names);
+      this._playedOnce = true;
+    }
  
   }
   pause() {
@@ -183,7 +185,7 @@ class RiveAnimation extends EventEmitter2 {
     if( this._animations ) names = names.concat(this._animations);
     if( this._stateMachines ) names.push(this._stateMachines);
 
-    if( this._rive ) this._rive.play(names);
+    if( this._rive && !motion_reduced ) this._rive.play(names);
   }
   stop() {
     if( this._action !== ACTION_PLAY ) return;

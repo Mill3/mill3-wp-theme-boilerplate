@@ -32,7 +32,7 @@ function head_inject_rive_wasm()
     $href = get_rive_wasm_href();
     if (!$href) return;
 
-    echo "<link name='rive-wasm' href='{$href}' rel='preload' as='fetch' crossOrigin='anonymous' />";
+    echo "<link name='rive-wasm' href='{$href}' rel='preload' as='fetch' type='application/wasm' crossOrigin='anonymous' />";
 }
 
 add_filter('wp_head', __NAMESPACE__ . '\head_inject_rive_wasm', 10, 1);
