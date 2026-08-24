@@ -99,10 +99,22 @@ function filter_add_scroll_to($html) {
  *
  * How to use: {{ my_text|auto_exponant }}
  */
-function filter_auto_exponant(string $text): string {
-    return preg_replace(
+function filter_auto_exponant(string | null $text): string | null {
+    // Guard against null, empty, and non-string values before applying regex replacements.
+    if ($text === null || $text === '') {
+        return null;
+    }
+
+    if (!is_string($text)) {
+        return null;
+    }
+
+    // Use preg_replace to find ordinal suffixes and wrap them in <sup> tags
+    $result = preg_replace(
         '/\b(\d+)(i?èr?es?|i?er?|nd?e?s?|èmes?|emes?|e)\b/u',
         '$1<sup>$2</sup>',
         $text
     );
+
+    return $result !== null ? $result : $text;
 }
