@@ -58,6 +58,6 @@
     "load-google-maps-api": "2.0.2",
     "lottie-web": "5.10.1",
     "splitting": "1.1.0",
-    "swiper": "11.1.9"
+    "swiper": "^12.1.2"
   }
 }
