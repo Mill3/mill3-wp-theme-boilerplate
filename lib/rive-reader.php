@@ -89,6 +89,33 @@ class RiveBinaryReader {
         return null;
     }
 
+    /**
+     * Skip over a property value of the given backing field type, without
+     * needing to know which object/property it belongs to. Mirrors the core
+     * "field type" convention used by the Rive runtime's ToC:
+     * 0 = uint/bool (varuint), 1 = string, 2 = float32, 3 = color.
+     *
+     * @return bool true if the field type was recognized and skipped
+     */
+    public function skipField($fieldType): bool {
+        switch( $fieldType ) {
+            case 0: // uint / bool (varuint, shares id with 64bit uint)
+                $this->readVarUint();
+                return true;
+            case 1: // string
+                $this->readString();
+                return true;
+            case 2: // float32
+                $this->readFloat32();
+                return true;
+            case 3: // color
+                $this->readColor();
+                return true;
+        }
+
+        return false;
+    }
+
     public function didOverflow() {
         return $this->offset >= $this->length;
     }
@@ -152,7 +179,7 @@ class RiveRuntimeHeader {
     public function getPropertyFieldId($propertyKey) {
         if( !array_key_exists($propertyKey, $this->propertyToFieldIndex) ) return -1;
 
-        return $this->propertyToFieldIndex[$propertyKey][1];
+        return $this->propertyToFieldIndex[$propertyKey];
     }
 }
 class RiveFile {
@@ -178,31 +205,35 @@ class RiveFile {
         $coreObjectKey = $reader->readVarUint();
         $object = RiveCoreRegistry::makeCoreInstance($coreObjectKey);
 
-        //echo '<br/><b>coreObjectKey</b>: ' . $coreObjectKey . '<br>';
-
-        // if object key doesn't exist in registry, loop until you reach a terminator
-        if( !$object ) {
-            while( !$reader->didOverflow() ) {
-                $propertyKey = $reader->readVarUint();
-
-                // Terminator. https://media.giphy.com/media/7TtvTUMm9mp20/giphy.gif
-                if( $propertyKey == 0 || $reader->hasError() ) return null;
-            }
-        }
-
-        // loop through artboard properties
+        // loop through object properties. Whether or not $object is a type we
+        // recognize, every property must be consumed (or safely skipped) to
+        // keep the reader aligned with the next object in the stream.
         while( !$reader->didOverflow() ) {
             $propertyKey = $reader->readVarUint();
-            //echo "property: " . $propertyKey;
 
             // Terminator. https://media.giphy.com/media/7TtvTUMm9mp20/giphy.gif
             if( $propertyKey == 0 || $reader->hasError() ) break;
 
-            $object->deserialize($propertyKey, $reader);
+            $handled = $object !== null && $object->deserialize($propertyKey, $reader);
+
+            if( !$handled ) {
+                // Unknown object type, or a property this object doesn't
+                // recognize: fall back to the property's backing field type,
+                // first from our known-property table, then from the file's
+                // own ToC (properties newer exporters flag for forward
+                // compatibility), and skip its payload generically.
+                $fieldType = RiveCoreRegistry::propertyFieldId($propertyKey);
+                if( $fieldType === -1 ) $fieldType = $header->getPropertyFieldId($propertyKey);
+
+                if( $fieldType === -1 || !$reader->skipField($fieldType) ) {
+                    // Can't determine how many bytes to skip: bail rather
+                    // than desyncing every object that follows.
+                    return null;
+                }
+            }
         }
 
         return $object;
-        
     }
 }
 
@@ -214,8 +245,65 @@ class RiveCoreRegistry {
             case RiveImageAsset::$id: return new RiveImageAsset();
             case RiveFileAssetContents::$id: return new RiveFileAssetContents();
         }
-        
+
         return null;
+    }
+
+    /**
+     * Backing field type (0=uint/bool, 1=string, 2=float, 3=color) for every
+     * property key known to this reader, regardless of which object owns it.
+     * Mirrors CoreRegistry::propertyFieldId() in the official Rive runtime:
+     * lets us safely skip a property's payload even when the object it
+     * belongs to isn't one we model (e.g. new object types added by newer
+     * Rive exporters, such as ViewModel/DataBind). List-typed properties
+     * (dependentIds, tagIds, expanded*, selectedAnimations) are intentionally
+     * omitted: they aren't one of the 4 backing types, so an unknown object
+     * carrying one can't be safely skipped generically.
+     */
+    private static $propertyFieldTypes = [
+        4   => 1, // name
+        5   => 0, // parentId
+        130 => 0, // flags
+        6   => 2, // childOrder
+        18  => 2, // opacity
+        15  => 2, // rotation
+        16  => 2, // scaleX
+        17  => 2, // scaleY
+        13  => 2, // x
+        14  => 2, // y
+        176 => 0, // styleValue
+        23  => 0, // blendModeValue
+        129 => 0, // drawableFlags
+        7   => 2, // width
+        8   => 2, // height
+        196 => 0, // clip
+        494 => 0, // styleId
+        706 => 2, // fractionalWidth
+        707 => 2, // fractionalHeight
+        11  => 2, // originX
+        12  => 2, // originY
+        257 => 2, // animationsScrollOffset
+        236 => 0, // defaultStateMachineId
+        583 => 0, // viewModelId
+        584 => 0, // viewModelInstanceId
+        203 => 1, // asset name
+        209 => 0, // asset parentId
+        205 => 2, // asset order
+        204 => 0, // assetId
+        211 => 0, // asset size
+        358 => 0, // exportTypeValue
+        359 => 1, // cdnUuid
+        362 => 1, // cdnBaseUrl
+        207 => 2, // asset width
+        208 => 2, // asset height
+        241 => 0, // format
+        242 => 2, // quality
+        213 => 0, // FileAssetContents assetId
+        212 => 1, // FileAssetContents bytes
+    ];
+
+    public static function propertyFieldId($propertyKey) {
+        return self::$propertyFieldTypes[$propertyKey] ?? -1;
     }
 }
 
