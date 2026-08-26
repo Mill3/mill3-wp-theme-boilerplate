@@ -22,12 +22,6 @@
 // Media query when user's preferred color scheme is dark
 @mixin dark-mode() {
   @media (prefers-color-scheme: dark) {
-    html:not(.--js-prefers-color-scheme--light) & {
-      @content;
-    }
-  }
-
-  html.--js-prefers-color-scheme--dark & {
     @content;
   }
 }
@@ -35,12 +29,6 @@
 // Media query when user's preferred color scheme is light
 @mixin light-mode() {
   @media (prefers-color-scheme: light) {
-    html:not(.--js-prefers-color-scheme--dark) & {
-      @content;
-    }
-  }
-
-  html.--js-prefers-color-scheme--light & {
     @content;
   }
 }
