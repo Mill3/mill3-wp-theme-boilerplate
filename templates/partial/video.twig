@@ -8,6 +8,9 @@
 {% set src = src|default(null) %}
 {% set src_mobile = src_mobile|default(null) %}
 {% set src_tablet = src_tablet|default(null) %}
+{% set src_dark = src_dark|default(null) %}
+{% set src_mobile_dark = src_mobile_dark|default(null) %}
+{% set src_tablet_dark = src_tablet_dark|default(null) %}
 {% set lazyload = lazyload ?? true %}
 {% set muted = muted ?? true %}
 {% set autoplay = autoplay ?? true %}
@@ -53,6 +56,9 @@
   data-src="{{ src.url }}"
   {% if src_mobile %}data-src-mobile="{{ src_mobile.url }}"{% endif %}
   {% if src_tablet %}data-src-tablet="{{ src_tablet.url }}"{% endif %}
+  {% if src_dark %}data-src-dark="{{ src_dark.url }}"{% endif %}
+  {% if src_mobile_dark %}data-src-mobile-dark="{{ src_mobile_dark.url }}"{% endif %}
+  {% if src_tablet_dark %}data-src-tablet-dark="{{ src_tablet_dark.url }}"{% endif %}
   {{ attributes|join(' ') }}
 >
 </video>

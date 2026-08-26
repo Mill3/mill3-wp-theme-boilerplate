@@ -1,6 +1,7 @@
 import PowerMode from "@core/power-mode";
 import Breakpoint from "@utils/breakpoint";
 import { firefox } from "@utils/browser";
+import PrefersColorScheme, { COLOR_SCHEME_DARK } from "@utils/prefers-color-scheme";
 import Viewport from "@utils/viewport";
 
 const BREAKPOINTS = ["(min-width: 768px)", "(min-width: 1200px)"];
@@ -21,6 +22,9 @@ class Video {
     this._src = this.el.dataset.src || this.el.src;
     this._src_mobile = this.el.dataset.srcMobile;
     this._src_tablet = this.el.dataset.srcTablet;
+    this._src_dark = this.el.dataset.srcDark;
+    this._src_mobile_dark = this.el.dataset.srcMobileDark;
+    this._src_tablet_dark = this.el.dataset.srcTabletDark;
     this._poster = this.el.dataset.poster;
     this._powerModeLow = PowerMode.low && ignorePowerMode === false;
 
@@ -60,6 +64,9 @@ class Video {
     this._src = null;
     this._src_mobile = null;
     this._src_tablet = null;
+    this._src_dark = null;
+    this._src_mobile_dark = null;
+    this._src_tablet_dark = null;
     this._poster = null;
     this._bp = null;
     this._powerModeLow = null;
@@ -108,11 +115,26 @@ class Video {
     this.el.currentTime = time;
   }
 
-  _bindEvents() { this._bp?.on(); }
-  _unbindEvents() { this._bp?.off(); }
+  _bindEvents() {
+    this._bp?.on();
+    if( !this._powerModeLow ) PrefersColorScheme.on('change', this._onBreakpointChange);
+  }
+  _unbindEvents() {
+    this._bp?.off();
+    if( !this._powerModeLow ) PrefersColorScheme.off('change', this._onBreakpointChange);
+  }
 
-  // change video src depending on viewport's width
-  _onBreakpointChange() {    
+  // best-fit source for the current viewport width within one pool (mobile < 768, tablet < 1200, desktop >= 1200),
+  // falling back to the next larger size when the closest match isn't defined
+  _pickSrc(mobile, tablet, desktop) {
+    if (Viewport.width < 768) return mobile || tablet || desktop;
+    if (Viewport.width < 1200) return tablet || desktop;
+    return desktop;
+  }
+
+
+  // change video src depending on viewport's width AND change video src depending on prefers-color-scheme
+  _onBreakpointChange() {
     // check if src has changed
     if( this.src === this.el.src ) return;
 
@@ -132,11 +154,19 @@ class Video {
   // getter - setter
   get playing() { return this._action === "play"; }
   get src() {
-    if (!this._src_mobile && !this._src_tablet) return this._src;
+    // if no other sources exists, return default src
+    if (!this._src_mobile && !this._src_tablet && !this._src_dark && !this._src_mobile_dark && !this._src_tablet_dark ) return this._src;
 
-    if( Viewport.width < 768 ) return this._src_mobile ? this._src_mobile : this._src_tablet;
-    else if( Viewport.width < 1200 ) return this._src_tablet ? this._src_tablet : this._src;
-    return this._src;
+    const isDark = PrefersColorScheme.value === COLOR_SCHEME_DARK;
+
+    // prefers-color-scheme takes priority : try the dark pool first, fallback to the light pool
+    // whenever no dark source fits (at any size up to desktop)
+    if (isDark) {
+      const dark = this._pickSrc(this._src_mobile_dark, this._src_tablet_dark, this._src_dark);
+      if (dark) return dark;
+    }
+
+    return this._pickSrc(this._src_mobile, this._src_tablet, this._src);
   }
 }
 
