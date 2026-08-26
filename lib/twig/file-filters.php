@@ -42,6 +42,7 @@ class Twig_File_Filters {
         $filters['is_rive'] = ['callable' => [$this, 'is_rive']];
         $filters['video_aspect_ratio'] = ['callable' => [$this, 'video_aspect_ratio']];
         $filters['rive_aspect_ratio'] = ['callable' => [$this, 'rive_aspect_ratio']];
+        $filters['media_aspect_ratio'] = ['callable' => [$this, 'media_aspect_ratio']];
 
         return $filters;
     }
@@ -153,6 +154,50 @@ class Twig_File_Filters {
         $height = intval(array_key_exists('height', $meta) ? $meta['height'] : 1);
 
         return $width / $height;
+    }
+
+    /**
+     * media_aspect_ratio filter method
+     *
+     * Resolves the aspect ratio of an ACF Media field value ({file, mobile, ...}),
+     * dispatching on each file's datatype (image, video or Rive). When no
+     * dedicated mobile file is set, the main file's ratio is reused.
+     *
+     * @param array $media : ACF Media field value
+     * @return array{file: float, mobile: float}
+     */
+    public function media_aspect_ratio($media) {
+        $empty = array('file' => 0, 'mobile' => 0);
+
+        // validate $media structure : must be an array holding a valid 'file' entry
+        if( !is_array($media) || empty($media['file']) || is_bool($media['file']) ) return $empty;
+
+        $file_ratio = $this->file_aspect_ratio($media['file']);
+
+        // mobile file : fallback to the main file's ratio when not set or invalid
+        $mobile_ratio = ( !empty($media['mobile']) && !is_bool($media['mobile']) )
+            ? $this->file_aspect_ratio($media['mobile'])
+            : $file_ratio;
+
+        return array(
+            'file'   => $file_ratio,
+            'mobile' => $mobile_ratio,
+        );
+    }
+
+
+    /**
+     * Resolve the aspect ratio of a single file, dispatching by datatype (image, video or Rive)
+     *
+     * @param array $file : File array object
+     * @return float
+     */
+    private function file_aspect_ratio($file) {
+        if( $this->is_rive($file) ) return $this->rive_aspect_ratio($file);
+        if( $this->is_video($file) ) return $this->video_aspect_ratio($file);
+
+        $image = \Timber\Timber::get_image($file);
+        return $image ? ($image->aspect() ?? 0) : 0;
     }
 
 
