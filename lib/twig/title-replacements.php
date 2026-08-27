@@ -147,7 +147,13 @@ class Twig_Title_Replacements {
         // validate again
         if ($total_replacements !== count($data)) return $text;
 
-        return vsprintf($text, $data);
+        // replace placholders with replacements data
+        $text = vsprintf($text, $data);
+
+        // replace any run of whitespace with a single space
+        $text = preg_replace('/\s{2,}/', ' ', $text);
+        
+        return $text;
     }
 
     private function replacement_image($replacement) {
