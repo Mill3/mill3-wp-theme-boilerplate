@@ -1,6 +1,7 @@
 import Splitting from "splitting";
 
 import { INVIEW_ENTER, DIRECTION_DOWN } from "@scroll/constants";
+import { getOffset } from "@scroll/utils";
 import { $, rect } from "@utils/dom";
 import { lerp2, limit } from "@utils/math";
 import { mobile } from "@utils/mobile";
@@ -96,12 +97,13 @@ class ScrollingAnimatedText {
   _onResize() {
     const bcr = rect(this.text);
     const translate = getTranslate(this.text);
+    const offset = getOffset(this.text) ?? [0, Viewport.height * 0.3];
         
     let top = bcr.top - translate.y + this._data.scrollY;
     let bottom = Math.min(Infinity, top + bcr.height);
         
-    top   += 0;
-    bottom = Math.min(Infinity, bottom - Viewport.height * 0.3);
+    top   += offset[0];
+    bottom = Math.min(Infinity, bottom - offset[1]);
     
     this._data.top = top;
     this._data.bottom = bottom;
