@@ -14,6 +14,7 @@ import windmill from "@core/windmill";
 //import WindmillCutter from "@core/windmill.cutter";
 //import WindmillFluidTypography from "@core/windmill.fluid-typography";
 import WindmillImgLazyload from "@core/windmill.img-lazyload";
+import WindmillPictureColorScheme from "@core/windmill.picture-color-scheme";
 import WindmillPrefetch from "@core/windmill.prefetch";
 // import WindmillRive from "@core/windmill.rive";
 import WindmillScripts from "@core/windmill.scripts";
@@ -25,6 +26,7 @@ import WindmillChunks from "@core/windmill.chunks";
 import scrollbarWidth from "@core/scrollbar-width";
 import { chrome, edge, firefox, safari, ios, iphone, ipad, android } from "@utils/browser";
 import { getHTML, getBody } from "@utils/dom";
+import "@utils/prefers-color-scheme";
 import transitions from "@transitions";
 
 // ONLY FOR WINDMILL WEBPACK CHUNKS : registry of all modules
@@ -62,6 +64,7 @@ class App {
 
     // install Windmill's plugins
     // windmill.use( new WindmillRive() );
+    windmill.use( new WindmillPictureColorScheme() );
     //windmill.use( new WindmillFluidTypography() );
     windmill.use( new WindmillScripts() );
     windmill.use( new WindmillChunks(Modules, {...module_chunks, ...ui_chunks }) );

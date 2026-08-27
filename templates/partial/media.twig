@@ -1,0 +1,228 @@
+{#
+  Renders an ACF "Media" field value (lib/acf-fields/media/) inside a wrapper tag,
+  dispatching to the right partial based on the main file's datatype.
+
+  Expected `media` shape (see MILL3_acf_field_media): {
+    file:          required, the desktop/default file (image, video or Rive)
+    mobile:        optional, alternate file for narrow viewports
+    file_dark:     optional, alternate file for prefers-color-scheme: dark (not available for Rive)
+    mobile_dark:   optional, dark-mode counterpart of `mobile` (not available for Rive)
+    poster:        optional, poster image for video (not consumed here yet)
+    rive_playback:  0 = Default, 1 = Restart when visible
+  }
+
+  Dispatch:
+  - Rive        -> partial/rive-animation.twig (dark mode handled internally by Rive's own
+                   state machine boolean, see src/js/components/RiveLightDarkMode.js)
+  - video (mp4) -> partial/video.twig, which swaps `mobile`/`file_dark`/`mobile_dark` at
+                   runtime via JS (src/js/components/Video.js), reacting to viewport width
+                   AND PrefersColorScheme changes (including the manual override toggle)
+  - image / svg -> a bespoke <picture> built via partial/picture.twig. Art-direction is
+                   native (CSS `media` on <source>): `mobile` is used for the first 4 slots
+                   of `img_sizes` (breakpoints 0/576/768/1024, i.e. below 1200px) and `file`
+                   for the last 3 (breakpoints 1200/1441/1800). `file_dark`/`mobile_dark` are
+                   wired the same way via picture.twig's `srcs_dark`, using
+                   `media="(prefers-color-scheme: dark)"`. Since that media feature only
+                   reflects the real OS preference, core/windmill.picture-color-scheme.js
+                   rewrites these sources' `media` in JS so the manual PrefersColorScheme
+                   override also works for images (breakpoint clauses are left untouched).
+
+  Params:
+  - media (required): the ACF "Media" field value, see shape above.
+  - attributes (array, default []): raw `key="value"` strings appended to the wrapper tag.
+    When `set_box_aspect_ratio` is enabled, any `style="..."` entry is parsed and merged with
+    the injected `--ratio-*` custom properties instead of being overwritten.
+  - classname (string, default null): extra classes appended to the wrapper's `media` class.
+  - child_classname_prefix (string, default 'media'): prefix used to build the BEM-ish
+    classnames of the rendered child element (`{prefix}__animation`, `{prefix}__video`,
+    `{prefix}__picture`/`{prefix}__img`).
+  - is_preview (bool, default false): forwarded to video_options' `is_preview`, see video.twig.
+  - module: the calling module instance, forwarded to rive/video options (used for their own
+    play/pause/visibility wiring).
+  - tagname (string, default 'figure'): wrapper element tag.
+  - set_box_aspect_ratio (bool, default true): when true, injects `--ratio-xs`/`--ratio-xl`
+    CSS custom properties from `media_aspect_ratio` (lib/twig/file-filters.php) and a
+    `box-auto` class on the wrapper.
+  - lazyload (bool, default true): base value for every branch's own `lazyload` option.
+  - lazyload_target (string|null, default null): CSS selector forwarded as a
+    `data-lazyload-target` attribute to the rive/video/image options.
+  - scroll_target (string|null, default null): CSS selector forwarded as a
+    `data-scroll-target` attribute to the rive/video options.
+  - playOnEnter (bool, default false): forwarded to rive/video options.
+  - pauseOnExit (bool, default true): forwarded to rive/video options.
+  - img_sizes (array, default ['small', null, 'large', null, 'largest', null,
+    'largest-retina']): up to 7 registered WP image size names (see lib/setup.php), one per
+    breakpoint slot [0, 576, 768, 1024, 1200, 1441, 1800]px. `null` skips a slot and reuses
+    the previous size. Only consumed by the image/svg branch, resolved through
+    Timber\Image::src() and forwarded to picture.twig as `srcs`/`srcs_dark`.
+  - img_options (object, default {}): merged over this file's own image defaults (currently
+    just `lazyload`) and forwarded to picture.twig — anything picture.twig accepts can be
+    passed here (e.g. `alt`, `img_attributes`, `attributes`).
+  - rive_options (object, default {}): merged over this file's own Rive defaults (`module`,
+    `stateMachines`, `supportLightDarkMode`, `lazyload`, `playOnEnter`, `pauseOnExit`) and
+    forwarded to rive-animation.twig.
+  - video_options (object, default {}): merged over this file's own video defaults
+    (`is_preview`, `module`, `lazyload`, `playOnEnter`, `pauseOnExit`) and forwarded to
+    video.twig.
+#}
+
+{% if media and media.file %}
+
+{# common options #}
+{% set attributes = attributes|default([]) %}
+{% set classname = classname|default(null) %}
+{% set child_classname_prefix = child_classname_prefix|default('media') %}
+{% set is_preview = is_preview|default(false) %}
+{% set module = module %}
+{% set tagname = tagname|default('figure') %}
+
+{% set set_box_aspect_ratio = set_box_aspect_ratio ?? true %}
+{% set lazyload = lazyload ?? true %}
+{% set lazyload_target = lazyload_target|default(null) %}
+{% set scroll_target = scroll_target|default(null) %}
+{% set playOnEnter = playOnEnter ?? false %}
+{% set pauseOnExit = pauseOnExit ?? true %}
+{% set img_sizes = img_sizes|default(['small', null, 'large', null, 'largest', null, 'largest-retina']) %}
+{% set img_options = img_options|default({}) %}
+{% set rive_options = rive_options|default({}) %}
+{% set video_options = video_options|default({}) %}
+
+{# extracting data from ACF Media field #}
+{% set file = media.file %}
+{% set file_dark = media.file_dark %}
+{% set mobile = media.mobile %}
+{% set mobile_dark = media.mobile_dark %}
+{% set poster = media.poster %}
+{% set rive_playback = media.rive_playback %}
+
+
+{% set default_img_options = {
+  lazyload: lazyload,
+} %}
+
+{% set default_rive_options = {
+  module: module,
+  stateMachines: 'State Machine 1', 
+  supportLightDarkMode: true,
+  lazyload: lazyload,
+  playOnEnter: playOnEnter,
+  pauseOnExit: pauseOnExit,
+} %}
+
+{% set default_video_options = {
+  is_preview: is_preview,
+  module: module,
+  lazyload: lazyload,
+  playOnEnter: playOnEnter,
+  pauseOnExit: pauseOnExit,
+} %}
+
+{# validate that file and mobile are from same type #}
+{% if mobile %}
+  {% if file|is_rive and not mobile|is_rive %}
+    {% set mobile = file %}
+  {% elseif file|is_video and not mobile|is_video %}
+    {% set mobile = file %}
+  {% elseif (file|is_image or file|is_svg) and not (mobile|is_image or mobile|is_svg) %}
+    {% set mobile = file %}
+  {% endif %}
+{% endif %}
+
+{# set lazyload_target to image and Rive if lazyload is enabled #}
+{% if lazyload and lazyload_target %}
+  {% set default_img_options_img_attrs = default_img_options.img_attributes|default([]) %}
+  {% set default_img_options_img_attrs = default_img_options_img_attrs|merge(['data-lazyload-target="' ~ lazyload_target ~ '"']) %}
+  {% set default_img_options = default_img_options|merge({ img_attributes: default_img_options_img_attrs }) %}
+
+  {% set default_rive_options_attrs = default_rive_options.attributes|default([]) %}
+  {% set default_rive_options_attrs = default_rive_options_attrs|merge(['data-lazyload-target="' ~ lazyload_target ~ '"']) %}
+  {% set default_rive_options = default_rive_options|merge({ attributes: default_rive_options_attrs }) %}
+{% endif %}
+
+{# set scroll_target to video and Rive if defined #}
+{% if scroll_target %}
+  {% set default_rive_options_attrs = default_rive_options.attributes|default([]) %}
+  {% set default_rive_options_attrs = default_rive_options_attrs|merge(['data-scroll-target="' ~ scroll_target ~ '"']) %}
+  {% set default_rive_options = default_rive_options|merge({ attributes: default_rive_options_attrs }) %}
+
+  {% set default_video_options_attrs = default_video_options.attributes|default([]) %}
+  {% set default_video_options_attrs = default_video_options_attrs|merge(['data-scroll-target="' ~ scroll_target ~ '"']) %}
+  {% set default_video_options = default_video_options|merge({ attributes: default_video_options_attrs }) %}
+{% endif %}
+
+{# inject box aspect ratio if enabled #}
+{% if set_box_aspect_ratio %}
+  {% set box_aspect_ratio = {file: file, mobile: mobile}|media_aspect_ratio %}
+
+  {# get styles from attributes and convert into array #}
+  {% set styles = attributes|filter(attr => attr starts with 'style=')|first|default('')|replace({'style=': '', '"': '', '\'': ''})|split(';')|map(style => style|trim)|filter(style => style) %}
+  {% set styles = styles|merge(['--ratio-xs:' ~ box_aspect_ratio.mobile, '--ratio-xl:' ~ box_aspect_ratio.file]) %}
+
+  {# merge styles back into attributes #}
+  {% set attributes = attributes|filter(attr => not (attr starts with 'style='))|merge(['style="' ~ styles|join(';') ~ '"']) %}
+  {% set classname = classname|split(' ')|merge(['box-auto'])|join(' ') %}
+{% endif %}
+
+<{{ tagname }} 
+  class="media {{ classname }}" 
+  {{ attributes|join(' ') }}
+>
+  {% if file|is_rive %}
+    {# merge rive_options into default options, then merge required options into final results #}
+    {% set options = default_rive_options|merge(rive_options)|merge({ 
+      src: file, 
+      src_mobile: mobile, 
+      playback: rive_playback, 
+      classname: child_classname_prefix ~ '__animation position-absolute t-0 l-0 w-100 h-100' 
+    }) %}
+
+    {% include 'partial/rive-animation.twig' with options only %}
+  {% elseif file|is_video %}
+    {# merge video_options into default options, then merge required options into final results #}
+    {% set options = default_video_options|merge(video_options)|merge({ 
+      src: file, 
+      src_mobile: mobile, 
+      src_dark: file_dark,
+      src_mobile_dark: mobile_dark,
+      poster: poster,
+      classname: child_classname_prefix ~ '__video video-as-background' 
+    }) %}
+
+    {% include 'partial/video.twig' with options only %}
+  {% else %}
+    {# file is is_image or is_svg: build a bespoke <picture> for optional mobile/dark art-direction #}
+    {% set file = get_image(file) %}
+    {% set mobile = mobile ? get_image(mobile) : file %}
+    {% set file_dark = file_dark ? get_image(file_dark) : file %}
+    {% set mobile_dark = mobile_dark ? get_image(mobile_dark) : file_dark %}
+
+    {% set srcs = [] %}
+    {% set srcs_dark = [] %}
+
+    {# populate srcs and srcs_dark from img_sizes provided #}
+    {% for img_size in img_sizes %}
+      {% if img_size is not null %}
+        {% set src = loop.index0 < 4 ? mobile : file %}
+        {% set src_dark = loop.index0 < 4 ? mobile_dark : file_dark %}
+
+        {% set srcs = srcs|merge([src.src(img_size)]) %}
+        {% set srcs_dark = srcs_dark|merge([src_dark.src(img_size)]) %}
+      {% else %}
+        {% set srcs = srcs|merge([null]) %}
+        {% set srcs_dark = srcs_dark|merge([null]) %}
+      {% endif %}
+    {% endfor %}
+
+    {# merge img_options into default options, then merge required options into final results #}
+    {% set options = default_img_options|merge(img_options)|merge({
+      'srcs': srcs,
+      'srcs_dark': srcs_dark,
+      'classname': child_classname_prefix ~ '__picture position-absolute t-0 l-0 w-100 h-100',
+      'img_classname': child_classname_prefix ~ '__img image-as-background'
+    }) %}
+
+    {% include 'partial/picture.twig' with options only %}
+  {% endif %}
+</{{ tagname }}>
+
+{% endif %}

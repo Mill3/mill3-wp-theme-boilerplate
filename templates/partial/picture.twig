@@ -23,6 +23,7 @@
   ]
 
   The first src is the default value for browser not supporting the feature.
+  Same principles goes for srcs_dark (array of image url per breakpoints)
 #}
 {% if srcs is iterable and not (srcs is empty) %}
   {% set breakpoints = [0, 576, 768, 1024, 1200, 1441, 1800]|reverse %}
@@ -45,6 +46,26 @@
     {% set srcs = srcs|merge(fills) %}
   {% endif %}
 
+  {# handle a sourceset for color-scheme: dark #}
+  {% if srcs_dark is iterable and not (srcs_dark is empty) %}
+    {% if srcs_dark|length > breakpoints|length %}
+      {# trim srcs_dark to not be longer than breakpoints #}
+      {% set srcs_dark = srcs_dark|slice(0, breakpoints|length) %}
+    {% elseif srcs_dark|length < breakpoints|length %}
+      {# extend srcs_dark (with null values) to be the same length than breakpoints #}
+      {% set fills = [] %}
+      {% set quantity = breakpoints|length - srcs_dark|length %}
+
+      {% for i in 1..quantity %}
+        {% set fills = fills|merge([null]) %}
+      {% endfor %}
+
+      {% set srcs_dark = srcs_dark|merge(fills) %}
+    {% endif %}
+  {% else %}
+    {% set srcs_dark = null %}
+  {% endif %}
+
   {% set classname = classname|default(null) %}
   {% set attributes = attributes|default([]) %}
 
@@ -56,6 +77,22 @@
 
   <picture class="{{ classname }}" {{ attributes|join(' ') }}>
     {% for src in srcs|reverse %}
+
+      {# add color-scheme: dark first #}
+      {% if srcs_dark %}
+        {% set src_dark = srcs_dark[loop.revindex0] %}
+
+        {% if src_dark is not null %}
+        <source 
+          srcset="{{ src_dark }}" 
+          {% if loop.last %}
+          media="(prefers-color-scheme: dark)"
+          {% else %}
+          media="(min-width: {{ breakpoints[loop.index0] }}px) and (prefers-color-scheme: dark)"
+          {% endif %}
+        >
+        {% endif %}
+      {% endif %}
 
       {# if src is null or first src, avoid <source> #}
       {% if src is not null and not loop.last %}

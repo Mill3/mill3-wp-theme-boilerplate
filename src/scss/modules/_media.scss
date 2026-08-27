@@ -1,0 +1,20 @@
+@use "@mill3-sass-mixins/breakpoints";
+
+.media {
+  $self: &;
+
+  --ratio-xs: 0;
+  --ratio-xl: 0;
+
+  // default styles
+  &:not([class*=" position-"]) { position: relative; }
+
+  // if set_box_aspect_ratio is enabled
+  &.box-auto {
+    --ratio: var(--ratio-xs);
+
+    @include breakpoints.media-breakpoint-up(xl) {
+      --ratio: var(--ratio-xl);
+    }
+  }
+}
