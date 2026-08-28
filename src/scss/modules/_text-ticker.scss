@@ -1,3 +1,4 @@
+@use "@mill3-sass-mixins/globals";
 @use "@mixins/animations";
 
 
@@ -24,7 +25,7 @@
       animation-iteration-count: infinite;
     }
 
-    @include inView {
+    @include globals.inView {
       .text-ticker__text {
         animation-play-state: paused;
       }

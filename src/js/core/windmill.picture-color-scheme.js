@@ -20,12 +20,13 @@
 import { $$ } from "@utils/dom";
 import PrefersColorScheme, { COLOR_SCHEME_DARK } from "@utils/prefers-color-scheme";
 
-const DARK_SOURCE_SELECTOR = 'picture source[media*="prefers-color-scheme"]';
+const DARK_SOURCE_SELECTOR = 'picture source[media*="prefers-color-scheme"], picture source[data-color-scheme-media-query]';
 
 export class WindmillPictureColorScheme {
 
   constructor() {
     this._sources = [];
+    this._container = null;
 
     this._onColorSchemeChange = this._onColorSchemeChange.bind(this);
   }
@@ -40,58 +41,56 @@ export class WindmillPictureColorScheme {
     windmill.on('added', this._onEntering, this);
   }
 
-  _onInit(data) {
-    this._collect(data.current.container);
+  _onInit({ current }) {
+    this._container = current.container;
+    this._collect(this._container);
+
+    PrefersColorScheme.on('change', this._onColorSchemeChange);
   }
   _onEntering({ next }) {
-    this._collect(next.container);
+    this._container = next.container;
+    this._collect(this._container);
   }
   _onExiting() {
-    this._release();
+    this._container = null;
+    this._sources = [];
+
+    PrefersColorScheme.off('change', this._onColorSchemeChange);
+  }
+  _onColorSchemeChange() {
+    // pick up any dark sources created in JS since the last collect
+    this._collect(this._container);
   }
 
   // find <picture>'s dark sources in container, remember their width-only media, apply current state
   _collect(container) {
     if( !container ) return;
 
-    const sources = [ ...$$(DARK_SOURCE_SELECTOR, container) ];
-    if( !sources.length ) return;
+    this._sources = [ ...$$(DARK_SOURCE_SELECTOR, container) ];
+    if( !this._sources.length ) return;
 
     // strip the (prefers-color-scheme: dark) clause once, keep whatever width clause remains
-    sources.forEach(source => {
-      source._colorSchemeMedia = source.getAttribute('media')
+    this._sources.forEach(source => {
+      // if (prefers-color-scheme: dark) media query is already saved, skip this source
+      if( source.hasAttribute('data-color-scheme-media-query') ) return;
+
+      const colorSchemeMediaQuery = source.getAttribute('media')
         .replace(/\(\s*prefers-color-scheme\s*:\s*dark\s*\)/i, '')
         .replace(/^\s*and\s*|\s*and\s*$/gi, '')
         .trim() || 'all';
+      
+      // save (prefers-color-scheme: dark) media query as data-attribute
+      source.setAttribute('data-color-scheme-media-query', colorSchemeMediaQuery);
     });
 
-    // bind PrefersColorScheme once, the first time we have at least one dark source to manage
-    if( !this._sources.length ) PrefersColorScheme.on('change', this._onColorSchemeChange);
-
-    this._sources = this._sources.concat(sources);
-
-    this._apply(sources);
-  }
-
-  // stop listening & forget sources, page container is about to be removed
-  _release() {
-    if( !this._sources.length ) return;
-
-    PrefersColorScheme.off('change', this._onColorSchemeChange);
-    this._sources = [];
-  }
-
-  _onColorSchemeChange() {
+    // bind PrefersColorScheme
     this._apply(this._sources);
   }
 
   // dark sources match on their width-only media when dark is active, never match otherwise
   _apply(sources) {
     const isDark = PrefersColorScheme.value === COLOR_SCHEME_DARK;
-
-    sources.forEach(source => {
-      source.setAttribute('media', isDark ? source._colorSchemeMedia : 'not all');
-    });
+    sources.forEach(source => source.setAttribute('media', isDark ? source.dataset.colorSchemeMediaQuery : 'not all'));
   }
 }
 

@@ -1,5 +1,6 @@
 import EventEmitter2 from "eventemitter2";
 
+import ACF from "@utils/acf";
 import { getHTML } from "@utils/dom";
 
 export const COLOR_SCHEME_DARK = 'dark';
@@ -26,7 +27,7 @@ class PrefersColorScheme extends EventEmitter2 {
 
     // Check if user has stored a specific color scheme
     // if the stored value is different from the OS default preference, switch current scheme
-    const stored = localStorage.getItem(COLOR_SCHEME_STORAGE);
+    const stored = ACF.is_preview ? null : localStorage.getItem(COLOR_SCHEME_STORAGE);
     
     if( stored ) {
       // if stored value isn't valid OR equal as system's default, remove local storage
@@ -48,11 +49,23 @@ class PrefersColorScheme extends EventEmitter2 {
     if( this._value === this._default ) localStorage.removeItem(COLOR_SCHEME_STORAGE);
     else localStorage.setItem(COLOR_SCHEME_STORAGE, this._value);
 
-    // force color-scheme
-    getHTML().style.setProperty('color-scheme', this._value);
+    // switch theme with ViewTransition if available, otherwise apply theme change immediately
+    if( document.startViewTransition ) {
+      getHTML().style.viewTransitionName = 'prefers-color-scheme';
+      document.startViewTransition(() => {
+        // force color-scheme
+        getHTML().style.setProperty('color-scheme', this._value);
 
-    // dispatch event
-    this.emit('change', this._value);
+        // dispatch event
+        this.emit('change', this._value);
+      });
+    } else {
+      // force color-scheme
+      getHTML().style.setProperty('color-scheme', this._value);
+
+      // dispatch event
+      this.emit('change', this._value);
+    }
   }
 
   _onPrefersColorSchemeChange(event) {
