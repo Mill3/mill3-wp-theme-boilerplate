@@ -16,6 +16,7 @@ const PLUGINS = [
       'clamp': false,
       'hwb-function': false,
       'lab-function': false,
+      'light-dark-function': false,
       'logical-properties-and-values': false,
       'trigonometric-functions': false
     }
