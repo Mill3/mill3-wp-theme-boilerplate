@@ -202,11 +202,9 @@ class ScrollParallax {
           transformDistance = this.scroll.y * element.speed * -1;
           break;
           
-          /*
           case 'elementTop':
-          transformDistance = (scrollBottom - element.top) * element.speed * -1;
+          transformDistance = Math.max(0, scrollBottom - element.top) * element.speed * -1;
           break;
-          */
           
           case 'bottom':
           transformDistance = (this.scroll.limit - scrollBottom + Viewport.height) * element.speed;
