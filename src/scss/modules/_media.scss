@@ -4,6 +4,7 @@
   $self: &;
 
   --ratio-xs: 0;
+  --ratio-md: 0;
   --ratio-xl: 0;
 
   // default styles
@@ -13,6 +14,9 @@
   &.box-auto {
     --ratio: var(--ratio-xs);
 
+    @include breakpoints.media-breakpoint-up(md) {
+      --ratio: var(--ratio-md);
+    }
     @include breakpoints.media-breakpoint-up(xl) {
       --ratio: var(--ratio-xl);
     }

@@ -45,32 +45,39 @@
 .acf-media-uploader .rive-playback {
 }
 
-/* by default, hide poster, mobile, dark mode fields and Rive playback selector */
+/* by default, hide poster, mobile, tablet, dark mode fields and Rive playback selector */
 .acf-media-uploader .file[data-file="poster"],
 .acf-media-uploader .file[data-file="mobile"],
+.acf-media-uploader .file[data-file="tablet"],
 .acf-media-uploader .file[data-file="file_dark"],
 .acf-media-uploader .file[data-file="mobile_dark"],
+.acf-media-uploader .file[data-file="tablet_dark"],
 .acf-media-uploader .rive-playback {
   display: none;
 }
 
-/* if file is image, show mobile and dark mode fields */
+/* if file is image, show mobile, tablet and dark mode fields */
 .acf-media-uploader.--is-img .file[data-file="mobile"],
+.acf-media-uploader.--is-img .file[data-file="tablet"],
 .acf-media-uploader.--is-img .file[data-file="file_dark"],
-.acf-media-uploader.--is-img .file[data-file="mobile_dark"] {
+.acf-media-uploader.--is-img .file[data-file="mobile_dark"],
+.acf-media-uploader.--is-img .file[data-file="tablet_dark"] {
   display: block;
 }
 
-/* if file is video, show poster, mobile and dark mode fields */
+/* if file is video, show poster, mobile, tablet and dark mode fields */
 .acf-media-uploader.--is-video .file[data-file="poster"],
 .acf-media-uploader.--is-video .file[data-file="mobile"],
+.acf-media-uploader.--is-video .file[data-file="tablet"],
 .acf-media-uploader.--is-video .file[data-file="file_dark"],
-.acf-media-uploader.--is-video .file[data-file="mobile_dark"] {
+.acf-media-uploader.--is-video .file[data-file="mobile_dark"],
+.acf-media-uploader.--is-video .file[data-file="tablet_dark"] {
   display: block;
 }
 
-/* if file is riv, show mobile field and Rive playback selector */
+/* if file is riv, show mobile and tablet field + Rive playback selector */
 .acf-media-uploader.--is-rive .file[data-file="mobile"],
+.acf-media-uploader.--is-rive .file[data-file="tablet"],
 .acf-media-uploader.--is-rive .rive-playback {
   display: block;
 }

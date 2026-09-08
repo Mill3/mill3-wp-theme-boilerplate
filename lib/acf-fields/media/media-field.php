@@ -28,7 +28,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
             // env
             $this->env = array(
                 'url'     => site_url( str_replace( ABSPATH, '', __DIR__ ) ), // URL to the field directory.
-                'version' => '1.0', // Replace this with your theme or plugin version constant.
+                'version' => '1.1', // Replace this with your theme or plugin version constant.
             );
 
             // vars
@@ -42,8 +42,11 @@ if( !class_exists('MILL3_acf_field_media') ) :
             $this->defaults      = array(
                 'show_poster'       => false,
                 'show_mobile_img'   => false,
+                'show_tablet_img'   => false,
                 'show_mobile_video' => false,
+                'show_tablet_video' => false,
                 'show_mobile_rive'  => false,
+                'show_tablet_rive'  => false,
                 'show_dark_mode'    => false,
                 'return_format'     => 'array',
 				'library'           => 'all',
@@ -84,6 +87,10 @@ if( !class_exists('MILL3_acf_field_media') ) :
                     'Select mobile Media' => __( 'Select mobile Media', 'mill3-acf-media' ),
 					'Edit mobile Media'   => __( 'Edit mobile Media', 'mill3-acf-media' ),
 					'Update mobile Media' => __( 'Update mobile Media', 'mill3-acf-media' ),
+
+                    'Select tablet Media' => __( 'Select tablet Media', 'mill3-acf-media' ),
+					'Edit tablet Media'   => __( 'Edit tablet Media', 'mill3-acf-media' ),
+					'Update tablet Media' => __( 'Update tablet Media', 'mill3-acf-media' ),
 
                     'Select dark mode Media' => __( 'Select dark mode Media', 'mill3-acf-media' ),
 					'Edit dark mode Media'   => __( 'Edit dark mode Media', 'mill3-acf-media' ),
@@ -150,15 +157,19 @@ if( !class_exists('MILL3_acf_field_media') ) :
             $files = array('file');
             if( $field['show_poster'] ) $files[] = 'poster';
             if( $field['show_mobile_img'] || $field['show_mobile_video'] || $field['show_mobile_rive'] ) $files[] = 'mobile';
+            if( $field['show_tablet_img'] || $field['show_tablet_video'] || $field['show_tablet_rive'] ) $files[] = 'tablet';
             if( $field['show_dark_mode'] ) $files[] = 'file_dark';
             if( $field['show_dark_mode'] && ( $field['show_mobile_img'] || $field['show_mobile_video'] ) ) $files[] = 'mobile_dark';
+            if( $field['show_dark_mode'] && ( $field['show_tablet_img'] || $field['show_tablet_video'] ) ) $files[] = 'tablet_dark';
 
             // readable labels for sub-files (falls back to the raw key when unmapped)
             $file_labels = array(
                 'poster'      => 'poster',
                 'mobile'      => 'mobile',
+                'tablet'      => 'tablet',
                 'file_dark'   => 'dark mode file',
                 'mobile_dark' => 'dark mode mobile',
+                'tablet_dark' => 'dark mode tablet',
             );
 
             // file has value?
@@ -344,6 +355,24 @@ if( !class_exists('MILL3_acf_field_media') ) :
             acf_render_field_setting(
                 $field,
                 array(
+                    'label'        => __( 'Show tablet image field ?', 'mill3-acf-media' ),
+                    'instructions' => __( 'Allow user to upload a different image for tablet.', 'mill3-acf-media' ),
+                    'type'         => 'true_false',
+                    'name'         => 'show_tablet_img',
+                    'ui'           => 1,
+                    'conditions'   => array(
+                        array( array('field' => 'mime_types', 'operator' => '==', 'value' => 'jpg') ),
+                        array( array('field' => 'mime_types', 'operator' => '==', 'value' => 'png') ),
+                        array( array('field' => 'mime_types', 'operator' => '==', 'value' => 'gif') ),
+                        array( array('field' => 'mime_types', 'operator' => '==', 'value' => 'svg') ),
+                        array( array('field' => 'mime_types', 'operator' => '==', 'value' => 'webp') ),
+					),
+                )
+            );
+
+            acf_render_field_setting(
+                $field,
+                array(
                     'label'        => __( 'Show mobile video field ?', 'mill3-acf-media' ),
                     'instructions' => __( 'Allow user to upload a smaller video for mobile.', 'mill3-acf-media' ),
                     'type'         => 'true_false',
@@ -359,10 +388,41 @@ if( !class_exists('MILL3_acf_field_media') ) :
             acf_render_field_setting(
                 $field,
                 array(
+                    'label'        => __( 'Show tablet video field ?', 'mill3-acf-media' ),
+                    'instructions' => __( 'Allow user to upload a smaller video for tablet.', 'mill3-acf-media' ),
+                    'type'         => 'true_false',
+                    'name'         => 'show_tablet_video',
+                    'ui'           => 1,
+                    'conditions'   => array(
+                        array( array('field' => 'mime_types', 'operator' => '==', 'value' => 'mp4') ),
+                        array( array('field' => 'mime_types', 'operator' => '==', 'value' => 'webm') ),
+					),
+                )
+            );
+
+            acf_render_field_setting(
+                $field,
+                array(
                     'label'        => __( 'Show mobile Rive field ?', 'mill3-acf-media' ),
                     'instructions' => __( 'Allow user to upload a smaller Rive animation for mobile.', 'mill3-acf-media' ),
                     'type'         => 'true_false',
                     'name'         => 'show_mobile_rive',
+                    'ui'           => 1,
+                    'conditions'   => array(
+						'field'    => 'mime_types',
+						'operator' => '==',
+						'value'    => 'riv',
+					),
+                )
+            );
+
+            acf_render_field_setting(
+                $field,
+                array(
+                    'label'        => __( 'Show tablet Rive field ?', 'mill3-acf-media' ),
+                    'instructions' => __( 'Allow user to upload a smaller Rive animation for tablet.', 'mill3-acf-media' ),
+                    'type'         => 'true_false',
+                    'name'         => 'show_tablet_rive',
                     'ui'           => 1,
                     'conditions'   => array(
 						'field'    => 'mime_types',
@@ -516,8 +576,10 @@ if( !class_exists('MILL3_acf_field_media') ) :
 						'file' => false,
 						'poster' => false,
 						'mobile' => false,
+                        'tablet' => false,
                         'file_dark' => false,
                         'mobile_dark' => false,
+                        'tablet_dark' => false,
                         'rive_playback' => 0,
 					)
 				);
@@ -559,8 +621,10 @@ if( !class_exists('MILL3_acf_field_media') ) :
                     'file' => false,
                     'poster' => false,
                     'mobile' => false,
+                    'tablet' => false,
                     'file_dark' => false,
                     'mobile_dark' => false,
+                    'tablet_dark' => false,
                     'rive_playback' => 0,
                 )
             );
@@ -579,8 +643,10 @@ if( !class_exists('MILL3_acf_field_media') ) :
             $value["file"] = $format_file($value["file"]);
             $value["poster"] = $format_file($value["poster"]);
             $value["mobile"] = $format_file($value["mobile"]);
+            $value["tablet"] = $format_file($value["tablet"]);
             $value["file_dark"] = $format_file($value["file_dark"]);
             $value["mobile_dark"] = $format_file($value["mobile_dark"]);
+            $value["tablet_dark"] = $format_file($value["tablet_dark"]);
             $value["rive_playback"] = intval($value["rive_playback"]);
 
 			// return
@@ -610,7 +676,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
 
 			// Ensure value is an array.
 			if ( $value ) {
-                foreach(['file', 'poster', 'mobile', 'file_dark', 'mobile_dark'] as $file) {
+                foreach(['file', 'poster', 'mobile', 'tablet', 'file_dark', 'mobile_dark', 'tablet_dark'] as $file) {
                     if( !$value[$file] ) continue;
 
                     // Parse value for id.
@@ -654,10 +720,16 @@ if( !class_exists('MILL3_acf_field_media') ) :
                 'mobile' => array(
                     'type' => array('integer', 'null')
                 ),
+                'tablet' => array(
+                    'type' => array('integer', 'null')
+                ),
                 'file_dark' => array(
                     'type' => array('integer', 'null')
                 ),
                 'mobile_dark' => array(
+                    'type' => array('integer', 'null')
+                ),
+                'tablet_dark' => array(
                     'type' => array('integer', 'null')
                 ),
                 'rive_playback' => array(

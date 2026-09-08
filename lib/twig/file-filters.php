@@ -167,7 +167,7 @@ class Twig_File_Filters {
      * @return array{file: float, mobile: float}
      */
     public function media_aspect_ratio($media) {
-        $empty = array('file' => 0, 'mobile' => 0);
+        $empty = array('file' => 0, 'mobile' => 0, 'tablet' => 0);
 
         // validate $media structure : must be an array holding a valid 'file' entry
         if( !is_array($media) || empty($media['file']) || is_bool($media['file']) ) return $empty;
@@ -179,9 +179,15 @@ class Twig_File_Filters {
             ? $this->file_aspect_ratio($media['mobile'])
             : $file_ratio;
 
+        // tablet file : fallback to the main file's ratio when not set or invalid
+        $tablet_ratio = ( !empty($media['tablet']) && !is_bool($media['tablet']) )
+            ? $this->file_aspect_ratio($media['tablet'])
+            : $file_ratio;
+
         return array(
             'file'   => $file_ratio,
             'mobile' => $mobile_ratio,
+            'tablet' => $tablet_ratio,
         );
     }
 
