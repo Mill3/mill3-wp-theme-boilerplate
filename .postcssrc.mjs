@@ -18,7 +18,8 @@ const PLUGINS = [
       'lab-function': false,
       'light-dark-function': false,
       'logical-properties-and-values': false,
-      'trigonometric-functions': false
+      'trigonometric-functions': false,
+      'cascade-layers': false
     }
   })
 ]
