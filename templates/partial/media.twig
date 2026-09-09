@@ -123,16 +123,24 @@
   pauseOnExit: pauseOnExit,
 } %}
 
-{# validate that file, mobile and tablet are from same type #}
-{% if mobile or tablet %}
-  {% if (file|is_rive and not mobile|is_rive) or (file|is_rive and not tablet|is_rive) %}
+{# validate that file and mobile are from same type #}
+{% if mobile %}
+  {% if file|is_rive and not mobile|is_rive %}
     {% set mobile = file %}
+  {% elseif file|is_video and not mobile|is_video %}
+    {% set mobile = file %}
+  {% elseif (file|is_image or file|is_svg) and not (mobile|is_image or mobile|is_svg) %}
+    {% set mobile = file %}
+  {% endif %}
+{% endif %}
+
+{# validate that file and tablet are from same type #}
+{% if tablet %}
+  {% if file|is_rive and not tablet|is_rive %}
     {% set tablet = file %}
-  {% elseif (file|is_video and not mobile|is_video) or (file|is_video and not tablet|is_video) %}
-    {% set mobile = file %}
+  {% elseif file|is_video and not tablet|is_video %}
     {% set tablet = file %}
-  {% elseif ((file|is_image or file|is_svg) and not (mobile|is_image or mobile|is_svg)) or ((file|is_image or file|is_svg) and not (tablet|is_image or tablet|is_svg)) %}
-    {% set mobile = file %}
+  {% elseif (file|is_image or file|is_svg) and not (tablet|is_image or tablet|is_svg) %}
     {% set tablet = file %}
   {% endif %}
 {% endif %}
