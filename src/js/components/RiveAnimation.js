@@ -6,7 +6,7 @@ import { Rive, EventType, RiveEventType, Layout, Fit, Alignment } from "@rive-ap
 import ACF from "@utils/acf";
 import { firefox } from "@utils/browser"; // only when using webgl2
 import { limit } from "@utils/math";
-import { motion_reduced, touch_device } from "@utils/mobile";
+import { mobile, motion_reduced, touch_device } from "@utils/mobile";
 import Viewport from "@utils/viewport";
 import ResizeOrientation from "@utils/resize";
 
@@ -61,6 +61,9 @@ class RiveAnimation extends EventEmitter2 {
 
     // set default dpr if doesn't specified
     if( !this._dpr ) this._dpr = Viewport.devicePixelRatio;
+
+    // force DPR to minimum 2 on mobile
+    if( this._dpr && mobile ) this._dpr = Math.max(this._dpr, 2);
 
     // set limit around dpr
     if( this._dpr ) this._dpr = limit(MIN_DEVICE_PIXEL_RATIO, Math.min(MAX_DEVICE_PIXEL_RATIO, Viewport.devicePixelRatio), this._dpr);
@@ -204,6 +207,7 @@ class RiveAnimation extends EventEmitter2 {
     this.emit("load", this);
 
     if( ACF.is_preview ) this.play();
+    if( this._action === ACTION_PLAY ) this.play();
   }
   _onResize(){
     if( this._rive ) this._rive.resizeDrawingSurfaceToCanvas(this._dpr);
