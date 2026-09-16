@@ -13,7 +13,7 @@
   <ol>
     {% for anchor in anchors %}
     <li>
-      <a href="#{{ anchor.ID }}" data-scroll-to="#{{ anchor.ID }}">{{ anchor.title }}</a>
+      <a href="#toc-{{ anchor.ID }}" data-scroll-to="#toc-{{ anchor.ID }}">{{ anchor.title }}</a>
 
       {% if anchor.children %}
         {{ _self.toc(anchor.children) }}

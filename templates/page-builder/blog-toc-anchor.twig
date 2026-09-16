@@ -18,7 +18,7 @@
 {% set title = fields.title|default('blog-toc-anchor' ~ random()) %}
 
 <div
-  id="{{ title|slugify }}"
+  id="toc-{{ title|slugify }}"
   class="blog-toc-anchor w-0 h-0 {{ classname }}"
   aria-hidden="true"
   data-title="{{ title|e('html') }}"
