@@ -50,6 +50,8 @@ export class WindmillPictureColorScheme {
   _onEntering({ next }) {
     this._container = next.container;
     this._collect(this._container);
+
+    PrefersColorScheme.on('change', this._onColorSchemeChange);
   }
   _onExiting() {
     this._container = null;
