@@ -62,6 +62,9 @@ if( !DEV ) {
           /^bg-gray-/,
           /^gray-/,
           /^--/,
+          /^:is/,
+          /^hsfc/,
+          /~hs-/,
           // add more here if needed
         ],
         deep: [
@@ -70,8 +73,19 @@ if( !DEV ) {
           /^btn/,
           /^gform/,
           /^gfield/,
-          /^swiper/
+          /^swiper/,
+          /hsfc/,
+          /hs-/,
         ],
+        greedy: [
+          // blossom-carousel toggles has-snap/has-repeat/has-overflow attributes at runtime,
+          // so purgecss never finds them in source and strips their rules without this
+          /blossom/
+        ],
+        variables: [
+          /^--hsf/,
+          /^--hs-/,
+        ]
       }
     })
   )
