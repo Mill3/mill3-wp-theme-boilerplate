@@ -61,6 +61,10 @@ function setup()
     // http://codex.wordpress.org/Post_Thumbnails
     // http://codex.wordpress.org/Function_Reference/set_post_thumbnail_size
     // http://codex.wordpress.org/Function_Reference/add_image_size
+    // add_image_size('thumb', 150);  // defined in CMS Media Settings
+    // add_image_size('medium', 300); // defined in CMS Media Settings
+    // add_image_size('medium_large', 768); // predefinded size by Wordpress
+    // add_image_size('large', 1024); // defined in CMS Media Settings
     add_image_size('pixel', 100);
     add_image_size('small', 576);
     add_image_size('large', 1024);
