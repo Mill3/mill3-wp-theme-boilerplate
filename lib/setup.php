@@ -64,6 +64,7 @@ function setup()
     add_image_size('pixel', 100);
     add_image_size('small', 576);
     add_image_size('large', 1024);
+    add_image_size('desktop', 1440);
     add_image_size('largest', 1800);
     add_image_size('largest-retina', 2800);
     add_image_size('full', '');
