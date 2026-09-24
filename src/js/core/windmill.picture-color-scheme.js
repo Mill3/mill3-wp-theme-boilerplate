@@ -17,7 +17,7 @@
 * @preferred
 */
 
-import { $$ } from "@utils/dom";
+import { $$, getBody } from "@utils/dom";
 import PrefersColorScheme, { COLOR_SCHEME_DARK } from "@utils/prefers-color-scheme";
 
 const DARK_SOURCE_SELECTOR = 'picture source[media*="prefers-color-scheme"], picture source[data-color-scheme-media-query]';
@@ -26,7 +26,6 @@ export class WindmillPictureColorScheme {
 
   constructor() {
     this._sources = [];
-    this._container = null;
 
     this._onColorSchemeChange = this._onColorSchemeChange.bind(this);
   }
@@ -41,34 +40,26 @@ export class WindmillPictureColorScheme {
     windmill.on('added', this._onEntering, this);
   }
 
-  _onInit({ current }) {
-    this._container = current.container;
-    this._collect(this._container);
-
+  _onInit() {
+    this._collect();
     PrefersColorScheme.on('change', this._onColorSchemeChange);
   }
-  _onEntering({ next }) {
-    this._container = next.container;
-    this._collect(this._container);
-
+  _onEntering() {
+    this._collect();
     PrefersColorScheme.on('change', this._onColorSchemeChange);
   }
   _onExiting() {
-    this._container = null;
     this._sources = [];
-
     PrefersColorScheme.off('change', this._onColorSchemeChange);
   }
   _onColorSchemeChange() {
     // pick up any dark sources created in JS since the last collect
-    this._collect(this._container);
+    this._collect();
   }
 
-  // find <picture>'s dark sources in container, remember their width-only media, apply current state
-  _collect(container) {
-    if( !container ) return;
-
-    this._sources = [ ...$$(DARK_SOURCE_SELECTOR, container) ];
+  // find <picture>'s dark sources in <body>, remember their width-only media, apply current state
+  _collect() {
+    this._sources = [ ...$$(DARK_SOURCE_SELECTOR, getBody()) ];
     if( !this._sources.length ) return;
 
     // strip the (prefers-color-scheme: dark) clause once, keep whatever width clause remains
