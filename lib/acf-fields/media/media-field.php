@@ -28,7 +28,7 @@ if( !class_exists('MILL3_acf_field_media') ) :
             // env
             $this->env = array(
                 'url'     => site_url( str_replace( ABSPATH, '', __DIR__ ) ), // URL to the field directory.
-                'version' => '1.1', // Replace this with your theme or plugin version constant.
+                'version' => '1.2', // Replace this with your theme or plugin version constant.
             );
 
             // vars
