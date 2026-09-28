@@ -101,8 +101,6 @@ function assets()
     // *****
 
     // webpack dev
-
-    // webpack dev
     if (VITE_DEV_SERVER === true) {
         $vite_url = "http://localhost:{$_ENV['VITE_DEV_SERVER_PORT']}";
 
@@ -179,6 +177,10 @@ add_action('wp_head', function() {
     if( VITE_DEV_SERVER === true ) return;
 
     // get assets to preload
+    $scripts = array(
+        "mill3/js" => Assets\Asset_File_path('src/js/App.js'),
+        // add more here
+    );
     $styles = array(
         "mill3/css" => Assets\Asset_File_path('src/scss/App.scss'),
         // add more here
@@ -196,6 +198,11 @@ add_action('wp_head', function() {
     // add styles to preload
     foreach ($styles as $stylesheet) {
         echo "<link rel='preload' href='{$stylesheet}' as='style'>";
+    }
+
+    // add scripts to preload
+    foreach ($scripts as $script) {
+        echo "<link rel='preload' href='{$script}' as='script'>";
     }
 }, 5);
 
