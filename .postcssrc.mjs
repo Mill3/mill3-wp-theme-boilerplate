@@ -13,6 +13,7 @@ const PLUGINS = [
       supports: true
     },
     features: {
+      'custom-properties': false,
       'clamp': false,
       'hwb-function': false,
       'lab-function': false,
