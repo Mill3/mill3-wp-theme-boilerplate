@@ -29,7 +29,7 @@
 
 <{{ tagname }} class="btn {{ classname }}" {{ attributes|join(" ") }}>
   <span class="btn__bg" aria-hidden="true"></span>
-  <span class="btn__label" aria-hidden="true">{{ title|auto_exponant }}</span>
+  <span class="btn__label" aria-hidden="true">{{ title }}</span>
 
   {% if icon %}
   <span class="btn__icon --{{ icon }}" aria-hidden="true">{{ source('src/svg/' ~ icon ~ '.svg') }}</span>
