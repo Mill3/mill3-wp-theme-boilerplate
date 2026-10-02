@@ -4,7 +4,7 @@
 {# prepare JSON data #}
 {% set loading = loading|default('external') %}
 {% set path = loading == 'external' ? lottie.url : null %}
-{% set animationData = loading == 'inline' ? source(Image(lottie).file_loc, ignore_missing = true) : null %}
+{% set animationData = loading == 'inline' ? lottie|inlined_source : null %}
 
 {# settings #}
 {% set autoplay = autoplay|default(false) %}

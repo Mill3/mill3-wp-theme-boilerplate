@@ -206,6 +206,31 @@ class Twig_File_Filters {
         return $image ? ($image->aspect() ?? 0) : 0;
     }
 
+    /**
+     * inlined_source filter method
+     *
+     * Inline an SVG or JSON media file: {{ get_image(id)|inlined_source }} / {{ attachment_id|inlined_source }}
+     * Replaces source(get_image(x).file_loc), which breaks on hosts with open_basedir (Twig loader path resolution).
+     * Only .svg / .json files under wp-content are read, anything else returns ''.
+     *
+     * @param \Timber\Attachment|array|int|string $file : Timber attachment/image, ACF file array, attachment ID or path
+     * @return string
+     */
+    public function inlined_source($file) {
+        if( $file instanceof \Timber\Attachment ) $path = $file->file_loc(); // Timber\Image extends Attachment
+        elseif( is_array($file) && isset($file['ID']) ) $path = get_attached_file((int) $file['ID']);
+        elseif( is_numeric($file) ) $path = get_attached_file((int) $file);
+        else $path = is_string($file) ? $file : '';
+
+        $path = $path ? realpath($path) : false;
+        $root = realpath(WP_CONTENT_DIR);
+        if( !$path || !$root || !str_starts_with($path, $root . DIRECTORY_SEPARATOR) ) return '';
+        if( !in_array(strtolower(pathinfo($path, PATHINFO_EXTENSION)), array('svg', 'json'), true) ) return '';
+
+        return (string) file_get_contents($path);
+    }
+
+
 
 }
 
