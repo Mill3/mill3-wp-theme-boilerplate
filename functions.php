@@ -77,7 +77,6 @@ Timber::$dirname = array('templates');
 $includes = [
     'lib/acf.php',
     'lib/actions.php',
-    'lib/admin-status.php',
     'lib/assets.php',
     'lib/cache.php',
     'lib/class-walker-nav-menu-edit.php',
