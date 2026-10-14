@@ -3,6 +3,13 @@ import easings from "@utils/easings";
 import { mobile } from "@utils/mobile";
 import Viewport from "@utils/viewport";
 
+const run_calculations = (str) => {
+  str = str.replace(/(\d+(?:\.\d+)?)%/g, (_, percent) => String((percent * Viewport.height) / 100));
+  str = str.replaceAll('px', '');
+
+  return eval(str);
+};
+
 export const getCall = (el) => {
   // if element doesn't have [data-scroll-call] attribute, return null
   if( !el.hasAttribute('data-scroll-call') ) return null;
@@ -41,13 +48,37 @@ export const getOffset = (el) => {
     // if offset is not a string, continue to next value
     if( typeof value != 'string' ) return;
 
+    // if value starts with calc(), perform complex calculation
+    const calc = value.trim().match(/^calc\((.*)\)$/);
+    if( calc ) offset[index] = run_calculations( calc[1] );
     // if value is in percentage, convert to pixels from vh
-    if( value.includes('%') ) offset[index] = parseInt( (value.replace('%', '') * Viewport.height) / 100 );
+    else if( value.includes('%') ) offset[index] = parseInt( (value.replace('%', '') * Viewport.height) / 100 );
     // otherwise, parse as integer
     else offset[index] = parseInt(value);
   });
   
   return offset;
+};
+
+export const getRoot = (el) => {
+  // if element doesn't have [data-scroll-root] attribute, return
+  if( !el.hasAttribute('data-scroll-root') ) return null;
+
+  const root = el.dataset.scrollRoot;
+
+  // if root is undefined, return null
+  if( root == undefined ) return null;
+
+  // try to select root in DOM
+  const rootEl = $(root);
+
+  // if root is not found in DOM, throw a warning a return null
+  if( !rootEl ) {
+    console.error(`Cannot find ${el}'s data-scroll-root=${root} in DOM.`);
+    return null;
+  }
+
+  return root;
 };
 
 export const getRootMargin = (el) => {
@@ -65,7 +96,10 @@ export const getRootMargin = (el) => {
     // if offset is not a string, continue to next value
     if( typeof value != 'string' ) return;
 
-    if( value.includes('%') ) offset[index] = `${parseInt(value) * -1}%`;
+    // if value starts with calc(), perform complex calculation
+    const calc = value.trim().match(/^calc\((.*)\)$/);
+    if( calc ) offset[index] = `${run_calculations( calc[1] ) * -1}px`;
+    else if( value.includes('%') ) offset[index] = `${parseInt(value) * -1}%`;
     else offset[index] = `${parseInt(value) * -1}px`;
   });
 
@@ -139,6 +173,7 @@ export default {
   getCall,
   getDelay,
   getOffset,
+  getRoot,
   getRootMargin,
   getPosition,
   getProgress,

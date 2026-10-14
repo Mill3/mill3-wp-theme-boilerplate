@@ -23,7 +23,8 @@
 *                                 Offset is composed of 2 comma separated values. 
 *                                 First value is added to [data-scroll-target] in-view calculation.
 *                                 Second value is added to [data-scroll-target] out-view calculation.
-*                                 Values can be integer or percentage.
+*                                 Values can be integer or percentage or calc().
+*                                 You can perform calculations by using calc(100% - 100px);
 *                                 Percentage is relative to viewport height, otherwise it's absolute pixels.
 * 
 * [data-scroll-call] (string) : Event dispatched when element enter/exit viewport.
@@ -32,6 +33,8 @@
 *                               E.g. [data-scroll-call="event1,event2,event3"]
 *                               
 * [data-scroll-repeat] (boolean) : Add .is-inview classname and execute [data-scroll-call] every time element enter/exit viewport. (default = false)
+* 
+* [data-scroll-root] (string) : CSS Selector specifying which HTML element to use as IntersectionObserver root.
 * 
 * 
 * Example:
@@ -43,6 +46,7 @@
 *  data-scroll-offset="100px,25%"
 *  data-scroll-call="HelloWorld"
 *  data-scroll-repeat="true"
+*  data-scroll-root=".my-root"
 * >
 *  Hello World
 * </h1>
@@ -74,8 +78,8 @@
 
 import EMITTER from "@core/emitter";
 import { OUTVIEW_CLASSNAME, INVIEW_CLASSNAME, INVIEW_ENTER, INVIEW_EXIT, EVENT_ENTER, EVENT_EXIT } from "@scroll/constants";
-import { getCall, getRepeat, getRootMargin, getTarget } from "@scroll/utils";
-import { $$, getBody } from "@utils/dom";
+import { getCall, getRepeat, getRoot, getRootMargin, getTarget } from "@scroll/utils";
+import { $, $$, getBody } from "@utils/dom";
 
 const DEFAULT_OPTIONS = {
   offset: ['-1px', '-1px'],
@@ -144,16 +148,18 @@ class ScrollIO {
     this._targets.forEach(targets => targets.clear());
     this._elements.clear();
     
-    $$('[data-scroll]', $target).forEach(element => {      
+    $$('[data-scroll]', $target).forEach(element => {    
+      const root = getRoot(element) ?? null;  
       const rootMargin = getRootMargin(element) ?? this._options.offset;
       const repeat = getRepeat(element) ?? this._options.repeat;
       const target = getTarget(element) ?? element;
       const call = getCall(element);
-      const io = this._getIOFromRootMargin(rootMargin);
+      const io = this._getIOFromRootMargin(rootMargin, root);
       
       const data = {
         el: element,
         target,
+        root,
         rootMargin,
         repeat,
         call,
@@ -193,7 +199,7 @@ class ScrollIO {
 
         // save new rootMargin, IO & update inView status
         element.rootMargin = rootMargin;
-        element.io = this._getIOFromRootMargin(rootMargin);
+        element.io = this._getIOFromRootMargin(rootMargin, element.root);
         element.inView = false;
         element.called = false;
 
@@ -223,19 +229,20 @@ class ScrollIO {
       element.el.dispatchEvent(new CustomEvent(event, { bubbles: false, detail: { element, scroll: this.scroll } }));
     }
   }
-  _getIOFromRootMargin(rootMargin) {
+  _getIOFromRootMargin(rootMargin, root = null) {
     const formattedRootMargin = this._formatRootMargin(rootMargin);
+    const udid = root ? `${root}_${formattedRootMargin}` : formattedRootMargin;
 
     // create Intersection Observer if doesn't exist
-    if( !this._IOs.has(formattedRootMargin) ) {
-      const io = new IntersectionObserver(this._onIO, { rootMargin: formattedRootMargin });
+    if( !this._IOs.has(udid) ) {
+      const io = new IntersectionObserver(this._onIO, { root: root ? $(root) : null, rootMargin: formattedRootMargin });
       
-      this._IOs.set(formattedRootMargin, io);
+      this._IOs.set(udid, io);
       this._targets.set(io, new Set());
     }
 
-    // return Intersection Observer from rootMargin
-    return this._IOs.get(formattedRootMargin);
+    // return Intersection Observer from udid
+    return this._IOs.get(udid);
   }
 
   _setInView(element, silent = false) {
