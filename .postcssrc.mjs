@@ -20,6 +20,8 @@ const PLUGINS = [
       'light-dark-function': false,
       'logical-properties-and-values': false,
       'trigonometric-functions': false,
+      'is-pseudo-class': false,
+      'not-pseudo-class': false,
       'cascade-layers': false
     }
   })
