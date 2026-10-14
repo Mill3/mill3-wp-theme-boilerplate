@@ -15,7 +15,7 @@ info@mill3.studio
 * autoprefixer
 * animejs
 * splittingjs
-* swiper
+* blossom-carousel
 * lottie
 * cssnano
 * postcss

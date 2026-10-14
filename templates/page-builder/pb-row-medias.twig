@@ -31,65 +31,37 @@
   {% set classname = classname ~ ' --layout-grid' %}
 {% endif %}
 
-{% if layout == 'slider' %}
-  {% set attributes = attributes|merge([
-    'data-module="pb-row-medias"'
-  ]) %}
-{% endif %}
-
 {% block row_wrapper %}
 {% if medias %}
 
 <div
   id="{{ udid }}"
   class="pb-row pb-row-medias {{ classname }}"
-  {% if layout in ['slider', 'ticker', 'grid'] %}
-  data-scroll
-  data-scroll-offset="100px,0"
-  {% endif %}
-  data-module-delay
   {{ attributes|join(' ') }}
 >
   {% if layout == 'slider' %}
 
-  <div class="pb-row-medias__slider swiper">
-    <aside
-      class="pb-row-medias__nav container-fluid d-flex align-items-center justify-content-end"
-      aria-hidden="true"
-    >
-      {% include 'partial/button.twig' with {
-        'title': 'Précédent',
-        'style': 'arrow',
-        'variation': 'left',
-        'classname': 'pb-row-medias__prev'
-      } only %}
-
-      {% include 'partial/button.twig' with {
-        'title': 'Suivant',
-        'style': 'arrow',
-        'classname': 'pb-row-medias__next'
-      } only %}
-    </aside>
-
-    <div class="swiper-wrapper">
-      {% for media in medias %}
-      <div class="pb-row-medias__slide pb-row-medias__media swiper-slide">
-        <figure class="pb-row-medias__wrap d-block m-0 p-0">
-          <div class="pb-row-medias__box overflow-clip">
-            {% include 'partial/image.twig' with {
-              'image': media,
-              'classname': 'pb-row-medias__img'
-            } only %}
-          </div>
-
-          {% if media.caption %}
-          <figcaption class="pb-row-medias__caption d-block m-0 p-0">{{ media.caption }}</figcaption>
-          {% endif %}
-        </figure>
+  <blossom-carousel id="{{ udid }}--slider" class="pb-row-medias__slider container-fluid d-flex flex-nowrap grid-gap-20" blossom-carousel>
+    {% for media in medias %}
+    <figure class="pb-row-medias__slide" data-blossom-slide>
+      <div class="pb-row-medias__box h-100 box-auto position-relative overflow-clip" style="--ratio: {{ get_image(media).aspect }}">
+        {% include 'partial/image.twig' with {
+          'image': media,
+          'lazyload': true,
+          'sizes': ['100vw'],
+          'classname': 'pb-row-medias__img image-as-background',
+          'attributes': [
+            'data-lazyload-target="#' ~ udid ~ '"'
+          ]
+        } only %}
       </div>
-      {% endfor %}
-    </div>
-  </div>
+
+      {% if media.caption %}
+      <figcaption class="pb-row-medias__caption d-block m-0 p-0">{{ media.caption }}</figcaption>
+      {% endif %}
+    </figure>
+    {% endfor %}
+  </blossom-carousel>
 
   {% elseif layout == 'ticker' %}
 

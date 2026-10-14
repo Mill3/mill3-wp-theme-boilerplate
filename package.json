@@ -46,6 +46,7 @@
     "yargs-parser": "21.1.1"
   },
   "dependencies": {
+    "@blossom-carousel/web": "1.5.1",
     "@rive-app/canvas": "2.31.5",
     "@rive-app/canvas-lite": "2.31.5",
     "@rive-app/webgl2": "2.31.5",
@@ -57,7 +58,6 @@
     "js-cookie": "3.0.5",
     "load-google-maps-api": "2.0.2",
     "lottie-web": "5.10.1",
-    "splitting": "1.1.0",
-    "swiper": "11.1.9"
+    "splitting": "1.1.0"
   }
 }

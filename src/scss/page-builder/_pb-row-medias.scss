@@ -20,32 +20,20 @@
     }
   }
 
-  &__nav {
-    @include breakpoints.media-breakpoint-up(lg) {
-      padding-left: 40px;
-      padding-right: 40px;
-    }
-  }
-
-  // SLIDER
+  /// SLIDER
   &.--layout-slider {
-    #{$self}__wrap {
-      width: min-content;
-    }
+    overflow: clip;
 
-    .swiper-wrapper {
-      cursor: grab;
+    #{$self}__slider {
+      scroll-snap-type: x mandatory;
     }
-    #{$self}__img {
+    #{$self}__slide {
+      scroll-snap-align: center;
       height: 265px;
 
       @include breakpoints.media-breakpoint-up(lg) {
         height: 448px;
       }
-    }
-    #{$self}__slide,
-    #{$self}__img {
-      width: auto;
     }
   }
 

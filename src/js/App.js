@@ -110,11 +110,17 @@ domready(() => {
   // import main styles in dev mode only
   if (process.env.NODE_ENV === "development") {
     import("../scss/App.scss").then(() => {
-      setTimeout(() => {
-        new App();
-        import("./GridViewer");
-        import("./FPSTracker");
-      }, 500);
+      // register @blossom-carousel/web only once our styles are applied,
+      // since it reads getComputedStyle(scrollSnapType) synchronously on connect
+      import("@blossom-carousel/web").then(() => {
+        setTimeout(() => {
+          new App();
+          import("./GridViewer");
+          import("./FPSTracker");
+        }, 500);
+      });
     });
-  } else new App();
+  } else {
+    import("@blossom-carousel/web").then(() => new App());
+  }
 });
