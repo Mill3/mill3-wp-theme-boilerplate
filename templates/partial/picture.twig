@@ -1,35 +1,38 @@
 {#
-  srcs must be a array of image url per breakpoints
+  srcs must be a array of art direction (WP Image or Attachment ID) per breakpoints
   ex: [
-    'mobile-320x480.jpg', 
-    'mobile-large-576x480.jpg', 
-    'tablet-portrait-768x1024.jpg', 
-    'tablet-landscape-1024x768.jpg',
-    'laptop-1200x900.jpg',
-    'desktop-1800x1200.jpg',
-    '4k-2800x1800.jpg'
+    mobile_320x480, 
+    mobile_large_576x480, 
+    tablet_portrait_768x1024, 
+    tablet_landscape_1024x768,
+    laptop_1200x900,
+    desktop_1800x1200,
+    4k_2800x1800
   ]
 
   If you want to skip a breakpoint, set his value to null.
   As result, this breakpoint will be skipped and use previous src.
   ex: [
-    'mobile.jpg',
+    mobile_file,
     null,
-    'tablet.jpg',
-    'desktop.jpg',
+    tablet_file,
     null,
-    null,
-    '4k.jpg'
+    desktop_file
   ]
 
-  The first src is the default value for browser not supporting the feature.
-  Same principles goes for srcs_dark (array of image url per breakpoints)
+  The first src is the default value for browser not supporting the <picture> element.
+  Same principles goes for srcs_dark (array of art direction per breakpoints)
+
+  ************
+
+  Sizes must be a array of values with units (px, vw, %, etc..) per breakpoints.
+  See partial/image.twig for reference and examples.
 #}
 {% if srcs is iterable and not (srcs is empty) %}
   {% set breakpoints = [0, 576, 768, 1024, 1200, 1441, 1800]|reverse %}
 
   {# save default src #}
-  {% set src = srcs[0] %}
+  {% set base_src = null %}
 
   {% if srcs|length > breakpoints|length %}
     {# trim srcs to not be longer than breakpoints #}
@@ -73,37 +76,60 @@
   {% set img_attributes = img_attributes|default([]) %}
 
   {% set alt = alt|default('') %}
+  {% set size = size|default('small') %}
+  {% set sizes = sizes|default(null) %}
   {% set lazyload = lazyload ?? true %}
 
   <picture class="{{ classname }}" {{ attributes|join(' ') }}>
     {% for src in srcs|reverse %}
 
+      {% if src %}
+        {% set base_src = src %}
+      {% endif %}
+
       {# add color-scheme: dark first #}
       {% if srcs_dark %}
         {% set src_dark = srcs_dark[loop.revindex0] %}
 
-        {% if src_dark is not null %}
-        <source 
-          srcset="{{ src_dark }}" 
-          {% if loop.last %}
-          media="(prefers-color-scheme: dark)"
-          {% else %}
-          media="(min-width: {{ breakpoints[loop.index0] }}px) and (prefers-color-scheme: dark)"
-          {% endif %}
-        >
+        {% if src_dark %}
+          {% set support_srcset = src_dark|is_svg or src_dark|is_gif ? false : true %}
+          {% set src_dark = get_image(srcs_dark[loop.revindex0]) %}
+          {% set src_sizes = sizes|image_sizes_attr|default(src_dark.sizes) %}
+          <source 
+            srcset="{{ support_srcset ? src_dark.srcset : src_dark.src('full') }}" 
+            {% if support_srcset and src_sizes %}sizes="{{ src_sizes }}"{% endif %}
+            {% if loop.last %}
+            media="(prefers-color-scheme: dark)"
+            {% else %}
+            media="(min-width: {{ breakpoints[loop.index0] }}px) and (prefers-color-scheme: dark)"
+            {% endif %}
+          >
         {% endif %}
       {% endif %}
 
       {# if src is null or first src, avoid <source> #}
-      {% if src is not null and not loop.last %}
-      <source srcset="{{ src }}" media="(min-width: {{ breakpoints[loop.index0] }}px)">
+      {% if src and not loop.last %}
+        {% set support_srcset = src|is_svg or src|is_gif ? false : true %}
+        {% set src = get_image(src) %}
+        {% set src_sizes = sizes|image_sizes_attr|default(src.img_sizes) %}
+        <source 
+          srcset="{{ support_srcset ? src.srcset : src.src('full') }}" 
+          {% if support_srcset and src_sizes %}sizes="{{ src_sizes }}"{% endif %}
+          media="(min-width: {{ breakpoints[loop.index0] }}px)"
+        >
       {% endif %}
 
     {% endfor %}
 
+    {% set support_srcset = base_src|is_svg or base_src|is_gif ? false : true %}
+    {% set base_src = get_image(base_src) %}
+    {% set src_sizes = sizes|image_sizes_attr|default(base_src.img_sizes) %}
+
     <img
-      src="{{ src }}"
+      src="{{ base_src.src(size) }}"
       alt="{{ alt }}"
+      {% if support_srcset %}srcset="{{ base_src.srcset }}"{% endif %}
+      {% if support_srcset and src_sizes %}sizes="{{ src_sizes }}"{% endif %}
       {% if lazyload %}loading="lazy"{% endif %}
       class="{{ img_classname }}"
       {{ img_attributes|join(' ') }}

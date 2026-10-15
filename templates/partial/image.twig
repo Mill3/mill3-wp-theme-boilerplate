@@ -34,51 +34,12 @@
   {% set classname = classname|default(null) %}
   {% set lazyload = lazyload ?? true %}
   {% set size = size|default('small') %}
-  {% set sizes = sizes|default(null) %}
+  {% set sizes = sizes|default(null)|image_sizes_attr|default(image.img_sizes) %}
   {% set srcset = srcset ?? true %}
   {% set priority = priority|default(null) %}
   {% set decoding = decoding|default(null) %}
   {% set width = width|default(image.sizes[size].width)|default(image.sizes[size ~ '-width'])|default((image.sizes|first).width) %}
   {% set height = height|default(image.sizes[size].height)|default(image.sizes[size ~ '-height'])|default((image.sizes|first).height) %}
-
-  {# transform sizes array into an attribute compatible string #}
-  {% if sizes and sizes is iterable %}
-    {% set breakpoints = [0, 576, 768, 1024, 1200, 1441, 1800] %}
-    {% set sizes_attr = [] %}
-    {% set lastDefinedSize = { 'size': null, 'min': null, 'max': null } %}
-
-    {% for s in sizes %}
-      {% set breakpoint = breakpoints[loop.index0] %}
-
-      {% if s is not null %}
-        {# if we get a size for the first time, save it for later #}
-        {% if lastDefinedSize.size is null %}
-          {% set lastDefinedSize = lastDefinedSize|merge({ 'size': s }) %}
-        {% else %}
-          {# it's time to save a media query because we now have a new size to save #}
-
-          {# save max-width #}
-          {% set lastDefinedSize = lastDefinedSize|merge({ 'max': breakpoint - 1 }) %}
-
-          {# save media-query in sizes attribute #}
-          {% if lastDefinedSize.min is not null and lastDefinedSize.max is not null %}
-            {% set sizes_attr = sizes_attr|merge(['(min-width: ' ~ lastDefinedSize.min ~ 'px) and (max-width: ' ~ lastDefinedSize.max ~ 'px) ' ~ lastDefinedSize.size]) %}
-          {% else %}
-            {% set sizes_attr = sizes_attr|merge(['(max-width: ' ~ lastDefinedSize.max ~ 'px) ' ~ lastDefinedSize.size]) %}
-          {% endif %}
-
-          {# save size and min-width for next loop #}
-          {% set lastDefinedSize = lastDefinedSize|merge({ 'size': s, 'min': breakpoint, 'max': null }) %}
-        {% endif %}
-      {% endif %}
-    {% endfor %}
-
-    {# save last rule #}
-    {% set sizes_attr = sizes_attr|merge([lastDefinedSize.size]) %}
-
-    {# flatten sizes rules #}
-    {% set sizes_attr = sizes_attr|join(', ') %}
-  {% endif %}
 
   {# validate priority #}
   {% if priority and priority not in ['high', 'low', 'auto'] %}
@@ -90,14 +51,10 @@
     {% set decoding = null %}
   {% endif %}
 
-  {% if not sizes_attr %}
-    {% set sizes_attr = image.img_sizes %}
-  {% endif %}
-
   <img
     src="{{ image.src(size) }}"
     {% if srcset %}srcset="{{ image.srcset }}"{% endif %}
-    {% if sizes_attr %}sizes="{{ sizes_attr }}"{% endif %}
+    {% if sizes %}sizes="{{ sizes }}"{% endif %}
     alt="{{ alt }}"
     {% if width %}width="{{ width }}"{% endif %}
     {% if height %}height="{{ height }}"{% endif %}

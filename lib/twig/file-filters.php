@@ -43,6 +43,8 @@ class Twig_File_Filters {
         $filters['video_aspect_ratio'] = ['callable' => [$this, 'video_aspect_ratio']];
         $filters['rive_aspect_ratio'] = ['callable' => [$this, 'rive_aspect_ratio']];
         $filters['media_aspect_ratio'] = ['callable' => [$this, 'media_aspect_ratio']];
+        $filters['image_sizes_attr'] = ['callable' => [$this, 'image_sizes_attr']];
+        $filters['inlined_source'] = ['callable' => [$this, 'inlined_source']];
 
         return $filters;
     }
@@ -189,6 +191,52 @@ class Twig_File_Filters {
             'mobile' => $mobile_ratio,
             'tablet' => $tablet_ratio,
         );
+    }
+
+
+    /**
+     * image_sizes_attr filter method
+     *
+     * Transforms a per-breakpoint sizes array into a string for the <img> sizes attribute.
+     * Breakpoints are : 0, 576, 768, 1024, 1200, 1441, 1800. A null value skips a breakpoint
+     * (previous size is reused). The last defined size is appended without media query.
+     *
+     * {{ ['100vw', null, null, '50vw', null, null, '1800px']|image_sizes_attr }}
+     *
+     * @param array $sizes : sizes with units (px, vw, %, etc..) per breakpoint
+     * @return string|null : null when input is invalid or no size is defined
+     */
+    public function image_sizes_attr($sizes) {
+        if( !is_array($sizes) ) return null;
+
+        $breakpoints = array(0, 576, 768, 1024, 1200, 1441, 1800);
+        $rules = array();
+        $size = null;
+        $min = null;
+
+        foreach( array_values($sizes) as $i => $s ) {
+            if( $s === null || !isset($breakpoints[$i]) ) continue;
+
+            // first defined size : save it for later
+            if( $size === null ) {
+                $size = $s;
+                continue;
+            }
+
+            // new size found : close previous rule with max-width
+            $max = $breakpoints[$i] - 1;
+            $rules[] = $min !== null
+                ? "(min-width: {$min}px) and (max-width: {$max}px) {$size}"
+                : "(max-width: {$max}px) {$size}";
+
+            $size = $s;
+            $min = $breakpoints[$i];
+        }
+
+        // last rule has no media query
+        if( $size !== null ) $rules[] = $size;
+
+        return $rules ? implode(', ', $rules) : null;
     }
 
 

@@ -56,10 +56,9 @@
     `data-scroll-root` attribute to the rive/video options.
   - playOnEnter (bool, default false): forwarded to rive/video options.
   - pauseOnExit (bool, default true): forwarded to rive/video options.
-  - img_sizes (array, default ['small', null, 'large', null, 'largest', null,
-    'largest-retina']): up to 7 registered WP image size names (see lib/setup.php), one per
+  - img_sizes (array, default ['100vw']): array of values with units (px, vw, %, etc..) for each
     breakpoint slot [0, 576, 768, 1024, 1200, 1441, 1800]px. `null` skips a slot and reuses
-    the previous size. Only consumed by the image/svg branch, resolved through
+    the previous size. Only consumed by the image branch, resolved through
     Timber\Image::src() and forwarded to picture.twig as `srcs`/`srcs_dark`.
   - img_options (object, default {}): merged over this file's own image defaults (currently
     just `lazyload`) and forwarded to picture.twig — anything picture.twig accepts can be
@@ -89,7 +88,7 @@
 {% set scroll_root = scroll_root|default(null) %}
 {% set playOnEnter = playOnEnter ?? false %}
 {% set pauseOnExit = pauseOnExit ?? true %}
-{% set img_sizes = img_sizes|default(['medium_large', null, 'large', null, 'desktop', null, 'largest']) %}
+{% set img_sizes = img_sizes|default(['100vw']) %}
 {% set img_options = img_options|default({}) %}
 {% set rive_options = rive_options|default({}) %}
 {% set video_options = video_options|default({}) %}
@@ -224,60 +223,14 @@
 
     {% include 'partial/video.twig' with options only %}
   {% else %}
-    {# file is is_image or is_svg: build a bespoke <picture> for optional mobile/dark art-direction #}
-    {% set img_file = get_image(file) %}
-    {% set img_mobile = mobile ? get_image(mobile) : img_file %}
-    {% set img_tablet = tablet ? get_image(tablet) : img_file %}
-    {% set img_file_dark = file_dark ? get_image(file_dark) : img_file %}
-    {% set img_mobile_dark = mobile_dark ? get_image(mobile_dark) : img_file_dark %}
-    {% set img_tablet_dark = tablet_dark ? get_image(tablet_dark) : img_file_dark %}
-
-    {% set srcs = [] %}
-    {% set srcs_dark = [] %}
-
-    {# populate srcs and srcs_dark from img_sizes provided #}
-    {% for img_size in img_sizes %}
-      {% if img_size is not null %}
-        {% set size = img_size %}
-        {% set size_dark = img_size %}
-
-        {% if loop.index0 < 2 %}
-          {% set src = img_mobile %}
-          {% set src_dark = img_mobile_dark %}
-
-          {# alert img_size if image is SVG or GIF #}
-          {% if mobile|is_svg or mobile|is_gif %}{% set size = 'full' %}{% endif %}
-          {% if mobile_dark|is_svg or mobile_dark|is_gif %}{% set size_dark = 'full' %}{% endif %}
-        {% elseif loop.index0 < 4 %}
-          {% set src = img_tablet %}
-          {% set src_dark = img_tablet_dark %}
-
-          {# alert img_size if image is SVG or GIF #}
-          {% if tablet|is_svg or tablet|is_gif %}{% set size = 'full' %}{% endif %}
-          {% if tablet_dark|is_svg or tablet_dark|is_gif %}{% set size_dark = 'full' %}{% endif %}
-        {% else %}
-          {% set src = img_file %}
-          {% set src_dark = img_file_dark %}
-
-          {# alert img_size if image is SVG or GIF #}
-          {% if file|is_svg or file|is_gif %}{% set size = 'full' %}{% endif %}
-          {% if file_dark|is_svg or file_dark|is_gif %}{% set size_dark = 'full' %}{% endif %}
-        {% endif %}
-
-        {% set srcs = srcs|merge([src.src(size)]) %}
-        {% set srcs_dark = srcs_dark|merge([src_dark.src(size_dark)]) %}
-      {% else %}
-        {% set srcs = srcs|merge([null]) %}
-        {% set srcs_dark = srcs_dark|merge([null]) %}
-      {% endif %}
-    {% endfor %}
-
+    {# file is is_image or is_svg: build a bespoke <picture> for optional mobile/tablet/dark art-direction #}
     {# merge img_options into default options, then merge required options into final results #}
     {% set options = default_img_options|merge(img_options)|merge({
-      'srcs': srcs,
-      'srcs_dark': srcs_dark,
-      'classname': child_classname_prefix ~ '__picture position-absolute t-0 l-0 w-100 h-100',
-      'img_classname': child_classname_prefix ~ '__img image-as-background'
+      'srcs': [mobile, null, tablet, null, file],
+      'srcs_dark': [mobile_dark, null, tablet_dark, null, file_dark],
+      'sizes': img_sizes,
+      'img_classname': child_classname_prefix ~ '__img image-as-background',
+      'classname': child_classname_prefix ~ '__picture position-absolute t-0 l-0 w-100 h-100'
     }) %}
 
     {% include 'partial/picture.twig' with options only %}
