@@ -62,14 +62,14 @@
       }
     }
     #{$self}__media {
-      @include inView {
-        opacity: 0.0001;
+      // @include globals.inView {
+      //   opacity: 0.0001;
 
-        &.is-inview {
-          opacity: 0.999;
-          transition: opacity 950ms 150ms linear;
-        }
-      }
+      //   &.is-inview {
+      //     opacity: 0.999;
+      //     transition: opacity 950ms 150ms linear;
+      //   }
+      // }
     }
     #{$self}__box.box-auto {
       --ratio: 1;
