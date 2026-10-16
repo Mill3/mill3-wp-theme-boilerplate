@@ -97,8 +97,12 @@ class ScrollIO {
     this._elements = new Map();
     this._targets = new Map();
     this._IOs = new Map();
+    this._roots = new Map();
 
     this._onIO = this._onIO.bind(this);
+    this._onRoot = this._onRoot.bind(this);
+
+    this._rootIO = new IntersectionObserver(this._onRoot, { rootMargin: this._formatRootMargin(DEFAULT_OPTIONS.offset) });
   }
   
   init($target) {
@@ -125,10 +129,12 @@ class ScrollIO {
     //this._checkElements();
   }
   reset() {
+    this._rootIO.disconnect();
     this._IOs.forEach(io => io.disconnect());
     this._IOs.clear();
     this._targets.clear();
     this._elements.clear();
+    this._roots.clear();
     
     this._started = false;
   }
@@ -137,19 +143,21 @@ class ScrollIO {
     if( this._elements.size === 0 ) return;
     
     this._elements.forEach(element => {
-      if( element.inView ) element.el.classList.add(OUTVIEW_CLASSNAME);
+      if( element.inView && element.rootInView ) element.el.classList.add(OUTVIEW_CLASSNAME);
     });
   }
   
   _addElements($target) {
     if( !$target ) $target = getBody();
     
+    this._rootIO.disconnect();
     this._IOs.forEach(io => io.disconnect());
     this._targets.forEach(targets => targets.clear());
     this._elements.clear();
+    this._roots.clear();
     
     $$('[data-scroll]', $target).forEach(element => {    
-      const root = getRoot(element) ?? null;  
+      const root = getRoot(element) ?? null;
       const rootMargin = getRootMargin(element) ?? this._options.offset;
       const repeat = getRepeat(element) ?? this._options.repeat;
       const target = getTarget(element) ?? element;
@@ -160,12 +168,14 @@ class ScrollIO {
         el: element,
         target,
         root,
+        rootEl: root ? $(root) : null,
         rootMargin,
         repeat,
         call,
         io,
         called: false,
         inView: false,
+        rootInView: root ? false : true,
       };
 
       // save element to Map
@@ -173,6 +183,12 @@ class ScrollIO {
 
       // save references for this IO
       this._targets.get(io).add(data);
+
+      // observe element's root
+      if( root ) {
+        this._roots.set(element, data);
+        this._rootIO.observe(data.rootEl);
+      }
 
       // observe element's target
       io.observe(target);
@@ -200,6 +216,7 @@ class ScrollIO {
         // save new rootMargin, IO & update inView status
         element.rootMargin = rootMargin;
         element.io = this._getIOFromRootMargin(rootMargin, element.root);
+        element.rootInView = element.root ? false : true;
         element.inView = false;
         element.called = false;
 
@@ -245,12 +262,15 @@ class ScrollIO {
     return this._IOs.get(udid);
   }
 
-  _setInView(element, silent = false) {
+  _setInView(element, silent = false, force = false) {
     // if element is already in view, stop here
-    if( element.inView ) return;
+    if( element.inView && !force ) return;
     
     // update inView status
     element.inView = true;
+
+    // stop here if root isn't in view
+    if( !element.rootInView ) return;
     
     // add inView classname
     element.el.classList.add(INVIEW_CLASSNAME);
@@ -263,12 +283,12 @@ class ScrollIO {
       this._notify(element, INVIEW_ENTER, EVENT_ENTER);
     }
   }
-  _setOutView(element, silent = false) {
+  _setOutView(element, silent = false, weak = false) {
     // if element is already out of view, stop here
     if( !element.inView ) return;
     
     // update inView status
-    element.inView = false;
+    if( !weak ) element.inView = false;
     
     // emit call event
     if( element.call && element.repeat && !silent ) this._notify(element, INVIEW_EXIT, EVENT_EXIT);
@@ -299,6 +319,29 @@ class ScrollIO {
           if( element.inView ) this._setOutView(element);
         }
       });
+    });
+  }
+  _onRoot(entries) {
+    if( !this._started ) return;
+
+    entries.forEach(entry => {
+      this._roots.forEach(element => {
+        // if this entry is not linked to this element's [data-scroll-root], stop here
+        if( element.rootEl !== entry.target ) return;
+
+        // if element's [data-scroll-root] is inView
+        if( entry.isIntersecting ) {
+          element.rootInView = true;
+
+          // if element's was set inView by his [data-scroll-target], set inView
+          if( element.inView ) this._setInView(element, false, true);
+        } else {
+          element.rootInView = false;
+
+          // if element's is still inView from his [data-scroll-target], set outView
+          if( element.inView ) this._setOutView(element, false, true);
+        }
+      })
     });
   }
 }
