@@ -156,6 +156,11 @@ add_filter( 'timber/acf-gutenberg-blocks-data', function( $context ) {
 
     // try to override global $wp_query to enable correct RankMath's breadcrumb
     if( $context['is_preview'] ) {
+        // Timber's context has no 'post' in the block editor (is_singular() is false), use edited post
+        if( empty($context['post']) && !empty($context['post_id']) ) {
+            $context['post'] = \Mill3WP\Timber\Mill3Timber::get_post( $context['post_id'] );
+        }
+        
         global $wp_query;
 
         $new_wp_query = new \WP_Query(array(
