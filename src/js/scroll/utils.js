@@ -152,7 +152,8 @@ export const getTarget = (el) => {
   // if element doesn't have [data-scroll-target] attribute, return null
   if( !el.hasAttribute('data-scroll-target') ) return null;
 
-  const target = el.dataset.scrollTarget;
+  // get value from [data-scroll-target] attribute or [data-scroll-target-native]
+  const target = mobile && el.hasAttribute('data-scroll-target-native') ? el.dataset.scrollTargetNative : el.dataset.scrollTarget;
 
   // if target is undefined, return null
   if( target == undefined ) return null;
