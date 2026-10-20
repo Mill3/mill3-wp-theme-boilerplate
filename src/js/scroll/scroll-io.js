@@ -18,6 +18,7 @@
 * All of these options are optional.
 * 
 * [data-scroll-target] (string) : CSS Selector specifying which HTML element to use as in-view position.
+* [data-scroll-target-native] (string) : CSS Selector specifying which HTML element to use as in-view position only for mobile device.
 * 
 * [data-scroll-offset] (string) : Element in-view trigger offset.
 *                                 Offset is composed of 2 comma separated values. 
@@ -43,6 +44,7 @@
 *  data-scroll
 *  data-scroll-id="hello-world"
 *  data-scroll-target=".my-other-element"
+*  data-scroll-target-native=".my-target-for-mobile"
 *  data-scroll-offset="100px,25%"
 *  data-scroll-call="HelloWorld"
 *  data-scroll-repeat="true"
