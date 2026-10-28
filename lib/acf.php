@@ -201,6 +201,36 @@ add_filter('acf/prepare_field/name=theme_color', function ($field) {
 });
 
 
+// Icons Picker
+// add_filter('acf/fields/icon_picker/tabs', function (array $tabs):array {
+//     // MILL3 first, then the default tabs
+//     return array_merge(['mill3' => 'PROJECT NAME'], $tabs);
+// });
+
+// add_filter('acf/fields/icon_picker/mill3/icons', function ( array $icons ):array {
+//     $base_url = get_template_directory_uri() . '/src/icons/';
+
+//     return array(
+//         array(
+//             'url'   => $base_url . 'flag.svg', // URL of the icon.
+//             'key'   => 'flag', // Saved as the value in the icon picker field.
+//             'label' => 'Défis', // Name of the card used in search.
+//         )
+//     );
+// });
+
+// Allow deselecting an icon in Icon Picker field
+add_action('acf/input/admin_enqueue_scripts', function () {
+    wp_enqueue_script(
+        'mill3-acf-icon-picker',
+        get_stylesheet_directory_uri() . '/src/js/admin/acf-icon-picker.js',
+        ['acf-input'],
+        filemtime( get_stylesheet_directory() . '/src/js/admin/acf-icon-picker.js' ),
+        true
+    );
+});
+
+
 // sync GTM across all languages
 if( function_exists('pll_the_languages') ){
     add_filter('acf/save_post', function($post_id) {
