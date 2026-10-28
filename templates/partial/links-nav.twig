@@ -28,6 +28,11 @@
     {% set target = btn.link.target %}
 
     {% set is_video = (url ends with '.mp4' or url ends with '.webm') and function('site_url') in url %}
+    {% set is_pdf = url|split('?')|first|split('#')|first|lower ends with '.pdf' %}
+
+    {% if is_pdf %}
+      {% set attrs = attrs|merge(['download']) %}
+    {% endif %}
 
     {% if url starts with '#' or is_video %}
       {# if url is only #, do not handle like a scroll-to button #}
