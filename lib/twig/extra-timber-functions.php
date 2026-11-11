@@ -3,35 +3,38 @@
 namespace Mill3\Twig;
 
 // Create a hierachical Table of Contents from Blocks in $postID
-function get_table_of_contents( $postID ) {
+function get_table_of_contents( $postID, $acfBlockName = 'acf/blog-toc-anchor' ) {
     // if postID doesn't exist, stop here
     if( !$postID ) return null;
 
-    // if postID doesn't contains acf/blog-toc-anchor block, stop here
-    if( !has_block('acf/blog-toc-anchor', $postID) ) return null;
+    // if postID doesn't contains $acfBlockName block, stop here
+    if( !has_block($acfBlockName, $postID) ) return null;
 
     // get all acf/blog-toc-anchor blocks
     $post = get_post( $postID );
     $blocks = parse_blocks($post->post_content);
-    $blocks = array_values( array_filter($blocks, function($block) { return $block['blockName'] === 'acf/blog-toc-anchor'; }) );
+    $blocks = array_values( array_filter($blocks, function($block) use ($acfBlockName) { return $block['blockName'] === $acfBlockName; }) );
     $anchors = [];
 
     // recursive method to find an anchor by it's name
-    function &find_parent( $parent, &$anchors ) {
-        foreach($anchors as &$anchor) {
-            // if anchor'title match parent, return value and stop
-            if( $anchor['title'] === $parent ) return $anchor;
-            // if anchor has children, check if one of his children match requested parent's name
-            else if( isset($anchor['children']) ) {
-                $ancestor = &find_parent($parent, $anchor['children']);
+    // (guarded: this function can be called multiple times per request, and PHP cannot redeclare a named function)
+    if( !function_exists(__NAMESPACE__ . '\find_parent') ) {
+        function &find_parent( $parent, &$anchors ) {
+            foreach($anchors as &$anchor) {
+                // if anchor'title match parent, return value and stop
+                if( $anchor['title'] === $parent ) return $anchor;
+                // if anchor has children, check if one of his children match requested parent's name
+                else if( isset($anchor['children']) ) {
+                    $ancestor = &find_parent($parent, $anchor['children']);
 
-                // if parent name cannot be found in children, go to next anchor
-                if( $ancestor ) return $ancestor;
-            }
-        };
+                    // if parent name cannot be found in children, go to next anchor
+                    if( $ancestor ) return $ancestor;
+                }
+            };
 
-        $null = null;
-        return $null;
+            $null = null;
+            return $null;
+        }
     }
     
     foreach ($blocks as $block) {
@@ -41,8 +44,12 @@ function get_table_of_contents( $postID ) {
 
         $data   = $block['attrs']['data'];
         $title  = $data['title'];
+        $icon   = $data['icon'] ?? null;
         $id     = sanitize_title($title);
         $anchor = [ 'ID' => $id, 'title' => $title, 'children' => null ];
+
+        $icon_url = get_icon_picker_url($icon);
+        if( $icon_url ) $anchor['icon'] = $icon_url;
 
         // if anchor as parent, try to find it
         if( isset($data['parent']) ) {
