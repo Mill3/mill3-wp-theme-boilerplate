@@ -19,6 +19,7 @@ add_filter('timber/twig/functions', function($functions) {
 
     $functions['pll__'] = ['callable' => 'pll__'];
     $functions['pll_e'] = ['callable' => 'pll_e'];
+    $functions['pll_the_languages'] = ['callable' => 'pll_the_languages'];
     $functions['pll_current_language'] = ['callable' => 'pll_current_language'];
     $functions['language_switcher'] = [
         'callable' => function () {

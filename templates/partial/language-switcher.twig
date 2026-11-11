@@ -1,0 +1,35 @@
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+
+{% set languages = pll_the_languages({ 'raw': true }) %}
+{% set current_language = languages[ pll_current_language() ] %}
+{% set current_language_index = 0 %}
+{% set separator = separator|default('/') %}
+
+{% for language in languages %}
+  {% if language.slug == current_language.slug %}
+    {% set current_language_index = loop.index0 %}
+  {% endif %}
+{% endfor %}
+
+<nav
+  class="language-switcher position-relative d-flex fz-16 {{ classname }}"
+  style="--total-languages: {{ languages|length }}; --current-language: {{ current_language_index }}"
+  {{ attributes|join(' ') }}
+> 
+  {% for language in languages %}
+      {% include 'partial/link.twig' with {
+        'link': language.url,
+        'title': language.slug|capitalize,
+        'classname': 'language-switcher__btn tt-capitalize td-none',
+        'style': 'language',
+        'attributes': [
+          'lang="' ~ language.locale ~ '"',
+          'hreflang="' ~ language.locale ~ '"',
+          'aria-current="' ~ (language.slug == current_language.slug ? 'true' : 'false') ~ '"',
+          'data-windmill-prevent="all"',
+          'style="--index: ' ~ loop.index0 ~ '"'
+        ]
+      } only %}
+  {% endfor %}
+</nav>
