@@ -1,0 +1,9 @@
+.language-switcher {
+  grid-gap: 1ch;
+  
+  &__btn {
+    &[aria-current="true"] {
+      display: none;
+    }
+  }
+}
