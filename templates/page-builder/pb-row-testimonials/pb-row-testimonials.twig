@@ -1,0 +1,19 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_testimonials-' ~ random()) %}
+
+{% set title = fields.title|default(null) %}
+{% set testimonials = fields.testimonials|default([]) %}
+
+{% block row_wrapper %}
+<section
+  id="{{ udid }}"
+  class="pb-row pb-row-testimonials {{ classname|join(' ') }}"
+  data-module-delay
+  {{ attributes|join(' ') }}
+>
+
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_accordions-' ~ random()) %}
+
+{% set title = fields.title %}
+{% set accordions = fields.accordions %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-accordions container-fluid {{ classname }}"
+  data-scroll
+  data-scroll-offset="200px,0"
+  data-module-delay
+  {{ attributes|join(' ') }}
+>
+
+  {% include 'partial/accordions.twig' with {
+    'accordions': accordions,
+    'classname': 'pb-row-accordions__accordions',
+    'attributes': [
+      'data-scroll-target="#'~ udid ~'"',
+      'data-scroll-offset="200px,0"',
+    ]
+  } only %}
+
+</div>
+{% endblock %}

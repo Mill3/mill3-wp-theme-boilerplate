@@ -1,0 +1,26 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb-row-contact-' ~ random()) %}
+
+{% set title = fields.title|default(null) %}
+{% set gravity_form_id = fields.gravity_form_id|default(null) %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-contact container-fluid {{ classname }}"
+  {{ attributes|join(' ') }}
+  data-scroll
+  data-scroll-offset="100px,0"
+  data-module-delay
+>
+
+  {% if gravity_form_id %}
+    <div class="pb-row-contact__form">
+      {{ function('do_shortcode', '[gravityform id="' ~ gravity_form_id ~ '" title="false" description="false" ajax="true"]') }}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

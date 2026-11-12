@@ -1,0 +1,32 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_form-' ~ random()) %}
+
+{% set title = fields.title %}
+{% set text = fields.text %}
+{% set gravity_form_id = fields.gravity_form_id %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-form container-fluid {{ classname }}"
+  {{ attributes|join(' ') }}
+  data-module-delay
+>
+  {% if title %}
+  <h3 class="pb-row-form__title m-0 p-0">{{ title }}</h3>
+  {% endif %}
+
+  {% if text %}
+  <div class="pb-row-form__text wysiwyg">{{ text }}</div>
+  {% endif %}
+
+  {% if gravity_form_id %}
+  <div class="pb-row-form__form w-100">
+    {{ function('do_shortcode', '[gravityform id="' ~ gravity_form_id ~ '" title="false" description="false" ajax="true"]') }}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

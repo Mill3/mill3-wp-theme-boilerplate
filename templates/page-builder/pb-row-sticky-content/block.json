@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "acf/pb-row-sticky-content",
+  "title": "Sticky Content",
+  "description": "Collection of content blocks (title, text, cta & media) that stack of top of each other during scroll.",
+  "category": "theme",
+  "icon": "images-alt",
+  "keywords": ["text", "media", "content", "sticky"],
+  "supports": {
+    "align": false,
+    "mode": true,
+    "multiple": true
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview",
+      "data": {
+        "title": "Sticky Content",
+        "is_example": true
+      }
+    }
+  },
+  "acf": {
+    "mode": "edit",
+    "postTypes": ["page", "page_section"],
+    "renderCallback": "mill3_pb_row_render_callback"
+  }
+}
