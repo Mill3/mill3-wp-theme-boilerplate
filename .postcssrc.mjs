@@ -1,4 +1,4 @@
-import { purgeCSSPlugin } from '@fullhuman/postcss-purgecss';
+import purgeCSSPlugin from '@fullhuman/postcss-purgecss';
 import postcssPresetEnv from 'postcss-preset-env';
 import cssnano from 'cssnano';
 
