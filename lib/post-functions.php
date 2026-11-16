@@ -39,7 +39,7 @@ function wp_gallery($output, $atts, $instance)
         return array('image' => $image, 'credit' => $image->post_excerpt);
     }, $posts);
 
-    return Timber::compile('page-builder/pb-row-medias.twig', array(
+    return Timber::compile('page-builder/pb-row-medias/pb-row-medias.twig', array(
         'is_preview' => false,
         'slug' => 'pb-row-medias',
         'block' => array(

@@ -1,0 +1,26 @@
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+
+{% set page_section = fields.page_section|default(null) %}
+{% set effect = fields.effect|default(null) %}
+
+{# effect stacked #}
+{% if effect == 'stacked' %}
+  {% set classname = classname|split(' ')|merge(['--effect-stacked'])|join(' ') %}
+{% endif %}
+
+{# get content rows from page-section #}
+{% if page_section %}
+  {% set content = get_post(page_section.ID).content %}
+{% endif %}
+
+{% if page_section and content %}
+<div class="pb-row-page-section {{ classname }}" {{ attributes|join(' ') }}>
+  {% if is_preview %}
+    {# {{ function('acf_block_preview', content) }} #}
+    {{ content }}
+  {% else %}
+    {{ content }}
+  {% endif %}
+</div>
+{% endif %}

@@ -1,0 +1,48 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb-row-text-columns-' ~ random()) %}
+
+{% set title = fields.title|default(null) %}
+{% set columns = fields.columns|default(null) %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-text-columns container-fluid {{ classname }}"
+  data-module-delay
+  {{ attributes|join(' ') }}
+>
+
+  {% if columns %}
+  <div
+    class="pb-row-text-columns__columns d-grid grid-columns-lg-3"
+    style="--columns: {{ columns|length }}"
+  >
+    {% for column in columns %}
+      {% set title = column.title|default(null) %}
+      {% set text = column.text|default(null) %}
+
+      <aside
+        class="pb-row-text-columns__column {{ columns_classname }}"
+        style="--index: {{ loop.index0 }};"
+      >
+
+        {% if title %}
+          <h4 class='pb-row-text-columns__columnTitle'>{{ title }}</h4>
+        {% endif %}
+
+        {% if text %}
+          <div class="pb-row-text-columns__columnText wysiwyg">
+            {{ text }}
+          </div>
+        {% endif %}
+
+      </aside>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "acf/pb-row-blockquote",
+  "title": "Blockquote",
+  "description": "Blockquote",
+  "category": "text",
+  "icon": "editor-quote",
+  "keywords": ["blockquote", "caption"],
+  "supports": {
+    "align": false,
+    "mode": true,
+    "multiple": true
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview",
+      "data": {
+        "title": "Blockquote",
+        "is_example": true
+      }
+    }
+  },
+  "acf": {
+    "mode": "edit",
+    "postTypes": ["page", "page_section", "post"],
+    "renderCallback": "mill3_pb_row_render_callback"
+  }
+}

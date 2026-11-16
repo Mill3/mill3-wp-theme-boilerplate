@@ -1,0 +1,31 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb_row_blockquote-' ~ random()) %}
+
+{% set text = fields.text %}
+{% set credit = fields.credit %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-blockquote container-fluid {{ classname }}"
+  {{ attributes|join(' ') }}
+  data-scroll
+  data-scroll-offset="100px,0"
+  data-module-delay
+>
+
+  <blockquote class="pb-row-blockquote__text d-block ff-heading fz-30 fz-lg-64 fw-300 lh-none m-0 row-start-md-1">
+    {{ text }}
+  </blockquote>
+
+  {% if credit %}
+  <figcaption class="pb-row-blockquote__credit position-relative fz-14 fz-lg-base d-block row-start-md-2 lh-none">
+      {{ credit }}
+  </figcaption>
+  {% endif %}
+
+</div>
+{% endblock %}

@@ -107,7 +107,7 @@ $includes = [
     'lib/windmill-prefetch.php',
     //'lib/window-messenger.php',
     // Timber
-    'lib/timber/timber-acf-wp-blocks.php',
+    'lib/timber/pb-row-block-registry.php',
     'lib/timber/Mill3Timber.php',
     // twig
     'lib/twig/extra-timber-filters.php',

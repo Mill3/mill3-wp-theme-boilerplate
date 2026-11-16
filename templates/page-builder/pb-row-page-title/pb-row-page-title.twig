@@ -1,0 +1,20 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb-row-page-title-' ~ random()) %}
+
+{% set title = fields.title|default(null) %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-page-title container-fluid {{ classname }}"
+  data-module-delay
+  {{ attributes|join(' ') }}
+>
+
+  <h1 class="pb-row-page-title__title m-0">{{ title }}</h1>
+
+</div>
+{% endblock %}

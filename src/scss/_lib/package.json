@@ -15,15 +15,14 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@storybook/addon-essentials": "^8.6.12",
-    "@storybook/addon-interactions": "^8.6.12",
-    "@storybook/addon-onboarding": "^8.6.12",
-    "@storybook/blocks": "^8.6.12",
-    "@storybook/react": "^8.6.12",
-    "@storybook/react-vite": "^8.6.12",
-    "@storybook/test": "^8.6.12",
+    "@storybook/addon-docs": "^10.6.7",
+    "@storybook/addon-onboarding": "^10.6.7",
+    "@storybook/react-vite": "^10.6.7",
     "get-sass-vars": "^4.0.3",
     "prop-types": "^15.8.1",
-    "storybook": "^8.6.12"
+    "storybook": "^10.6.7"
+  },
+  "overrides": {
+    "@joshwooding/vite-plugin-react-docgen-typescript": "^0.9.1"
   }
 }

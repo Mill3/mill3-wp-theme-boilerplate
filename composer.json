@@ -1,6 +1,6 @@
 {
     "require": {
-      "timber/timber": "2.2.0",
+      "timber/timber": "2.5.1",
       "sentry/sentry": "^4.17"
     },
     "config": {

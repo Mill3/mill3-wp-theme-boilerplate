@@ -11,7 +11,7 @@
 * @preferred
 */
 
-import { $, $$, rect } from "@utils/dom";
+import { getHTML, $, $$, rect } from "@utils/dom";
 import { mobile } from "@utils/mobile";
 import Viewport from "@utils/viewport";
 
@@ -54,6 +54,7 @@ export class WindmillImgLazyload {
     // get query selector target
     const container = data.next.container || data.current.container;
     const scrollY = data.next.scrollY || 0;
+    const vw = getHTML().clientWidth; // Viewport.width without scrollbar
 
     // query images and filter the one who are in viewport
     const images = [ ...$$(SELECTOR, container) ].filter(img => {
@@ -63,7 +64,7 @@ export class WindmillImgLazyload {
       const offsetBottom = offset && offset.length > 1 ? offset[1] : 0;
       const { top, bottom, left, right } = rect(target);
 
-      return top - scrollY + offsetTop < Viewport.height && bottom - scrollY - offsetBottom > 0 && left < Viewport.width && right > 0;
+      return top - scrollY + offsetTop < Viewport.height && bottom - scrollY - offsetBottom > 0 && left < vw && right > 0;
     });
 
     if( !images || images.length < 1 ) return;

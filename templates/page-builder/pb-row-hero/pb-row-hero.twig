@@ -1,0 +1,22 @@
+{% extends 'page-builder/block-wrapper.twig' %}
+
+{% set classname = classname|default('') %}
+{% set attributes = attributes|default([]) %}
+{% set udid = udid|default('pb-row-hero-' ~ random()) %}
+
+{% set title = fields.title %}
+{% set buttons = fields.buttons %}
+{% set text = fields.text %}
+
+{% block row_wrapper %}
+<div
+  id="{{ udid }}"
+  class="pb-row pb-row-hero {{ classname }}"
+  data-scroll
+  data-scroll-offset="100px,0"
+  data-module-delay
+  {{ attributes|join(' ') }}
+>
+
+</div>
+{% endblock %}

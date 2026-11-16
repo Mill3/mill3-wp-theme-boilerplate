@@ -37,7 +37,7 @@
 
     font-size: 11px;
     line-height: 1;
-    font-family: var(--ff-mono);
+    font-family: SFMono-Regular, monospace;
     font-style: normal;
     text-transform: initial;
     font-weight: 400;
@@ -171,7 +171,7 @@
 {% set uis = [
   {
     'label': 'Buttons on light background',
-    'classname': 'bg-gray-200 color-black',
+    'classname': 'bg-gray-200 color-black p-20',
     'uis': [
       { 
         'type': 'button',
@@ -198,7 +198,7 @@
   },
   {
     'label': 'Buttons on dark background',
-    'classname': 'bg-color-black color-white',
+    'classname': 'bg-color-black color-white p-20',
     'uis': [
       { 
         'type': 'button',
@@ -298,9 +298,9 @@
       {% if uis %}
         <div class="d-flex flex-column grid-gap-20">
     			<h2 class="styleguide-subtitle color-secondary ff-body tt-uppercase fz-12 fw-700 m-0">UI & Buttons</h2>
-          <div class="d-grid grid-column-xl-2 grid-gap-20">
+          <div class="d-grid grid-gap-20">
             {% for ui_group in uis %}
-              <aside class="d-flex flex-column grid-gap-20 grid-gap-20 p-20 pb-xl-40 {{ ui_group.classname }}">
+              <aside class="d-flex flex-column grid-gap-20 grid-gap-20 {{ ui_group.classname }}">
                 <h3 class="styleguide-subtitle ff-body tt-uppercase fz-12 fw-700 m-0">{{ ui_group.label }}</h3>
                 <div class="d-flex align-items-center grid-gap-20">
                   {% for ui in ui_group.uis %}

@@ -228,7 +228,7 @@ export default {
   plugins: [...DISTRIBUTION.sourcemap ? [
     sentryVitePlugin({
       org: "mill3-studio",
-      project: "js-mill3wp",
+      project: `js-${THEME_NAME}`,
       release: {
         name: SENTRY_RELEASE_NAME
       }

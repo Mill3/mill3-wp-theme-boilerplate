@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "acf/blog-text-simple",
+  "title": "Blog Text Simple",
+  "description": "Simple text with optional title",
+  "category": "blog",
+  "icon": "editor-paragraph",
+  "keywords": ["blog", "text", "simple"],
+  "supports": {
+    "align": false,
+    "mode": true,
+    "multiple": true
+  },
+  "example": {
+    "attributes": {
+      "mode": "preview",
+      "data": {
+        "title": "Blog Text simple",
+        "is_example": true
+      }
+    }
+  },
+  "acf": {
+    "mode": "edit",
+    "postTypes": ["post"],
+    "renderCallback": "mill3_pb_row_render_callback"
+  }
+}
