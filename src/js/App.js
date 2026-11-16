@@ -112,7 +112,7 @@ domready(() => {
     import("../scss/App.scss").then(() => {
       // register @blossom-carousel/web only once our styles are applied,
       // since it reads getComputedStyle(scrollSnapType) synchronously on connect
-      import("@blossom-carousel/web").then(() => {
+      import("@blossom-carousel/web").then(() => import("./vendors/blossom-dots-pages")).then(() => {
         setTimeout(() => {
           new App();
           import("./GridViewer");
@@ -121,6 +121,6 @@ domready(() => {
       });
     });
   } else {
-    import("@blossom-carousel/web").then(() => new App());
+    import("@blossom-carousel/web").then(() => import("./vendors/blossom-dots-pages")).then(() => new App());
   }
 });
