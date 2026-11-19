@@ -46,7 +46,7 @@
     "yargs-parser": "21.1.1"
   },
   "dependencies": {
-    "@blossom-carousel/web": "1.5.1",
+    "@blossom-carousel/web": "1.6.1",
     "@rive-app/canvas": "2.31.5",
     "@rive-app/canvas-lite": "2.31.5",
     "@rive-app/webgl2": "2.31.5",
