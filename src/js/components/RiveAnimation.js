@@ -13,6 +13,7 @@ import ResizeOrientation from "@utils/resize";
 const ACTION_PLAY = "play";
 const ACTION_PAUSE = "pause";
 const DEFAULT_OPTIONS = {
+  autoBind: true,
   autoplay: false,
   layout: new Layout({ fit: Fit.Cover, alignment: Alignment.Center }),
   isTouchScrollEnabled: true,
